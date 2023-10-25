@@ -2,8 +2,7 @@
 
 ## Start the app
 
-To start the development server run `nx serve sap-fiori-vue-standalone`. Open your browser and navigate to http://localhost:4200/. Happy coding!
-
+To start the development server run `nx serve sap-fiori-vue-standalone` or `npm start`. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
 ## Generate code
 
