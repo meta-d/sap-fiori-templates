@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+archive.zip
 
 # dependencies
 node_modules
