@@ -7,6 +7,12 @@ To start the development server run `nx serve sap-fiori-vue-standalone`. Open yo
 
 ## Generate code
 
+Create new application workspace: 
+`npx create-nx-workspace <sap-fiori-app-name>`
+
+Add tailwind css to the application:
+`npx nx g @nx/vue:setup-tailwind`
+
 If you happen to use Nx plugins, you can leverage code generators that might come with it.
 
 Run `nx list` to get a list of available plugins and whether they have generators. Then run `nx list <plugin-name>` to see what generators are available.
