@@ -1,14 +1,18 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
+import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   cacheDir: './node_modules/.vite/sap-fiori-vue-standalone',
-  base: '/sap/bc/ui5_ui5/sap/',
+  base: '/sap/bc/ui5_ui5/sap/{app_name}/',
   server: {
     port: 4200,
     host: 'localhost',
+    proxy: {
+      '/sap/opu/odata/': ''
+    }
   },
 
   preview: {
@@ -16,7 +20,13 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [vue(), nxViteTsPaths()],
+  plugins: [
+    vue(),
+    nxViteTsPaths(),
+    viteMockServe({
+      mockPath: 'mock',
+    })
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {

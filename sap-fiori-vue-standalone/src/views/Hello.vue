@@ -1,24 +1,40 @@
 <template>
-  <a-result class="vsap-welcome"
-    status="404"
-    :style="{
-      height: '100%',
-    }"
-    title="Hello World"
-    sub-title="Sorry, you are not authorized to access this page."
-  >
-    <template #extra>
-      <a-button type="primary" @click="handleClick">Back Home</a-button>
-    </template>
-  </a-result>
+  <page-container>
+    <a-card class="flex flex-col items-start gap-2 overflow-hidden">
+      <a-button type="primary" @click="handleClick">Refresh Table</a-button>
+      <a-table class="vsap-table max-w-full" :columns="columns" :data-source="data" :loading="loading" size="small"
+        :scroll="{ x: 2000 }" :expand-column-width="100"></a-table>
+    </a-card>
+  </page-container>
 </template>
 
 <script lang="ts" setup>
-import { Result as AResult, Button as AButton, message } from 'ant-design-vue';
+import { useObservable } from '@vueuse/rxjs';
+import { Button as AButton } from 'ant-design-vue';
+import { filter, map } from 'rxjs';
+import { ref } from 'vue';
+import { usePurchaseOrderStore } from '../stores/index';
 
-const handleClick = () => {
-  console.log('info');
-  message.info('BackHome button clicked!');
+const { store, select, selectEntityType, read } = usePurchaseOrderStore
+
+const data = ref([])
+const loading = ref(false)
+
+const columns = useObservable(selectEntityType('PurchaseOrder').pipe(
+  filter((entityType) => entityType != null),
+  map((entityType) => entityType.Property.map((property) => ({
+    title: property['@']["sap:label"],
+    dataIndex: property['@'].Name,
+    key: property['@'].Name,
+  })))
+))
+
+const handleClick = async () => {
+  loading.value = true
+  const response = await read('PurchaseOrder')
+  const results = response.d.results
+  data.value = results
+  loading.value = false
 };
 </script>
 
@@ -31,5 +47,13 @@ const handleClick = () => {
 <style>
 .vsap-welcome.ant-result .ant-result-title {
   @apply italic text-sm;
+}
+
+.ant-table-cell {
+  @apply whitespace-nowrap;
+}
+
+.ant-card-body {
+  @apply max-w-full;
 }
 </style>

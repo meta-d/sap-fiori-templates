@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import BasicLayout from '../layouts/BasicLayout.vue';
 import BlankLayout from '../layouts/BlankLayout.vue';
-import WelcomePage from '../views/Hello.vue';
+import AnalysisPage from '../views/Analysis.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,29 +10,29 @@ const routes: RouteRecordRaw[] = [
     name: 'index',
     meta: { title: 'Home' },
     component: BasicLayout,
-    redirect: '/welcome',
+    redirect: '/dashboard',
     children: [
-      {
-        path: '/welcome',
-        name: 'welcome',
-        meta: { title: '欢迎', icon: 'SmileOutlined' },
-        component: WelcomePage,
-      },
       {
         path: '/dashboard',
         name: 'dashboard',
+        meta: { title: 'Dashboard', icon: 'SmileOutlined' },
+        component: AnalysisPage,
+      },
+      {
+        path: '/admin',
+        name: 'admin',
         meta: { title: '管理页', icon: 'CrownOutlined' },
-        redirect: '/dashboard/monitor',
+        redirect: '/admin/monitor',
         component: BlankLayout,
         children: [
           {
-            path: '/dashboard/workspace',
+            path: '/admin/workspace',
             name: 'workspace',
             meta: { title: '一级页面' },
             component: () => import('../views/TestPage.vue'),
           },
           {
-            path: '/dashboard/monitor',
+            path: '/admin/monitor',
             name: 'monitor',
             meta: { title: '二级页面' },
             component: () => import('../views/MyPage.vue'),
@@ -42,21 +42,21 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/list',
         name: 'list',
-        meta: { title: '列表页', icon: 'MobileOutlined' },
+        meta: { title: 'Procurement', icon: 'MobileOutlined' },
         redirect: '/list/child2',
         component: BlankLayout,
         children: [
           {
             path: 'child1',
             name: 'list-child1',
-            meta: { title: '一级列表页面' },
+            meta: { title: 'Purchaser (EPM)' },
             component: BlankLayout,
             children: [
               {
                 path: 'child1',
                 name: 'list-child1-child1',
-                meta: { title: '一一级列表页面' },
-                component: () => import('../views/DynamicPage.vue'),
+                meta: { title: 'Approve Purchase Orders' },
+                component: () => import('../views/PurchaseOrder.vue'),
               },
               {
                 path: 'child2',

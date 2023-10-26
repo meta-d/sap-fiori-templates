@@ -21,7 +21,7 @@ builder:
           username: env:SAP_USERNAME
           password: env:SAP_PASSWORD
         app:
-          name: <ZSAP-FIORI-VUE-STANDALONE>
+          name: <app_name>
           description: <sap-fiori-vue-standalone>
           package: <zpackage>
           transport: <task no.>

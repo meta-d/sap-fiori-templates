@@ -41,13 +41,13 @@
           height: '48px',
           alignItems: 'center',
         }"
-        href="https://preview.pro.antdv.com/dashboard/analysis"
+        href="https://mtda.cloud/"
         target="_blank"
         rel="noreferrer"
       >
         <img
           alt="pro-logo"
-          src="https://procomponents.ant.design/favicon.ico"
+          src="https://www.mtda.cloud/icons/logo.svg"
           :style="{
             width: '16px',
             height: '16px',
@@ -55,7 +55,7 @@
             marginRight: '10px',
           }"
         />
-        <span v-if="!baseState.collapsed">Preview Pro</span>
+        <span v-if="!baseState.collapsed">了解专业实施</span>
       </a>
     </template>
 
