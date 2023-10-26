@@ -5,7 +5,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   cacheDir: './node_modules/.vite/sap-fiori-vue-standalone',
-
+  base: '/sap/bc/ui5_ui5/sap/',
   server: {
     port: 4200,
     host: 'localhost',
