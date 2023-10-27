@@ -14,14 +14,14 @@ builder:
       afterTask: generateCachebusterInfo
       configuration:
         target:
-          url: http://<abap server url>
-          client: <sap client>
+          url: <http://abap-server-url>
+          client: <sap-client>
           auth: basic
         credentials:
           username: env:SAP_USERNAME
           password: env:SAP_PASSWORD
         app:
-          name: <app_name>
+          name: <app-name>
           description: <sap-fiori-vue-standalone>
           package: <zpackage>
           transport: <task no.>

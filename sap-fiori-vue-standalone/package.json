@@ -7,7 +7,8 @@
     "build": "nx build",
     "test": "nx test",
     "archive": "cd dist/sap-fiori-vue-standalone && npx bestzip ../../archive.zip *",
-    "deploy": "npm run build && npm run archive && fiori deploy --archive-path ./archive.zip --config ui5-deploy.yaml --yes && rimraf ./archive.zip"
+    "fiori-deploy": "fiori deploy --archive-path ./archive.zip --config ui5-deploy.yaml --yes",
+    "deploy": "npm run build && npm run archive && npm run fiori-deploy && rimraf ./archive.zip"
   },
   "private": true,
   "dependencies": {

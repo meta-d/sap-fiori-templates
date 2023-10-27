@@ -6,12 +6,16 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   cacheDir: './node_modules/.vite/sap-fiori-vue-standalone',
-  base: '/sap/bc/ui5_ui5/sap/{app_name}/',
+  base: '/sap/bc/ui5_ui5/sap/{app-name}/',
   server: {
     port: 4200,
     host: 'localhost',
     proxy: {
-      '/sap/opu/odata/': ''
+      '/sap/opu/odata/': {
+        target: '<your sap abap server url>',
+        changeOrigin: true,
+        auth: '<SAP Username>:<SAP Password>'
+      }
     }
   },
 

@@ -59,7 +59,7 @@
 <script lang="ts" setup>
 import { useObservable } from '@vueuse/rxjs';
 import { Button as AButton } from 'ant-design-vue';
-import { from, map } from 'rxjs';
+import { filter, from, map } from 'rxjs';
 import { reactive, ref } from 'vue';
 import { usePurchaseOrderStore } from '../stores/index';
 import { nonNullable } from '../utils/index';
@@ -91,6 +91,7 @@ const formState = reactive<FormState>({
 const advanced = ref(false)
 
 const columns = useObservable(selectEntityType(PurchaseOrderEntity).pipe(
+    filter(nonNullable),
     map((entityType) => entityType.Property.map((property) => ({
         title: property['@']["sap:label"],
         dataIndex: property['@'].Name,
