@@ -4,7 +4,7 @@
 
 This is a template for building SAP Fiori apps with Vue and UI5 Tooling. It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
-## Start the app
+## 🛫 Start the app
 
 Before you start, install npm packages by running `npm install`.
 

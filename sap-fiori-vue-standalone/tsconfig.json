@@ -13,14 +13,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
     "allowJs": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "paths": { "@/*":["./src/*"] }
   },
   "files": [],
   "include": [],
@@ -33,5 +33,5 @@
     }
   ],
   "compileOnSave": false,
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
 }

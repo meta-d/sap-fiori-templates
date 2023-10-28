@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { ConfigProvider } from 'ant-design-vue';
+import { ConfigProvider, theme } from 'ant-design-vue';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { PieChart } from 'echarts/charts';
@@ -34,7 +34,12 @@ const getPopupContainer = (triggerNode?: HTMLElement): HTMLElement => {
 </script>
 
 <template>
-  <ConfigProvider :get-popup-container="getPopupContainer">
+  <ConfigProvider :get-popup-container="getPopupContainer"
+    :theme="{
+      token: {
+        colorPrimary: '#00b96b',
+      }
+    }">
     <RouterView />
   </ConfigProvider>
 </template>

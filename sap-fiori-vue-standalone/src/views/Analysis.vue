@@ -1,17 +1,17 @@
 <template>
-    <a-row :gutter="[24,16]">
-        <a-col :span="8">
-            <a-card hoverable class="overflow-hidden">
-                <a-card-body class="max-h-full">
-                    <v-chart class="chart h-96 " :option="option" autoresize />
-                </a-card-body>
-                
-            </a-card>
-        </a-col>
-        <a-col :span="8"/>
-        <a-col :span="8"/>
-    </a-row>
-    
+    <div>
+        <a-row :gutter="[24,16]">
+            <a-col :span="8">
+                <a-card hoverable class="overflow-hidden">
+                    <a-card-body class="max-h-full">
+                        <v-chart class="chart h-96 " :option="option" autoresize />
+                    </a-card-body>
+                </a-card>
+            </a-col>
+            <a-col :span="8"/>
+            <a-col :span="8"/>
+        </a-row>
+    </div>
 </template>
   
 <script setup>

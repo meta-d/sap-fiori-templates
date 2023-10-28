@@ -6,7 +6,7 @@
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
-    style="min-height: 100vh"
+    :style="{ backgroundColor: token.colorBgContainer, 'min-height': '100vh' }"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
   >
     <template #menuHeaderRender>
@@ -18,14 +18,17 @@
 
     <!-- custom right-content -->
     <template #rightContentRender>
-      <div style="margin-right: 12px">
+      <!-- <div style="margin-right: 12px">
         <Avatar shape="square" size="small">
           <template #icon>
             <UserOutlined />
           </template>
         </Avatar>
-      </div>
+      </div> -->
+
+      <right-content :top-menu="state.layout === 'top'"/>
     </template>
+    
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
       <span v-if="routes.indexOf(route) === routes.length - 1">{{ route.breadcrumbName }}</span>
@@ -33,6 +36,7 @@
         {{ route.breadcrumbName }}
       </router-link>
     </template>
+
     <template #menuFooterRender>
       <a
         :style="{
@@ -69,10 +73,16 @@
 </template>
 
 <script setup lang="ts">
+import RightContent from '@/components/GlobalHeader/RightContent.vue'
+
 import { computed, reactive, ref, watchEffect, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { message, Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, type RouteContextProps } from '@ant-design-vue/pro-layout';
+import { theme } from 'ant-design-vue';
+
+const { useToken } = theme;
+const { token } = useToken();
 
 const i18n = (t: string) => t;
 
@@ -91,16 +101,11 @@ const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
 const state = reactive({
   menuData,
   splitMenus: true,
-  // title: 'ProLayout',
-  // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-
   // navTheme: 'realDark',
   navTheme: 'dark',
   headerTheme: 'dark',
 
-  layout: 'mix',
-  // layout: 'side',
-  // layout: 'top',
+  layout: 'mix', // 'mix', 'side', 'top'
   
   fixSiderbar: true,
   fixedHeader: true,
