@@ -99,7 +99,7 @@ const columns = useObservable(selectEntityType(PurchaseOrderEntity).pipe(
     })))
 ))
 
-const Suppliers = useObservable(from(read(SupplierEntitySet)).pipe(
+const Suppliers = useObservable(from(read(SupplierEntitySet, null)).pipe(
     map((response) => response.d.results)
 ))
 
@@ -109,7 +109,7 @@ const handleClick = async () => {
             acc[key[0]] = key[1]
             return acc
         }, {})
-    const response = await read(PurchaseOrderEntitySet, {
+    const response = await read(PurchaseOrderEntitySet, null, {
         $filter: filters
     })
     const results = response.d.results

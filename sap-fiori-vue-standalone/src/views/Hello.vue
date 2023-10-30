@@ -15,7 +15,7 @@ import { filter, map } from 'rxjs';
 import { ref } from 'vue';
 import { usePurchaseOrderStore } from '../stores/index';
 
-const { store, select, selectEntityType, read } = usePurchaseOrderStore
+const { selectEntityType, read } = usePurchaseOrderStore
 
 const data = ref([])
 const loading = ref(false)
@@ -31,7 +31,7 @@ const columns = useObservable(selectEntityType('PurchaseOrder').pipe(
 
 const handleClick = async () => {
   loading.value = true
-  const response = await read('PurchaseOrder')
+  const response = await read('PurchaseOrder', null)
   const results = response.d.results
   data.value = results
   loading.value = false

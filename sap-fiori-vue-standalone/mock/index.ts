@@ -1,137 +1,70 @@
 import * as fs from 'fs';
 import { MockMethod } from 'vite-plugin-mock';
 
-export default [
+const odataMockList = [] as MockMethod[];
+
+[
   {
-    url: '/sap/opu/odata/sap/EPM_REF_APPS_SHOP_SRV/Products',
-    method: 'get',
-    response: ({ query }) => {
-      return {
-        d: {
-          results: [
-            {
-              AverageRating: 3,
-              Name: 'Power Projector 4713',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Gladiator MX',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Hurricane GX',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Webcam Pro',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Webcam',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Case',
-              StockQuantity: 10,
-            },
-            {
-              AverageRating: 3,
-              Name: 'Laptop Bag',
-              StockQuantity: 10,
-            },
-          ],
-        },
-      };
-    },
+    service: 'EPM_REF_APPS_PO_APV_SRV',
+    entitySets: ['PurchaseOrders', 'Suppliers'],
   },
   {
-    url: '/sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV/$metadata',
+    service: 'ESH_SEARCH_SRV',
+    entitySets: [
+      {
+        name: 'Users',
+        key: 'current',
+      },
+    ],
+  },
+].forEach(({ service, entitySets }) => {
+  odataMockList.push({
+    url: `/sap/opu/odata/sap/${service}/$metadata`,
     method: 'get',
     rawResponse: async (req, res) => {
       res.setHeader('Content-Type', 'text/xml');
       res.statusCode = 200;
-      res.end(fs.readFileSync('./mock/metadata/po.xml', 'utf8'));
+      res.end(fs.readFileSync(`./mock/${service}/metadata.xml`, 'utf8'));
     },
-  },
-  ...['PurchaseOrders', 'Suppliers'].map((entity) => {
-    return {
-      url: '/sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV/' + entity,
+  });
+
+  entitySets.forEach((entity) => {
+    let url = `/sap/opu/odata/sap/${service}/`
+    if (typeof entity === 'string') {
+      url += `${entity}`
+    } else {
+      url += `${entity.name}\\('${entity.key}'\\)`
+    }
+    odataMockList.push({
+      url,
       method: 'get',
       response: ({ query }) => {
         console.log(query)
-        return {
-          d: {
-            results: JSON.parse(fs.readFileSync('./mock/'+entity+'/items.json', 'utf8')),
-          },
-        };
+        if (typeof entity === 'string') {
+          return {
+            d: {
+              results: JSON.parse(
+                fs.readFileSync(
+                  `./mock/${service}/${entity}/items.json`,
+                  'utf8'
+                )
+              ),
+            },
+          };
+        } else {
+          return {
+            d: JSON.parse(
+              fs.readFileSync(`./mock/${service}/${entity.name}/${entity.key}.json`, 'utf8')
+            ),
+          };
+        }
       },
-    }
-  }),
+    });
+  });
+});
+
+export default [
+  ...odataMockList,
   {
     url: '/api/post',
     method: 'post',

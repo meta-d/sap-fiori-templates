@@ -3,6 +3,7 @@
     v-model:collapsed="baseState.collapsed"
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
+    v-model:layout="layout"
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
@@ -26,7 +27,7 @@
         </Avatar>
       </div> -->
 
-      <right-content :top-menu="state.layout === 'top'"/>
+      <right-content :top-menu="layout === 'top'"/>
     </template>
     
     <!-- custom breadcrumb itemRender  -->
@@ -80,6 +81,8 @@ import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, type RouteContextProps } from '@ant-design-vue/pro-layout';
 import { theme } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/stores/app';
 
 const { useToken } = theme;
 const { token } = useToken();
@@ -98,14 +101,14 @@ const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
   collapsed: false,
 });
 
+const { layout } = storeToRefs(useAppStore())
+
 const state = reactive({
   menuData,
   splitMenus: true,
   // navTheme: 'realDark',
   navTheme: 'dark',
   headerTheme: 'dark',
-
-  layout: 'mix', // 'mix', 'side', 'top'
   
   fixSiderbar: true,
   fixedHeader: true,

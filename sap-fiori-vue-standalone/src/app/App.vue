@@ -30,8 +30,8 @@ const themeAlgorithm = computed(() => {
       return theme.defaultAlgorithm
     case 'dark':
       return theme.darkAlgorithm;
-    case 'realDark':
-      return theme.darkAlgorithm;
+    // case 'realDark':
+    //   return theme.darkAlgorithm;
     default:
       return theme.defaultAlgorithm;
   }
