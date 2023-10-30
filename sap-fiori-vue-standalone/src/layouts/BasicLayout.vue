@@ -77,7 +77,7 @@ import RightContent from '@/components/GlobalHeader/RightContent.vue'
 
 import { computed, reactive, ref, watchEffect, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { message, Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, type RouteContextProps } from '@ant-design-vue/pro-layout';
 import { theme } from 'ant-design-vue';
 

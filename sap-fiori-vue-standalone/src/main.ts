@@ -14,8 +14,11 @@ import router from './router';
 import App from './app/App.vue';
 import icons from './app/icons';
 import i18n from './locales';
+import { createPinia } from 'pinia';
 
 const app = createApp(App);
 
+const pinia = createPinia()
+
 app.use(router);
-app.use(Antd).use(icons).use(i18n).use(ProLayout).use(PageContainer).mount('#root');
+app.use(Antd).use(icons).use(i18n).use(pinia).use(ProLayout).use(PageContainer).mount('#root');

@@ -10,7 +10,8 @@ import {
   LegendComponent,
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
-import { provide } from 'vue';
+import { computed, provide } from 'vue';
+import { useAppStore } from '@/stores/app';
 
 use([
   CanvasRenderer,
@@ -21,6 +22,20 @@ use([
 ]);
 
 provide(THEME_KEY, 'dark');
+
+const appStore = useAppStore();
+const themeAlgorithm = computed(() => {
+  switch(appStore.theme) {
+    case 'light':
+      return theme.defaultAlgorithm
+    case 'dark':
+      return theme.darkAlgorithm;
+    case 'realDark':
+      return theme.darkAlgorithm;
+    default:
+      return theme.defaultAlgorithm;
+  }
+});
 
 const getPopupContainer = (triggerNode?: HTMLElement): HTMLElement => {
   // if (dialogContext) {
@@ -36,6 +51,7 @@ const getPopupContainer = (triggerNode?: HTMLElement): HTMLElement => {
 <template>
   <ConfigProvider :get-popup-container="getPopupContainer"
     :theme="{
+      algorithm: themeAlgorithm,
       token: {
         colorPrimary: '#00b96b',
       }
