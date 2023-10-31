@@ -1,0 +1,17 @@
+.ant-btn-text {
+  color: var(--zng-header-color, white);
+}
+
+.zng-global-settings__color-block {
+  @apply h-5 w-5 mr-2 rounded-sm flex items-center justify-center;
+
+  .anticon {
+    @apply text-white;
+  }
+}
+
+.zng-global-settings__menu-mode, .zng-global-settings__menu-theme {
+  .anticon.anticon-check {
+    color: var(--ant-primary-color, black);
+  }
+}

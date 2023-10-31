@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
+import { NzMenuThemeType } from 'ng-zorro-antd/menu';
+import { MenuMode, ThemeType } from '../types';
 
-enum ThemeType {
-  dark = 'dark',
-  default = 'default',
-}
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   currentTheme = ThemeType.default;
+  readonly menuTheme = signal<NzMenuThemeType>(ThemeType.dark)
+  readonly menuMode = signal<MenuMode>(MenuMode.side)
+  readonly themeOptions = signal<{
+    fixedLayoutSider: boolean;
+  }>({
+    fixedLayoutSider: true
+  })
+  readonly fixedLayoutSider = computed(() => this.themeOptions().fixedLayoutSider)
 
   private reverseTheme(theme: string): ThemeType {
     return theme === ThemeType.dark ? ThemeType.default : ThemeType.dark;
@@ -54,8 +61,8 @@ export class ThemeService {
     });
   }
 
-  public toggleTheme(): Promise<Event> {
-    this.currentTheme = this.reverseTheme(this.currentTheme);
+  public toggleTheme(theme?: ThemeType): Promise<Event> {
+    this.currentTheme = theme ?? this.reverseTheme(this.currentTheme);
     return this.loadTheme(false);
   }
 }

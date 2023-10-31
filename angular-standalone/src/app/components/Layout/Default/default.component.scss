@@ -1,0 +1,47 @@
+.logo {
+  width: 20px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 30px 16px 0;
+  float: left;
+}
+
+.header-menu {
+  line-height: 64px;
+}
+
+.sider-menu {
+  height: 100%;
+  border-right: 0;
+}
+
+.inner-layout {
+  padding: 0 24px 24px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-content {
+  @apply p-6 min-h-[280px];
+}
+
+.zng-layout__header {
+  // @apply h-12;
+}
+
+.zng-layout__header, .zng-layout__header .ant-menu {
+  background-color: var(--zng-header-bg-color);
+}
+
+.ant-layout-sider.ant-layout-sider-dark, .ant-menu.ant-menu-dark {
+  background-color: var(--zng-header-bg-color);
+}
+
+.zng-layout__menu-dark .ant-btn-text {
+  color: var(--zng-header-color, white);
+}
+.zng-layout__menu-dark .ant-divider {
+  @apply border-gray-700;
+}

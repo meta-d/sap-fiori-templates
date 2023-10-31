@@ -1,0 +1,79 @@
+<button nz-button nzType="text" class="h-full"
+    nz-popover
+    nzPopoverTitle="Title"
+    nzPopoverTrigger="click"
+    [(nzPopoverVisible)]="visible"
+    (nzPopoverVisibleChange)="change($event)"
+    [nzPopoverContent]="contentTemplate"
+    nzPopoverPlacement="bottomRight">
+    <span nz-icon nzType="setting" nzTheme="outline"></span>
+</button>
+
+<ng-template #contentTemplate>
+    <div class="flex flex-col justify-start items-start">
+        <div class="mb-2">
+            <h3 class="title text-base">主题</h3>
+            <nz-segmented [(ngModel)]="themeIndex"
+                [nzOptions]="options"
+            ></nz-segmented>
+        </div>
+
+        <div class="mb-2">
+            <h3 class="title text-base">菜单风格</h3>
+            <div class="zng-global-settings__menu-theme flex items-center gap-2">
+                <div *ngFor="let theme of menuThemes" class="cursor-pointer relative"
+                    nz-tooltip
+                    [nzTooltipTitle]="theme.label"
+                    (click)="toggleMenuTheme(theme.value)"
+                   >
+                    <img [alt]="theme.label" [src]="theme.image" />
+
+                    <div *ngIf="theme.value === menuTheme()" class="flex justify-center items-center absolute inset-0 cursor-none">
+                        <i nz-icon nzTheme="outline" nzType="check" class="ml-1 mt-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="currentTheme === ThemeType.default" class="mb-2">
+            <h3 class="title text-base">主题色</h3>
+            <div class="zng-global-settings__primary-color flex items-center">
+                <div *ngFor="let color of parimaryColors" class="zng-global-settings__color-block cursor-pointer"
+                    nz-tooltip
+                    [nzTooltipTitle]="color.label"
+                    [style.background]="color.value"
+                    (click)="selectPrimaryColor(color.value)">
+                    <i *ngIf="color.value === primaryColor" nz-icon nzTheme="outline" nzType="check"></i>
+                </div>
+            </div>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <div class="mb-2">
+            <h3 class="title text-base">导航模式</h3>
+            <div class="zng-global-settings__menu-mode flex items-center gap-2">
+                <div *ngFor="let mode of menuModes" class="cursor-pointer relative"
+                    nz-tooltip
+                    [nzTooltipTitle]="mode.label"
+                    (click)="toggleMenuMode(mode.value)"
+                   >
+                    <img [alt]="mode.label" [src]="mode.image" />
+
+                    <div *ngIf="mode.value === menuMode()" class="flex justify-center items-center absolute inset-0">
+                        <i nz-icon nzTheme="outline" nzType="check" class="ml-1 mt-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <div *ngIf="menuMode() === MenuMode.side" class="w-full flex justify-between items-center">
+            <label class="title text-base">固定侧边栏</label>
+            <nz-switch [(ngModel)]="fixedLayoutSider" nzCheckedChildren="开" nzUnCheckedChildren="关"></nz-switch>
+        </div>
+
+        <a (click)="clickMe()">Close</a>
+    </div>
+</ng-template>

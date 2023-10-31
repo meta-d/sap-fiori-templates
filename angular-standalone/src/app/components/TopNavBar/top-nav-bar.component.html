@@ -1,0 +1,41 @@
+<div class="flex items-center" resizeObserver (sizeChange)="onResize($event)">
+  <ul #mEl nz-menu nzMode="horizontal" [nzTheme]="nzTheme" (scroll)="onScroll($event)" class="inline-flex">
+    <ng-container *ngFor="let menu of menus().menus; trackBy: trackByIndex">
+      <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+        <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+        {{ menu.label }}
+      </li>
+      <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+        [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+        (mouseenter)="onMouseEnterMenu(menu)"
+        (click)="loadMenus(menu)">
+        <ul>
+          <li nz-menu-item *ngFor="let menu of menu.submenus" [routerLink]="menu.path">
+            {{ menu.label }}
+          </li>
+        </ul>
+      </li>
+    </ng-container>
+
+    <li *ngIf="menus().moreMenus?.length" nz-submenu nzIcon="more">
+      <ul>
+        <ng-container *ngFor="let menu of menus().moreMenus; trackBy: trackByIndex">
+          <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+            <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+            {{ menu.label }}
+          </li>
+          <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+            [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+            (mouseenter)="onMouseEnterMenu(menu)"
+            (click)="loadMenus(menu)">
+            <ul>
+              <li nz-menu-item *ngFor="let menu of menu.submenus" [routerLink]="menu.path">
+                {{ menu.label }}
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </li>
+  </ul>
+</div>

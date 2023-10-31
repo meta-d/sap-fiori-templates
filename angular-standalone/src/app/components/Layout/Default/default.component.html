@@ -1,0 +1,55 @@
+<nz-layout class="zng-layout">
+  <nz-sider *ngIf="menuMode() === MenuMode.side" class="flex flex-col"
+    [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
+    [nzTheme]="menuTheme()" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null"
+    [nzCollapsedWidth]="isCollapsed ? fixedLayoutSider() ? 60 : 0 : 200">
+    <div class="flex flex-col">
+      <div class="logo"></div>
+      <zng-side-nav-bar [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed"/>
+  
+      <nz-divider></nz-divider>
+      <button nz-button nzType="text">
+        <span nz-icon nzType="menu-unfold" nzTheme="outline"></span>
+      </button>
+    </div>
+  </nz-sider>
+
+  <nz-header *ngIf="menuMode() === MenuMode.top || menuMode() === MenuMode.mix" class="zng-layout__header flex items-center overflow-hidden"
+    [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
+    [class.dark]="menuTheme() === ThemeType.dark"
+  >
+    <div class="logo"></div>
+
+    <zng-top-nav-bar #topNavBar class="flex-1" [nzTheme]="menuTheme()" resizeObserver [resizeDebounceTime]="100" (sizeChange)="topNavBar.onResize($event)"></zng-top-nav-bar>
+
+    <zng-global-header/>
+  </nz-header>
+
+  <nz-layout>
+
+    <nz-header *ngIf="menuMode() === MenuMode.side" class="flex justify-between items-center">
+      <span
+        class="cursor-pointer"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+
+      <zng-global-header/>
+    </nz-header>
+
+    <nz-sider *ngIf="menuMode() === MenuMode.mix" nzWidth="200px" >
+      <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item>List</nz-breadcrumb-item>
+        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <nz-content class="h-[1000px]">
+        <router-outlet></router-outlet>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

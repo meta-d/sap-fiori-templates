@@ -12,7 +12,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "angularStandalone",
+            "prefix": "zng",
             "style": "camelCase"
           }
         ],
@@ -20,7 +20,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "angular-standalone",
+            "prefix": "zng",
             "style": "kebab-case"
           }
         ]

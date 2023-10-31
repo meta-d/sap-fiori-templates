@@ -1,5 +1,18 @@
-@import (multiple) '../../../node_modules/ng-zorro-antd/src/style/themes/default';
 @import './base';
 @layout-sider-background: @white;
 @layout-trigger-background: @white;
 @layout-header-background: @white;
+
+:root {
+    --zng-header-bg-color: white;
+    --zng-header-color: black;
+}
+
+.zng-layout__menu-dark {
+    --zng-header-bg-color: #001529;
+    --zng-header-color: #fff;
+}
+
+.ant-menu-submenu.ant-menu-dark .ant-menu-sub{
+    background: #001529;
+}

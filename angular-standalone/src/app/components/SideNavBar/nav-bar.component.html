@@ -1,0 +1,20 @@
+<ul nz-menu nzMode="inline" [nzTheme]="nzTheme" [nzInlineCollapsed]="isCollapsed">
+  <ng-container *ngFor="let menu of menus(); trackBy: trackByIndex">
+    <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter
+      nz-tooltip
+      nzTooltipPlacement="right"
+      [nzTooltipTitle]="isCollapsed ? menu.label : ''">
+      <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+      <span>{{ menu.label }}</span>
+    </li>
+    <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+      [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+      (click)="loadMenus(menu)">
+      <ul>
+        <li nz-menu-item *ngFor="let menu of menu.submenus" [routerLink]="menu.path">
+          {{ menu.label }}
+        </li>
+      </ul>
+    </li>
+  </ng-container>
+</ul>
