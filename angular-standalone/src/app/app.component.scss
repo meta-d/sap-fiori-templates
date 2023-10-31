@@ -24,7 +24,5 @@ nz-breadcrumb {
 }
 
 nz-content {
-  background: #fff;
-  padding: 24px;
-  min-height: 280px;
+  @apply bg-white p-6 min-h-[280px];
 }
