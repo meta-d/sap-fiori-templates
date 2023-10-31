@@ -1,11 +1,15 @@
 <nz-layout>
-    <nz-header>
+    <nz-header class="flex items-center">
       <div class="logo"></div>
       <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
         <li nz-menu-item nzSelected>nav 1</li>
         <li nz-menu-item>nav 2</li>
         <li nz-menu-item>nav 3</li>
       </ul>
+
+      <div class="text-white p-4 cursor-pointer hover:bg-slate-300/10" (click)="toggleTheme()">
+        <span class="cursor-pointer" nz-icon nzType="skin" nzTheme="outline"></span>
+      </div>
     </nz-header>
     <nz-layout>
       <nz-sider nzWidth="200px" nzTheme="light">

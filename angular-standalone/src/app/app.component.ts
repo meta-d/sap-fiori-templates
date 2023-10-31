@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzLayoutModule } from 'ng-zorro-antd/layout'
 import { NzMenuModule } from 'ng-zorro-antd/menu'
+import { ThemeService } from '@/app/core/services/'
+import { ZngAntdModule } from '@/app/core/shared.module'
 
 @Component({
   standalone: true,
@@ -16,7 +18,8 @@ import { NzMenuModule } from 'ng-zorro-antd/menu'
     NzLayoutModule,
     NzButtonModule,
     NzMenuModule,
-    NzBreadCrumbModule
+    NzBreadCrumbModule,
+    ZngAntdModule
   ],
   selector: 'angular-standalone-root',
   templateUrl: './app.component.html',
@@ -24,4 +27,10 @@ import { NzMenuModule } from 'ng-zorro-antd/menu'
 })
 export class AppComponent {
   title = 'angular-standalone'
+
+  private themeService = inject(ThemeService)
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme().then();
+  }
 }
