@@ -3,6 +3,26 @@
         "AppName": "SAP アプリケーション",
         "GlobalHeader": {
             "LanguageChanged": "言語が変更されました！"
+        },
+        "GlobalSettings": {
+            "Title": "グローバル設定",
+            "Theme": "主題",
+            "MenuTheme": "菜喜欢风格",
+            "PrimaryColor": "主色調",
+            "NavigationMode": "ナビゲーションモード",
+            "FixedLayoutSider": "固定されたサイドバー",
+            "FixedLayoutHeader": "固定トップバー",
+            "Pin": "固定",
+            "Close": "閉じる",
+            "Themes": {
+                "Light": "明るい色",
+                "Dark": "暗色"
+            },
+            "NavigationModes": {
+                "side": "サイドメニューレイアウト",
+                "top": "トップメニューレイアウト",
+                "mix": "ミックスメニューレイアウト"
+            }
         }
     }
 }

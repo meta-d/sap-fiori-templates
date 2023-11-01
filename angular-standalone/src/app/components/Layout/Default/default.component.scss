@@ -1,3 +1,11 @@
+.zng-layout.ant-layout {
+  @apply min-h-full;
+}
+
+.zng-layout__sider {
+  @apply fixed top-0 left-0 h-full z-10;
+}
+
 .logo {
   width: 20px;
   height: 31px;
@@ -29,6 +37,10 @@ nz-content {
 
 .zng-layout__header {
   @apply px-4;
+
+  &.zng-fixed {
+    @apply fixed left-0 w-full;
+  }
 }
 
 .zng-layout__header, .zng-layout__header .ant-menu {

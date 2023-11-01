@@ -145,6 +145,18 @@ export class GlobalSettingsComponent {
     })
   }
 
+  get fixedLayoutHeader() {
+    return this.themeService.fixedLayoutHeader()
+  }
+  set fixedLayoutHeader(value: boolean) {
+    this.themeService.themeOptions.update((options) => {
+      return {
+        ...options,
+        fixedLayoutHeader: value
+      }
+    })
+  }
+
   change(value: boolean): void {
     console.log(value)
   }

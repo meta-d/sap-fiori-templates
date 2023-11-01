@@ -11,6 +11,7 @@
             "PrimaryColor": "主色调",
             "NavigationMode": "导航模式",
             "FixedLayoutSider": "固定侧边栏",
+            "FixedLayoutHeader": "固定顶部栏",
             "Pin": "固定",
             "Close": "关闭",
             "Themes": {

@@ -50,15 +50,17 @@ export class LayoutDefaultComponent {
   ThemeType = ThemeType
   MenuMode = MenuMode
 
+  get currentTheme() {
+    return this.themeService.currentTheme === ThemeType.default ? 'light' : 'dark'
+  }
   get menuTheme() {
     return this.themeService.menuTheme
   }
   get menuMode() {
     return this.themeService.menuMode
   }
-  get fixedLayoutSider() {
-    return this.themeService.fixedLayoutSider
-  }
+  readonly fixedLayoutSider = this.themeService.fixedLayoutSider
+  readonly fixedLayoutHeader = this.themeService.fixedLayoutHeader
 
   isCollapsed = false
 
