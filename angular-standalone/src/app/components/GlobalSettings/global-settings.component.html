@@ -1,8 +1,7 @@
 <button nz-button nzType="text" class="h-full"
     nz-popover
-    nzPopoverTitle="Title"
+    [nzPopoverTitle]=" 'ZNG.GlobalSettings.Title' | translate: {Default: 'Global Settings'} "
     nzPopoverTrigger="click"
-    [(nzPopoverVisible)]="visible"
     (nzPopoverVisibleChange)="change($event)"
     [nzPopoverContent]="contentTemplate"
     nzPopoverPlacement="bottomRight">
@@ -12,23 +11,22 @@
 <ng-template #contentTemplate>
     <div class="flex flex-col justify-start items-start">
         <div class="mb-2">
-            <h3 class="title text-base">主题</h3>
+            <h3 class="title text-base">{{'ZNG.GlobalSettings.Theme' | translate: {Default: 'Theme'} }}</h3>
             <nz-segmented [(ngModel)]="themeIndex"
-                [nzOptions]="options"
+                [nzOptions]="themeOptions()"
             ></nz-segmented>
         </div>
 
         <div class="mb-2">
-            <h3 class="title text-base">菜单风格</h3>
+            <h3 class="title text-base">{{'ZNG.GlobalSettings.MenuTheme' | translate: {Default: 'Menu Theme'} }}</h3>
             <div class="zng-global-settings__menu-theme flex items-center gap-2">
                 <div *ngFor="let theme of menuThemes" class="cursor-pointer relative"
                     nz-tooltip
-                    [nzTooltipTitle]="theme.label"
+                    [nzTooltipTitle]=" 'ZNG.GlobalSettings.Themes.' + theme.value | translate: {Default: theme.value} "
                     (click)="toggleMenuTheme(theme.value)"
                    >
                     <img [alt]="theme.label" [src]="theme.image" />
-
-                    <div *ngIf="theme.value === menuTheme()" class="flex justify-center items-center absolute inset-0 cursor-none">
+                    <div *ngIf="theme.value === menuTheme()" class="flex justify-center items-center absolute inset-0">
                         <i nz-icon nzTheme="outline" nzType="check" class="ml-1 mt-1"></i>
                     </div>
                 </div>
@@ -36,9 +34,9 @@
         </div>
 
         <div *ngIf="currentTheme === ThemeType.default" class="mb-2">
-            <h3 class="title text-base">主题色</h3>
+            <h3 class="title text-base">{{'ZNG.GlobalSettings.PrimaryColor' | translate: {Default: 'Primary Color'} }}</h3>
             <div class="zng-global-settings__primary-color flex items-center">
-                <div *ngFor="let color of parimaryColors" class="zng-global-settings__color-block cursor-pointer"
+                <div *ngFor="let color of primaryColors" class="zng-global-settings__color-block cursor-pointer"
                     nz-tooltip
                     [nzTooltipTitle]="color.label"
                     [style.background]="color.value"
@@ -51,11 +49,11 @@
         <nz-divider></nz-divider>
 
         <div class="mb-2">
-            <h3 class="title text-base">导航模式</h3>
+            <h3 class="title text-base">{{'ZNG.GlobalSettings.NavigationMode' | translate: {Default: 'Navigation Mode'} }}</h3>
             <div class="zng-global-settings__menu-mode flex items-center gap-2">
                 <div *ngFor="let mode of menuModes" class="cursor-pointer relative"
                     nz-tooltip
-                    [nzTooltipTitle]="mode.label"
+                    [nzTooltipTitle]=" 'ZNG.GlobalSettings.NavigationModes.' + mode.value | translate: { Default: mode.label }"
                     (click)="toggleMenuMode(mode.value)"
                    >
                     <img [alt]="mode.label" [src]="mode.image" />
@@ -70,10 +68,10 @@
         <nz-divider></nz-divider>
 
         <div *ngIf="menuMode() === MenuMode.side" class="w-full flex justify-between items-center">
-            <label class="title text-base">固定侧边栏</label>
-            <nz-switch [(ngModel)]="fixedLayoutSider" nzCheckedChildren="开" nzUnCheckedChildren="关"></nz-switch>
+            <label class="title text-base">{{'ZNG.GlobalSettings.FixedLayoutSider' | translate: {Default: 'Fixed Layout Sider'} }}</label>
+            <nz-switch [(ngModel)]="fixedLayoutSider"
+                [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
+                [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
         </div>
-
-        <a (click)="clickMe()">Close</a>
     </div>
 </ng-template>

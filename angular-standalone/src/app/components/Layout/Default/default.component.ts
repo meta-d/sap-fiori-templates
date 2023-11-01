@@ -1,12 +1,24 @@
-import { MenuMode, ResizeObserverDirective, ThemeService, ThemeType } from '@/app/core'
+import {
+  MenuMode,
+  MenusService,
+  ResizeObserverDirective,
+  ThemeService,
+  ThemeType
+} from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common'
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
-import { RouterOutlet } from '@angular/router'
+import { CommonModule } from '@angular/common'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject
+} from '@angular/core'
+import { RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { GlobalHeaderComponent } from '../../GlobalHeader/global-header.component'
+import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
-import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 
 @Component({
   selector: 'zng-layout-default',
@@ -15,10 +27,9 @@ import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    NgTemplateOutlet,
-    RouterOutlet,
-    AsyncPipe,
+    CommonModule,
+    RouterModule,
+    TranslateModule,
     ZngAntdModule,
     GlobalHeaderComponent,
     TopNavBarComponent,
@@ -34,6 +45,7 @@ import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 })
 export class LayoutDefaultComponent {
   private themeService = inject(ThemeService)
+  private menusService = inject(MenusService)
 
   ThemeType = ThemeType
   MenuMode = MenuMode
@@ -49,4 +61,21 @@ export class LayoutDefaultComponent {
   }
 
   isCollapsed = false
+
+  readonly breadcrumbs = computed(() => {
+    let parentPath = '/'
+    return this.menusService.pathFromRoot()?.map((route) => {
+      parentPath += parentPath.endsWith('/')
+        ? route?.path || ''
+        : '/' + (route?.path || '')
+      return {
+        value: parentPath,
+        label: route?.data?.['label'] || (parentPath === '/' ? 'Home' : '')
+      }
+    })
+  })
+
+  toggleSideMenu() {
+    this.isCollapsed = !this.isCollapsed
+  }
 }

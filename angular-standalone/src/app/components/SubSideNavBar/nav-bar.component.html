@@ -5,7 +5,7 @@
       {{ menu.label }}
     </li>
     <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
-      [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+      nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
       <ul>
         <li nz-menu-item *ngFor="let menu of menu.submenus" [routerLink]="menu.path">

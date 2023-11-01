@@ -28,7 +28,7 @@ nz-content {
 }
 
 .zng-layout__header {
-  // @apply h-12;
+  @apply px-4;
 }
 
 .zng-layout__header, .zng-layout__header .ant-menu {
@@ -44,4 +44,8 @@ nz-content {
 }
 .zng-layout__menu-dark .ant-divider {
   @apply border-gray-700;
+}
+
+.zng-layout__menu-dark {
+  color: var(--zng-header-color);
 }

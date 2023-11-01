@@ -3,14 +3,16 @@ import { ZngAntdModule } from '@/app/core/shared.module'
 import { MenuMode, ThemeType } from '@/app/core/types'
 import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { NzConfigService } from 'ng-zorro-antd/core/config'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
-
+import { map } from 'rxjs/operators'
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, ZngAntdModule],
+  imports: [CommonModule, FormsModule, TranslateModule, ZngAntdModule],
   selector: 'zng-global-settings',
   templateUrl: './global-settings.component.html',
   styleUrls: ['./global-settings.component.scss']
@@ -18,45 +20,51 @@ import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 export class GlobalSettingsComponent {
   private themeService = inject(ThemeService)
   private nzConfigService = inject(NzConfigService)
+  private translateService = inject(TranslateService)
 
   ThemeType = ThemeType
   MenuMode = MenuMode
-  
-  visible = false
 
-  options = [
-    {
-      value: ThemeType.default,
-      label: 'Default'
-    },
-    {
-      value: ThemeType.dark,
-      label: 'Dark'
-    }
-  ]
+  readonly themeOptions = toSignal(
+    this.translateService
+      .stream('ZNG.GlobalSettings.Themes', { Default: {} })
+      .pipe(
+        map((i18n) => [
+          {
+            value: ThemeType.default,
+            label: i18n.Light || 'Light'
+          },
+          {
+            value: ThemeType.dark,
+            label: i18n.Dark || 'Dark'
+          }
+        ])
+      ),
+    { initialValue: [] }
+  )
 
   get currentTheme() {
     return this.themeService.currentTheme
   }
   get themeIndex() {
-    return this.options.findIndex(
+    return this.themeOptions().findIndex(
       (item) => item.value === this.themeService.currentTheme
     )
   }
   set themeIndex(index: number) {
-    this.themeService.toggleTheme(this.options[index].value)
+    this.themeService.toggleTheme(this.themeOptions()[index].value)
   }
 
   menuThemes = [
     {
-      label: '亮色菜单风格',
+      label: 'Light style',
       value: ThemeType.light as NzMenuThemeType,
-      image: '/assets/images/themes/menu-theme-light.svg',
+      image: '/assets/images/themes/menu-theme-light.svg'
     },
     {
-      label: '暗色菜单风格',
+      label: 'Dark style',
       value: ThemeType.dark as NzMenuThemeType,
-      image: '/assets/images/themes/menu-theme-dark.svg',
+      image: '/assets/images/themes/menu-theme-dark.svg'
     }
   ]
 
@@ -64,30 +72,38 @@ export class GlobalSettingsComponent {
     return this.themeService.menuTheme
   }
 
-  parimaryColors = [
+  primaryColors = [
     {
-      label: '薄暮', value: '#F5222D'
+      label: '薄暮',
+      value: '#F5222D'
     },
     {
-      label: '火山', value: '#FA541C'
+      label: '火山',
+      value: '#FA541C'
     },
     {
-      label: '日暮', value: '#FAAD14'
+      label: '日暮',
+      value: '#FAAD14'
     },
     {
-      label: '明青', value: '#13C2C2'
+      label: '明青',
+      value: '#13C2C2'
     },
     {
-      label: '极光绿', value: '#52C41A'
+      label: '极光绿',
+      value: '#52C41A'
     },
     {
-      label: '拂晓蓝（默认）', value: '#1890FF'
+      label: '拂晓蓝（默认）',
+      value: '#1890FF'
     },
     {
-      label: '极客蓝', value: '#2F54EB'
+      label: '极客蓝',
+      value: '#2F54EB'
     },
     {
-      label: '酱紫', value: '#722ED1'
+      label: '酱紫',
+      value: '#722ED1'
     }
   ]
 
@@ -99,20 +115,17 @@ export class GlobalSettingsComponent {
     {
       value: MenuMode.side,
       image: '/assets/images/themes/menu-side.svg',
-      label: '侧边菜单布局',
-      isChecked: true
+      label: 'Sidebar Menu Layout',
     },
     {
       value: MenuMode.top,
       image: '/assets/images/themes/menu-top.svg',
-      label: '顶部菜单布局',
-      isChecked: false
+      label: 'Top Menu Layout',
     },
     {
       value: MenuMode.mix,
       image: '/assets/images/themes/menu-top.svg',
-      label: '混合菜单布局',
-      isChecked: false
+      label: 'Mixed Menu Layout',
     }
   ]
 
@@ -130,10 +143,6 @@ export class GlobalSettingsComponent {
         fixedLayoutSider: value
       }
     })
-  }
-
-  clickMe(): void {
-    this.visible = false
   }
 
   change(value: boolean): void {

@@ -4,36 +4,34 @@
     [nzTheme]="menuTheme()" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null"
     [nzCollapsedWidth]="isCollapsed ? fixedLayoutSider() ? 60 : 0 : 200">
     <div class="flex flex-col">
-      <div class="logo"></div>
+      <ng-container *ngTemplateOutlet="logo;" ></ng-container>
       <zng-side-nav-bar [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed"/>
   
       <nz-divider></nz-divider>
-      <button nz-button nzType="text">
-        <span nz-icon nzType="menu-unfold" nzTheme="outline"></span>
+      <button class="mx-auto" nz-button nzType="text" (click)="toggleSideMenu()">
+        <span nz-icon *ngIf="isCollapsed" nzType="menu-unfold" nzTheme="outline"></span>
+        <span nz-icon *ngIf="!isCollapsed" nzType="menu-fold" nzTheme="outline"></span>
       </button>
     </div>
   </nz-sider>
 
-  <nz-header *ngIf="menuMode() === MenuMode.top || menuMode() === MenuMode.mix" class="zng-layout__header flex items-center overflow-hidden"
+  <nz-header *ngIf="menuMode() === MenuMode.top || menuMode() === MenuMode.mix" class="zng-layout__header px-4 flex items-center overflow-hidden"
     [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
     [class.dark]="menuTheme() === ThemeType.dark"
   >
-    <div class="logo"></div>
-
+    <ng-container *ngTemplateOutlet="logo;" ></ng-container>
     <zng-top-nav-bar #topNavBar class="flex-1" [nzTheme]="menuTheme()" resizeObserver [resizeDebounceTime]="100" (sizeChange)="topNavBar.onResize($event)"></zng-top-nav-bar>
-
     <zng-global-header/>
   </nz-header>
 
   <nz-layout>
-
-    <nz-header *ngIf="menuMode() === MenuMode.side" class="flex justify-between items-center">
-      <span
-        class="cursor-pointer"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
+    <nz-header *ngIf="menuMode() === MenuMode.side" class="zng-layout__header flex justify-between items-center">
+      <button nz-button nzType="text" (click)="isCollapsed = !isCollapsed">
+        <span class=""
+          nz-icon
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        ></span>
+      </button>
 
       <zng-global-header/>
     </nz-header>
@@ -42,14 +40,23 @@
       <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
     </nz-sider>
     <nz-layout class="inner-layout">
+
       <nz-breadcrumb>
-        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-        <nz-breadcrumb-item>List</nz-breadcrumb-item>
-        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngFor="let route of breadcrumbs()" >
+          <a [routerLink]="route.value">{{route.label}}</a>
+        </nz-breadcrumb-item>
       </nz-breadcrumb>
+      
       <nz-content class="h-[1000px]">
         <router-outlet></router-outlet>
       </nz-content>
     </nz-layout>
   </nz-layout>
 </nz-layout>
+
+<ng-template #logo>
+  <div class="p-4">
+    <img src="/assets/images/favicon.svg" alt="logo" class="w-8 h-8 rounded-sm mr-2" />
+    <span>{{'ZNG.AppName' | translate: {Default: 'Fiori App'} }}</span>
+  </div>
+</ng-template>

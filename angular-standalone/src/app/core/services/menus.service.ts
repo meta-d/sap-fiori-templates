@@ -1,8 +1,14 @@
 import { appRoutes } from '@/app/app.routes'
 import { Injectable, computed, inject, signal } from '@angular/core'
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router'
-import { EMPTY, from, of } from 'rxjs'
+import { toSignal } from '@angular/core/rxjs-interop'
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  NavigationEnd,
+  Route,
+  Router
+} from '@angular/router'
+import { EMPTY, from } from 'rxjs'
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators'
 import { MenuMode } from '../types'
 import { ThemeService } from './theme.service'
@@ -26,10 +32,16 @@ export class MenusService {
 
   readonly menuMode = this.themeService.menuMode
 
+  /**
+   * All menus in app
+   */
   private appMenus = signal<AppMenu[]>(
     appRoutes.map((route) => mapRouteToMenu(route))
   )
 
+  /**
+   * Display menus
+   */
   readonly menus = computed(() => {
     return this.appMenus().map((menu) => {
       if (this.menuMode() === MenuMode.mix) {
@@ -42,8 +54,11 @@ export class MenusService {
     })
   })
 
-  readonly rootMenu = toSignal(this.router.events
-    .pipe(
+  /**
+   * Get current menu in the first level routes
+   */
+  readonly rootMenu = toSignal(
+    this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       switchMap(() => this.route.firstChild?.url ?? EMPTY),
       map((url) => url[0].path),
@@ -55,12 +70,38 @@ export class MenusService {
     )
   )
 
+  /**
+   * The submenus of current root menu
+   */
   readonly subMenus = computed(() => {
     return this.rootMenu()?.submenus
   })
 
+  readonly pathFromRoot = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => {
+        let route: ActivatedRouteSnapshot = this.route.snapshot
+        while (route.firstChild) {
+          route = route.firstChild
+        }
+        return route.pathFromRoot.map((route) => route.routeConfig)
+      })
+    )
+  )
+
+  /**
+   * Load the menu's submenus
+   *
+   * @param menu
+   * @returns
+   */
   async loadMenus(menu: AppMenu) {
-    if (menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
+    if (
+      menu.hasSubmenus &&
+      !menu.submenus?.length &&
+      menu.route?.loadChildren
+    ) {
       const result = await menu.route?.loadChildren()
       if (Array.isArray(result)) {
         menu.submenus = result.map((route: Route) =>

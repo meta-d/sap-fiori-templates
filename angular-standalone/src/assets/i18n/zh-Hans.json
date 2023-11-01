@@ -1,0 +1,27 @@
+{
+    "ZNG": {
+        "AppName": "思爱普应用",
+        "GlobalHeader": {
+            "LanguageChanged": "语言已切换！"
+        },
+        "GlobalSettings": {
+            "Title": "全局设置",
+            "Theme": "主题",
+            "MenuTheme": "菜单风格",
+            "PrimaryColor": "主色调",
+            "NavigationMode": "导航模式",
+            "FixedLayoutSider": "固定侧边栏",
+            "Pin": "固定",
+            "Close": "关闭",
+            "Themes": {
+                "Light": "亮色",
+                "Dark": "暗色"
+            },
+            "NavigationModes": {
+                "side": "侧边菜单布局",
+                "top": "顶部菜单布局",
+                "mix": "混合菜单布局"
+            }
+        }
+    }
+}
