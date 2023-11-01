@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+archive.zip
 
 # dependencies
 node_modules
@@ -40,3 +41,4 @@ Thumbs.db
 
 .nx/cache
 .angular
+.env
