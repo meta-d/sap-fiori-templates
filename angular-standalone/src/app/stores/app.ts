@@ -3,7 +3,6 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { BehaviorSubject, map } from "rxjs";
 import { useESHSearchStore } from "./ESH_SEARCH";
 
-
 export interface AppStoreState {
     user?: {
         id: string;
@@ -21,20 +20,26 @@ export class AppStoreService {
 
     async currentUser() {
         if (!this.user()) {
-            const { read } = useESHSearchStore
-            const user = await read('Users', '<current>').then((result) => {
-                return {
-                    id: result.d.Id,
-                    name: result.d.Name
-                }
-            })
+            await this.refreshUser()
+        }
 
+        return this.user()
+    }
+
+    async refreshUser() {
+        const { read } = useESHSearchStore()
+        const user = await read('Users', '<current>').then((result) => {
+            return {
+                id: result.d.Id,
+                name: result.d.Name
+            }
+        })
+
+        if (user) {
             this.state$.next({
                 ...this.state$.value,
                 user
             })
         }
-
-        return this.user()
     }
 }

@@ -5,7 +5,7 @@
  * @param {*} value The value to query.
  * @returns {string} Returns the `toStringTag`.
  */
-export function getTag(value) {
+export function getTag(value: any) {
   const toString = Object.prototype.toString
 
   if (value == null) {

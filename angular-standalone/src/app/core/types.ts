@@ -9,3 +9,13 @@ export enum ThemeType {
     default = 'default',
     light = 'light',
 }
+
+export const Ui5Path = 'ui5'
+
+export interface Chip {
+    id: string;
+    title: string;
+    subTitle: string;
+    navigationSemanticObject: string;
+    navigationSemanticAction: string;
+}

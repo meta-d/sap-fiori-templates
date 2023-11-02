@@ -28,7 +28,7 @@ Learn more about [Nx generators on the docs](https://nx.dev/plugin-features/use-
 
 When running the local development service and calling the OData service, you need to configure the proxy to forward the request of the OData service to the ABAP server.
 
-Here is the configuration, all the requests starting with `/sap/opu/odata/` are forwarded to the server **target**, and the authorization account information **auth** is configured.
+Here is the configuration, all the requests starting with `/sap/` are forwarded to the server **target**, and the authorization account information **auth** is configured.
 
 ```javascript
 export default defineConfig({
@@ -36,7 +36,7 @@ export default defineConfig({
   server: {
     ...
     proxy: {
-      '/sap/opu/odata/': {
+      '/sap/': {
         target: '<your sap abap server url>',
         changeOrigin: true,
         auth: '<SAP Username>:<SAP Password>'

@@ -3,19 +3,15 @@
     <ng-container *ngFor="let menu of menus().menus; trackBy: trackByIndex">
       <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
         <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-        {{ menu.label }}
+        {{ menu.title }}
       </li>
-      <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+      <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
         [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
-        (mouseenter)="onMouseEnterMenu(menu)"
         (click)="loadMenus(menu)">
         <ul>
-          <ng-container *ngFor="let submenu of menu.submenus">
-            <li *ngIf="submenu.isUi5" nz-menu-item (click)="goUI5Page(submenu)">{{ submenu.label }}</li>
-            <li *ngIf="!submenu.isUi5" nz-menu-item  [routerLink]="submenu.path" nzMatchRouter>
-              {{ submenu.label }}
-            </li>
-          </ng-container>
+          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter>
+            {{ submenu.title }}
+          </li>
         </ul>
       </li>
     </ng-container>
@@ -25,19 +21,15 @@
         <ng-container *ngFor="let menu of menus().moreMenus; trackBy: trackByIndex">
           <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
             <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-            {{ menu.label }}
+            {{ menu.title }}
           </li>
-          <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+          <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
             [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
-            (mouseenter)="onMouseEnterMenu(menu)"
             (click)="loadMenus(menu)">
             <ul>
-              <ng-container *ngFor="let submenu of menu.submenus">
-                <li *ngIf="submenu.isUi5" nz-menu-item (click)="goUI5Page(submenu)">{{ submenu.label }}</li>
-                <li *ngIf="!submenu.isUi5" nz-menu-item  [routerLink]="submenu.path" nzMatchRouter>
-                  {{ submenu.label }}
-                </li>
-              </ng-container>
+              <li *ngFor="let submenu of menu.submenus" nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter>
+                {{ submenu.title }}
+              </li>
             </ul>
           </li>
         </ng-container>

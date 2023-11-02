@@ -11,7 +11,7 @@ export default defineConfig({
     port: 4200,
     host: 'localhost',
     proxy: {
-      '/sap/opu/odata/': {
+      '/sap/': {
         target: '<your sap abap server url>',
         changeOrigin: true,
         auth: '<SAP Username>:<SAP Password>'

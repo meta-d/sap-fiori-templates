@@ -1,17 +1,19 @@
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 import { TranslateService } from '@ngx-translate/core'
 import {
+  AuthenticationService,
   ScreenLessHiddenDirective,
   ToggleFullscreenDirective
 } from '@/app/core'
 import { ModalOptions } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 import { AppStoreService } from '@/app/stores'
+import { Router } from '@angular/router'
 
 @Component({
   standalone: true,
@@ -28,10 +30,12 @@ import { AppStoreService } from '@/app/stores'
   templateUrl: './global-header.component.html',
   styleUrls: ['./global-header.component.scss']
 })
-export class GlobalHeaderComponent {
+export class GlobalHeaderComponent implements OnInit {
   private translate = inject(TranslateService)
   public message = inject(NzMessageService)
   public appStore = inject(AppStoreService)
+  public authService = inject(AuthenticationService)
+  private router = inject(Router)
 
   languages = [
     { value: 'zh-Hans', label: '简体中文' },
@@ -46,8 +50,13 @@ export class GlobalHeaderComponent {
 
   readonly user = this.appStore.user
 
-  constructor() {
-    this.appStore.currentUser().then()
+  async ngOnInit() {
+    try {
+      await this.appStore.currentUser().then()
+    } catch(err) {
+      console.error(err)
+      // this.router.navigate(['auth/login'])
+    }
   }
 
   useLanguage(lang: string): void {
@@ -72,7 +81,7 @@ export class GlobalHeaderComponent {
   }
 
   goLogin(): void {
-    //
+    this.router.navigate(['auth/login'])
   }
 
   clean(): void {
@@ -93,5 +102,11 @@ export class GlobalHeaderComponent {
 
   lockScreen() {
     //
+  }
+
+  goLogout() {
+    this.authService.logout().subscribe((html) => {
+      console.log(html)
+    })
   }
 }

@@ -1,4 +1,4 @@
-import { AppMenu, MenusService, ResizeObserverDirective } from '@/app/core'
+import { AppMenu, MenusService, ResizeObserverDirective, Ui5Path } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
@@ -52,15 +52,7 @@ export class TopNavBarComponent implements AfterViewInit {
   }
 
   loadMenus(menu: AppMenu) {
-    if (menu.isUi5) {
-      this.menusService.setRootPath(menu.path as string)
-    } else {
-      this.menusService.loadMenus(menu)
-    }
-  }
-
-  onMouseEnterMenu(menu: AppMenu) {
-    console.log(menu.label)
+    this.menusService.loadMenus(menu)
   }
 
   showMessage(): void {

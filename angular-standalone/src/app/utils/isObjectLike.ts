@@ -20,6 +20,6 @@
  * isObjectLike(null)
  * // => false
  */
-export function isObjectLike(value) {
+export function isObjectLike(value: any) {
   return typeof value === 'object' && value !== null
 }

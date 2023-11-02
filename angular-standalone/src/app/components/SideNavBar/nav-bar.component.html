@@ -3,20 +3,21 @@
     <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter
       nz-tooltip
       nzTooltipPlacement="right"
-      [nzTooltipTitle]="isCollapsed ? menu.label : ''">
+      [nzTooltipTitle]="isCollapsed ? menu.title : ''">
       <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-      <span>{{ menu.label }}</span>
+      <span>{{ menu.title }}</span>
     </li>
-    <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.label" [nzIcon]="menu.icon"
+    <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
       nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
+      <!-- for highlight the active parent menu -->
+      <div [routerLink]="menu.path"></div>
       <ul>
-        <ng-container *ngFor="let submenu of menu.submenus">
-          <li *ngIf="submenu.isUi5" nz-menu-item (click)="goUI5Page(submenu)">{{ submenu.label }}</li>
-          <li *ngIf="!submenu.isUi5" nz-menu-item  [routerLink]="submenu.path" nzMatchRouter>
-            {{ submenu.label }}
-          </li>
-        </ng-container>
+        <li *ngFor="let submenu of menu.submenus" nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter
+          (click)="$event.stopPropagation()"
+        >
+          {{ submenu.title }}
+        </li>
       </ul>
     </li>
   </ng-container>

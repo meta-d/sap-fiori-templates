@@ -2,6 +2,14 @@ import { isString } from '@/app/utils/isString';
 import { BehaviorSubject, map } from 'rxjs';
 import * as convert from 'xml-js';
 
+export enum StoreStatus {
+  init,
+  initializing,
+  loaded,
+  error,
+  complete,
+}
+
 export function defineODataStore(
   service: string,
   options: {
@@ -12,30 +20,36 @@ export function defineODataStore(
 ) {
   const { base } = options;
 
-  const store = new BehaviorSubject<{ Schema: any }>({ Schema: null });
+  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any }>({ status: StoreStatus.init, Schema: null });
 
-  setTimeout(() => {
-    try {
+  const init = () => {
+    store.next({
+      ...store.value,
+      status: StoreStatus.initializing
+    })
+    setTimeout(() => {
       fetch(`${base}/${service}/$metadata`)
-      .then((response) => response.text())
-      .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
-      .then((metadata: any) => {
-        return metadata['edmx:Edmx']['edmx:DataServices']['Schema'];
-      })
-      .then((Schema) => {
-        store.next({
-          ...store.value,
-          Schema,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-    } catch(err) {
-      console.error(err);
-    } 
-  });
-  
+        .then((response) => response.text())
+        .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
+        .then((metadata: any) => {
+          return metadata['edmx:Edmx']['edmx:DataServices']['Schema'];
+        })
+        .then((Schema) => {
+          store.next({
+            ...store.value,
+            Schema,
+            status: StoreStatus.loaded
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          store.next({
+            ...store.value,
+            status: StoreStatus.error
+          });
+        })
+    });
+  }
 
   const select = (selector: (state: any) => any) => {
     return store.pipe(map(selector));
@@ -95,11 +109,20 @@ export function defineODataStore(
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-    }).then((response) => response.json());
+    }).then(async (response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    });
   };
 
   return {
     store,
+    init,
     select,
     selectEntityType,
     entityType,
