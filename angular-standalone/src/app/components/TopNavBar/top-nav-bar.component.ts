@@ -1,4 +1,4 @@
-import { AppMenu, MenusService, ResizeObserverDirective } from '@/app/core'
+import { AppMenu, MenusService, ResizeObserverDirective, Ui5Path } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
@@ -55,10 +55,6 @@ export class TopNavBarComponent implements AfterViewInit {
     this.menusService.loadMenus(menu)
   }
 
-  onMouseEnterMenu(menu: AppMenu) {
-    console.log(menu.label)
-  }
-
   showMessage(): void {
     this.message.info('切换成功')
   }
@@ -91,5 +87,9 @@ export class TopNavBarComponent implements AfterViewInit {
         }
       }
     }
+  }
+
+  goUI5Page(menu: AppMenu) {
+    this.menusService.goUI5Page(menu)
   }
 }

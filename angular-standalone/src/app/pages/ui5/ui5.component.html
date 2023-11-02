@@ -1,0 +1,15 @@
+<iframe *ngIf="soTargetMapping(); else launchpad" [src]="soTargetMapping()?.url | safe" class="flex-1 block w-full h-full min-h-full border-none"></iframe>
+
+<ng-template #launchpad>
+    <div>
+        <div nz-row [nzGutter]="8">
+            <div *ngFor="let chip of chips()" nz-col [nzSm]="{span: 8}" [nzLg]="{span: 6}" class="mb-2">
+              <nz-card class="h-[200px]" [nzTitle]="chip.title" nzBorderless nzHoverable [routerLink]="chip.navigationSemanticObject" [queryParams]="{action: chip.navigationSemanticAction}">
+                <p class="overflow-hidden text-ellipsis">
+                  {{ chip.subTitle }}
+                </p>
+              </nz-card>
+            </div>
+        </div>
+    </div>
+</ng-template>

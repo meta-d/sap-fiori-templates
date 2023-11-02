@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common'
 import { Component, Input, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { NzMenuThemeType } from 'ng-zorro-antd/menu'
-import { NzMessageService } from 'ng-zorro-antd/message'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 
 @Component({
@@ -32,5 +30,9 @@ export class SubSideNavBarComponent {
 
   loadMenus(menu: AppMenu) {
     this.menusService.loadMenus(menu)
+  }
+
+  goUI5Page(menu: AppMenu) {
+    this.menusService.goUI5Page(menu)
   }
 }

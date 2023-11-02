@@ -1,25 +1,30 @@
 import { appRoutes } from '@/app/app.routes'
 import { Injectable, computed, inject, signal } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop'
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
   NavigationEnd,
+  Params,
   Route,
   Router
 } from '@angular/router'
-import { EMPTY, from } from 'rxjs'
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators'
-import { MenuMode } from '../types'
+import { distinctUntilChanged, filter, map } from 'rxjs/operators'
+import { MenuMode, Ui5Path } from '../types'
+import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
+import { nonNullable } from '@/app/utils'
 
 export interface AppMenu {
   path: string | undefined
-  label: string
+  title: string
   icon: string
   hasSubmenus?: boolean
   submenus?: AppMenu[] | undefined | null
   route: Route
+  isUi5: boolean
+  data?: any
+  queryParams?: Params | null
 }
 
 @Injectable({
@@ -27,6 +32,7 @@ export interface AppMenu {
 })
 export class MenusService {
   private themeService = inject(ThemeService)
+  private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
 
@@ -36,7 +42,7 @@ export class MenusService {
    * All menus in app
    */
   private appMenus = signal<AppMenu[]>(
-    appRoutes.map((route) => mapRouteToMenu(route))
+    appRoutes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route))
   )
 
   /**
@@ -55,20 +61,30 @@ export class MenusService {
   })
 
   /**
+   * Root path, for examples: `/admin`, `/ui5/sales` is ['admin'] and ['ui5', 'sales']
+   */
+  readonly rootPath = toSignal(this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    map(() => {
+      const rootPath = this.route.snapshot.firstChild?.url[0].path ?? ''
+      if (rootPath === Ui5Path) {
+        return `/${this.route.snapshot.firstChild?.url[0].path ?? ''}/${this.route.snapshot.firstChild?.url[1].path ?? ''}`
+      }
+      return rootPath
+    }),
+    distinctUntilChanged()
+  ))
+
+  /**
    * Get current menu in the first level routes
    */
-  readonly rootMenu = toSignal(
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      switchMap(() => this.route.firstChild?.url ?? EMPTY),
-      map((url) => url[0].path),
-      distinctUntilChanged(),
-      map((path) => this.appMenus()?.find((menu) => menu.route.path === path)),
-      switchMap((menu) => {
-        return menu ? from(this.loadMenus(menu)) : EMPTY
-      })
-    )
-  )
+  readonly rootMenu = computed(() => {
+    const rootMenu = this.appMenus()?.find((menu) => menu.path === this.rootPath())
+    if (rootMenu) {
+      this.loadMenus(rootMenu)
+    }
+    return rootMenu
+  })
 
   /**
    * The submenus of current root menu
@@ -89,6 +105,12 @@ export class MenusService {
       })
     )
   )
+
+  private flpMenusSub = toObservable(this.flpService.routes).pipe(filter(nonNullable), takeUntilDestroyed())
+    .subscribe((routes) => this.appMenus.set([
+      ...this.appMenus(),
+      ...routes
+    ]))
 
   /**
    * Load the menu's submenus
@@ -113,12 +135,20 @@ export class MenusService {
 
     return menu
   }
+
+  goUI5Page(menu: AppMenu) {
+    this.router.navigate(['/ui5', menu.data.navigation_semantic_object], {
+      queryParams: {
+        action: menu.data.navigation_semantic_action,
+      }
+    })
+  }
 }
 
 export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
   return {
     path: parent ? parent.path + '/' + route.path : route.path,
-    label: route.data?.['label'],
+    title: route.data?.['label'],
     icon: route.data?.['icon'],
     route: route,
     hasSubmenus: !!(
@@ -127,6 +157,7 @@ export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
     ),
     submenus: route.children?.map((child) => {
       return mapRouteToMenu(child, route)
-    })
+    }),
+    isUi5: false
   }
 }
