@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    enableFiori: false
+    enableFiori: false,
+    enableWaterMark: false, 
 };

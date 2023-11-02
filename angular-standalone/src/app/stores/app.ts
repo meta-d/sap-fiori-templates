@@ -28,7 +28,7 @@ export class AppStoreService {
 
     async refreshUser() {
         const { read } = useESHSearchStore()
-        const user = await read('Users', '<current>').then((result) => {
+        const user = await read('Users', {Id: '<current>'}).then((result) => {
             return {
                 id: result.d.Id,
                 name: result.d.Name

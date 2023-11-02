@@ -10,9 +10,8 @@
       [nzCollapsedWidth]="isCollapsed ? fixedLayoutSider() ? 60 : 0 : 200">
       <div class="h-full flex flex-col">
         <ng-container *ngTemplateOutlet="logo;" ></ng-container>
-        <zng-side-nav-bar [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed"/>
+        <zng-side-nav-bar class="flex-1" [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed"/>
     
-        <span class="flex-1"></span>
         <nz-divider></nz-divider>
         <button class="mx-auto" nz-button nzType="text" (click)="toggleSideMenu()">
           <span nz-icon *ngIf="isCollapsed" nzType="menu-unfold" nzTheme="outline"></span>
@@ -72,7 +71,7 @@
       </nz-breadcrumb>
       
       <nz-content class="zng-layout__content relative">
-        <nz-water-mark class="block inset-0 w-full h-full" nzContent="SAP Fiori App by Metad team"></nz-water-mark>
+        <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full" nzContent="SAP Fiori App by Metad team"></nz-water-mark>
         <router-outlet></router-outlet>
       </nz-content>
 

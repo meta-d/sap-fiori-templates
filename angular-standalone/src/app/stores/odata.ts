@@ -1,6 +1,7 @@
 import { isString } from '@/app/utils/isString';
 import { BehaviorSubject, map } from 'rxjs';
 import * as convert from 'xml-js';
+import { isPlainObject } from '../utils/isPlainObject';
 
 export enum StoreStatus {
   init,
@@ -67,7 +68,7 @@ export function defineODataStore(
     store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity);
 
   const read = (
-    entity: string, id: string,
+    entity: string, keys: string | Record<string, number | string>,
     options?: {
       $filter?: {
         [key: string]: any;
@@ -93,11 +94,13 @@ export function defineODataStore(
     }
 
     let url = `${base}/${service}/${entity}`
-    if (id) {
-      if (isString(id)) {
-        url += `('${encodeURIComponent(id)}')`
-      } else if (typeof id === 'number') {
-        url += `${id}`
+    if (keys) {
+      if (isString(keys)) {
+        url += `('${encodeURIComponent(keys)}')`
+      } else if (typeof keys === 'number') {
+        url += `(${keys})`
+      } else if (isPlainObject(keys)) {
+        url += `(${Object.keys(keys).map((key) => `${key}=${encodeURIComponent(keys[key])}`).join(',')})`
       }
     }
 

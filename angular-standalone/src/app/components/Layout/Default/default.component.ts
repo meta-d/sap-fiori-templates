@@ -19,6 +19,7 @@ import { GlobalHeaderComponent } from '../../GlobalHeader/global-header.componen
 import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
+import { environment } from '@/environments/environment'
 
 @Component({
   selector: 'zng-layout-default',
@@ -49,6 +50,7 @@ export class LayoutDefaultComponent {
 
   ThemeType = ThemeType
   MenuMode = MenuMode
+  enableWaterMark = environment.enableWaterMark
 
   get currentTheme() {
     return this.themeService.currentTheme === ThemeType.default ? 'light' : 'dark'

@@ -1,16 +1,16 @@
 import { Route } from '@angular/router'
 import { HomeComponent } from './pages/home/home.component'
 import { Ui5Component } from './pages/ui5/ui5.component'
-import { AuthLoginComponent } from './pages/auth/login/login.component'
+// import { AuthLoginComponent } from './pages/auth/login/login.component'
 
 export const appRoutes: Route[] = [
-  {
-    path: 'auth/login',
-    component: AuthLoginComponent,
-    data: {
-      hidden: true
-    }
-  },
+  // {
+  //   path: 'auth/login',
+  //   component: AuthLoginComponent,
+  //   data: {
+  //     hidden: true
+  //   }
+  // },
   {
     path: 'home',
     component: HomeComponent,

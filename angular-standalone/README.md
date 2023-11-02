@@ -18,11 +18,18 @@ Then add tailwind use command `npx nx g @nx/angular:setup-tailwind angular-stand
 
 Add UI library [Ant Design of Angular](https://ng.ant.design/) ng-zorro-antd use command `npx nx g @nx/angular:ng-add ng-zorro-antd --style=less`.
 
-## 📡 How to call OData Service?
+## 🖥 Previewing Application
 
-When running the local development service and calling the OData service, you need to configure the proxy to forward the request of the OData service to the ABAP server.
+You can execute the following npm scripts to preview the application:
 
-Here is the configuration file *proxy.conf.json*, all the requests starting with `/sap/` are forwarded to the server **target**, and the authorization account information **auth** is configured.
+* **start** - starts the application with real service data.
+* **start-mock** - starts the application with mock data.
+
+### 📡 Use Live Data
+
+When running `npm run start` the local development application and calling the live OData service, you need to configure the proxy to forward the request to the ABAP server.
+
+Here is the configuration file *src/proxy.conf.json*, all the requests starting with `/sap/` are forwarded to the server **target**, and the authorization account information **auth** is configured.
 
 ```javascript
 {
@@ -36,6 +43,22 @@ Here is the configuration file *proxy.conf.json*, all the requests starting with
 }
 ```
 
-## Ready to deploy?
+### 📋 Use Mock Data
 
-Just run `nx build demoapp` to build the application. The build artifacts will be stored in the `dist/` directory, ready to be deployed.
+When using `npm run start-mock` to start the application and a mock server to reflect the OData endpoint, you can use the application without having to connect to a live OData service and generate mock data on the fly.
+
+### Add Metadata file
+
+## 🚀 Ready to deploy?
+
+Ready to deploy, you can ref to [How to deploy?](../Deploy.md).
+
+### Base url
+
+The deployed application needs to be opened in a non-root path, so you need to configure the base url when building the app. Replace `your_project_name` with the name of the BSP application in command `npm run build`.
+
+```javascript
+{
+  "build": "nx build -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/"
+}
+```

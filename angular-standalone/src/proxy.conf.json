@@ -1,0 +1,8 @@
+{
+  "/sap/opu/odata/": {
+    "target": "http://<SAP Server>:<SAP Port>/",
+    "secure": false,
+    "changeOrigin": true,
+    "auth": "<SAP Username>:<SAP Password>"
+  }
+}
