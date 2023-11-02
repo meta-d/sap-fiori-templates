@@ -33,4 +33,8 @@ export class SubSideNavBarComponent {
   loadMenus(menu: AppMenu) {
     this.menusService.loadMenus(menu)
   }
+
+  goUI5Page(menu: AppMenu) {
+    this.menusService.goUI5Page(menu)
+  }
 }

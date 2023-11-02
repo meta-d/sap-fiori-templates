@@ -1,3 +1,6 @@
+:host {
+  @apply overflow-y-auto;
+}
 .ant-menu.ant-menu-root.ant-menu-dark {
   background-color: var(--zng-header-bg-color);
 }

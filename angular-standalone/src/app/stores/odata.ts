@@ -19,7 +19,7 @@ export function defineODataStore(
       fetch(`${base}/${service}/$metadata`)
       .then((response) => response.text())
       .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
-      .then((metadata) => {
+      .then((metadata: any) => {
         return metadata['edmx:Edmx']['edmx:DataServices']['Schema'];
       })
       .then((Schema) => {
@@ -37,20 +37,20 @@ export function defineODataStore(
   });
   
 
-  const select = (selector: (state) => any) => {
+  const select = (selector: (state: any) => any) => {
     return store.pipe(map(selector));
   };
 
   const selectEntityType = (entity: string) => {
     return store.pipe(
       map((state) =>
-        state.Schema?.EntityType.find((item) => item['@'].Name === entity)
+        state.Schema?.EntityType.find((item: any) => item['@'].Name === entity)
       )
     );
   };
 
   const entityType = (entity: string) =>
-    store.value.Schema?.EntityType.find((item) => item['@'].Name === entity);
+    store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity);
 
   const read = (
     entity: string, id: string,
@@ -58,9 +58,10 @@ export function defineODataStore(
       $filter?: {
         [key: string]: any;
       };
+      $expand?: string
     }
   ) => {
-    const { $filter } = options ?? {};
+    const { $filter, $expand } = options ?? {};
     const query = new URLSearchParams();
     if ($filter) {
       query.append('$filter', Object.keys($filter).reduce((acc, key) => {
@@ -73,10 +74,14 @@ export function defineODataStore(
       }, ''));
     }
 
+    if ($expand) {
+      query.append('$expand', $expand)
+    }
+
     let url = `${base}/${service}/${entity}`
     if (id) {
       if (isString(id)) {
-        url += `('${id}')`
+        url += `('${encodeURIComponent(id)}')`
       } else if (typeof id === 'number') {
         url += `${id}`
       }

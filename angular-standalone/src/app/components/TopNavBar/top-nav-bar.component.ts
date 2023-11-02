@@ -52,7 +52,11 @@ export class TopNavBarComponent implements AfterViewInit {
   }
 
   loadMenus(menu: AppMenu) {
-    this.menusService.loadMenus(menu)
+    if (menu.isUi5) {
+      this.menusService.setRootPath(menu.path as string)
+    } else {
+      this.menusService.loadMenus(menu)
+    }
   }
 
   onMouseEnterMenu(menu: AppMenu) {
@@ -91,5 +95,9 @@ export class TopNavBarComponent implements AfterViewInit {
         }
       }
     }
+  }
+
+  goUI5Page(menu: AppMenu) {
+    this.menusService.goUI5Page(menu)
   }
 }

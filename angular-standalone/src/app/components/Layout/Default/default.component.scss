@@ -24,7 +24,7 @@
 }
 
 .inner-layout {
-  padding: 0 24px 24px;
+  padding: 0 24px;
 }
 
 nz-breadcrumb {
@@ -58,6 +58,33 @@ nz-content {
   @apply border-gray-700;
 }
 
+.zng-layout__content {
+  @apply p-0 flex flex-col;
+}
+
 .zng-layout__menu-dark {
   color: var(--zng-header-color);
+
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary) var(--primary);
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--primary);
+    border-radius: 5px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #101010;
+    border-radius: 14px;
+    border: 3px solid #101010;
+  }
 }

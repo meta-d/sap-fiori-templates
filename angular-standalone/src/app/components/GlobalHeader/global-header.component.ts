@@ -11,6 +11,7 @@ import {
 } from '@/app/core'
 import { ModalOptions } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
+import { AppStoreService } from '@/app/stores'
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 export class GlobalHeaderComponent {
   private translate = inject(TranslateService)
   public message = inject(NzMessageService)
+  public appStore = inject(AppStoreService)
 
   languages = [
     { value: 'zh-Hans', label: '简体中文' },
@@ -40,6 +42,12 @@ export class GlobalHeaderComponent {
 
   get currentLang() {
     return this.translate.currentLang
+  }
+
+  readonly user = this.appStore.user
+
+  constructor() {
+    this.appStore.currentUser().then()
   }
 
   useLanguage(lang: string): void {

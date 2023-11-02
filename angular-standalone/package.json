@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx build",
+    "build": "nx build -- --prod --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
     "test": "nx test",
     "archive": "cd dist/angular-standalone && npx bestzip ../../archive.zip *",
     "fiori-deploy": "fiori deploy --archive-path ./archive.zip --config ui5-deploy.yaml --yes",

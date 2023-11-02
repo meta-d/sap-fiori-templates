@@ -8,9 +8,12 @@
       nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
       <ul>
-        <li nz-menu-item *ngFor="let menu of menu.submenus" [routerLink]="menu.path">
-          {{ menu.label }}
-        </li>
+        <ng-container *ngFor="let submenu of menu.submenus">
+          <li *ngIf="submenu.isUi5" nz-menu-item (click)="goUI5Page(submenu)">{{ submenu.label }}</li>
+          <li *ngIf="!submenu.isUi5" nz-menu-item  [routerLink]="submenu.path" nzMatchRouter>
+            {{ submenu.label }}
+          </li>
+        </ng-container>
       </ul>
     </li>
   </ng-container>

@@ -25,7 +25,7 @@
 
 <span class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown [nzDropdownMenu]="userSettingMenu">
     <img class="avatar" alt="" src="assets/imgs/default_face.png" />
-    <span class="base-font-size">Serati Ma</span>
+    <span class="base-font-size">{{ user()?.name }}</span>
 </span>
 
 <div class="zng-global-header__button inline-block h-full px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown [nzDropdownMenu]="language">
