@@ -40,6 +40,25 @@ Targets can be defined in the `package.json` or `projects.json`. Learn more [in 
 
 ## Best practices
 
+### Login
+
+在 SAP Fiori Lanuchpad 上通常是先登录 flp 页面然后才有权限访问 Lanuchpad 里的 Apps, 如果你想无需访问 flp 登录页面也可登录 SAP 系统的话可以通过配置 app 的错误页-登录错误的处理方式来实现：
+
+1. 登录 SAPGUI 打开事务码 **SICF**
+2. 在服务路径中输入 */sap/bc/ui5_ui5/sap/your_project_name* 执行打开应用所在服务节点
+3. 在此服务节点上右键菜单中点击 *显示服务* 打开服务详情界面
+4. 切到 *错误页* 页签，再将 *登录错误* 切换为 *系统登录*
+5. 使用地址 */sap/bc/ui5_ui5/sap/your_project_name/?sap-client=<300>* 访问和登录
+
+### Fiori Deploy Error
+
+当遇到 Fiori Deploy 错误时，但并没有显示具体错误信息，可以通过修改 *node_modules/@sap/ux-ui5-tooling/dist/cli/index.js* 文件中的代码打印出详细信息进行分析。
+在 `function tryDeploy` 函数代码中打印出错误信息。
+
+### SAP UserContext
+
+在遇到账号访问问题时，可以查看浏览器 Cookie 中的属性 *sap-usercontext* 值中的 *sap-client* 等值是否正确。
+
 ## Set up CI!
 
 Nx comes with local caching already built-in (check your `nx.json`). On CI you might want to go a step further.
