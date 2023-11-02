@@ -1,3 +1,4 @@
+
 <nz-layout class="zng-layout">
   <ng-container *ngIf="menuMode() === MenuMode.side" >
     <!-- fixed sider placeholder -->
@@ -70,7 +71,8 @@
         </nz-breadcrumb-item>
       </nz-breadcrumb>
       
-      <nz-content >
+      <nz-content class="relative">
+        <nz-water-mark class="block inset-0 w-full h-full" nzContent="SAP Fiori App by Metad team"></nz-water-mark>
         <router-outlet></router-outlet>
       </nz-content>
 

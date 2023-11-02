@@ -61,3 +61,7 @@ nz-content {
 .zng-layout__menu-dark {
   color: var(--zng-header-color);
 }
+
+.ant-water-mark  {
+  @apply absolute;
+}

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import { LayoutDefaultComponent } from './components/'
 import { ThemeService, mapBrowserLanguage } from './core'
+import { environment } from './../environments/environment';
+
 
 @Component({
   standalone: true,
@@ -25,5 +27,7 @@ export class AppComponent {
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     this.translate.use(mapBrowserLanguage(navigator.language))
+
+    console.error(environment)
   }
 }

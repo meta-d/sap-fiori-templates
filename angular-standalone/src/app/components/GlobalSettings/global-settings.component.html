@@ -68,14 +68,14 @@
         <nz-divider></nz-divider>
 
         <div class="w-full flex flex-col gap-4">
-            <div *ngIf="menuMode() === MenuMode.side" class="w-full flex justify-between items-center">
+            <div *ngIf="menuMode() === MenuMode.side" class="w-full flex justify-between items-center gap-2">
                 <label class="title text-base">{{'ZNG.GlobalSettings.FixedLayoutSider' | translate: {Default: 'Fixed Layout Sider'} }}</label>
                 <nz-switch [(ngModel)]="fixedLayoutSider"
                     [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
                     [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
             </div>
 
-            <div class="w-full flex justify-between items-center">
+            <div class="w-full flex justify-between items-center gap-2">
                 <label class="title text-base">{{'ZNG.GlobalSettings.FixedLayoutHeader' | translate: {Default: 'Fixed Layout Header'} }}</label>
                 <nz-switch [(ngModel)]="fixedLayoutHeader"
                     [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
