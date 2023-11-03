@@ -1,19 +1,11 @@
 import { appRoutes } from '@/app/app.routes'
 import { Injectable, computed, inject, signal } from '@angular/core'
-import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop'
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  NavigationEnd,
-  Params,
-  Route,
-  Router
-} from '@angular/router'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Params, Route, Router } from '@angular/router'
 import { distinctUntilChanged, filter, map } from 'rxjs/operators'
-import { MenuMode, Ui5Path } from '../types'
+import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
-import { nonNullable } from '@/app/utils'
 
 export interface AppMenu {
   path: string | undefined
@@ -45,41 +37,35 @@ export class MenusService {
     appRoutes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route))
   )
 
-  /**
-   * Display menus
-   */
+  readonly flpMenus = this.flpService.routes
   readonly menus = computed(() => {
-    return this.appMenus().map((menu) => {
-      if (this.menuMode() === MenuMode.mix) {
-        return {
-          ...menu,
-          submenus: null
-        }
-      }
-      return menu
-    })
+    return [...this.appMenus(), ...(this.flpMenus() ?? [])]
   })
 
   /**
    * Root path, for examples: `/admin`, `/ui5/sales` is ['admin'] and ['ui5', 'sales']
    */
-  readonly rootPath = toSignal(this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    map(() => {
-      const rootPath = this.route.snapshot.firstChild?.url[0].path ?? ''
-      if (rootPath === Ui5Path) {
-        return `/${this.route.snapshot.firstChild?.url[0].path ?? ''}/${this.route.snapshot.firstChild?.url[1].path ?? ''}`
-      }
-      return rootPath
-    }),
-    distinctUntilChanged()
-  ))
+  readonly rootPath = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => {
+        const rootPath = this.route.snapshot.firstChild?.url[0].path ?? ''
+        if (rootPath === Ui5Path) {
+          return `/${this.route.snapshot.firstChild?.url[0].path ?? ''}/${
+            this.route.snapshot.firstChild?.url[1].path ?? ''
+          }`
+        }
+        return rootPath
+      }),
+      distinctUntilChanged()
+    )
+  )
 
   /**
    * Get current menu in the first level routes
    */
   readonly rootMenu = computed(() => {
-    const rootMenu = this.appMenus()?.find((menu) => menu.path === this.rootPath())
+    const rootMenu = this.menus()?.find((menu) => menu.path === this.rootPath())
     if (rootMenu) {
       this.loadMenus(rootMenu)
     }
@@ -106,12 +92,6 @@ export class MenusService {
     )
   )
 
-  private flpMenusSub = toObservable(this.flpService.routes).pipe(filter(nonNullable), takeUntilDestroyed())
-    .subscribe((routes) => this.appMenus.set([
-      ...this.appMenus(),
-      ...routes
-    ]))
-
   /**
    * Load the menu's submenus
    *
@@ -119,16 +99,10 @@ export class MenusService {
    * @returns
    */
   async loadMenus(menu: AppMenu) {
-    if (
-      menu.hasSubmenus &&
-      !menu.submenus?.length &&
-      menu.route?.loadChildren
-    ) {
+    if (menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
       const result = await menu.route?.loadChildren()
       if (Array.isArray(result)) {
-        menu.submenus = result.map((route: Route) =>
-          mapRouteToMenu(route, menu.route)
-        )
+        menu.submenus = result.map((route: Route) => mapRouteToMenu(route, menu.route))
         this.appMenus.set([...this.appMenus()])
       }
     }
@@ -139,7 +113,7 @@ export class MenusService {
   goUI5Page(menu: AppMenu) {
     this.router.navigate(['/ui5', menu.data.navigation_semantic_object], {
       queryParams: {
-        action: menu.data.navigation_semantic_action,
+        action: menu.data.navigation_semantic_action
       }
     })
   }
@@ -151,10 +125,7 @@ export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
     title: route.data?.['label'],
     icon: route.data?.['icon'],
     route: route,
-    hasSubmenus: !!(
-      (route.children && route.children?.length > 0) ||
-      route.loadChildren
-    ),
+    hasSubmenus: !!((route.children && route.children?.length > 0) || route.loadChildren),
     submenus: route.children?.map((child) => {
       return mapRouteToMenu(child, route)
     }),

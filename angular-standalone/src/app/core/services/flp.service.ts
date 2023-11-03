@@ -5,6 +5,7 @@ import { toObservable } from '@angular/core/rxjs-interop'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Chip, Ui5Path } from '../types'
+import { AppMenu } from './menus.service'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class FioriLaunchpadService {
   readonly state = signal<any>({})
   readonly state$ = toObservable(this.state)
 
-  readonly routes = computed(() => {
+  readonly routes = computed<AppMenu[]>(() => {
     const { AssignedPages, Pages } = this.state()
 
     return AssignedPages?.results.map((item: any) => {

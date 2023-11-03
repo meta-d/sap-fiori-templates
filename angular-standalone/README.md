@@ -49,6 +49,21 @@ When using `npm run start-mock` to start the application and a mock server to re
 
 ### Add Metadata file
 
+### Troubleshooting Tips
+
+#### toString error in mockserver
+
+在处理含有 navigation 的 mock 数据时 mock server 可能会报一个 `toString()` 调用的错误，请检查 `@sap-ux/fe-mockserver-core/dist/data/dataAccess.js` 文件中的 `getV2KeyString` 函数中的以下代码：
+
+```javascript
+default: {
+  // keyStr = encodeURIComponent(`'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`);
+  // Change to
+  keyStr = encodeURIComponent(`'${currentKeys[Object.keys(currentKeys)[0]]?.toString()}'`);
+  break;
+}
+```
+
 ## 🚀 Ready to deploy?
 
 Ready to deploy, you can ref to [How to deploy?](../Deploy.md).

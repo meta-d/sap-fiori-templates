@@ -1,4 +1,4 @@
-import { AppMenu, MenusService, ResizeObserverDirective, Ui5Path } from '@/app/core'
+import { AppMenu, MenusService, ResizeObserverDirective, ThemeService } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
 import { AfterViewInit, Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
@@ -25,23 +25,21 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
 export class TopNavBarComponent implements AfterViewInit {
   public message = inject(NzMessageService)
   private menusService = inject(MenusService)
+  private themeService = inject(ThemeService)
   private hostElement = inject(ElementRef)
+
+  @ViewChild('menusContainer', { static: false }) menusContainer: ElementRef | null = null
   @ViewChild('mEl', { static: false }) menusElement: ElementRef | null = null
 
   @Input() nzTheme: NzMenuThemeType = 'dark'
 
-  readonly moreMenuSize = signal(0)
+  get currentTheme() {
+    return this.themeService.currentTheme
+  }
 
-  readonly menus = computed(() => {
-    const menus = this.menusService.menus()
-    const result = {
-      menus: menus.slice(0, menus.length - this.moreMenuSize()),
-      moreMenus: menus.slice(menus.length - this.moreMenuSize())
-    }
-
-    console.log(result)
-    return result
-  })
+  readonly isMix = computed(() => this.themeService.menuMode() === 'mix')
+  readonly hasMoreMenus = signal<boolean>(false)
+  readonly menus = this.menusService.menus
 
   ngAfterViewInit() {
     this.checkWidth();
@@ -50,6 +48,9 @@ export class TopNavBarComponent implements AfterViewInit {
   trackByIndex(index: number, item: AppMenu) {
     return index
   }
+  trackByPath(index: number, item: AppMenu) {
+    return item.path
+  }
 
   loadMenus(menu: AppMenu) {
     this.menusService.loadMenus(menu)
@@ -57,10 +58,6 @@ export class TopNavBarComponent implements AfterViewInit {
 
   showMessage(): void {
     this.message.info('切换成功')
-  }
-
-  onScroll(event: any) {
-    console.log(event)
   }
 
   checkWidth() {
@@ -78,14 +75,21 @@ export class TopNavBarComponent implements AfterViewInit {
     if (this.menusElement && this.hostElement) {
       const childWidth = this.menusElement.nativeElement.offsetWidth;
       const hostWidth = this.hostElement.nativeElement.offsetWidth;
+      this.hasMoreMenus.set(childWidth > hostWidth)
+    }
+  }
 
-      if (childWidth > hostWidth) {
-        this.moreMenuSize.update((size) => ++size)
-      } else if (childWidth < hostWidth - 100) {
-        if (this.moreMenuSize() > 0) {
-          this.moreMenuSize.update((size) => --size)
-        }
-      }
+  scrollLeft() {
+    if (this.menusContainer) {
+      const width = this.menusContainer.nativeElement.offsetWidth
+      this.menusContainer.nativeElement.scrollLeft -= width -100
+    }
+  }
+
+  scrollRight() {
+    if (this.menusContainer) {
+      const width = this.menusContainer.nativeElement.offsetWidth
+      this.menusContainer.nativeElement.scrollLeft += width - 100
     }
   }
 

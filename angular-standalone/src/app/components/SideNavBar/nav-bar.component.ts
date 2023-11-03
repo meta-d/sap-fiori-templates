@@ -3,7 +3,7 @@ import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
 import { Component, Input, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 

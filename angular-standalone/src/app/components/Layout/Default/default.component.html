@@ -71,7 +71,7 @@
       </nz-breadcrumb>
       
       <nz-content class="zng-layout__content relative">
-        <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full" nzContent="SAP Fiori App by Metad team"></nz-water-mark>
+        <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
         <router-outlet></router-outlet>
       </nz-content>
 

@@ -20,6 +20,7 @@ import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
 import { environment } from '@/environments/environment'
+import { AppStoreService } from '@/app/stores'
 
 @Component({
   selector: 'zng-layout-default',
@@ -47,6 +48,7 @@ import { environment } from '@/environments/environment'
 export class LayoutDefaultComponent {
   private themeService = inject(ThemeService)
   private menusService = inject(MenusService)
+  private appStore = inject(AppStoreService)
 
   ThemeType = ThemeType
   MenuMode = MenuMode
@@ -78,6 +80,8 @@ export class LayoutDefaultComponent {
       }
     })
   })
+
+  readonly waterMark = computed(() => `${this.appStore.user()?.name} ${this.appStore.user()?.id} ©2023 Metad Team`)
 
   toggleSideMenu() {
     this.isCollapsed = !this.isCollapsed
