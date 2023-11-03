@@ -1,5 +1,6 @@
+# 🚀 How to deploy?
 
-## 🚀 How to deploy?
+## Deploying to ABAP
 
 ### ABAP Server configuration
 
@@ -55,3 +56,11 @@ Or you can execute the following commands to build, archive and deploy the appli
 
 Go to **SICF** tcode and create a new service in node `/sap/bc/ui5_ui5/sap/` with the same name as the name of BSP application. Then click **Activate Service** to active the service and click **Test Service** to open a URL in the browser to test the application.
 You should add a `/` at the end of the URL to make sure that the application is loaded correctly.
+
+## Deploying to SAP Business Technology Platform Cloud Foundry
+
+Similar to the SAPUI5 Repository service in ABAP, SAP Business Technology Platform offers an HTML5 Repository to upload and host application. To access the HTML5 Repository, it is required to create an instance of an HTML Repository service. All other functionality required for running the application in an ABAP system comes out of the box and needs to be made accessible by creating instances of the corresponding services.
+
+## Troubleshooting Tips
+
+The backend system contains the SAP_UI component version 7.53 or newer, but the SAPUI5 repository service can't be reached.

@@ -27,7 +27,7 @@ import { isObjectLike } from './isObjectLike'
  * isPlainObject(Object.create(null))
  * // => true
  */
-export function isPlainObject(value: any) {
+export function isPlainObject(value: any): value is object {
   if (!isObjectLike(value) || getTag(value) != '[object Object]') {
     return false
   }

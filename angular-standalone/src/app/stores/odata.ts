@@ -94,14 +94,10 @@ export function defineODataStore(
     }
 
     let url = `${base}/${service}/${entity}`
-    if (keys) {
-      if (isString(keys)) {
-        url += `('${encodeURIComponent(keys)}')`
-      } else if (typeof keys === 'number') {
-        url += `(${keys})`
-      } else if (isPlainObject(keys)) {
-        url += `(${Object.keys(keys).map((key) => `${key}=${encodeURIComponent(keys[key])}`).join(',')})`
-      }
+    if (isPlainObject(keys)) {
+      url += `(${Object.keys(keys).map((key) => `${key}=${entityKeyValue(keys[key])}`).join(',')})`
+    } else {
+      url += `(${entityKeyValue(keys)})`
     }
 
     const queryString = query.toString()
@@ -131,4 +127,14 @@ export function defineODataStore(
     entityType,
     read,
   };
+}
+
+export function entityKeyValue(value: number | string | Date): string {
+  if (isString(value)) {
+    return `'${encodeURIComponent(value)}'`
+  } else if (typeof value === 'number') {
+    return `${value}`
+  }
+
+  return 'null'
 }
