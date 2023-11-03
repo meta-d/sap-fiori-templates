@@ -59,12 +59,12 @@ export class GlobalSettingsComponent {
     {
       label: 'Light style',
       value: ThemeType.light as NzMenuThemeType,
-      image: '/assets/images/themes/menu-theme-light.svg'
+      image: 'assets/images/themes/menu-theme-light.svg'
     },
     {
       label: 'Dark style',
       value: ThemeType.dark as NzMenuThemeType,
-      image: '/assets/images/themes/menu-theme-dark.svg'
+      image: 'assets/images/themes/menu-theme-dark.svg'
     }
   ]
 
@@ -114,17 +114,17 @@ export class GlobalSettingsComponent {
   menuModes = [
     {
       value: MenuMode.side,
-      image: '/assets/images/themes/menu-side.svg',
+      image: 'assets/images/themes/menu-side.svg',
       label: 'Sidebar Menu Layout',
     },
     {
       value: MenuMode.top,
-      image: '/assets/images/themes/menu-top.svg',
+      image: 'assets/images/themes/menu-top.svg',
       label: 'Top Menu Layout',
     },
     {
       value: MenuMode.mix,
-      image: '/assets/images/themes/menu-top.svg',
+      image: 'assets/images/themes/menu-top.svg',
       label: 'Mixed Menu Layout',
     }
   ]
