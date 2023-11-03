@@ -68,12 +68,13 @@ export function defineODataStore(
     store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity);
 
   const read = (
-    entity: string, keys: string | Record<string, number | string>,
+    entity: string,
+    keys: string | Record<string, number | string> | null,
     options?: {
       $filter?: {
         [key: string]: any;
       };
-      $expand?: string
+      $expand?: string | string[];
     }
   ) => {
     const { $filter, $expand } = options ?? {};
@@ -90,14 +91,16 @@ export function defineODataStore(
     }
 
     if ($expand) {
-      query.append('$expand', $expand)
+      query.append('$expand', isString($expand) ? $expand : $expand.join(','))
     }
 
     let url = `${base}/${service}/${entity}`
-    if (isPlainObject(keys)) {
-      url += `(${Object.keys(keys).map((key) => `${key}=${entityKeyValue(keys[key])}`).join(',')})`
-    } else {
-      url += `(${entityKeyValue(keys)})`
+    if (keys) {
+      if (isPlainObject(keys)) {
+        url += `(${Object.keys(keys).map((key) => `${key}=${entityKeyValue(keys[key])}`).join(',')})`
+      } else {
+        url += `(${entityKeyValue(keys)})`
+      }
     }
 
     const queryString = query.toString()

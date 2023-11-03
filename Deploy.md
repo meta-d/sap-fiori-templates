@@ -52,6 +52,14 @@ Or you can execute the following commands to build, archive and deploy the appli
 > [!NOTE]
 > You need to make sure that the BSP application has been created and is in the active state. If you are deploying for the first time, you need to create the bsp application first, and then deploy it.
 
+### Upload Manually
+
+If you encounter problems when uploading files during the `npm run deploy` command, you can try to upload the files manually to the ABAP server.
+
+To upload a single SAPUI5 app from your local file system, download a single SAPUI5 app to your local file system, or delete a single SAPUI5 app, use the report **/UI5/UI5_REPOSITORY_LOAD**.
+
+Ref to [Using the SAPUI5 ABAP Repository Upload and Download Reports to Synchronize](https://help.sap.com/docs/ABAP_PLATFORM_NEW/468a97775123488ab3345a0c48cadd8f/a560bd6ed4654fd1b338df065d331872.html)
+
 ### Test the Deployed App
 
 Go to **SICF** tcode and create a new service in node `/sap/bc/ui5_ui5/sap/` with the same name as the name of BSP application. Then click **Activate Service** to active the service and click **Test Service** to open a URL in the browser to test the application.

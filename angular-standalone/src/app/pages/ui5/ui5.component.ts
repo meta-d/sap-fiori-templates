@@ -7,7 +7,7 @@ import { Component, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { Subject, distinctUntilChanged, map, of, switchMap } from 'rxjs'
+import { EMPTY, Subject, catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs'
 
 @Component({
   standalone: true,
@@ -36,6 +36,10 @@ export class Ui5Component {
           depth: 0
         }
       }).pipe(
+        catchError((err) => {
+          console.error(err)
+          return EMPTY
+        }),
         map((result) => {
           const key = Object.keys(result.targetMappings).find((key) => key.startsWith(semanticObject))
           return key && result.targetMappings[key]

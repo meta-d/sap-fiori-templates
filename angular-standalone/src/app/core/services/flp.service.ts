@@ -19,24 +19,19 @@ export class FioriLaunchpadService {
     return AssignedPages?.results.map((item: any) => {
       const path = `/${Ui5Path}/${item.id}`
 
-      const submenus = Pages.results
-        .find((g: any) => g.id === item.id)
-        ?.PageChipInstances.results.map((page: any) => {
-          const chipBag = page.Chip.ChipBags.results.find((bag: any) => bag.id === 'tileProperties')
-          const chipTitle = chipBag.ChipProperties.results.find((prop: any) => prop.name === 'display_title_text')
-          const configuration = JSON.parse(page.Chip.configuration)
-          const tileConfiguration = JSON.parse(configuration.tileConfiguration)
+      const submenus = Pages.results.find((g: any) => g.id === item.id)?.PageChipInstances.results.map((page: any) => {
+          const chip = mapChip(page)
+
           return {
-            path: `${path}/${tileConfiguration.navigation_semantic_object}`,
+            path: `${path}/${chip.navigationSemanticObject}`,
             id: page.instanceId,
-            title: chipTitle?.value,
+            title: chip.title,
             route: {
-              path: tileConfiguration.navigation_semantic_object
+              path: chip.navigationSemanticObject
             },
             isUi5: true,
-            data: tileConfiguration,
             queryParams: {
-              action: tileConfiguration.navigation_semantic_action
+              action: chip.navigationSemanticAction
             }
           }
         })
@@ -80,15 +75,20 @@ export class FioriLaunchpadService {
 export function mapChip(item: any /*odata result*/): Chip {
   const id = item.instanceId
   const chipBag = item.Chip.ChipBags.results.find((bag: any) => bag.id === 'tileProperties')
-  const chipTitle = chipBag.ChipProperties.results.find((prop: any) => prop.name === 'display_title_text')
-  const chipSubTitle = chipBag.ChipProperties.results.find((prop: any) => prop.name === 'display_subtitle_text')
-  const configuration = JSON.parse(item.Chip.configuration)
-  const tileConfiguration = JSON.parse(configuration.tileConfiguration)
+  const chipTitle = chipBag?.ChipProperties.results.find((prop: any) => prop.name === 'display_title_text')
+  const chipSubTitle = chipBag?.ChipProperties.results.find((prop: any) => prop.name === 'display_subtitle_text')
+  let tileConfiguration
+  try {
+    const configuration = JSON.parse(item.Chip.configuration)
+    tileConfiguration = JSON.parse(configuration.tileConfiguration)
+  } catch (err) {
+    //
+  }
   return {
     id,
     title: chipTitle?.value,
     subTitle: chipSubTitle?.value,
-    navigationSemanticObject: tileConfiguration.navigation_semantic_object,
-    navigationSemanticAction: tileConfiguration.navigation_semantic_action
+    navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
+    navigationSemanticAction: tileConfiguration?.navigation_semantic_action
   }
 }

@@ -15,8 +15,14 @@ export const usePageBuilderStore = () => {
 export async function readFLPH() {
     const { read } = usePageBuilderStore()
     
-    const result = await read('PageSets', '/UI2/Fiori2LaunchpadHome', {
-        $expand: 'Pages/PageChipInstances/Chip/ChipBags/ChipProperties,Pages/PageChipInstances/RemoteCatalog,Pages/PageChipInstances/ChipInstanceBags/ChipInstanceProperties,AssignedPages,DefaultPage'
+    const result = await read('PageSets', {id: '/UI2/Fiori2LaunchpadHome'}, {
+        $expand: [
+            "Pages/PageChipInstances/Chip/ChipBags/ChipProperties",
+            "Pages/PageChipInstances/RemoteCatalog",
+            "Pages/PageChipInstances/ChipInstanceBags/ChipInstanceProperties",
+            "AssignedPages",
+            "DefaultPage"
+        ]
     })
 
     return result.d
