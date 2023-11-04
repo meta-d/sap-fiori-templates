@@ -10,10 +10,11 @@ import {
   ScreenLessHiddenDirective,
   ToggleFullscreenDirective
 } from '@/app/core'
-import { ModalOptions } from 'ng-zorro-antd/modal'
+import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 import { AppStoreService } from '@/app/stores'
 import { Router } from '@angular/router'
+import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
 
 @Component({
   standalone: true,
@@ -33,6 +34,7 @@ import { Router } from '@angular/router'
 export class GlobalHeaderComponent implements OnInit {
   private translate = inject(TranslateService)
   public message = inject(NzMessageService)
+  private modalService = inject(NzModalService)
   public appStore = inject(AppStoreService)
   public authService = inject(AuthenticationService)
   private router = inject(Router)
@@ -107,6 +109,14 @@ export class GlobalHeaderComponent implements OnInit {
   goLogout() {
     this.authService.logout().subscribe((html) => {
       console.log(html)
+    })
+  }
+
+  openSearch() {
+    this.modalService.create({
+      // nzTitle: 'Modal Title',
+      nzContent: GlobalSearchComponent,
+      nzFooter: null
     })
   }
 }

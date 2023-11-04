@@ -1,15 +1,37 @@
-<iframe *ngIf="soTargetMapping(); else launchpad" [src]="soTargetMapping()?.url | safe" class="flex-1 block w-full h-full min-h-full border-none"></iframe>
+<div #appContainer class="relative flex-1 flex flex-col w-full h-full min-h-full">
+  <iframe  [src]="semanticTargetUrl() | safe" class="flex-1 block w-full h-full min-h-full border-none"></iframe>
+
+  <button nz-button nzType="primary" class="zng-ui5__fullscreen-button top-2 right-2"
+    #toogleFullScreenDir="zngToggleFullscreen"
+    zngToggleFullscreen
+    [zngFullscreenElement]="appContainer"
+    nz-tooltip
+    nzTooltipPlacement="bottom"
+    [nzTooltipTitle]="toogleFullScreenDir.isFullscreenFlag ? '全屏' : '退出全屏'">
+    <i *ngIf="toogleFullScreenDir.isFullscreenFlag; else exitFullTpl" nz-icon nzTheme="outline" nzType="fullscreen"></i>
+    <ng-template #exitFullTpl>
+      <i nz-icon nzTheme="outline" nzType="fullscreen-exit"></i>
+    </ng-template>
+  </button>
+</div>
+
+<ng-template #so>
+  <div *ngIf="semanticObject(); else launchpad" class="flex-1 flex flex-col justify-center">
+    <nz-result nzStatus="404" nzTitle="404" [nzSubTitle]="'ZNG.UI5.FioriAppNotFound' | translate: { Default: 'Sorry, the Fiori app you visited does not exist'}">
+    </nz-result>
+  </div>
+</ng-template>
 
 <ng-template #launchpad>
-    <div>
-        <div nz-row [nzGutter]="8">
-            <div *ngFor="let chip of chips()" nz-col [nzSm]="{span: 8}" [nzLg]="{span: 6}" class="mb-2">
-              <nz-card class="h-[200px]" [nzTitle]="chip.title" nzBorderless nzHoverable [routerLink]="chip.navigationSemanticObject" [queryParams]="{action: chip.navigationSemanticAction}">
-                <p class="overflow-hidden text-ellipsis">
-                  {{ chip.subTitle }}
-                </p>
-              </nz-card>
-            </div>
-        </div>
+  <div>
+    <div nz-row [nzGutter]="8">
+      <div *ngFor="let chip of chips()" nz-col [nzSm]="{span: 8}" [nzLg]="{span: 6}" class="mb-2">
+        <nz-card class="h-[200px]" [nzTitle]="chip.title" nzBorderless nzHoverable [routerLink]="chip.navigationSemanticObject" [queryParams]="{action: chip.navigationSemanticAction}">
+          <p class="overflow-hidden text-ellipsis">
+            {{ chip.subTitle }}
+          </p>
+        </nz-card>
+      </div>
     </div>
+  </div>
 </ng-template>

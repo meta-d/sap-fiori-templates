@@ -7,7 +7,7 @@ import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
 
-export interface AppMenu {
+export interface AppMenu<T = any> {
   path: string | undefined
   title: string
   icon: string
@@ -15,8 +15,9 @@ export interface AppMenu {
   submenus?: AppMenu[] | undefined | null
   route: Route
   isUi5: boolean
-  data?: any
+  data?: T
   queryParams?: Params | null
+  fragment?: string | undefined
 }
 
 @Injectable({

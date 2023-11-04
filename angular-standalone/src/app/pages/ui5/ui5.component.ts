@@ -1,17 +1,20 @@
 import { SafePipe } from '@/app/core/pipes'
-import { FioriLaunchpadService } from '@/app/core/'
+import { FioriLaunchpadService, ToggleFullscreenDirective } from '@/app/core/'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { HttpClient } from '@angular/common/http'
-import { Component, inject } from '@angular/core'
+import { Component, computed, effect, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { EMPTY, Subject, catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs'
+import { ActivatedRoute, RouterModule } from '@angular/router'
+import { distinctUntilChanged, map, of, switchMap } from 'rxjs'
+import { CookieService } from 'ngx-cookie-service'
+import { NGXLogger } from 'ngx-logger'
+import { TranslateModule } from '@ngx-translate/core'
+
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ZngAntdModule, SafePipe],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule, ZngAntdModule, SafePipe, ToggleFullscreenDirective],
   selector: 'zng-ui5',
   templateUrl: './ui5.component.html',
   styleUrls: ['./ui5.component.scss']
@@ -19,39 +22,35 @@ import { EMPTY, Subject, catchError, distinctUntilChanged, map, of, switchMap } 
 export class Ui5Component {
   private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
-  private router = inject(Router)
-  private httpClient = inject(HttpClient)
+  private cookieService = inject(CookieService)
+  private logger = inject(NGXLogger)
 
-  readonly soTargetMapping = toSignal(this.route.paramMap.pipe(
+  public semanticObject = toSignal(this.route.paramMap.pipe(
     map((params) => params.get('id') as string),
-    distinctUntilChanged(),
-    switchMap((semanticObject) => {
-      return semanticObject ? this.httpClient.get<{ targetMappings: Record<string, any> }>('/sap/bc/ui2/start_up', {
-        params: {
-          so: semanticObject,
-          action: this.route.snapshot.queryParamMap.get('action') as string,
-          systemAliasesFormat: 'object',
-          formFactor: 'desktop',
-          shellType: 'FLP',
-          depth: 0
-        }
-      }).pipe(
-        catchError((err) => {
-          console.error(err)
-          return EMPTY
-        }),
-        map((result) => {
-          const key = Object.keys(result.targetMappings).find((key) => key.startsWith(semanticObject))
-          return key && result.targetMappings[key]
-        })
-      ) : of(null)
-    })
+    distinctUntilChanged()
   ))
+
+  public semanticTargetUrl = computed(() => {
+    if (this.semanticObject()) {
+      const fragment = this.route.snapshot.fragment
+      const sapUserContext = this.cookieService.get('sap-usercontext')
+      return fragment ? `/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}` : null
+    }
+    return null
+  })
 
   readonly chips = toSignal(this.route.paramMap.pipe(
     map((params) => params.get('group') as string),
     distinctUntilChanged(),
     switchMap((id) => id ? this.flpService.selectGroupChips(id) : of([])),
   ))
+
+  constructor() {
+    effect(() => {
+      if (this.semanticTargetUrl()) {
+        this.logger.debug(`open ui5 app: ${this.semanticTargetUrl()}`)
+      }
+    })
+  }
  
 }

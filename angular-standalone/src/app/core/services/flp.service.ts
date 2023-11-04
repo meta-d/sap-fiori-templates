@@ -22,18 +22,17 @@ export class FioriLaunchpadService {
 
       const submenus = Pages.results.find((g: any) => g.id === item.id)?.PageChipInstances.results.map((page: any) => {
           const chip = mapChip(page)
-
+          const chipUrl = chip.navigationSemanticObject + '-' + chip.navigationSemanticAction
           return {
-            path: `${path}/${chip.navigationSemanticObject}`,
+            path: `${path}/${chipUrl}`,
             id: page.instanceId,
             title: chip.title,
             route: {
-              path: chip.navigationSemanticObject
+              path: chipUrl
             },
             isUi5: true,
-            queryParams: {
-              action: chip.navigationSemanticAction
-            }
+            fragment: chip.navigationTargetUrl?.startsWith('#') ? chip.navigationTargetUrl.slice(1) : chip.navigationTargetUrl,
+            data: chip
           }
         })
 
@@ -90,6 +89,7 @@ export function mapChip(item: any /*odata result*/): Chip {
     title: chipTitle?.value,
     subTitle: chipSubTitle?.value,
     navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
-    navigationSemanticAction: tileConfiguration?.navigation_semantic_action
+    navigationSemanticAction: tileConfiguration?.navigation_semantic_action,
+    navigationTargetUrl: tileConfiguration?.navigation_target_url,
   }
 }

@@ -14,11 +14,13 @@ import { IconDefinition } from '@ant-design/icons-angular'
 import * as AllIcons from '@ant-design/icons-angular/icons'
 import { NZ_ICONS } from 'ng-zorro-antd/icon'
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
+import { CookieService } from 'ngx-cookie-service'
 
 import { appRoutes } from './app.routes'
 import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { ZngMissingTranslationHandler } from './core'
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
 
 registerLocaleData(en)
 
@@ -59,7 +61,13 @@ export const appConfig: ApplicationConfig = {
           useFactory: createTranslateLoader,
           deps: [HttpClient]
         }
-      })
-    )
+      }),
+      LoggerModule.forRoot({
+        serverLoggingUrl: '/api/logs',
+        level: NgxLoggerLevel.DEBUG,
+        serverLogLevel: NgxLoggerLevel.ERROR
+      }),
+    ),
+    CookieService,
   ]
 }

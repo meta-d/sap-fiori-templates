@@ -9,7 +9,7 @@
       nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
       <ul>
-        <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter>
+        <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
           {{ submenu.title }}
         </li>
       </ul>

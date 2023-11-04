@@ -1,7 +1,7 @@
 import { AppMenu, MenusService, ResizeObserverDirective, ThemeService } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
+import { Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
@@ -22,7 +22,7 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
   templateUrl: './top-nav-bar.component.html',
   styleUrls: ['./top-nav-bar.component.scss']
 })
-export class TopNavBarComponent implements AfterViewInit {
+export class TopNavBarComponent {
   public message = inject(NzMessageService)
   private menusService = inject(MenusService)
   private themeService = inject(ThemeService)
@@ -41,10 +41,6 @@ export class TopNavBarComponent implements AfterViewInit {
   readonly hasMoreMenus = signal<boolean>(false)
   readonly menus = this.menusService.menus
 
-  ngAfterViewInit() {
-    this.checkWidth();
-  }
-
   trackByIndex(index: number, item: AppMenu) {
     return index
   }
@@ -58,17 +54,6 @@ export class TopNavBarComponent implements AfterViewInit {
 
   showMessage(): void {
     this.message.info('切换成功')
-  }
-
-  checkWidth() {
-    if (this.menusElement && this.hostElement) {
-      const childWidth = this.menusElement.nativeElement.offsetWidth;
-      const hostWidth = this.hostElement.nativeElement.offsetWidth;
-
-      return childWidth > hostWidth
-    }
-
-    return false
   }
 
   onResize(event: any) {
@@ -91,6 +76,13 @@ export class TopNavBarComponent implements AfterViewInit {
       const width = this.menusContainer.nativeElement.offsetWidth
       this.menusContainer.nativeElement.scrollLeft += width - 100
     }
+  }
+
+  get alignLeft() {
+    return this.menusContainer?.nativeElement.scrollLeft === 0
+  }
+  get alignRight() {
+    return this.menusContainer?.nativeElement.scrollWidth - this.menusContainer?.nativeElement.scrollLeft <= this.hostElement.nativeElement.offsetWidth
   }
 
   goUI5Page(menu: AppMenu) {

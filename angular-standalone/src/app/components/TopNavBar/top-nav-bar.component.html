@@ -1,4 +1,4 @@
-<button *ngIf="hasMoreMenus()" nz-button nzType="text" class="zng-top-nav-bar__scroll-button p-2" (click)="scrollLeft()">
+<button *ngIf="hasMoreMenus()" nz-button [disabled]="alignLeft" nzType="text" class="zng-top-nav-bar__scroll-button p-2" (click)="scrollLeft()">
   <span nz-icon nzType="double-left" nzTheme="outline"></span>
 </button>
 
@@ -14,7 +14,7 @@
         [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
         (click)="loadMenus(menu)">
         <ul>
-          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter>
+          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
             {{ submenu.title }}
           </li>
         </ul>
@@ -23,7 +23,7 @@
   </ul>
 </div>
 
-<button *ngIf="hasMoreMenus()" nz-button nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
+<button *ngIf="hasMoreMenus()" nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
   <span nz-icon nzType="double-right" nzTheme="outline"></span>
 </button>
 
@@ -43,7 +43,7 @@
         [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
         (click)="loadMenus(menu)">
         <ul>
-          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter>
+          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
             {{ submenu.title }}
           </li>
         </ul>

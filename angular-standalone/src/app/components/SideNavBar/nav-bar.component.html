@@ -13,7 +13,7 @@
       <!-- for highlight the active parent menu -->
       <div [routerLink]="menu.path"></div>
       <ul>
-        <li *ngFor="let submenu of menu.submenus" nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" nzMatchRouter
+        <li *ngFor="let submenu of menu.submenus" nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter
           (click)="$event.stopPropagation()"
         >
           {{ submenu.title }}

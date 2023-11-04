@@ -46,12 +46,14 @@
 
         <div *ngIf="fixedLayoutHeader()" class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed" [class.w-[60px]]="isCollapsed && fixedLayoutSider()"></div>
         
-        <button nz-button nzType="text" (click)="isCollapsed = !isCollapsed">
+        <button nz-button nzType="text" class="m-4" (click)="isCollapsed = !isCollapsed">
           <span class=""
             nz-icon
             [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           ></span>
         </button>
+
+        <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
 
         <span class="flex-1"></span>
   
@@ -63,12 +65,10 @@
       <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
     </nz-sider>
 
-    <nz-layout class="inner-layout">
-      <nz-breadcrumb>
-        <nz-breadcrumb-item *ngFor="let route of breadcrumbs()" >
-          <a [routerLink]="route.value">{{route.label}}</a>
-        </nz-breadcrumb-item>
-      </nz-breadcrumb>
+    <nz-layout class="inner-layout p-4">
+      <ng-container *ngIf="menuMode() !== MenuMode.side">
+        <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+      </ng-container>
       
       <nz-content class="zng-layout__content relative">
         <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
@@ -95,4 +95,12 @@
     />
     <span>了解专业实施</span>
   </a>
+</ng-template>
+
+<ng-template #breadcrumb>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item *ngFor="let route of breadcrumbs()" >
+      <a [routerLink]="route.value">{{route.label}}</a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
 </ng-template>

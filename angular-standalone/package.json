@@ -26,6 +26,8 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@nx/angular": "17.0.2",
     "ng-zorro-antd": "^16.2.2",
+    "ngx-cookie-service": "^16.0.2",
+    "ngx-logger": "^5.0.12",
     "rxjs": "~7.8.0",
     "screenfull": "^6.0.2",
     "tslib": "^2.3.0",
