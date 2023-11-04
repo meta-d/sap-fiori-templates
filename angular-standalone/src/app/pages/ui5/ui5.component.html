@@ -1,7 +1,8 @@
-<div #appContainer class="relative flex-1 flex flex-col w-full h-full min-h-full">
-  <iframe  [src]="semanticTargetUrl() | safe" class="flex-1 block w-full h-full min-h-full border-none"></iframe>
+<div #appContainer *ngIf="semanticTargetUrl(); else so" class="relative flex-1 flex flex-col w-full h-full min-h-full">
+  <iframe #appiframe *ngFor="let src of semanticTargetUrl()"
+    [src]="src | safe" class="flex-1 block w-full h-full min-h-full border-none"></iframe>
 
-  <button nz-button nzType="primary" class="zng-ui5__fullscreen-button top-2 right-2"
+  <button nz-button nzType="primary" class="zng-ui5__fullscreen-button top-0 right-0"
     #toogleFullScreenDir="zngToggleFullscreen"
     zngToggleFullscreen
     [zngFullscreenElement]="appContainer"
