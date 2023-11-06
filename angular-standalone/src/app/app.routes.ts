@@ -14,6 +14,7 @@ export const appRoutes: Route[] = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    title: 'Dashboard',
     data: {
       label: 'Dashboard',
       icon: 'dashboard'

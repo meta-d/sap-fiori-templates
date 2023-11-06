@@ -12,6 +12,11 @@ export enum ThemeType {
 
 export const Ui5Path = 'ui5'
 
+export interface AppGroup {
+    id: string;
+    title: string;
+}
+
 export interface Chip {
     id: string;
     title: string;

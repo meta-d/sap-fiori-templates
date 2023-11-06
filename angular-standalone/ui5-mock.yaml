@@ -1,0 +1,28 @@
+specVersion: "2.6"
+metadata:
+  name: sap-fiori-angular-standalone
+type: application
+server:
+  customMiddleware:
+    - name: sap-fe-mockserver
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /sap/opu/odata/sap/ESH_SEARCH_SRV
+            metadataPath: ./src/mock/odata/ESH_SEARCH_SRV/metadata.xml
+            mockdataPath: ./src/mock/odata/ESH_SEARCH_SRV/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/UI2/PAGE_BUILDER_PERS
+            metadataPath: ./src/mock/odata/PAGE_BUILDER_PERS/metadata.xml
+            mockdataPath: ./src/mock/odata/PAGE_BUILDER_PERS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/UI2/INTEROP
+            metadataPath: ./src/mock/odata/INTEROP/metadata.xml
+            mockdataPath: ./src/mock/odata/INTEROP/data
+            generateMockData: true
+            debug: true
+          - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
+            metadataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
+            mockdataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/data
+            generateMockData: true
+        annotations: []

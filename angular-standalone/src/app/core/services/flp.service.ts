@@ -4,7 +4,7 @@ import { Injectable, computed, signal } from '@angular/core'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { Chip, Ui5Path } from '../types'
+import { AppGroup, Chip, Ui5Path } from '../types'
 import { AppMenu } from './menus.service'
 
 export const SAPUserContextCookieName = 'sap-usercontext'
@@ -49,7 +49,10 @@ export class FioriLaunchpadService {
         },
         hasSubmenus: true,
         submenus,
-        isUi5: true
+        isUi5: true,
+        data: {
+          ...item
+        } as AppGroup
       }
     })
   })
@@ -73,6 +76,10 @@ export class FioriLaunchpadService {
     return this.state$.pipe(
       map((state) => state.Pages?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
     )
+  }
+
+  getGroup(name: string): AppGroup {
+    return this.routes()?.find((item) => item.route.path === name)?.data
   }
 
   getChip(path: string, group?: string | null): Chip | null {
