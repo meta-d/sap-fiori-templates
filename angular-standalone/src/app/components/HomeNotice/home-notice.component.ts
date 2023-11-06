@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 @Component({
   selector: 'zng-home-notice',
   templateUrl: './home-notice.component.html',
-  styleUrls: ['./home-notice.component.less'],
+  styleUrls: ['./home-notice.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [

@@ -77,15 +77,15 @@
         <router-outlet></router-outlet>
       </nz-content>
 
-<nz-footer class="w-full text-center"> SAP Fiori 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
+      <nz-footer class="w-full text-center"> SAP Fiori 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
     </nz-layout>
   </nz-layout>
 </nz-layout>
 
 <ng-template #logo>
-  <div class="p-4">
+  <div class="p-4 h-[64px] flex justify-start items-center">
     <img src="assets/images/favicon.svg" alt="logo" class="inline-block w-8 h-8 rounded-sm mr-2" />
-    <span>{{'ZNG.AppName' | translate: {Default: 'Fiori App'} }}</span>
+    <span *ngIf="!isCollapsed" class="whitespace-nowrap">{{'ZNG.AppName' | translate: {Default: 'Fiori App'} }}</span>
   </div>
 </ng-template>
 

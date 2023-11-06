@@ -128,7 +128,12 @@ export function defineODataStore(
       }
 
       if (response.ok) {
-        return response.json()
+        const result = await response.json()
+        if (response.headers.get('Odata-Version') === '4.0') {
+          return result
+        } else {
+          return result.d
+        }
       }
       throw {
         code: response.status,
@@ -138,7 +143,7 @@ export function defineODataStore(
   };
 
   const save = (entitySet: string, body: any) => {
-    let url = `${base}/${service}/${entitySet}`
+    const url = `${base}/${service}/${entitySet}`
 
     const reqOptions = {
       method: 'POST',

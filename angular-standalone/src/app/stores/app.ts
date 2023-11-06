@@ -53,8 +53,8 @@ export class AppStoreService {
         const { read } = useESHSearchStore()
         const user = await read('Users', {Id: '<current>'}).then((result) => {
             return {
-                id: result.d.Id,
-                name: result.d.Name
+                id: result.Id,
+                name: result.Name
             }
         })
 
@@ -74,7 +74,7 @@ export class AppStoreService {
             },
             $expand: 'PersContainerItems'
         }).then((result) => {
-            const personalization = result.d.PersContainerItems.results.find((item: any) => item.id === PersPersonalizationId)
+            const personalization = result.PersContainerItems.results.find((item: any) => item.id === PersPersonalizationId)
             if (personalization) {
                 try {
                     return JSON.parse(personalization.value)

@@ -17,6 +17,7 @@ export async function readFLPH() {
     
     const result = await read('PageSets', {id: '/UI2/Fiori2LaunchpadHome'}, {
         $expand: [
+            "Pages",
             "Pages/PageChipInstances/Chip/ChipBags/ChipProperties",
             "Pages/PageChipInstances/RemoteCatalog",
             "Pages/PageChipInstances/ChipInstanceBags/ChipInstanceProperties",
@@ -25,5 +26,5 @@ export async function readFLPH() {
         ]
     })
 
-    return result.d
+    return result
 }

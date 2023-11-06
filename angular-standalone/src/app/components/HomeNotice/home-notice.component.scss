@@ -1,3 +1,7 @@
+.ant-card {
+  @apply rounded-lg shadow-lg;
+}
+
 .ant-list-item {
   @apply px-4 cursor-pointer;
 

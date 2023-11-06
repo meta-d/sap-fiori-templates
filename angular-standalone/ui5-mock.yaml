@@ -20,7 +20,7 @@ server:
             metadataPath: ./src/mock/odata/INTEROP/metadata.xml
             mockdataPath: ./src/mock/odata/INTEROP/data
             generateMockData: true
-            debug: true
+            debug: false
           - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
             metadataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
             mockdataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/data

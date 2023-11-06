@@ -101,7 +101,7 @@ export class GlobalHeaderComponent implements OnInit {
   changePassWorld() {
     // Use current user context to reload page to change password
     const userContext = this.cookieService.get(SAPUserContextCookieName)
-    let queryParams: Params = {}
+    const queryParams: Params = {}
     if (userContext) {
       const searchParams = new URL(`http://localhost?${userContext}`).searchParams
       searchParams.forEach((value, key) => queryParams[key] = value)
