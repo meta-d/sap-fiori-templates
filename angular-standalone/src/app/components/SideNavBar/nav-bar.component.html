@@ -5,7 +5,7 @@
       nzTooltipPlacement="right"
       [nzTooltipTitle]="isCollapsed ? menu.title : ''">
       <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-      <span>{{ 'ZNG.Pages.' + menu.title | translate: {Default: menu.title} }}</span>
+      <span>{{ menu.title }}</span>
     </li>
     <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
       nzMatchRouter routerLinkActive="active-link"
@@ -16,7 +16,7 @@
         <li *ngFor="let submenu of menu.submenus" nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter
           (click)="$event.stopPropagation()"
         >
-          {{ 'ZNG.Pages.' + submenu.title | translate: {Default: submenu.title} }}
+          {{ submenu.title }}
         </li>
       </ul>
     </li>

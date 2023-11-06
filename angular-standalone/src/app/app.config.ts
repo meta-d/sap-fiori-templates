@@ -4,9 +4,10 @@ import {
   provideHttpClient
 } from '@angular/common/http'
 import en from '@angular/common/locales/en'
-import { ApplicationConfig, importProvidersFrom } from '@angular/core'
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core'
 import { provideAnimations } from '@angular/platform-browser/animations'
 import {
+  TitleStrategy,
   provideRouter,
   withEnabledBlockingInitialNavigation
 } from '@angular/router'
@@ -21,6 +22,8 @@ import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ng
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { ZngMissingTranslationHandler } from './core'
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
+import { AppStoreService } from './stores'
+import { ZngPageTitleStrategy } from './core/strategies'
 
 registerLocaleData(en)
 
@@ -42,6 +45,20 @@ const ngZorroConfig: NzConfig = {
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
+
+function initializeApp(appStore: AppStoreService) {
+  return () => Promise.all([appStore.currentUser(), appStore.refreshPersonalization()])
+}
+
+const APPINIT_PROVIDES = [
+  // 项目启动
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeApp,
+    deps: [AppStoreService],
+    multi: true
+  },
+]
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -69,5 +86,12 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     CookieService,
+    AppStoreService,
+    ...APPINIT_PROVIDES,
+    ZngPageTitleStrategy,
+    {
+      provide: TitleStrategy,
+      useExisting: ZngPageTitleStrategy,
+    }
   ]
 }

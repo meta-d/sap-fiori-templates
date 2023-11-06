@@ -1,5 +1,49 @@
 {
     "ZNG": {
-        "AppName": "思愛普應用"
+        "AppName": "思愛普應用",
+        "Common": {
+            "Fullscreen": "全屏",
+            "ExitFullscreen": "退出全屏"
+        },
+        "GlobalHeader": {
+            "LanguageChanged": "語言已切換！",
+            "ChangePassword": "修改密碼",
+            "Logout": "退出登錄"
+        },
+        "GlobalSearch": {
+            "WhatDoYouNeed": "您需要什麽？",
+            "PleaseSearch": "請輸入菜單名稱進行搜索"
+        },
+        "GlobalSettings": {
+            "Title": "全局設置",
+            "Theme": "主題",
+            "MenuTheme": "菜單風格",
+            "PrimaryColor": "主色調",
+            "NavigationMode": "導航模式",
+            "FixedLayoutSider": "固定側邊欄",
+            "FixedLayoutHeader": "固定頂部欄",
+            "Pin": "固定",
+            "Close": "關閉",
+            "Themes": {
+                "Light": "亮色",
+                "Dark": "暗色"
+            },
+            "NavigationModes": {
+                "side": "側邊菜單布局",
+                "top": "頂部菜單布局",
+                "mix": "混合菜單布局"
+            }
+        },
+        "UI5": {
+            "FioriAppNotFound": "抱歉，未找到此 Fiori 應用程序！"
+        },
+        "Pages": {
+            "Home": "首頁",
+            "Dashboard": "儀表板",
+            "Admin": "管理",
+            "Settings": "設置",
+            "Fiori App": "Fiori 應用",
+            "User Info": "用戶信息"
+        }
     }
 }

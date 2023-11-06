@@ -1,28 +1,49 @@
 {
     "ZNG": {
-        "AppName": "SAP アプリケーション",
+        "AppName": "思爱普アプリ",
+        "Common": {
+            "Fullscreen": "フルスクリーン",
+            "ExitFullscreen": "フルスクリーンを終了"
+        },
         "GlobalHeader": {
-            "LanguageChanged": "言語が変更されました！"
+            "LanguageChanged": "言語が切り替わりました！",
+            "ChangePassword": "パスワード変更",
+            "Logout": "ログアウト"
+        },
+        "GlobalSearch": {
+            "WhatDoYouNeed": "何が必要ですか？",
+            "PleaseSearch": "メニュー名を入力して検索してください"
         },
         "GlobalSettings": {
             "Title": "グローバル設定",
-            "Theme": "主題",
-            "MenuTheme": "菜喜欢风格",
-            "PrimaryColor": "主色調",
+            "Theme": "テーマ",
+            "MenuTheme": "メニュースタイル",
+            "PrimaryColor": "プライマリカラー",
             "NavigationMode": "ナビゲーションモード",
-            "FixedLayoutSider": "固定されたサイドバー",
-            "FixedLayoutHeader": "固定トップバー",
-            "Pin": "固定",
+            "FixedLayoutSider": "固定サイドバー",
+            "FixedLayoutHeader": "固定ヘッダー",
+            "Pin": "ピン留め",
             "Close": "閉じる",
             "Themes": {
-                "Light": "明るい色",
-                "Dark": "暗色"
+                "Light": "ライト",
+                "Dark": "ダーク"
             },
             "NavigationModes": {
                 "side": "サイドメニューレイアウト",
                 "top": "トップメニューレイアウト",
                 "mix": "ミックスメニューレイアウト"
             }
+        },
+        "UI5": {
+            "FioriAppNotFound": "申し訳ありません、この Fiori アプリが見つかりません！"
+        },
+        "Pages": {
+            "Home": "ホーム",
+            "Dashboard": "ダッシュボード",
+            "Admin": "管理",
+            "Settings": "設定",
+            "Fiori App": "Fiori アプリ",
+            "User Info": "ユーザー情報"
         }
     }
 }

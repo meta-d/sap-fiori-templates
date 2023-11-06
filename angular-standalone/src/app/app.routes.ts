@@ -16,14 +16,13 @@ export const appRoutes: Route[] = [
     component: DashboardComponent,
     title: 'Dashboard',
     data: {
-      label: 'Dashboard',
       icon: 'dashboard'
     }
   },
   {
     path: 'admin',
+    title: 'Admin',
     data: {
-      label: 'Admin',
       icon: 'setting'
     },
     loadChildren: () =>
@@ -31,9 +30,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'ui5/:group',
-    title: async () => {
-      return 'UI5 launchpad'
-    },
+    title: 'UI5 launchpad',
     data: {
       hidden: true
     },
@@ -41,9 +38,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'ui5/:group/:id',
-    title: async () => {
-      return 'Fiori App'
-    },
+    title: 'Fiori App',
     data: {
       hidden: true
     },

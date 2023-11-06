@@ -56,7 +56,7 @@
     </li> -->
     <li nz-menu-item (click)="changePassWorld()">
       <i nz-icon nzTheme="outline" nzType="lock"></i>
-      <span class="ml-2">修改密码</span>
+      <span class="ml-2">{{ 'ZNG.GlobalHeader.ChangePassword' | translate: {Default: 'Change Password'} }}</span>
     </li>
     <li nz-menu-divider></li>
     <!-- <li nz-menu-item (click)="clean()">
@@ -70,7 +70,7 @@
     <li nz-menu-item>
       <div (click)="goLogout()">
         <i nz-icon nzTheme="outline" nzType="logout"></i>
-        <span class="ml-2">退出登录</span>
+        <span class="ml-2">{{ 'ZNG.GlobalHeader.Logout' | translate: {Default: 'Logout'} }}</span>
       </div>
     </li>
   </ul>

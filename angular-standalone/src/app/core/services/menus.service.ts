@@ -7,6 +7,7 @@ import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
 import { TranslateService } from '@ngx-translate/core'
+import { ZngPageTitleStrategy } from '../strategies'
 
 export interface AppMenu<T = any> {
   path: string | undefined
@@ -29,7 +30,7 @@ export class MenusService {
   private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
-  private transalte = inject(TranslateService)
+  private titleStrategy = inject(ZngPageTitleStrategy)
 
   readonly menuMode = this.themeService.menuMode
 
@@ -39,10 +40,20 @@ export class MenusService {
   private appMenus = signal<AppMenu[]>(
     appRoutes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route))
   )
+  private tAppMenus = computed(() => {
+    return this.appMenus().map((menu) => ({
+      ...menu,
+      title: this.titleStrategy.pagesTranslate()?.[menu.title] || menu.title,
+      submenus: menu.submenus?.map((submenu) => ({
+        ...submenu,
+        title: this.titleStrategy.pagesTranslate()?.[submenu.title] || submenu.title,
+      }))
+    }))
+  })
 
   readonly flpMenus = this.flpService.routes
   readonly menus = computed(() => {
-    return [...this.appMenus(), ...(this.flpMenus() ?? [])]
+    return [...this.tAppMenus(), ...(this.flpMenus() ?? [])]
   })
 
   /**
@@ -95,7 +106,7 @@ export class MenusService {
     )
   )
 
-  private readonly pagesTranslate = toSignal(this.transalte.stream('ZNG.Pages'))
+  
 
   private readonly routes = signal<{
     home: AppMenu;
@@ -128,7 +139,7 @@ export class MenusService {
 
       return {
         value: parentPath,
-        label: this.pagesTranslate()?.[label] || label
+        label: this.titleStrategy.pagesTranslate()?.[label] || label
       }
     })
   })
@@ -140,11 +151,25 @@ export class MenusService {
    * @returns
    */
   async loadMenus(menu: AppMenu) {
+    const index = this.appMenus().findIndex((m) => m.path === menu.path)
+    if (index === -1) {
+      return menu
+    }
+
     if (menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
       const result = await menu.route?.loadChildren()
       if (Array.isArray(result)) {
-        menu.submenus = result.map((route: Route) => mapRouteToMenu(route, menu.route))
-        this.appMenus.set([...this.appMenus()])
+        const submenus = result.map((route: Route) => mapRouteToMenu(route, menu.route))
+        menu = {
+          ...this.appMenus()[index],
+          submenus,
+          hasSubmenus: !!submenus.length,
+        }
+        this.appMenus.set([
+          ...this.appMenus().slice(0, index),
+          menu,
+          ...this.appMenus().slice(index + 1),
+        ])
       }
     }
 
@@ -163,7 +188,7 @@ export class MenusService {
 export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
   return {
     path: parent ? parent.path + '/' + route.path : route.path,
-    title: route.data?.['label'],
+    title: route.title as string,
     icon: route.data?.['icon'],
     route: route,
     hasSubmenus: !!((route.children && route.children?.length > 0) || route.loadChildren),

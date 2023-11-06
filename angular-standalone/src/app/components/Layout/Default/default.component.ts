@@ -60,9 +60,8 @@ export class LayoutDefaultComponent {
   get menuTheme() {
     return this.themeService.menuTheme
   }
-  get menuMode() {
-    return this.themeService.menuMode
-  }
+  readonly menuMode = this.themeService.menuMode
+
   readonly fixedLayoutSider = this.themeService.fixedLayoutSider
   readonly fixedLayoutHeader = this.themeService.fixedLayoutHeader
 

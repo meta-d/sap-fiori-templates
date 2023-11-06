@@ -1,10 +1,10 @@
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import {
   AuthenticationService,
   SAPUserContextCookieName,
@@ -25,6 +25,7 @@ import { CookieService } from 'ngx-cookie-service'
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     ZngAntdModule,
     GlobalSettingsComponent,
     ToggleFullscreenDirective,
@@ -35,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service'
   templateUrl: './global-header.component.html',
   styleUrls: ['./global-header.component.scss']
 })
-export class GlobalHeaderComponent implements OnInit {
+export class GlobalHeaderComponent {
   private translate = inject(TranslateService)
   public message = inject(NzMessageService)
   private modalService = inject(NzModalService)
@@ -56,16 +57,6 @@ export class GlobalHeaderComponent implements OnInit {
   }
 
   readonly user = this.appStore.user
-
-  async ngOnInit() {
-    try {
-      await this.appStore.currentUser().then()
-      await this.appStore.refreshPersonalization()
-    } catch(err) {
-      console.error(err)
-      // this.router.navigate(['auth/login'])
-    }
-  }
 
   useLanguage(lang: string): void {
     this.translate.use(lang).subscribe(() => {
