@@ -48,11 +48,11 @@ export class GlobalSettingsComponent {
   }
   get themeIndex() {
     return this.themeOptions().findIndex(
-      (item) => item.value === this.themeService.currentTheme
+      (item) => item.value === this.themeService.currentTheme()
     )
   }
   set themeIndex(index: number) {
-    this.themeService.toggleTheme(this.themeOptions()[index].value)
+    this.themeService.setTheme(this.themeOptions()[index].value)
   }
 
   menuThemes = [
@@ -136,40 +136,34 @@ export class GlobalSettingsComponent {
   get fixedLayoutSider() {
     return this.themeService.fixedLayoutSider()
   }
-  set fixedLayoutSider(value: boolean) {
-    this.themeService.themeOptions.update((options) => {
-      return {
-        ...options,
-        fixedLayoutSider: value
-      }
+  set fixedLayoutSider(value: boolean | undefined) {
+    this.themeService.updatePersonalization({
+      fixedLayoutSider: value
     })
   }
 
   get fixedLayoutHeader() {
     return this.themeService.fixedLayoutHeader()
   }
-  set fixedLayoutHeader(value: boolean) {
-    this.themeService.themeOptions.update((options) => {
-      return {
-        ...options,
-        fixedLayoutHeader: value
-      }
+  set fixedLayoutHeader(value: boolean | undefined) {
+    this.themeService.updatePersonalization({
+      fixedLayoutHeader: value
     })
   }
 
-  change(value: boolean): void {
-    console.log(value)
-  }
-
   selectPrimaryColor(color: string) {
-    this.nzConfigService.set('theme', { primaryColor: color })
+    this.themeService.setPrimaryColor(color)
   }
 
   toggleMenuTheme(theme: NzMenuThemeType) {
-    this.themeService.menuTheme.set(theme)
+    this.themeService.updatePersonalization({
+      menuTheme: theme
+    })
   }
 
   toggleMenuMode(mode: MenuMode) {
-    this.themeService.menuMode.set(mode)
+    this.themeService.updatePersonalization({
+      menuMode: mode
+    })
   }
 }

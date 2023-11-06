@@ -67,7 +67,9 @@
 
     <nz-layout class="inner-layout p-4">
       <ng-container *ngIf="menuMode() !== MenuMode.side">
-        <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+        <div class="mb-4">
+          <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+        </div>
       </ng-container>
       
       <nz-content class="zng-layout__content relative">
@@ -75,7 +77,7 @@
         <router-outlet></router-outlet>
       </nz-content>
 
-      <nz-footer class="w-full text-center"> SAP Fiori 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
+<nz-footer class="w-full text-center"> SAP Fiori 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
     </nz-layout>
   </nz-layout>
 </nz-layout>
@@ -88,7 +90,7 @@
 </ng-template>
 
 <ng-template #ProImplementation>
-  <a href="https://mtda.cloud/" target="_blank">
+ <a href="https://mtda.cloud/" target="_blank">
     <img class="w-6 h-6 mx-4 inline-block"
       alt="pro-logo"
       src="https://www.mtda.cloud/icons/logo.svg"

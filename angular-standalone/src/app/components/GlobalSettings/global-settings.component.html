@@ -2,7 +2,6 @@
     nz-popover
     [nzPopoverTitle]=" 'ZNG.GlobalSettings.Title' | translate: {Default: 'Global Settings'} "
     nzPopoverTrigger="click"
-    (nzPopoverVisibleChange)="change($event)"
     [nzPopoverContent]="contentTemplate"
     nzPopoverPlacement="bottomRight">
     <span nz-icon nzType="setting" nzTheme="outline"></span>
@@ -33,7 +32,7 @@
             </div>
         </div>
 
-        <div *ngIf="currentTheme === ThemeType.default" class="mb-2">
+        <div *ngIf="currentTheme() === ThemeType.default" class="mb-2">
             <h3 class="title text-base">{{'ZNG.GlobalSettings.PrimaryColor' | translate: {Default: 'Primary Color'} }}</h3>
             <div class="zng-global-settings__primary-color flex items-center">
                 <div *ngFor="let color of primaryColors" class="zng-global-settings__color-block cursor-pointer"

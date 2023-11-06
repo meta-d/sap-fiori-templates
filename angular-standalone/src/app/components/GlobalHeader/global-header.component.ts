@@ -16,7 +16,7 @@ import {
 import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 import { AppStoreService } from '@/app/stores'
-import { Router } from '@angular/router'
+import { Params, Router } from '@angular/router'
 import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
 import { CookieService } from 'ngx-cookie-service'
 
@@ -60,6 +60,7 @@ export class GlobalHeaderComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.appStore.currentUser().then()
+      await this.appStore.refreshPersonalization()
     } catch(err) {
       console.error(err)
       // this.router.navigate(['auth/login'])
@@ -72,7 +73,7 @@ export class GlobalHeaderComponent implements OnInit {
       const userContext = this.cookieService.get(SAPUserContextCookieName)
       const searchParams = new URL(`http://localhost?${userContext}`).searchParams
       searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
-      this.cookieService.set(SAPUserContextCookieName, searchParams.toString())
+      this.cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
       this.message.info(
         this.translate.instant('ZNG.GlobalHeader.LanguageChanged', {
           Default: 'Language changed!'
@@ -98,7 +99,19 @@ export class GlobalHeaderComponent implements OnInit {
   }
 
   changePassWorld() {
-    //
+    // Use current user context to reload page to change password
+    const userContext = this.cookieService.get(SAPUserContextCookieName)
+    let queryParams: Params = {}
+    if (userContext) {
+      const searchParams = new URL(`http://localhost?${userContext}`).searchParams
+      searchParams.forEach((value, key) => queryParams[key] = value)
+    }
+    this.authService.logout().subscribe(async (response) => {
+      await this.router.navigate(['/'], {
+        queryParams
+      })
+      window.location.reload()
+    })
   }
 
   lockScreen() {

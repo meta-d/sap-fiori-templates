@@ -1,6 +1,8 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { NzMenuThemeType } from 'ng-zorro-antd/menu';
 import { MenuMode, ThemeType } from '../types';
+import { AppStoreService } from '@/app/stores';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 export interface ThemeState {
   fixedLayoutSider: boolean;
@@ -11,17 +13,33 @@ export interface ThemeState {
   providedIn: 'root',
 })
 export class ThemeService {
-  currentTheme = ThemeType.default;
-  readonly menuTheme = signal<NzMenuThemeType>(ThemeType.dark)
-  readonly menuMode = signal<MenuMode>(MenuMode.side)
-  readonly themeOptions = signal<ThemeState>({
-    fixedLayoutSider: true,
-    fixedLayoutHeader: false
-  })
-  readonly fixedLayoutSider = computed(() => this.themeOptions().fixedLayoutSider)
-  readonly fixedLayoutHeader = computed(() => this.themeOptions().fixedLayoutHeader)
+  private appStore = inject(AppStoreService)
+  private nzConfigService = inject(NzConfigService)
 
-  private reverseTheme(theme: string): ThemeType {
+  readonly personalization = this.appStore.personalization
+
+  readonly currentTheme = computed(() => this.personalization().theme)
+  readonly menuTheme = computed(() => this.personalization().menuTheme)
+  readonly menuMode = computed(() => this.personalization().menuMode)
+  readonly fixedLayoutSider = computed(() => this.personalization().fixedLayoutSider)
+  readonly fixedLayoutHeader = computed(() => this.personalization().fixedLayoutHeader)
+  readonly primaryColor = computed(() => this.personalization().primaryColor)
+
+  constructor() {
+    effect(() => {
+      if (this.currentTheme()) {
+        this.loadTheme(false)
+      }
+    })
+
+    effect(() => {
+      if (this.primaryColor()) {
+        this.nzConfigService.set('theme', { primaryColor: this.primaryColor() })
+      }
+    })
+  }
+
+  private reverseTheme(theme: ThemeType | undefined): ThemeType {
     return theme === ThemeType.dark ? ThemeType.default : ThemeType.dark;
   }
 
@@ -46,7 +64,7 @@ export class ThemeService {
   }
 
   public loadTheme(firstLoad = true): Promise<Event> {
-    const theme = this.currentTheme;
+    const theme = this.currentTheme() as string;
     if (firstLoad) {
       document.documentElement.classList.add(theme);
     }
@@ -56,7 +74,7 @@ export class ThemeService {
           if (!firstLoad) {
             document.documentElement.classList.add(theme);
           }
-          this.removeUnusedTheme(this.reverseTheme(theme));
+          this.removeUnusedTheme(this.reverseTheme(this.currentTheme()));
           resolve(e);
         },
         (e) => reject(e)
@@ -64,8 +82,19 @@ export class ThemeService {
     });
   }
 
-  public toggleTheme(theme?: ThemeType): Promise<Event> {
-    this.currentTheme = theme ?? this.reverseTheme(this.currentTheme);
-    return this.loadTheme(false);
+  setTheme(theme?: ThemeType) {
+    this.appStore.updatePersonalization({
+      theme: theme ?? this.reverseTheme(this.currentTheme())
+    })
+  }
+
+  setPrimaryColor(color?: string) {
+    this.appStore.updatePersonalization({
+      primaryColor: color
+    })
+  }
+
+  updatePersonalization(value: any) {
+    this.appStore.updatePersonalization(value)
   }
 }

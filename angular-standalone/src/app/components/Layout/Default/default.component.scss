@@ -23,10 +23,6 @@
   border-right: 0;
 }
 
-nz-breadcrumb {
-  margin: 16px 0;
-}
-
 nz-content {
   @apply p-6 min-h-[280px];
 }
@@ -79,15 +75,7 @@ nz-content {
 }
 
 .zng-layout__menu-dark {
+  --zng-scrollbar-track-background: rgba(255,255,255,.15);
+  --zng-scrollbar-thumb-background: rgba(255,255,255,.2);
   color: var(--zng-header-color);
-
-  *::-webkit-scrollbar-track {
-    background: rgba(255,255,255,.15);
-    -webkit-box-shadow: inset 0 0 5px rgba(37,37,37,.05);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.2);
-    -webkit-box-shadow: inset 0 0 5px rgba(255,255,255,.05);
-  }
 }

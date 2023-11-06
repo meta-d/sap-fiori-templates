@@ -21,7 +21,7 @@ export function defineODataStore(
 ) {
   const { base } = options;
 
-  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any }>({ status: StoreStatus.init, Schema: null });
+  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any; xCsrfToken?: string | undefined; }>({ status: StoreStatus.init, Schema: null });
 
   const init = () => {
     store.next({
@@ -67,10 +67,18 @@ export function defineODataStore(
   const entityType = (entity: string) =>
     store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity);
 
+  function setXCsrfToken(token: string) {
+    store.next({
+      ...store.value,
+      xCsrfToken: token
+    })
+  }
+
   const read = (
     entity: string,
     keys: string | Record<string, number | string> | null,
     options?: {
+      headers?: Record<string, string>;
       $filter?: {
         [key: string]: any;
       };
@@ -110,8 +118,15 @@ export function defineODataStore(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...(options?.headers ?? {})
       },
     }).then(async (response) => {
+
+      const token = response.headers.get('X-Csrf-Token')
+      if (token) {
+        setXCsrfToken(token)
+      }
+
       if (response.ok) {
         return response.json()
       }
@@ -122,6 +137,29 @@ export function defineODataStore(
     });
   };
 
+  const save = (entitySet: string, body: any) => {
+    let url = `${base}/${service}/${entitySet}`
+
+    const reqOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-Csrf-Token': store.value.xCsrfToken ?? ''
+      },
+      body: JSON.stringify(body)
+    }
+    return fetch(url, reqOptions).then(async (response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    });
+  }
+
   return {
     store,
     init,
@@ -129,6 +167,8 @@ export function defineODataStore(
     selectEntityType,
     entityType,
     read,
+    save,
+    setXCsrfToken
   };
 }
 

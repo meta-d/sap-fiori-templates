@@ -8,6 +8,6 @@ export class AuthenticationService {
   private httpClient = inject(HttpClient)
 
   logout() {
-    return this.httpClient.get('/sap/public/bc/icf/logoff')
+    return this.httpClient.get('/sap/public/bc/icf/logoff', {responseType: 'text'})
   }
 }

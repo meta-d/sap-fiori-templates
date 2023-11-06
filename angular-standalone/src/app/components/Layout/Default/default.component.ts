@@ -55,7 +55,7 @@ export class LayoutDefaultComponent {
   enableWaterMark = environment.enableWaterMark
 
   get currentTheme() {
-    return this.themeService.currentTheme === ThemeType.default ? 'light' : 'dark'
+    return this.themeService.currentTheme() === ThemeType.default ? 'light' : 'dark'
   }
   get menuTheme() {
     return this.themeService.menuTheme
@@ -69,7 +69,7 @@ export class LayoutDefaultComponent {
   isCollapsed = false
 
   readonly breadcrumbs = this.menusService.breadcrumbs
-
+  
   readonly waterMark = computed(() => `${this.appStore.user()?.name} ${this.appStore.user()?.id} ©2023 Metad Team`)
 
   toggleSideMenu() {

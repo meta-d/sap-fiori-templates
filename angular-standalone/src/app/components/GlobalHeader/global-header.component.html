@@ -19,7 +19,7 @@
 
 <span class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown nzPlacement="bottomRight" nzTrigger="click"
   [nzDropdownMenu]="noticeMenu">
-  <nz-badge class="bst-badge" nzSize="small" [nzCount]="11">
+  <nz-badge class="bst-badge" nzSize="small" [nzCount]="0">
     <i class="p-2" nz-icon nzTheme="outline" nzType="bell"></i>
   </nz-badge>
 </span>
@@ -46,31 +46,31 @@
 
 <nz-dropdown-menu #userSettingMenu>
   <ul nz-menu>
-    <li nz-menu-item (click)="goPage('personal-center')">
-      <i class="m-r-8" nz-icon nzTheme="outline" nzType="user"></i>
-      <span>个人中心</span>
+    <!-- <li nz-menu-item (click)="goPage('personal-center')">
+      <i nz-icon nzTheme="outline" nzType="user"></i>
+      <span class="ml-2">个人中心</span>
     </li>
     <li nz-menu-item (click)="goPage('personal-setting')">
-      <i class="m-r-8" nz-icon nzTheme="outline" nzType="setting"></i>
+      <i nz-icon nzTheme="outline" nzType="setting"></i>
       <span>个人设置</span>
-    </li>
+    </li> -->
     <li nz-menu-item (click)="changePassWorld()">
-      <i class="m-r-8" nz-icon nzTheme="outline" nzType="lock"></i>
-      <span>修改密码</span>
+      <i nz-icon nzTheme="outline" nzType="lock"></i>
+      <span class="ml-2">修改密码</span>
     </li>
     <li nz-menu-divider></li>
-    <li nz-menu-item (click)="clean()">
-      <i class="m-r-8" nz-icon nzTheme="outline" nzType="clear"></i>
+    <!-- <li nz-menu-item (click)="clean()">
+      <i nz-icon nzTheme="outline" nzType="clear"></i>
       <span>清除缓存</span>
     </li>
     <li nz-menu-item (click)="lockScreen()">
-      <i class="m-r-8" nz-icon nzTheme="outline" nzType="lock"></i>
+      <i nz-icon nzTheme="outline" nzType="lock"></i>
       <span>锁定屏幕</span>
-    </li>
+    </li> -->
     <li nz-menu-item>
       <div (click)="goLogout()">
-        <i class="m-r-8" nz-icon nzTheme="outline" nzType="logout"></i>
-        <span>退出登录</span>
+        <i nz-icon nzTheme="outline" nzType="logout"></i>
+        <span class="ml-2">退出登录</span>
       </div>
     </li>
   </ul>

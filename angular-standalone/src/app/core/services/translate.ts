@@ -44,15 +44,15 @@ export function mapDateLocale(locale: string) {
 }
 
 export function mapBrowserLanguage(lang: string) {
-  switch (lang) {
-    case 'zh-CN':
-    case 'zh-Hans':
+  switch (lang?.toLowerCase()) {
+    case 'zh-cn':
+    case 'zh-hans':
     case 'zh':
-    case 'ZH':
       return 'zh-Hans'
-    case 'zh-Hant':
-    case 'zh-TW':
-    case "zh-HK":
+    case 'zh-hant':
+    case 'zh-tw':
+    case "zh-hk":
+    case "zf":
       return 'zh-Hant'
     default:
       return lang
