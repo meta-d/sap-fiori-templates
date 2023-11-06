@@ -49,6 +49,27 @@ When using `npm run start-mock` to start the application and a mock server to re
 
 ### Add Metadata file
 
+如果你想要添加新的 OData mock 数据的话，需要在 `src/mock/odata/` 目录下添加与要模拟的 odata service 名称对应的文件夹，并在文件夹中添加 `metadata.xml` 文件，该文件中的内容为对应 odata service 的 metadata。还可以添加一个 data 子文件夹用于存放 mock data files。
+
+还需要在配置文件 *ui5-mock.yaml* 中添加一个服务配置，如下：
+
+```yaml
+...
+server:
+  customMiddleware:
+    - name: sap-fe-mockserver
+      configuration:
+        mountPath: /
+        services:
+          ...
+          - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
+            metadataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
+            mockdataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/data
+            generateMockData: true
+```
+
+更多详细使用方法请参考 [@sap-ux/ui5-middleware-fe-mockserver](https://www.npmjs.com/package/@sap-ux/ui5-middleware-fe-mockserver)
+
 ### Troubleshooting Tips
 
 #### toString error in mockserver

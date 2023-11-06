@@ -38,8 +38,29 @@ nx run-many -t <target1> <target2> -p <proj1> <proj2>
 
 Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/core-features/run-tasks).
 
+## 🌼 Screenshots
 
-## Best practices
+### Side Menu Bar
+![Side Menu Bar Screenshot](./docs/images/side-menu-bar-fiori-app.png)
+
+<details>
+<summary>Show / Hide Screenshots</summary>
+
+### Search Fiori Apps
+![Apps Search Screenshot](./docs/images/side-menu-bar-search.png)
+
+### Top Menu Bar
+![Top Menu Bar Screenshot](./docs/images/top-menu-bar-fiori-app.png)
+
+### More Fiori Apps Menu
+![More Fiori Apps Menu Screenshot](./docs/images/top-menu-bar-more-menus.png)
+
+### Dark Theme
+![Dark Theme Screenshot](./docs/images/dark-theme.png)
+
+</details>
+
+## 🧱 Best practices
 
 ### Login
 
