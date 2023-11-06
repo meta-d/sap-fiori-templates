@@ -2,7 +2,7 @@ import { FioriLaunchpadService, ToggleFullscreenDirective } from '@/app/core/'
 import { SafePipe } from '@/app/core/pipes'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren, computed, effect, inject } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren, computed, effect, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, RouterModule } from '@angular/router'
@@ -32,9 +32,7 @@ export class Ui5Component implements AfterViewInit {
   private cookieService = inject(CookieService)
   private logger = inject(NGXLogger)
 
-
   @ViewChildren('appiframe') apps: QueryList<ElementRef> | undefined
-
 
   public semanticObject = toSignal(
     this.route.paramMap.pipe(
@@ -44,8 +42,10 @@ export class Ui5Component implements AfterViewInit {
   )
 
   public semanticTargetUrl = computed(() => {
-    if (this.semanticObject()) {
-      const fragment = this.route.snapshot.fragment
+    const soUrl = this.semanticObject()
+    if (soUrl) {
+      const group = this.route.snapshot.paramMap.get('group')
+      const fragment = this.route.snapshot.fragment || this.flpService.getChip(soUrl, group)?.navigationTargetUrl
       const sapUserContext = this.cookieService.get('sap-usercontext')
       return fragment ? [`/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}`] : null
     }
@@ -59,6 +59,8 @@ export class Ui5Component implements AfterViewInit {
       switchMap((id) => (id ? this.flpService.selectGroupChips(id) : of([])))
     )
   )
+
+  readonly appFullscreen = signal(false)
 
   constructor() {
     effect(() => {
@@ -91,5 +93,9 @@ export class Ui5Component implements AfterViewInit {
         iframe.contentDocument.head.appendChild(style)
       }
     }
+  }
+
+  toggleFullscreen() {
+    this.appFullscreen.update((value) => !value)
   }
 }

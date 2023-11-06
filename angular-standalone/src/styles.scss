@@ -1,4 +1,7 @@
-// @tailwind base;
+@use "node_modules/@ngneat/cmdk/styles/scss/globals";
+@use "node_modules/@ngneat/cmdk/styles/scss/vercel";
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 

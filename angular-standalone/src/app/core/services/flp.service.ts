@@ -7,6 +7,9 @@ import { map } from 'rxjs/operators'
 import { Chip, Ui5Path } from '../types'
 import { AppMenu } from './menus.service'
 
+export const SAPUserContextCookieName = 'sap-usercontext'
+export const SAPUserContextLanguage = 'sap-language'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,12 +23,13 @@ export class FioriLaunchpadService {
     return AssignedPages?.results.map((item: any) => {
       const path = `/${Ui5Path}/${item.id}`
 
-      const submenus = Pages.results.find((g: any) => g.id === item.id)?.PageChipInstances.results.map((page: any) => {
-          const chip = mapChip(page)
+      const submenus = Pages.results.find((g: any) => g.id === item.id)?.PageChipInstances.results.map(toChip)
+        .filter((chip: Chip) => chip.navigationSemanticObject)
+        .map((chip: Chip) => {
           const chipUrl = chip.navigationSemanticObject + '-' + chip.navigationSemanticAction
           return {
             path: `${path}/${chipUrl}`,
-            id: page.instanceId,
+            id: chip.id,
             title: chip.title,
             route: {
               path: chipUrl
@@ -67,16 +71,22 @@ export class FioriLaunchpadService {
 
   selectGroupChips(id: string): Observable<Chip[]> {
     return this.state$.pipe(
-      map((state) => state.Pages?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(mapChip))
+      map((state) => state.Pages?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
     )
+  }
+
+  getChip(path: string, group?: string | null): Chip | null {
+    return this.routes()?.find((item) => item.route.path === group)?.submenus?.find((item) => item.route.path === path)?.data
   }
 }
 
-export function mapChip(item: any /*odata result*/): Chip {
+export function toChip(item: any /*odata result*/): Chip {
   const id = item.instanceId
   const chipBag = item.Chip.ChipBags.results.find((bag: any) => bag.id === 'tileProperties')
   const chipTitle = chipBag?.ChipProperties.results.find((prop: any) => prop.name === 'display_title_text')
   const chipSubTitle = chipBag?.ChipProperties.results.find((prop: any) => prop.name === 'display_subtitle_text')
+  const searchKeywords = chipBag?.ChipProperties.results.find((prop: any) => prop.name === 'display_search_keywords')
+
   let tileConfiguration
   try {
     const configuration = JSON.parse(item.Chip.configuration)
@@ -88,6 +98,7 @@ export function mapChip(item: any /*odata result*/): Chip {
     id,
     title: chipTitle?.value,
     subTitle: chipSubTitle?.value,
+    searchKeywords: searchKeywords?.value,
     navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
     navigationSemanticAction: tileConfiguration?.navigation_semantic_action,
     navigationTargetUrl: tileConfiguration?.navigation_target_url,

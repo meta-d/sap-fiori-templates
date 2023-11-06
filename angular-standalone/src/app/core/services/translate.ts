@@ -48,12 +48,24 @@ export function mapBrowserLanguage(lang: string) {
     case 'zh-CN':
     case 'zh-Hans':
     case 'zh':
+    case 'ZH':
       return 'zh-Hans'
     case 'zh-Hant':
     case 'zh-TW':
     case "zh-HK":
       return 'zh-Hant'
     default:
-      return 'en'
+      return lang
+  }
+}
+
+export function toSAPLanguage(lang: string) {
+  switch (lang) {
+    case 'zh-Hans':
+      return 'ZH'
+    case 'zh-Hant':
+      return 'ZF'
+    default:
+      return lang
   }
 }

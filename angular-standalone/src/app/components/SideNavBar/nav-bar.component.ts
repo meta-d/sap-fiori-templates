@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
     CommonModule,
     FormsModule,
     RouterModule,
+    TranslateModule,
     ZngAntdModule,
     GlobalSettingsComponent
   ],

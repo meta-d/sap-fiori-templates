@@ -16,6 +16,7 @@ export interface Chip {
     id: string;
     title: string;
     subTitle: string;
+    searchKeywords: string;
     navigationSemanticObject: string;
     navigationSemanticAction: string;
     navigationTargetUrl: string;

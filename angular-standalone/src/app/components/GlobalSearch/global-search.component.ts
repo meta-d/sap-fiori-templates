@@ -1,66 +1,85 @@
-import { SearchService, ThemeService } from '@/app/core/services'
+import { AppMenu, SearchService } from '@/app/core/services'
 import { ZngAntdModule } from '@/app/core/shared.module'
-import { MenuMode, ThemeType } from '@/app/core/types'
 import { CommonModule } from '@angular/common'
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, inject } from '@angular/core'
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { Component, ElementRef, ViewChild, inject } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { Router } from '@angular/router'
+import { DynamicViewModule } from '@ngneat/overview';
+import {
+  CommandComponent,
+  EmptyDirective,
+  GroupComponent,
+  InputDirective,
+  ItemDirective,
+  ListComponent,
+  SeparatorComponent
+} from '@ngneat/cmdk'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
-import { NzConfigService } from 'ng-zorro-antd/core/config'
-import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { NzModalRef } from 'ng-zorro-antd/modal'
-import { debounceTime, map, startWith } from 'rxjs/operators'
-
-interface ResultItem {
-  selItem: boolean;
-  isAliIcon: boolean;
-  title: string;
-  routePath: string;
-  icon: string;
-}
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, ZngAntdModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    ZngAntdModule,
+    CommandComponent,
+    GroupComponent,
+    InputDirective,
+    ItemDirective,
+    ListComponent,
+    EmptyDirective,
+    SeparatorComponent,
+    DynamicViewModule
+  ],
   selector: 'zng-global-search',
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss']
 })
 export class GlobalSearchComponent {
   private searchService = inject(SearchService)
-  private nzConfigService = inject(NzConfigService)
   private translateService = inject(TranslateService)
   private modalRef = inject(NzModalRef)
-  private cdr = inject(ChangeDetectorRef)
+  private router = inject(Router)
 
-  searchControl = new FormControl()
-  inputValue: string | null = null;
-  resultListShow: ResultItem[] = [];
-  resultList: ResultItem[] = [];
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>
 
-  private searchSub = this.searchControl.valueChanges.pipe(startWith(''), debounceTime(300), takeUntilDestroyed()).subscribe((value) => {
-    this.resultListShow = value ? this.searchService.search(value) as any[] : []
-    console.log(this.resultListShow)
-  })
-
-  clearInput(): void {
-    this.inputValue = '';
-    this.resultListShow = [];
-    this.cdr.markForCheck();
-  }
-
-  resultClick(resultItem: ResultItem): void {
-    this.destroyModal();
-  }
-
-  mouseOverItem(item: ResultItem): void {
-    this.resultListShow.forEach(resultItem => {
-      resultItem.selItem = false;
-    });
-    item.selItem = true;
-  }
+  // inputValue = ''
+  readonly groups = this.searchService.menuGroups
+  readonly projectItems = new Array(6)
+  styleTransform = ''
 
   destroyModal(): void {
-    this.modalRef.destroy();
+    this.modalRef.destroy()
+  }
+
+  // cmdk
+  onKeyDown(ev: KeyboardEvent) {
+    if (ev.key === 'Enter') {
+      this.bounce()
+    }
+
+    if (this.searchInput.nativeElement.value?.length) {
+      return
+    }
+
+    if (ev.key === 'Backspace') {
+      ev.preventDefault()
+      this.bounce()
+    }
+  }
+
+  openApp(menu: AppMenu) {
+    this.router.navigate([menu.path])
+    this.destroyModal()
+  }
+
+  bounce() {
+    this.styleTransform = 'scale(0.96)'
+    setTimeout(() => {
+      this.styleTransform = ''
+    }, 100)
   }
 }

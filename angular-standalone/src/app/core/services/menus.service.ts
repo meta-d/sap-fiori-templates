@@ -6,15 +6,16 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
+import { TranslateService } from '@ngx-translate/core'
 
 export interface AppMenu<T = any> {
   path: string | undefined
   title: string
-  icon: string
+  icon: string | null
   hasSubmenus?: boolean
   submenus?: AppMenu[] | undefined | null
   route: Route
-  isUi5: boolean
+  isUi5?: boolean
   data?: T
   queryParams?: Params | null
   fragment?: string | undefined
@@ -28,6 +29,7 @@ export class MenusService {
   private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
+  private transalte = inject(TranslateService)
 
   readonly menuMode = this.themeService.menuMode
 
@@ -88,10 +90,48 @@ export class MenusService {
         while (route.firstChild) {
           route = route.firstChild
         }
-        return route.pathFromRoot.map((route) => route.routeConfig)
+        return route.pathFromRoot // .map((route) => route.routeConfig)
       })
     )
   )
+
+  private readonly pagesTranslate = toSignal(this.transalte.stream('ZNG.Pages'))
+
+  private readonly routes = signal<{
+    home: AppMenu;
+    group: AppMenu | null;
+    app: AppMenu | null;
+  }>({
+    home: {
+      path: '/',
+      title: 'Home',
+      icon: null,
+      route: {}
+    },
+    group: null,
+    app: null
+  })
+
+  readonly breadcrumbs = computed(() => {
+    let parentPath = '/'
+    return this.pathFromRoot()?.map((route) => {
+      const path = route?.routeConfig?.path
+      parentPath += parentPath.endsWith('/')
+        ? path || ''
+        : '/' + (path || '')
+
+      if (path === Ui5Path) {
+        console.log(route)
+      }
+
+      const label = route?.title || route?.routeConfig?.data?.['label'] || (parentPath === '/' ? 'Home' : '')
+
+      return {
+        value: parentPath,
+        label: this.pagesTranslate()?.[label] || label
+      }
+    })
+  })
 
   /**
    * Load the menu's submenus

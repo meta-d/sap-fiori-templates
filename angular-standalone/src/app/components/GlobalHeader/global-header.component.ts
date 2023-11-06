@@ -7,14 +7,18 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
 import { TranslateService } from '@ngx-translate/core'
 import {
   AuthenticationService,
+  SAPUserContextCookieName,
+  SAPUserContextLanguage,
   ScreenLessHiddenDirective,
-  ToggleFullscreenDirective
+  ToggleFullscreenDirective,
+  toSAPLanguage
 } from '@/app/core'
 import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 import { AppStoreService } from '@/app/stores'
 import { Router } from '@angular/router'
 import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   standalone: true,
@@ -36,6 +40,7 @@ export class GlobalHeaderComponent implements OnInit {
   public message = inject(NzMessageService)
   private modalService = inject(NzModalService)
   public appStore = inject(AppStoreService)
+  private cookieService = inject(CookieService)
   public authService = inject(AuthenticationService)
   private router = inject(Router)
 
@@ -63,23 +68,17 @@ export class GlobalHeaderComponent implements OnInit {
 
   useLanguage(lang: string): void {
     this.translate.use(lang).subscribe(() => {
+      // Update the sap language in the cookie `sap-usercontext`
+      const userContext = this.cookieService.get(SAPUserContextCookieName)
+      const searchParams = new URL(`http://localhost?${userContext}`).searchParams
+      searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
+      this.cookieService.set(SAPUserContextCookieName, searchParams.toString())
       this.message.info(
         this.translate.instant('ZNG.GlobalHeader.LanguageChanged', {
           Default: 'Language changed!'
         })
       )
     })
-  }
-
-  showSearchModal(): void {
-    const modalOptions: ModalOptions = {
-      nzClosable: false,
-      nzMaskClosable: true,
-      nzStyle: { top: '48px' },
-      nzFooter: null,
-      nzBodyStyle: { padding: '0' }
-    }
-    // this.searchRouteService.show(modalOptions);
   }
 
   goLogin(): void {
@@ -113,10 +112,15 @@ export class GlobalHeaderComponent implements OnInit {
   }
 
   openSearch() {
-    this.modalService.create({
-      // nzTitle: 'Modal Title',
+    const options: ModalOptions = {
       nzContent: GlobalSearchComponent,
-      nzFooter: null
-    })
+      nzClosable: false,
+      nzMaskClosable: true,
+      nzStyle: { top: '48px' },
+      nzFooter: null,
+      nzBodyStyle: { padding: '0' },
+      nzClassName: 'zng-global-search-modal',
+    }
+    this.modalService.create(options)
   }
 }

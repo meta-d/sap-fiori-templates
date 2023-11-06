@@ -1,6 +1,6 @@
 <ul nz-menu nzMode="inline" class="sider-menu">
   <ng-container *ngFor="let menu of menus(); trackBy: trackByIndex">
-    <li *ngIf="!menu.hasSubmenus" nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" nzMatchRouter>
+    <li *ngIf="!menu.hasSubmenus" nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
       <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
       {{ menu.title }}
     </li>

@@ -68,18 +68,7 @@ export class LayoutDefaultComponent {
 
   isCollapsed = false
 
-  readonly breadcrumbs = computed(() => {
-    let parentPath = '/'
-    return this.menusService.pathFromRoot()?.map((route) => {
-      parentPath += parentPath.endsWith('/')
-        ? route?.path || ''
-        : '/' + (route?.path || '')
-      return {
-        value: parentPath,
-        label: route?.data?.['label'] || (parentPath === '/' ? 'Home' : '')
-      }
-    })
-  })
+  readonly breadcrumbs = this.menusService.breadcrumbs
 
   readonly waterMark = computed(() => `${this.appStore.user()?.name} ${this.appStore.user()?.id} ©2023 Metad Team`)
 

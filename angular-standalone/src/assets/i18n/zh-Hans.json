@@ -1,8 +1,16 @@
 {
     "ZNG": {
         "AppName": "思爱普应用",
+        "Common": {
+            "Fullscreen": "全屏",
+            "ExitFullscreen": "退出全屏"
+        },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！"
+        },
+        "GlobalSearch": {
+            "WhatDoYouNeed": "您需要什么？",
+            "PleaseSearch": "请输入菜单名称进行搜索"
         },
         "GlobalSettings": {
             "Title": "全局设置",
@@ -26,6 +34,13 @@
         },
         "UI5": {
             "FioriAppNotFound": "抱歉，未找到此 Fiori 应用程序！"
+        },
+        "Pages": {
+            "Home": "首页",
+            "Dashboard": "仪表板",
+            "Admin": "管理",
+            "Settings": "设置",
+            "Fiori App": "Fiori 应用"
         }
     }
 }

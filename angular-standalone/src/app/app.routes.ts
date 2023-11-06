@@ -1,6 +1,6 @@
 import { Route } from '@angular/router'
-import { HomeComponent } from './pages/home/home.component'
-import { Ui5Component } from './pages/ui5/ui5.component'
+import { DashboardComponent } from './pages/dashboard/'
+import { Ui5Component } from './pages/ui5/'
 // import { AuthLoginComponent } from './pages/auth/login/login.component'
 
 export const appRoutes: Route[] = [
@@ -12,11 +12,11 @@ export const appRoutes: Route[] = [
   //   }
   // },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: 'dashboard',
+    component: DashboardComponent,
     data: {
-      label: 'Home',
-      icon: 'home'
+      label: 'Dashboard',
+      icon: 'dashboard'
     }
   },
   {

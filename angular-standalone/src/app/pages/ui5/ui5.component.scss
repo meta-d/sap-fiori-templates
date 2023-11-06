@@ -5,3 +5,6 @@
 .zng-ui5__fullscreen-button {
     @apply absolute;
 }
+.zng-ui5__app-fullscreen {
+    @apply fixed inset-0 z-10;
+}
