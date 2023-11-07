@@ -94,7 +94,7 @@ export class GlobalSettingsComponent {
       value: '#52C41A'
     },
     {
-      label: '拂晓蓝（默认）',
+      label: '拂晓蓝',
       value: '#1890FF'
     },
     {

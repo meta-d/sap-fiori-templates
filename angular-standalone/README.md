@@ -5,7 +5,7 @@
 </p>
 <p align="center">
   <em>This project is a development template for building mobile and desktop sap fiori applications
-    <br> using Angular and other frameworks.</em>
+    <br> using Angular and Ant Design.</em>
   <br>
 </p>
 
@@ -16,7 +16,7 @@
 
 ## 🌟 What is this?
 
-This is a template for building SAP Fiori apps with [Angular](https://angular.io/) framework. It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
+This is a template for building SAP Fiori apps with [Angular](https://angular.io/) framework and [Ant Design](https://ant-design.antgroup.com/index-cn). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
 ## 🛫 Start the app
 
@@ -28,7 +28,7 @@ To start the development server run `nx serve angular-standalone` or `npm run st
 
 We use the Nx CLI to generate code `npx create-nx-workspace <sap-fiori-app-name>`.
 
-Then add tailwind use command `npx nx g @nx/angular:setup-tailwind angular-standalone`.
+Add tailwind css use command `npx nx g @nx/angular:setup-tailwind angular-standalone`.
 
 Add UI library [Ant Design of Angular](https://ng.ant.design/) ng-zorro-antd use command `npx nx g @nx/angular:ng-add ng-zorro-antd --style=less`.
 
@@ -61,11 +61,11 @@ Here is the configuration file *src/proxy.conf.json*, all the requests starting 
 
 When using `npm run start-mock` to start the application and a mock server to reflect the OData endpoint, you can use the application without having to connect to a live OData service and generate mock data on the fly.
 
-### Add Metadata file
+### Add New OData Mock Data
 
-如果你想要添加新的 OData mock 数据的话，需要在 `src/mock/odata/` 目录下添加与要模拟的 odata service 名称对应的文件夹，并在文件夹中添加 `metadata.xml` 文件，该文件中的内容为对应 odata service 的 metadata。还可以添加一个 data 子文件夹用于存放 mock data files。
+If you want to add new OData mock data, you need to create a folder in the *src/mock/odata/`odata service name`* directory with the name corresponding to the OData service you want to simulate. Inside this folder, you should add a `metadata.xml` file, which should contain the metadata for the respective OData service. You can also create a `data` subfolder to store mock data files.
 
-还需要在配置文件 *ui5-mock.yaml* 中添加一个服务配置，如下：
+You also need to add a service configuration (for example: `EPM_REF_APPS_PO_APV_SRV`) in the *ui5-mock.yaml* configuration file, as follows:
 
 ```yaml
 ...
@@ -79,16 +79,18 @@ server:
           - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
             metadataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
             mockdataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/data
-            generateMockData: true
+            generateMockData: false
+            debug: true
+            watch: true
 ```
 
-更多详细使用方法请参考 [@sap-ux/ui5-middleware-fe-mockserver](https://www.npmjs.com/package/@sap-ux/ui5-middleware-fe-mockserver)
+Please refer to [@sap-ux/ui5-middleware-fe-mockserver](https://www.npmjs.com/package/@sap-ux/ui5-middleware-fe-mockserver) for more detailed usage instructions.
 
 ### Troubleshooting Tips
 
 #### toString error in mockserver
 
-在处理含有 navigation 的 mock 数据时 mock server 可能会报一个 `toString()` 调用的错误，请检查 `@sap-ux/fe-mockserver-core/dist/data/dataAccess.js` 文件中的 `getV2KeyString` 函数中的以下代码：
+In dealing with mock data containing navigation, the mock server might throw an error related to a `toString()` call. Please check the following code in the `getV2KeyString` function within the `@sap-ux/fe-mockserver-core/dist/data/dataAccess.js` file:
 
 ```javascript
 default: {

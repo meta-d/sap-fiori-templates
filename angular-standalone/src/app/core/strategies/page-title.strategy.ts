@@ -12,7 +12,7 @@ export class ZngPageTitleStrategy extends TitleStrategy {
   public readonly pagesTranslate = toSignal(this.translate.stream('ZNG.Pages', {Default: {}}))
 
   override updateTitle(routerState: RouterStateSnapshot) {
-    const title = this.buildTitle(routerState)
+    const title = this.buildTitle(routerState) || 'Home'
     const tTitle = this.translate.instant('ZNG.Pages.' + title, { Default: title })
     if (tTitle) {
       this.title.setTitle(tTitle)
