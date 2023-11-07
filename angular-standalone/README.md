@@ -1,4 +1,17 @@
-# Angular Template for SAP Fiori Application
+<h1 align="center">Angular Template for SAP Fiori Application</h1>
+
+<p align="center">
+<div style="display: flex; align-items: center;">
+<a href="https://angular.dev/">
+<img style="width: 300px;" src="../docs/images/angular_wordmark_gradient.png">
+</a> ➕ <a href="https://experience.sap.com/fiori-design-web/"><img style="width: 100px; margin-left: 10px;" src="../docs/images/sap.png"></a>
+</div>
+
+  <br>
+  <em>This is a development template for building mobile and desktop sap fiori applications
+    <br> using Angular and other frameworks.</em>
+  <br>
+</p>
 
 ## 🌟 What is this?
 
