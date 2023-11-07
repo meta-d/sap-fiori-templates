@@ -1,15 +1,16 @@
 <h1 align="center">Angular Template for SAP Fiori Application</h1>
 
 <p align="center">
-<div style="display: flex; align-items: center;">
-<a href="https://angular.dev/">
-<img style="width: 300px;" src="../docs/images/angular_wordmark_gradient.png">
-</a> ➕ <a href="https://experience.sap.com/fiori-design-web/"><img style="width: 100px; margin-left: 10px;" src="../docs/images/sap.png"></a>
-</div>
-
-  <br>
-  <em>This is a development template for building mobile and desktop sap fiori applications
+  <a href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="../docs/images/angular_wordmark_gradient.png"></a> ➕ <a href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" style="margin-left: 10px;" src="../docs/images/sap.png"></a>
+</p>
+<p align="center">
+  <em>This project is a development template for building mobile and desktop sap fiori applications
     <br> using Angular and other frameworks.</em>
+  <br>
+</p>
+
+<p align="center">
+  <a href="https://www.mtda.cloud/en/"><strong>www.mtda.cloud</strong></a>
   <br>
 </p>
 
