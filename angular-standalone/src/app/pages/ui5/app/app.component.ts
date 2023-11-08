@@ -1,4 +1,5 @@
 import { FioriLaunchpadService, ToggleFullscreenDirective } from '@/app/core'
+import { fadeAnimation } from '@/app/core/animations'
 import { SafePipe } from '@/app/core/pipes'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
@@ -35,7 +36,10 @@ import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
   ],
   selector: 'zng-ui5-app',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
+  animations: [
+    fadeAnimation
+  ]
 })
 export class Ui5AppComponent implements AfterViewInit {
   private flpService = inject(FioriLaunchpadService)
@@ -79,7 +83,9 @@ export class Ui5AppComponent implements AfterViewInit {
     if (this.semanticObject()) {
       const fragment = this.route.snapshot.fragment || this.chip()?.navigationTargetUrl
       const sapUserContext = this.cookieService.get('sap-usercontext')
-      return fragment ? [`/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}`] : null
+      return fragment
+        ? [`/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}`]
+        : []
     }
     return null
   })
