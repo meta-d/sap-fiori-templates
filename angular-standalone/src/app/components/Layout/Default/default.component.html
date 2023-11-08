@@ -62,6 +62,10 @@
 
     <nz-sider *ngIf="menuMode() === MenuMode.mix" nzCollapsible [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme" >
       <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
+      
+      <div class="absolute bottom-0 p-4">
+        <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
+      </div>
     </nz-sider>
 
     <nz-layout class="inner-layout p-4">
@@ -89,10 +93,10 @@
 </ng-template>
 
 <ng-template #ProImplementation>
- <a href="https://mtda.cloud/" target="_blank">
+ <a href="https://mtda.cloud/sap/" target="_blank">
     <img class="w-6 h-6 mx-4 inline-block"
-      alt="pro-logo"
-      src="https://www.mtda.cloud/icons/logo.svg"
+      alt="metad-logo"
+      src="assets/images/favicon.svg"
     />
     <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-500"
     >了解专业实施</span>

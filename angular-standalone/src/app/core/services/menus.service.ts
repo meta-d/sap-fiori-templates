@@ -6,8 +6,8 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
-import { TranslateService } from '@ngx-translate/core'
 import { ZngPageTitleStrategy } from '../strategies'
+import { nonNullable } from '@/app/utils'
 
 export interface AppMenu<T = any> {
   path: string | undefined
@@ -63,13 +63,18 @@ export class MenusService {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map(() => {
-        const rootPath = this.route.snapshot.firstChild?.url[0].path ?? ''
-        if (rootPath === Ui5Path) {
-          return `/${this.route.snapshot.firstChild?.url[0].path ?? ''}/${
-            this.route.snapshot.firstChild?.url[1].path ?? ''
-          }`
+        const root = this.route.snapshot.firstChild
+        if (root) {
+          const rootPath = root.url[0].path ?? ''
+          if (rootPath === Ui5Path) {
+            return `/${root.url[0].path ?? ''}/${
+              root.firstChild?.url[0].path ?? ''
+            }`
+          }
+          return rootPath
         }
-        return rootPath
+        
+        return null
       }),
       distinctUntilChanged()
     )
@@ -106,42 +111,57 @@ export class MenusService {
     )
   )
 
-  
-
-  private readonly routes = signal<{
-    home: AppMenu;
-    group: AppMenu | null;
-    app: AppMenu | null;
-  }>({
-    home: {
-      path: '/',
-      title: 'Home',
-      icon: null,
-      route: {}
-    },
-    group: null,
-    app: null
-  })
-
   readonly breadcrumbs = computed(() => {
     let parentPath = '/'
+    let isUi5App: 'group' | 'app' | null = null
+    let groupId = ''
     return this.pathFromRoot()?.map((route) => {
-      const path = route?.routeConfig?.path
+      let path = route?.routeConfig?.path
+      // Replace path with acture param value
+      if (path?.startsWith(':')) {
+        path = route?.params?.[path.slice(1)]
+      }
+      // Append path to parent path
       parentPath += parentPath.endsWith('/')
         ? path || ''
         : '/' + (path || '')
 
+      // Has enter ui5 path
       if (path === Ui5Path) {
-        console.log(route)
+        isUi5App = 'group'
+        return null
       }
 
-      const label = route?.title || route?.routeConfig?.data?.['label'] || (parentPath === '/' ? 'Home' : '')
+      // Skip hidden routes
+      if (route.routeConfig?.data?.['hidden']) {
+        return null
+      }
+
+      // Get app group title or app title
+      let label = null
+      if (isUi5App === 'group') {
+        isUi5App = 'app'
+        groupId = route.params?.['group'] as string
+        label = groupId ? this.flpService.getGroup(groupId)?.title : null
+      } else if (isUi5App === 'app') {
+        isUi5App = null
+        const appId = route.params?.['id'] as string
+        if (appId) {
+          label = this.flpService.getChip(appId, groupId)?.title
+        }
+      }
+
+      // Otherwise, get translated page title
+      if (!label) {
+        const title = route?.title || (parentPath === '/' ? 'Home' : '')
+        label = this.titleStrategy.pagesTranslate()?.[title] || title
+      }
 
       return {
         value: parentPath,
-        label: this.titleStrategy.pagesTranslate()?.[label] || label
+        label
       }
-    })
+    }).filter(nonNullable)
   })
 
   /**

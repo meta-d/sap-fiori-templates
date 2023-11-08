@@ -1,6 +1,5 @@
 import { Route } from '@angular/router'
 import { DashboardComponent } from './pages/dashboard/'
-import { Ui5Component } from './pages/ui5/'
 // import { AuthLoginComponent } from './pages/auth/login/login.component'
 
 export const appRoutes: Route[] = [
@@ -25,23 +24,14 @@ export const appRoutes: Route[] = [
     data: {
       icon: 'setting'
     },
-    loadChildren: () =>
-      import('./pages/admin/admin-routing').then((m) => m.default)
+    loadChildren: () => import('./pages/admin/admin-routing').then((m) => m.default)
   },
   {
-    path: 'ui5/:group',
-    title: 'UI5 launchpad',
+    path: 'ui5',
+    title: 'SAP',
     data: {
       hidden: true
     },
-    component: Ui5Component
-  },
-  {
-    path: 'ui5/:group/:id',
-    title: 'Fiori App',
-    data: {
-      hidden: true
-    },
-    component: Ui5Component
+    loadChildren: () => import('./pages/ui5').then((m) => m.routes),
   }
 ]

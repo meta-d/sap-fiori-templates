@@ -90,19 +90,7 @@ export class GlobalHeaderComponent {
   }
 
   changePassWorld() {
-    // Use current user context to reload page to change password
-    const userContext = this.cookieService.get(SAPUserContextCookieName)
-    const queryParams: Params = {}
-    if (userContext) {
-      const searchParams = new URL(`http://localhost?${userContext}`).searchParams
-      searchParams.forEach((value, key) => queryParams[key] = value)
-    }
-    this.authService.logout().subscribe(async (response) => {
-      await this.router.navigate(['/'], {
-        queryParams
-      })
-      window.location.reload()
-    })
+    this.goLogout()
   }
 
   lockScreen() {
@@ -110,8 +98,18 @@ export class GlobalHeaderComponent {
   }
 
   goLogout() {
-    this.authService.logout().subscribe((html) => {
-      console.log(html)
+    // Use current user context to reload page to change password
+    const userContext = this.cookieService.get(SAPUserContextCookieName)
+    const queryParams: Params = {}
+    if (userContext) {
+      const searchParams = new URL(`http://localhost?${userContext}`).searchParams
+      searchParams.forEach((value, key) => queryParams[key] = value)
+    }
+    this.authService.logout().subscribe(async () => {
+      await this.router.navigate(['/'], {
+        queryParams
+      })
+      window.location.reload()
     })
   }
 
