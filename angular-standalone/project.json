@@ -32,9 +32,7 @@
         ],
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "src/styles/themes"
-          ]
+          "includePaths": ["src/styles/themes"]
         }
       },
       "configurations": {
@@ -120,6 +118,57 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "angular-standalone:build"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "./.storybook",
+        "browserTarget": "angular-standalone:build",
+        "compodoc": false,
+        "styles": [
+          "src/styles.less",
+          "src/styles/default.less",
+          "src/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/angular-standalone",
+        "configDir": "./.storybook",
+        "browserTarget": "angular-standalone:build",
+        "compodoc": false,
+        "styles": [
+          "src/styles.less",
+          "src/styles/default.less",
+          "src/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "angular-standalone:build-storybook",
+        "staticFilePath": "dist/storybook/angular-standalone"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "angular-standalone:build-storybook:ci"
+        }
       }
     }
   }

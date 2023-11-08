@@ -32,6 +32,8 @@ Add tailwind css use command `npx nx g @nx/angular:setup-tailwind angular-standa
 
 Add UI library [Ant Design of Angular](https://ng.ant.design/) ng-zorro-antd use command `npx nx g @nx/angular:ng-add ng-zorro-antd --style=less`.
 
+Add storybook use command `npx nx g @nx/angular:storybook-configuration angular-standalone`.
+
 ## 🖥 Previewing Application
 
 You can execute the following npm scripts to preview the application:
