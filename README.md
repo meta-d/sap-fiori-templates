@@ -4,7 +4,7 @@
   <a href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="./docs/images/angular_wordmark_gradient.png"></a><a href="https://vuejs.org/"><img width="100px" valign="middle" src="./docs/images/vue.png"></a>
 </p>
 <p align="center">
-<a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a><a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" style="margin-left: 10px;" src="./docs/images/sap.png"></a>
+<a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a>➕<a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" src="./docs/images/sap.png"></a>
 </p>
 <p align="center">
   <em>This workspace contains multiple development templates for building mobile and desktop SAP Fiori applications
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.mtda.cloud/en/"><strong>www.mtda.cloud</strong></a>
+  <a href="https://mtda.cloud/en/sap/"><strong>www.mtda.cloud</strong></a>
   <br>
 </p>
 
@@ -160,5 +160,5 @@ Targets can be defined in the `project.json`. Learn more [in the docs](https://n
 * Or add our WeChat ID: **metad-cloud**
 
 <p align="center">
-<a title="Wechat" href="https://www.mtda.cloud/#connect"><img width="280px" valign="middle" src="https://www.mtda.cloud/img/company/metad-community-wechat.jpeg"></a>
+  <a title="Wechat" href="https://www.mtda.cloud/#connect"><img width="280px" valign="middle" src="./docs/images/metad-community-wechat.jpeg"></a>
 </p>

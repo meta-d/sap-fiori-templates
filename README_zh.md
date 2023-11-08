@@ -4,7 +4,7 @@
   <a title="Angular" href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="./docs/images/angular_wordmark_gradient.png"></a><a title="Vuejs" href="https://vuejs.org/"><img width="100px" valign="middle" src="./docs/images/vue.png"></a>
 </p>
 <p align="center">
-<a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a><a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" style="margin-left: 10px;" src="./docs/images/sap.png"></a>
+<a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a>➕<a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" src="./docs/images/sap.png"></a>
 </p>
 <p align="center">
   <em>此工作空间包含多个开发模板用于构建移动和桌面 SAP Fiori 应用程序
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.mtda.cloud/en/"><strong>www.mtda.cloud</strong></a>
+  <a href="https://mtda.cloud/sap/"><strong>www.mtda.cloud</strong></a>
   <br>
 </p>
 
@@ -160,5 +160,5 @@ npx nx run-many -t <target1> <target2> -p <proj1> <proj2>
 或添加微信号：**metad-cloud**
 
 <p align="center">
-<a title="Wechat" href="https://www.mtda.cloud/#connect"><img width="280px" valign="middle" src="https://www.mtda.cloud/img/company/metad-community-wechat.jpeg"></a>
+  <a title="微信" href="https://www.mtda.cloud/#connect"><img width="280px" valign="middle" src="./docs/images/metad-community-wechat.jpeg"></a>
 </p>
