@@ -10,19 +10,32 @@
 </p>
 
 <p align="center">
-  <a href="https://www.mtda.cloud/en/"><strong>www.mtda.cloud</strong></a>
+  <a href="https://www.mtda.cloud/en/sap/"><strong>www.mtda.cloud</strong></a>
   <br>
 </p>
+
+**English** | [**中文**](./README_zh.md)
 
 ## 🌟 What is this?
 
 This is a template for building SAP Fiori apps with [Angular](https://angular.io/) framework and [Ant Design](https://ant-design.antgroup.com/index-cn). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
+
+- Angular 17
 
 ## 🛫 Start the app
 
 Before you start, install npm packages by running `npm install`.
 
 To start the development server run `nx serve angular-standalone` or `npm run start`. Open your browser and navigate to http://localhost:4200/. Happy coding!
+
+### Environments
+
+The application has two environments, `development` and `production`. The default environment for `build` is `production`, and default environment for `serve` is `development`. You can change the environment by setting the `--configuration` option when running the `build` or `serve` command.
+
+The features in environment are:
+* **production** - enable production mode, disable debug log, and others.
+* **enableFiori** - enable load all Fiori apps in SAP system as menus in this application.
+* **enableWaterMark** - enable water mark on page of the application.
 
 ## ✨ How we generate the code?
 

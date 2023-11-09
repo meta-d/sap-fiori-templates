@@ -24,6 +24,7 @@ import { ZngMissingTranslationHandler } from './core'
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger'
 import { AppStoreService } from './stores'
 import { ZngPageTitleStrategy } from './core/strategies'
+import { environment } from '@/environments/environment'
 
 registerLocaleData(en)
 
@@ -80,8 +81,8 @@ export const appConfig: ApplicationConfig = {
         }
       }),
       LoggerModule.forRoot({
-        serverLoggingUrl: '/api/logs',
-        level: NgxLoggerLevel.DEBUG,
+        // serverLoggingUrl: '/api/logs',
+        level: environment.production ? NgxLoggerLevel.WARN : NgxLoggerLevel.DEBUG,
         serverLogLevel: NgxLoggerLevel.ERROR
       }),
     ),

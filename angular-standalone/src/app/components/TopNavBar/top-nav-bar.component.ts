@@ -40,6 +40,7 @@ export class TopNavBarComponent {
   readonly isMix = computed(() => this.themeService.menuMode() === 'mix')
   readonly hasMoreMenus = signal<boolean>(false)
   readonly menus = this.menusService.menus
+  readonly flpLoading = this.menusService.flpLoading
 
   trackByIndex(index: number, item: AppMenu) {
     return index

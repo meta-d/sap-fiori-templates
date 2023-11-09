@@ -1,5 +1,5 @@
 :host {
-  @apply overflow-y-auto;
+  @apply overflow-y-auto flex flex-col items-center;
 }
 .ant-menu.ant-menu-root.ant-menu-dark {
   background-color: var(--zng-header-bg-color);

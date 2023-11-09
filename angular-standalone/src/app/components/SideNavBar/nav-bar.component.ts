@@ -4,20 +4,13 @@ import { CommonModule } from '@angular/common'
 import { Component, Input, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
-import { TranslateModule } from '@ngx-translate/core'
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    TranslateModule,
-    ZngAntdModule,
-    GlobalSettingsComponent
-  ],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule, ZngAntdModule, GlobalSettingsComponent],
   selector: 'zng-side-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
@@ -30,10 +23,7 @@ export class SideNavBarComponent {
   @Input() isCollapsed = false
 
   readonly menus = this.menusService.menus
-
-  trackByIndex(index: number, item: AppMenu) {
-    return index
-  }
+  readonly flpLoading = this.menusService.flpLoading
 
   loadMenus(menu: AppMenu) {
     this.menusService.loadMenus(menu)

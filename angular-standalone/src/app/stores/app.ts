@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core'
+import { Injectable, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
+import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
 import { MenuMode, ThemeType } from '../core/types'
 import { useESHSearchStore } from './ESH_SEARCH'
@@ -34,6 +35,8 @@ const DefaultPersonalization = {
 
 @Injectable()
 export class AppStoreService {
+  private readonly logger = inject(NGXLogger)
+
   private state$ = new BehaviorSubject<AppStoreState>({ personalization: DefaultPersonalization })
 
   readonly user = toSignal(this.state$.pipe(map((state) => state.user)))
@@ -49,12 +52,14 @@ export class AppStoreService {
 
   async refreshUser() {
     const { read } = useESHSearchStore()
-    const user = await read('Users', { Id: '<current>' }).then((result) => {
-      return {
-        id: result.Id,
-        name: result.Name
-      }
-    })
+    const user = await read('Users', { Id: '<current>' })
+      .then((result) => {
+        return {
+          id: result.Id,
+          name: result.Name
+        }
+      })
+      .catch((err) => this.logger.error(err))
 
     if (user) {
       this.state$.next({
@@ -75,17 +80,19 @@ export class AppStoreService {
         },
         $expand: 'PersContainerItems'
       }
-    ).then((result) => {
-      const personalization = result.PersContainerItems.results.find((item: any) => item.id === PersPersonalizationId)
-      if (personalization) {
-        try {
-          return JSON.parse(personalization.value)
-        } catch (err) {
-          console.error(err)
+    )
+      .then((result) => {
+        const personalization = result.PersContainerItems.results.find((item: any) => item.id === PersPersonalizationId)
+        if (personalization) {
+          try {
+            return JSON.parse(personalization.value)
+          } catch (err) {
+            this.logger.error(err)
+          }
         }
-      }
-      return null
-    })
+        return null
+      })
+      .catch((err) => this.logger.error(err))
 
     if (personalization) {
       this.state$.next({

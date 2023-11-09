@@ -1,27 +1,30 @@
-import { isString } from '@/app/utils/isString';
-import { BehaviorSubject, map } from 'rxjs';
-import * as convert from 'xml-js';
-import { isPlainObject } from '../utils/isPlainObject';
+import { isString } from '@/app/utils/isString'
+import { BehaviorSubject, map } from 'rxjs'
+import * as convert from 'xml-js'
+import { isPlainObject } from '../utils/isPlainObject'
 
 export enum StoreStatus {
   init,
   initializing,
   loaded,
   error,
-  complete,
+  complete
 }
 
 export function defineODataStore(
   service: string,
   options: {
-    base: string;
+    base: string
   } = {
-    base: '/sap/opu/odata/sap',
+    base: '/sap/opu/odata/sap'
   }
 ) {
-  const { base } = options;
+  const { base } = options
 
-  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any; xCsrfToken?: string | undefined; }>({ status: StoreStatus.init, Schema: null });
+  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any; xCsrfToken?: string | undefined }>({
+    status: StoreStatus.init,
+    Schema: null
+  })
 
   const init = () => {
     store.next({
@@ -33,39 +36,34 @@ export function defineODataStore(
         .then((response) => response.text())
         .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
         .then((metadata: any) => {
-          return metadata['edmx:Edmx']['edmx:DataServices']['Schema'];
+          return metadata['edmx:Edmx']['edmx:DataServices']['Schema']
         })
         .then((Schema) => {
           store.next({
             ...store.value,
             Schema,
             status: StoreStatus.loaded
-          });
+          })
         })
         .catch((err) => {
-          console.error(err);
+          // console.error(err)
           store.next({
             ...store.value,
             status: StoreStatus.error
-          });
+          })
         })
-    });
+    })
   }
 
   const select = (selector: (state: any) => any) => {
-    return store.pipe(map(selector));
-  };
+    return store.pipe(map(selector))
+  }
 
   const selectEntityType = (entity: string) => {
-    return store.pipe(
-      map((state) =>
-        state.Schema?.EntityType.find((item: any) => item['@'].Name === entity)
-      )
-    );
-  };
+    return store.pipe(map((state) => state.Schema?.EntityType.find((item: any) => item['@'].Name === entity)))
+  }
 
-  const entityType = (entity: string) =>
-    store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity);
+  const entityType = (entity: string) => store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity)
 
   function setXCsrfToken(token: string) {
     store.next({
@@ -78,24 +76,27 @@ export function defineODataStore(
     entity: string,
     keys: string | Record<string, number | string> | null,
     options?: {
-      headers?: Record<string, string>;
+      headers?: Record<string, string>
       $filter?: {
-        [key: string]: any;
-      };
-      $expand?: string | string[];
+        [key: string]: any
+      }
+      $expand?: string | string[]
     }
   ) => {
-    const { $filter, $expand } = options ?? {};
-    const query = new URLSearchParams();
+    const { $filter, $expand } = options ?? {}
+    const query = new URLSearchParams()
     if ($filter) {
-      query.append('$filter', Object.keys($filter).reduce((acc, key) => {
-        if (acc) {
-          acc += '&' + key + ' eq ' + $filter[key];
-        } else {
-          acc = key + ' eq ' + $filter[key];
-        }
-        return acc;
-      }, ''));
+      query.append(
+        '$filter',
+        Object.keys($filter).reduce((acc, key) => {
+          if (acc) {
+            acc += '&' + key + ' eq ' + $filter[key]
+          } else {
+            acc = key + ' eq ' + $filter[key]
+          }
+          return acc
+        }, '')
+      )
     }
 
     if ($expand) {
@@ -105,7 +106,9 @@ export function defineODataStore(
     let url = `${base}/${service}/${entity}`
     if (keys) {
       if (isPlainObject(keys)) {
-        url += `(${Object.keys(keys).map((key) => `${key}=${entityKeyValue(keys[key])}`).join(',')})`
+        url += `(${Object.keys(keys)
+          .map((key) => `${key}=${entityKeyValue(keys[key])}`)
+          .join(',')})`
       } else {
         url += `(${entityKeyValue(keys)})`
       }
@@ -119,9 +122,8 @@ export function defineODataStore(
         'Content-Type': 'application/json',
         Accept: 'application/json',
         ...(options?.headers ?? {})
-      },
+      }
     }).then(async (response) => {
-
       const token = response.headers.get('X-Csrf-Token')
       if (token) {
         setXCsrfToken(token)
@@ -139,8 +141,8 @@ export function defineODataStore(
         code: response.status,
         error: await response.text()
       }
-    });
-  };
+    })
+  }
 
   const save = (entitySet: string, body: any) => {
     const url = `${base}/${service}/${entitySet}`
@@ -162,7 +164,7 @@ export function defineODataStore(
         code: response.status,
         error: await response.text()
       }
-    });
+    })
   }
 
   return {
@@ -174,7 +176,7 @@ export function defineODataStore(
     read,
     save,
     setXCsrfToken
-  };
+  }
 }
 
 export function entityKeyValue(value: number | string | Date): string {

@@ -1,6 +1,8 @@
-<button *ngIf="hasMoreMenus()" nz-button [disabled]="alignLeft" nzType="text" class="zng-top-nav-bar__scroll-button p-2" (click)="scrollLeft()">
-  <span nz-icon nzType="double-left" nzTheme="outline"></span>
-</button>
+@if(hasMoreMenus()) {
+  <button nz-button [disabled]="alignLeft" nzType="text" class="zng-top-nav-bar__scroll-button p-2" (click)="scrollLeft()">
+    <span nz-icon nzType="double-left" nzTheme="outline"></span>
+  </button>
+}
 
 <div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize($event)">
   <ul #mEl nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
@@ -23,14 +25,20 @@
   </ul>
 </div>
 
-<button *ngIf="hasMoreMenus()" nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
+@if(flpLoading()) {
+  <nz-spin nzSimple></nz-spin>
+}
+
+@if(hasMoreMenus()) {
+<button nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
   <span nz-icon nzType="double-right" nzTheme="outline"></span>
 </button>
 
-<a *ngIf="hasMoreMenus()" nz-dropdown class="zng-top-nav-bar__more-button" nzTrigger="click" [nzDropdownMenu]="menu1" nzPlacement="bottomRight" [nzOverlayStyle]="{maxHeight: '90vh', 'overflow-y': 'auto'}"
+<a nz-dropdown class="zng-top-nav-bar__more-button" nzTrigger="click" [nzDropdownMenu]="menu1" nzPlacement="bottomRight" [nzOverlayStyle]="{maxHeight: '90vh', 'overflow-y': 'auto'}"
   nzOverlayClassName="rounded-md shadow-md z-10">
   <span nz-icon nzType="more" nzTheme="outline"></span>
 </a>
+}
 
 <nz-dropdown-menu #menu1="nzDropdownMenu">
   <ul nz-menu>

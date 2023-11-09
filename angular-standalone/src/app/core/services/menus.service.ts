@@ -8,6 +8,7 @@ import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
 import { ZngPageTitleStrategy } from '../strategies'
 import { nonNullable } from '@/app/utils'
+import { environment } from '@/environments/environment'
 
 export interface AppMenu<T = any> {
   path: string | undefined
@@ -52,6 +53,9 @@ export class MenusService {
   })
 
   readonly flpMenus = this.flpService.routes
+  readonly flpLoading = computed(() => {
+    return environment.enableFiori && !this.flpMenus()
+  })
   readonly menus = computed(() => {
     return [...this.tAppMenus(), ...(this.flpMenus() ?? [])]
   })

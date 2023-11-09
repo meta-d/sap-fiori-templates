@@ -17,7 +17,7 @@ export class FioriLaunchpadService {
   readonly state = signal<any>({})
   readonly state$ = toObservable(this.state)
 
-  readonly routes = computed<AppMenu[]>(() => {
+  readonly routes = computed<AppMenu[] | null>(() => {
     const { AssignedPages, Pages } = this.state()
 
     return AssignedPages?.results.map((item: any) => {

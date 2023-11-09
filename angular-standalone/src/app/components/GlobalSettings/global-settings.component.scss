@@ -1,5 +1,8 @@
 .ant-btn-text {
-  color: var(--zng-header-color, white);
+  color: var(--zng-header-color, lightgray);
+}
+.ant-btn-text:hover {
+  color: var(--zng-header-color-hover, white);
 }
 
 .zng-global-settings__color-block {
