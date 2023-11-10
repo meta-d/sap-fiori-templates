@@ -8,7 +8,7 @@ const options: AnimationQueryOptions = {
 export const fadeAnimation = trigger('fadeAnimation', [
   transition(':enter', [
     style({
-      transform: 'scale3d(1.075, 1.075, 1)',
+      transform: 'scale3d(0.95, 0.95, 1)',
       opacity: 0
     }),
     animate(

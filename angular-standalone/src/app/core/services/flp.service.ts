@@ -101,6 +101,7 @@ export function toChip(item: any /*odata result*/): Chip {
   } catch (err) {
     //
   }
+  
   return {
     id,
     title: chipTitle?.value,
@@ -108,6 +109,6 @@ export function toChip(item: any /*odata result*/): Chip {
     searchKeywords: searchKeywords?.value,
     navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
     navigationSemanticAction: tileConfiguration?.navigation_semantic_action,
-    navigationTargetUrl: tileConfiguration?.navigation_target_url,
+    navigationTargetUrl: tileConfiguration?.navigation_target_url?.startsWith('#') ? tileConfiguration.navigation_target_url.slice(1) : tileConfiguration?.navigation_target_url,
   }
 }
