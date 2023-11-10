@@ -1,6 +1,7 @@
-import { ThemeService } from '@/app/core/services'
+import { FioriLaunchpadService, ThemeService } from '@/app/core/services'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { MenuMode, ThemeType } from '@/app/core/types'
+import { environment } from '@/environments/environment'
 import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
@@ -19,11 +20,14 @@ import { map } from 'rxjs/operators'
 })
 export class GlobalSettingsComponent {
   private themeService = inject(ThemeService)
+  private flpService = inject(FioriLaunchpadService)
   private nzConfigService = inject(NzConfigService)
   private translateService = inject(TranslateService)
 
   ThemeType = ThemeType
   MenuMode = MenuMode
+
+  enableFiori = environment.enableFiori
 
   readonly themeOptions = toSignal(
     this.translateService
@@ -43,9 +47,7 @@ export class GlobalSettingsComponent {
     { initialValue: [] }
   )
 
-  get currentTheme() {
-    return this.themeService.currentTheme
-  }
+  readonly currentTheme = this.themeService.currentTheme
   get themeIndex() {
     return this.themeOptions().findIndex(
       (item) => item.value === this.themeService.currentTheme()
@@ -129,9 +131,9 @@ export class GlobalSettingsComponent {
     }
   ]
 
-  get menuMode() {
-    return this.themeService.menuMode
-  }
+  readonly menuMode = this.themeService.menuMode
+  readonly flpThemes = this.flpService.themes
+  readonly flpTheme = this.flpService.theme
 
   get fixedLayoutSider() {
     return this.themeService.fixedLayoutSider()
@@ -151,6 +153,12 @@ export class GlobalSettingsComponent {
     })
   }
 
+  constructor() {
+    if (environment.enableFiori) {
+      this.flpService.loadThemes().then()
+    }
+  }
+
   selectPrimaryColor(color: string) {
     this.themeService.setPrimaryColor(color)
   }
@@ -165,5 +173,9 @@ export class GlobalSettingsComponent {
     this.themeService.updatePersonalization({
       menuMode: mode
     })
+  }
+
+  setFioriTheme(themeId: string) {
+    this.flpService.setFioriTheme(themeId)
   }
 }

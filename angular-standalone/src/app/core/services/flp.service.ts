@@ -1,24 +1,45 @@
-import { readFLPH } from '@/app/stores'
+import { queryThemes, readFLPH } from '@/app/stores'
 import { environment } from '@/environments/environment'
-import { Injectable, computed, signal } from '@angular/core'
+import { Injectable, computed, inject, signal } from '@angular/core'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { AppGroup, Chip, Ui5Path } from '../types'
 import { AppMenu } from './menus.service'
+import { CookieService } from 'ngx-cookie-service'
 
 export const SAPUserContextCookieName = 'sap-usercontext'
 export const SAPUserContextLanguage = 'sap-language'
+
+export interface UI5Theme {
+  id: string;
+  name: string;
+  shellType: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FioriLaunchpadService {
-  readonly state = signal<any>({})
+  private cookieService = inject(CookieService)
+  
+  readonly state = signal<{
+    pageSets: any;
+    themes: UI5Theme[] | null;
+    theme: string;
+  }>({
+    pageSets: null,
+    themes: null,
+    theme: 'sap_horizon'
+  })
   readonly state$ = toObservable(this.state)
 
+  readonly pageSets = computed(() => this.state().pageSets)
+  readonly themes = computed(() => this.state().themes)
+  readonly theme = computed(() => this.state().theme)
+
   readonly routes = computed<AppMenu[] | null>(() => {
-    const { AssignedPages, Pages } = this.state()
+    const { AssignedPages, Pages } = this.pageSets() ?? {}
 
     return AssignedPages?.results.map((item: any) => {
       const path = `/${Ui5Path}/${item.id}`
@@ -60,21 +81,50 @@ export class FioriLaunchpadService {
   constructor() {
     if (environment.enableFiori) {
       this.loadFLPMenus().then()
+      this.loadCookie()
     }
   }
 
+  loadCookie() {
+    const userContext = this.getUserContext()
+    let searchParams: URLSearchParams
+    if (userContext) {
+      searchParams = new URL(`http://localhost?${userContext}`).searchParams
+    } else {
+      searchParams = new URLSearchParams()
+    }
+
+    this.state.update((state) => ({
+      ...state,
+      theme: searchParams.get('sap-theme') || 'sap_horizon'
+    }))
+  }
+
   async loadFLPMenus() {
-    const result = await readFLPH()
-    this.state.set(result)
+    const pageSets = await readFLPH()
+    this.state.update((state) => ({
+      ...state,
+      pageSets
+    }))
+  }
+
+  async loadThemes() {
+    if (!this.themes()) {
+      const d = await queryThemes()
+      this.state.update((state) => ({
+        ...state,
+        themes: d.results
+      }))
+    }
   }
 
   getPage(id: string) {
-    return this.state().Pages.results.find((item: any) => item.id === id)
+    return this.pageSets().results.find((item: any) => item.id === id)
   }
 
   selectGroupChips(id: string): Observable<Chip[]> {
     return this.state$.pipe(
-      map((state) => state.Pages?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
+      map((state) => state.pageSets?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
     )
   }
 
@@ -84,6 +134,32 @@ export class FioriLaunchpadService {
 
   getChip(path: string, group?: string | null): Chip | null {
     return this.routes()?.find((item) => item.route.path === group)?.submenus?.find((item) => item.route.path === path)?.data
+  }
+
+  /**
+   * Save Fiori theme to sap-usercontext in cookie
+   * 
+   * @param themeId 
+   */
+  setFioriTheme(themeId: string) {
+    const userContext = this.getUserContext()
+    let searchParams
+    if (userContext) {
+      searchParams = new URL(`http://localhost?${userContext}`).searchParams
+    } else {
+      searchParams = new URLSearchParams()
+    }
+
+    searchParams.set('sap-theme', themeId)
+    this.cookieService.set(SAPUserContextCookieName, searchParams.toString())
+    this.state.update((state) => ({
+      ...state,
+      theme: themeId
+    }))
+  }
+
+  getUserContext() {
+    return this.cookieService.get(SAPUserContextCookieName)
   }
 }
 

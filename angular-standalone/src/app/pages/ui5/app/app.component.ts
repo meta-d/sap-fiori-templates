@@ -82,7 +82,7 @@ export class Ui5AppComponent implements AfterViewInit {
   public semanticTargetUrl = computed(() => {
     if (this.semanticObject()) {
       const fragment = this.route.snapshot.fragment || this.chip()?.navigationTargetUrl
-      const sapUserContext = this.cookieService.get('sap-usercontext')
+      const sapUserContext = this.flpService.getUserContext()
       return fragment
         ? [`/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}`]
         : []

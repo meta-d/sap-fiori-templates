@@ -167,6 +167,39 @@ export function defineODataStore(
     })
   }
 
+  const query = (entitySet: string, options?: ODataQueryOptions) => {
+    const queryObj = constructQuery(options)
+    const queryString = queryObj.toString()
+
+    let url = `${base}/${service}/${entitySet}`
+    return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...(options?.headers ?? {})
+      }
+    }).then(async (response) => {
+      const token = response.headers.get('X-Csrf-Token')
+      if (token) {
+        setXCsrfToken(token)
+      }
+
+      if (response.ok) {
+        const result = await response.json()
+        if (response.headers.get('Odata-Version') === '4.0') {
+          return result
+        } else {
+          return result.d
+        }
+      }
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    })
+  }
+
   return {
     store,
     init,
@@ -174,9 +207,18 @@ export function defineODataStore(
     selectEntityType,
     entityType,
     read,
+    query,
     save,
     setXCsrfToken
   }
+}
+
+export interface ODataQueryOptions {
+  headers?: Record<string, string>
+  $filter?: {
+    [key: string]: any
+  }
+  $expand?: string | string[]
 }
 
 export function entityKeyValue(value: number | string | Date): string {
@@ -187,4 +229,28 @@ export function entityKeyValue(value: number | string | Date): string {
   }
 
   return 'null'
+}
+
+export function constructQuery(options?: ODataQueryOptions) {
+  const { $filter, $expand } = options ?? {}
+  const query = new URLSearchParams()
+  if ($filter) {
+    query.append(
+      '$filter',
+      Object.keys($filter).reduce((acc, key) => {
+        if (acc) {
+          acc += '&' + key + ' eq ' + $filter[key]
+        } else {
+          acc = key + ' eq ' + $filter[key]
+        }
+        return acc
+      }, '')
+    )
+  }
+
+  if ($expand) {
+    query.append('$expand', isString($expand) ? $expand : $expand.join(','))
+  }
+
+  return query
 }

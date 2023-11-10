@@ -1,10 +1,3 @@
-.ant-btn-text {
-  color: var(--zng-header-color, lightgray);
-}
-.ant-btn-text:hover {
-  color: var(--zng-header-color-hover, white);
-}
-
 .zng-global-settings__color-block {
   @apply h-5 w-5 mr-2 rounded-sm flex items-center justify-center;
 
@@ -17,4 +10,39 @@
   .anticon.anticon-check {
     color: var(--ant-primary-color, black);
   }
+}
+
+// sap ushell theme icon styles
+.zng_sap_belize_icon_style {
+  background-image: -webkit-linear-gradient(top, #a9c6de 0, #e7ecf0 100%);
+  background-image: linear-gradient(to top, #a9c6de 0, #e7ecf0 100%);
+  background-image: -moz-linear-gradient(top, #a9c6de 0, #e7ecf0 100%);
+  background-image: -o-linear-gradient(top, #a9c6de 0, #e7ecf0 100%);
+}
+.zng_sap_belize_hcb_icon_style, .zng_sap_fiori_3_dark_icon_style, .zng_sap_fiori_3_hcb_icon_style, .zng_sap_horizon_hcb_icon_style {
+  background-image: -webkit-linear-gradient(top, #000 0, #000 100%);
+  background-image: linear-gradient(to top, #000 0, #000 100%);
+  background-image: -moz-linear-gradient(top, #000 0, #000 100%);
+  background-image: -o-linear-gradient(top, #000 0, #000 100%);
+}
+.zng_sap_belize_hcw_icon_style, .zng_sap_fiori_3_hcw_icon_style, .zng_sap_horizon_hcw_icon_style {
+  background-image: -webkit-linear-gradient(top, #fff 0, #fff 100%);
+    background-image: linear-gradient(to top, #fff 0, #fff 100%);
+    background-image: -moz-linear-gradient(top, #fff 0, #fff 100%);
+    background-image: -o-linear-gradient(top, #fff 0, #fff 100%);
+}
+.zng_sap_belize_plus_icon_style {
+  background-image: -webkit-linear-gradient(top, #2c4e6c 0, #9ec7d8 100%);
+  background-image: linear-gradient(to top, #2c4e6c 0, #9ec7d8 100%);
+  background-image: -moz-linear-gradient(top, #2c4e6c 0, #9ec7d8 100%);
+  background-image: -o-linear-gradient(top, #2c4e6c 0, #9ec7d8 100%);
+}
+.zng_sap_fiori_3_icon_style {
+  background: linear-gradient(135deg, #334558 45%, #edeff0 55%)
+}
+.zng_sap_horizon_icon_style {
+  background: linear-gradient(135deg, #1d2d3e 45%, #ebf8ff 55%)
+}
+.zng_sap_horizon_dark_icon_style {
+  background: linear-gradient(135deg, #000 45%, #fff 55%);
 }
