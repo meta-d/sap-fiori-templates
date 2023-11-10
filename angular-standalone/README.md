@@ -26,6 +26,8 @@ This is a template for building SAP Fiori apps with [Angular](https://angular.io
 
 Before you start, install npm packages by running `npm install`.
 
+* Before other packages that this project is depend on upgrade to Angular 17 version, please use `npm install --legacy-peer-deps` to install dependent packages.
+
 To start the development server run `nx serve angular-standalone` or `npm run start`. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
 ### Environments

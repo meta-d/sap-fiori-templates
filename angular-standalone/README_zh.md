@@ -26,6 +26,8 @@
 
 在开始之前，运行 `npm install` 安装 npm 包。
 
+* 在此项目依赖的其他包升级到 Angular 17 版本之前请使用 `npm install --legacy-peer-deps` 来安装依赖包。
+
 运行 `npx nx serve angular-standalone` 或 `npm run start` 启动开发服务器。打开浏览器并导航到 http://localhost:4200/ 。愉快的编码吧！
 
 ### 环境配置
