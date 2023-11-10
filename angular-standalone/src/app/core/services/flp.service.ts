@@ -24,7 +24,12 @@ export class FioriLaunchpadService {
   private cookieService = inject(CookieService)
   
   readonly state = signal<{
-    pageSets: any;
+    pageSets: {
+      AssignedPages: any;
+      Pages: any;
+      id: string;
+      configuration: string;
+    } | null;
     themes: UI5Theme[] | null;
     theme: string;
   }>({
@@ -119,12 +124,12 @@ export class FioriLaunchpadService {
   }
 
   getPage(id: string) {
-    return this.pageSets().results.find((item: any) => item.id === id)
+    return this.pageSets()?.Pages.results.find((item: any) => item.id === id)
   }
 
   selectGroupChips(id: string): Observable<Chip[]> {
     return this.state$.pipe(
-      map((state) => state.pageSets?.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
+      map((state) => state.pageSets?.Pages.results.find((item: any) => item.id === id)?.PageChipInstances.results.map(toChip))
     )
   }
 
