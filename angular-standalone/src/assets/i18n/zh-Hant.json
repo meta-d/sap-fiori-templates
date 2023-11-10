@@ -8,7 +8,8 @@
         "GlobalHeader": {
             "LanguageChanged": "語言已切換！",
             "ChangePassword": "修改密碼",
-            "Logout": "退出登錄"
+            "Logout": "退出登錄",
+            "Search": "搜索"
         },
         "GlobalSearch": {
             "WhatDoYouNeed": "您需要什麽？",
@@ -18,6 +19,7 @@
             "Title": "全局設置",
             "Theme": "主題",
             "MenuTheme": "菜單風格",
+            "FioriTheme": "Fiori 主題",
             "PrimaryColor": "主色調",
             "NavigationMode": "導航模式",
             "FixedLayoutSider": "固定側邊欄",
@@ -43,7 +45,8 @@
             "Admin": "管理",
             "Settings": "設置",
             "Fiori App": "Fiori 應用",
-            "User Info": "用戶信息"
+            "User Info": "用戶信息",
+            "Launchpad": "啟動頁"
         }
     }
 }

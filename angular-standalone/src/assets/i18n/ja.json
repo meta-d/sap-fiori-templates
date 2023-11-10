@@ -6,18 +6,20 @@
             "ExitFullscreen": "フルスクリーンを終了"
         },
         "GlobalHeader": {
-            "LanguageChanged": "言語が切り替わりました！",
-            "ChangePassword": "パスワード変更",
-            "Logout": "ログアウト"
+            "LanguageChanged": "言語が変更されました！",
+            "ChangePassword": "パスワードの変更",
+            "Logout": "ログアウト",
+            "Search": "検索"
         },
         "GlobalSearch": {
             "WhatDoYouNeed": "何が必要ですか？",
-            "PleaseSearch": "メニュー名を入力して検索してください"
+            "PleaseSearch": "検索するメニュー名を入力してください"
         },
         "GlobalSettings": {
             "Title": "グローバル設定",
             "Theme": "テーマ",
-            "MenuTheme": "メニュースタイル",
+            "MenuTheme": "メニューのスタイル",
+            "FioriTheme": "Fioriテーマ",
             "PrimaryColor": "プライマリカラー",
             "NavigationMode": "ナビゲーションモード",
             "FixedLayoutSider": "固定サイドバー",
@@ -35,15 +37,16 @@
             }
         },
         "UI5": {
-            "FioriAppNotFound": "申し訳ありません、この Fiori アプリが見つかりません！"
+            "FioriAppNotFound": "申し訳ありませんが、このFioriアプリケーションは見つかりませんでした！"
         },
         "Pages": {
             "Home": "ホーム",
             "Dashboard": "ダッシュボード",
             "Admin": "管理",
             "Settings": "設定",
-            "Fiori App": "Fiori アプリ",
-            "User Info": "ユーザー情報"
+            "Fiori App": "Fioriアプリ",
+            "User Info": "ユーザー情報",
+            "Launchpad": "ランチパッド"
         }
     }
 }

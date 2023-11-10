@@ -8,7 +8,8 @@
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",
             "ChangePassword": "修改密码",
-            "Logout": "退出登录"
+            "Logout": "退出登录",
+            "Search": "搜索"
         },
         "GlobalSearch": {
             "WhatDoYouNeed": "您需要什么？",
@@ -18,6 +19,7 @@
             "Title": "全局设置",
             "Theme": "主题",
             "MenuTheme": "菜单风格",
+            "FioriTheme": "Fiori 主题",
             "PrimaryColor": "主色调",
             "NavigationMode": "导航模式",
             "FixedLayoutSider": "固定侧边栏",
