@@ -3,7 +3,7 @@
 }
 
 .ant-list-item {
-  @apply opacity-80;
+  @apply items-start opacity-80;
   &:hover {
     @apply opacity-100;
   }

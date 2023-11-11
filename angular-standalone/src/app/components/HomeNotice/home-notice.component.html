@@ -1,24 +1,35 @@
-<nz-tabset nzCentered [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
+<nz-tabset [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
   <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByDate' | translate: {Default: 'By Date'} }}({{notification().total}})">
-    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+    <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: notification().notifications}"></ng-container>
   </nz-tab>
-  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByType' | translate: {Default: 'By Type'} }}(0)">
-    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByType' | translate: {Default: 'By Type'} }}({{groups().length}})"
+    (nzSelect)="onSelectByType()">
+    <nz-collapse [nzBordered]="false">
+      @for (group of groups(); track group.header.Id) {
+        <nz-collapse-panel [nzHeader]="'('+group.header.NotificationCount+')'+group.header.GroupHeaderText"
+          (nzActiveChange)="onActiveGroup(group)">
+          <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: group.items}"></ng-container>
+        </nz-collapse-panel>
+      }
+    </nz-collapse>
   </nz-tab>
-  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByPriority' | translate: {Default: 'By Priority'} }}(0)">
-    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByPriority' | translate: {Default: 'By Priority'} }}({{notification().total}})"
+    (nzSelect)="onSelectByPriority()">
+    <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: priorities()}"></ng-container>
   </nz-tab>
 </nz-tabset>
 
-<ng-template #notificationTpl>
-  <nz-list nzItemLayout="horizontal" [@listAnimation]="notification().notifications.length">
-    @if (notification().notifications.length) {
-      @for (notification of notification().notifications; track notification.Id) {
+<ng-template #notificationTpl let-notifications="notifications" >
+  <nz-list nzItemLayout="horizontal" [@listAnimation]="notifications?.length">
+    @if (notifications?.length) {
+      @for (notification of notifications; track notification.Id) {
         <nz-list-item [class.isRead]="notification.IsRead">
           <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
             <nz-list-item-meta-title>
               <div class="flex p-l-10 p-r-10">
-                <nz-tag class="m-l-10" [nzColor]="'red'">{{notification.Priority}}</nz-tag>
+                <nz-tag class="m-l-10" [nzColor]="getPriorityColor(notification.Priority)">
+                  <span nz-icon [nzType]="getPriorityIcon(notification.Priority)" nzTheme="outline"></span>
+                </nz-tag>
                 <span class="flex-1" nz-typography nzEllipsis>{{notification.SensitiveText}}</span>
               </div>
             </nz-list-item-meta-title>

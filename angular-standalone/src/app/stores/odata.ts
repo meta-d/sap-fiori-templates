@@ -96,7 +96,7 @@ export function defineODataStore(
         '$filter',
         Object.keys($filter).reduce((acc, key) => {
           if (acc) {
-            acc += '&' + key + ' eq ' + $filter[key]
+            acc += ' and ' + key + ' eq ' + $filter[key]
           } else {
             acc = key + ' eq ' + $filter[key]
           }
@@ -175,10 +175,11 @@ export function defineODataStore(
 
   const query = async <T>(entitySet: string, options?: ODataQueryOptions): Promise<T[]> => {
     const queryObj = constructQuery(options)
-    const queryString = queryObj.toString()
+    // const qString = queryString.stringify(queryObj) // .toString()
+    const qString = queryObj.toString()
 
-    let url = `${baseUrl}/${entitySet}`
-    return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
+    const url = `${baseUrl}/${entitySet}`
+    return fetch(`${url}${qString ? '?' + qString : ''}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -262,7 +263,7 @@ export function defineODataStore(
     const queryObj = constructQuery(options)
     const queryString = queryObj.toString()
 
-    let url = `${baseUrl}/${entitySet}/$count`
+    const url = `${baseUrl}/${entitySet}/$count`
     return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
       method: 'get',
       headers: {
@@ -318,8 +319,13 @@ export interface ODataQueryOptions {
   $top?: number;
 }
 
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 export function entityKeyValue(value: number | string | Date): string {
   if (isString(value)) {
+    if (uuidRegex.test(value)) {
+      return `${value}`
+    }
     return `'${encodeURIComponent(value)}'`
   } else {
     return `${value}`
@@ -328,49 +334,64 @@ export function entityKeyValue(value: number | string | Date): string {
 
 export function constructQuery(options?: ODataQueryOptions) {
   const { $filter, $expand, $orderby, $skip, $top } = options ?? {}
+  // const query = {} as any // new URLSearchParams()
   const query = new URLSearchParams()
 
   // Filters to query string
   if ($filter) {
     if (Array.isArray($filter)) {
-      query.append(
-        '$filter',
-        $filter.reduce((acc, item) => {
-          const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
-          if (acc) {
-            return acc + '&' + filterString
-          } else {
-            return filterString
-          }
-        }, '')
-      )
+      query.append('$filter', $filter.reduce((acc, item) => {
+        const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
+        if (acc) {
+          return acc + ' and ' + filterString
+        } else {
+          return filterString
+        }
+      }, ''))
+      // query['$filter'] = $filter.reduce((acc, item) => {
+      //     const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
+      //     if (acc) {
+      //       return acc + ' and ' + filterString
+      //     } else {
+      //       return filterString
+      //     }
+      //   }, '')
     } else {
-      query.append(
-        '$filter',
-        Object.keys($filter).reduce((acc, key) => {
-          const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
-          if (acc) {
-            return acc + '&' + filterString
-          } else {
-            return filterString
-          }
-        }, '')
-      )
+      query.append('$filter', Object.keys($filter).reduce((acc, key) => {
+        const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+        if (acc) {
+          return acc + ' and ' + filterString
+        } else {
+          return filterString
+        }
+      }, ''))
+      // query['$filter'] = Object.keys($filter).reduce((acc, key) => {
+      //     const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+      //     if (acc) {
+      //       return acc + ' and ' + filterString
+      //     } else {
+      //       return filterString
+      //     }
+      //   }, '')
     }
   }
 
   if ($expand) {
+    // query['$expand'] = isString($expand) ? $expand : $expand.join(',')
     query.append('$expand', isString($expand) ? $expand : $expand.join(','))
   }
 
   if ($orderby) {
+    // query['$orderby'] = $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(',')
     query.append('$orderby', $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(','))
   }
 
   if ($skip != null) {
+    // query['$skip'] = `${$skip}`
     query.append('$skip', `${$skip}`)
   }
   if ($top != null) {
+    // query['$top'] = `${$top}`
     query.append('$top', `${$top}`)
   }
 
