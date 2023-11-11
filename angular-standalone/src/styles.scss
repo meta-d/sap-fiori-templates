@@ -1,6 +1,8 @@
 @use "node_modules/@ngneat/cmdk/styles/scss/globals";
 @use "node_modules/@ngneat/cmdk/styles/scss/vercel";
 
+@import "./app/components/HomeNotice/_home-notice.component";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

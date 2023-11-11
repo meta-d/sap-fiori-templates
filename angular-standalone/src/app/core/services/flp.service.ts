@@ -1,4 +1,4 @@
-import { queryThemes, readFLPH } from '@/app/stores'
+import { UI5Theme, queryThemes, readFLPH } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { Injectable, computed, inject, signal } from '@angular/core'
 import { toObservable } from '@angular/core/rxjs-interop'
@@ -10,12 +10,6 @@ import { CookieService } from 'ngx-cookie-service'
 
 export const SAPUserContextCookieName = 'sap-usercontext'
 export const SAPUserContextLanguage = 'sap-language'
-
-export interface UI5Theme {
-  id: string;
-  name: string;
-  shellType: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -115,10 +109,10 @@ export class FioriLaunchpadService {
 
   async loadThemes() {
     if (!this.themes()) {
-      const d = await queryThemes()
+      const themes = await queryThemes()
       this.state.update((state) => ({
         ...state,
-        themes: d.results
+        themes
       }))
     }
   }
@@ -138,7 +132,7 @@ export class FioriLaunchpadService {
   }
 
   getChip(path: string, group?: string | null): Chip | null {
-    return this.routes()?.find((item) => item.route.path === group)?.submenus?.find((item) => item.route.path === path)?.data
+    return this.routes()?.find((item) => !group || item.route.path === group)?.submenus?.find((item) => item.route.path === path)?.data
   }
 
   /**

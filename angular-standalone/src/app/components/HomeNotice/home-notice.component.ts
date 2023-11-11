@@ -1,6 +1,12 @@
+import { NotificationService, mapDateLocale } from '@/app/core';
+import { listAnimation } from '@/app/core/animations';
 import { ZngAntdModule } from '@/app/core/shared.module';
+import { Action, Notification, dismiss, resetBadgeNumber } from '@/app/stores';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import formatRelative from 'date-fns/formatRelative';
 
 
 @Component({
@@ -12,8 +18,56 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   imports: [
     CommonModule,
     ZngAntdModule,
-  ]
+    TranslateModule
+  ],
+  animations: [listAnimation]
 })
-export class HomeNoticeComponent {
-  messages = signal([])
+export class HomeNoticeComponent implements AfterViewInit {
+  private readonly translate = inject(TranslateService)
+  private readonly router = inject(Router)
+  private readonly notificationService = inject(NotificationService)
+
+  readonly notification = computed(() => {
+    const { total, notifications } = this.notificationService.state()
+    return {
+      total,
+      notifications: notifications?.map((item) => ({
+        ...item,
+        CreatedAt: formatRelative(item.CreatedAt as Date, new Date(), {
+          locale: mapDateLocale(this.translate.currentLang)
+        })
+      }))
+    }
+  })
+
+  constructor() {
+    this.notificationService.refresh()
+  }
+
+  ngAfterViewInit(): void {
+    this.notificationService.resetBadgeNumber()
+  }
+
+  onClickNotification(item: Notification) {
+    this.markRead(item)
+    if (item.NavigationTargetObject) {
+      const queryString = item.NavigationTargetParams.reduce((acc, { Key, Value }) => {
+        const paramString = `${Key}=${Value}`
+        return acc ? `${acc}&${paramString}` : paramString
+      }, '')
+      this.router.navigate(['app', item.NavigationIntent], { fragment: item.NavigationIntent + (queryString ? '?' + queryString : ''), })
+    }
+  }
+
+  dismiss(item: Notification) {
+    this.notificationService.dismiss(item.Id)
+  }
+
+  markRead(item: Notification) {
+    this.notificationService.markRead(item.Id)
+  }
+
+  executeAction(item: Notification, action: Action) {
+    this.notificationService.executeAction(item.Id, action)
+  }
 }

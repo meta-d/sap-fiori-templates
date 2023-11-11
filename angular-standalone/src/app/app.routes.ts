@@ -33,5 +33,12 @@ export const appRoutes: Route[] = [
       hidden: true
     },
     loadChildren: () => import('./pages/ui5').then((m) => m.routes),
+  },
+  {
+    path: 'app',
+    data: {
+      hidden: true
+    },
+    loadChildren: () => import('./pages/app').then((m) => m.routes),
   }
 ]

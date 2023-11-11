@@ -28,6 +28,7 @@
     "@ngneat/cmdk": "^2.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "date-fns": "^2.30.0",
     "ng-zorro-antd": "^16.2.2",
     "ngx-cookie-service": "^16.0.2",
     "ngx-logger": "^5.0.12",

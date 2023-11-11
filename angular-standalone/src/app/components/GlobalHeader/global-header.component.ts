@@ -1,12 +1,13 @@
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import {
   AuthenticationService,
+  NotificationService,
   SAPUserContextCookieName,
   SAPUserContextLanguage,
   ScreenLessHiddenDirective,
@@ -15,10 +16,12 @@ import {
 } from '@/app/core'
 import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
-import { AppStoreService } from '@/app/stores'
+import { AppStoreService, countNotifications, getBadgeNumber, getNotifications } from '@/app/stores'
 import { Params, Router } from '@angular/router'
 import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
 import { CookieService } from 'ngx-cookie-service'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { EMPTY, Subject, interval, switchMap, timer } from 'rxjs'
 
 @Component({
   standalone: true,
@@ -43,6 +46,7 @@ export class GlobalHeaderComponent {
   public appStore = inject(AppStoreService)
   private cookieService = inject(CookieService)
   public authService = inject(AuthenticationService)
+  public notificationService = inject(NotificationService)
   private router = inject(Router)
 
   languages = [
@@ -57,6 +61,16 @@ export class GlobalHeaderComponent {
   }
 
   readonly user = this.appStore.user
+
+  readonly startRefreshNotification = new Subject<boolean>()
+  readonly badgeNumber = toSignal(this.startRefreshNotification.pipe(
+    switchMap((start) => start ? timer(0, 60 * 1000) : EMPTY),
+    switchMap(async () => this.notificationService.refreshBadgeNumber()),
+  ), { initialValue: 0 })
+
+  constructor() {
+    this.startRefreshNotification.next(true)
+  }
 
   useLanguage(lang: string): void {
     this.translate.use(lang).subscribe(() => {
@@ -125,4 +139,5 @@ export class GlobalHeaderComponent {
     }
     this.modalService.create(options)
   }
+
 }

@@ -11,20 +11,25 @@ export enum StoreStatus {
   complete
 }
 
+const xCsrfToken$ = new BehaviorSubject<string | null>(null)
+
 export function defineODataStore(
   service: string,
   options: {
-    base: string
+    base: string;
+    version?: string | null;
   } = {
-    base: '/sap/opu/odata/sap'
+    base: '/sap/opu/odata/sap',
   }
 ) {
-  const { base } = options
+  const { base, version } = options
 
-  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any; xCsrfToken?: string | undefined }>({
+  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any;}>({
     status: StoreStatus.init,
     Schema: null
   })
+
+  const baseUrl = `${base}/${service}${version ? `/${version}` : ''}`
 
   const init = () => {
     store.next({
@@ -32,7 +37,7 @@ export function defineODataStore(
       status: StoreStatus.initializing
     })
     setTimeout(() => {
-      fetch(`${base}/${service}/$metadata`)
+      fetch(`${baseUrl}/$metadata`)
         .then((response) => response.text())
         .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
         .then((metadata: any) => {
@@ -66,13 +71,14 @@ export function defineODataStore(
   const entityType = (entity: string) => store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity)
 
   function setXCsrfToken(token: string) {
-    store.next({
-      ...store.value,
-      xCsrfToken: token
-    })
+    xCsrfToken$.next(token)
+    // store.next({
+    //   ...store.value,
+    //   xCsrfToken: token
+    // })
   }
 
-  const read = (
+  const read = async (
     entity: string,
     keys: string | Record<string, number | string> | null,
     options?: {
@@ -103,7 +109,7 @@ export function defineODataStore(
       query.append('$expand', isString($expand) ? $expand : $expand.join(','))
     }
 
-    let url = `${base}/${service}/${entity}`
+    let url = `${baseUrl}/${entity}`
     if (keys) {
       if (isPlainObject(keys)) {
         url += `(${Object.keys(keys)
@@ -144,15 +150,15 @@ export function defineODataStore(
     })
   }
 
-  const save = (entitySet: string, body: any) => {
-    const url = `${base}/${service}/${entitySet}`
+  const save = async (entitySet: string, body: any) => {
+    const url = `${baseUrl}/${entitySet}`
 
     const reqOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Csrf-Token': store.value.xCsrfToken ?? ''
+        'X-Csrf-Token': xCsrfToken$.value ?? ''
       },
       body: JSON.stringify(body)
     }
@@ -167,11 +173,11 @@ export function defineODataStore(
     })
   }
 
-  const query = (entitySet: string, options?: ODataQueryOptions) => {
+  const query = async <T>(entitySet: string, options?: ODataQueryOptions): Promise<T[]> => {
     const queryObj = constructQuery(options)
     const queryString = queryObj.toString()
 
-    let url = `${base}/${service}/${entitySet}`
+    let url = `${baseUrl}/${entitySet}`
     return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
       method: 'get',
       headers: {
@@ -188,10 +194,90 @@ export function defineODataStore(
       if (response.ok) {
         const result = await response.json()
         if (response.headers.get('Odata-Version') === '4.0') {
-          return result
+          return result.value
         } else {
-          return result.d
+          return result.d.results
         }
+      }
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    })
+  }
+
+  /**
+   * 
+   * @param name Function Import Name
+   */
+  const functionImport = async (name: string) => {
+    const url = `${baseUrl}/${name}()`
+    const reqOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
+    return fetch(url, reqOptions).then(async (response) => {
+      if (response.ok) {
+        return response.json()
+      }
+
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    })
+  }
+
+  const actionImport = async <T>(name: string, body?: any): Promise<T> => {
+    const url = `${baseUrl}/${name}`
+    const reqOptions: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-Csrf-Token': xCsrfToken$.value ?? ''
+      },
+      body: body ? JSON.stringify(body) : null
+    }
+    return fetch(url, reqOptions).then(async (response) => {
+      if (response.ok) {
+        try {
+          return await response.json()
+        } catch(err) {
+          return null
+        }
+      }
+
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    })
+  }
+
+  const count = async (entitySet: string, options?: ODataQueryOptions): Promise<number> => {
+    const queryObj = constructQuery(options)
+    const queryString = queryObj.toString()
+
+    let url = `${baseUrl}/${entitySet}/$count`
+    return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...(options?.headers ?? {})
+      }
+    }).then(async (response) => {
+      // const token = response.headers.get('X-Csrf-Token')
+      // if (token) {
+      //   setXCsrfToken(token)
+      // }
+
+      if (response.ok) {
+        return await response.json()
       }
       throw {
         code: response.status,
@@ -209,6 +295,9 @@ export function defineODataStore(
     read,
     query,
     save,
+    functionImport,
+    actionImport,
+    count,
     setXCsrfToken
   }
 }
@@ -217,40 +306,86 @@ export interface ODataQueryOptions {
   headers?: Record<string, string>
   $filter?: {
     [key: string]: any
-  }
-  $expand?: string | string[]
+  } | Filter[]
+  $expand?: string | string[];
+
+  $orderby?: {
+    name: string;
+    order?: OrderEnum | null;
+  }[];
+
+  $skip?: number;
+  $top?: number;
 }
 
 export function entityKeyValue(value: number | string | Date): string {
   if (isString(value)) {
     return `'${encodeURIComponent(value)}'`
-  } else if (typeof value === 'number') {
+  } else {
     return `${value}`
   }
-
-  return 'null'
 }
 
 export function constructQuery(options?: ODataQueryOptions) {
-  const { $filter, $expand } = options ?? {}
+  const { $filter, $expand, $orderby, $skip, $top } = options ?? {}
   const query = new URLSearchParams()
+
+  // Filters to query string
   if ($filter) {
-    query.append(
-      '$filter',
-      Object.keys($filter).reduce((acc, key) => {
-        if (acc) {
-          acc += '&' + key + ' eq ' + $filter[key]
-        } else {
-          acc = key + ' eq ' + $filter[key]
-        }
-        return acc
-      }, '')
-    )
+    if (Array.isArray($filter)) {
+      query.append(
+        '$filter',
+        $filter.reduce((acc, item) => {
+          const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
+          if (acc) {
+            return acc + '&' + filterString
+          } else {
+            return filterString
+          }
+        }, '')
+      )
+    } else {
+      query.append(
+        '$filter',
+        Object.keys($filter).reduce((acc, key) => {
+          const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+          if (acc) {
+            return acc + '&' + filterString
+          } else {
+            return filterString
+          }
+        }, '')
+      )
+    }
   }
 
   if ($expand) {
     query.append('$expand', isString($expand) ? $expand : $expand.join(','))
   }
 
+  if ($orderby) {
+    query.append('$orderby', $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(','))
+  }
+
+  if ($skip != null) {
+    query.append('$skip', `${$skip}`)
+  }
+  if ($top != null) {
+    query.append('$top', `${$top}`)
+  }
+
   return query
+}
+
+export enum OrderEnum {
+  asc = 'asc',
+  desc = 'desc'
+}
+export interface Filter {
+  path: string;
+  operator: FilterOperator;
+  value: number | string
+}
+export enum FilterOperator {
+  eq = 'eq'
 }

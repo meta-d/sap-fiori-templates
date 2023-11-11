@@ -1,35 +1,64 @@
-<nz-card [nzBodyStyle]="{ padding: 0 }" >
-  <nz-tabset nzCentered [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
-    <nz-tab nzTitle="通知(0)">
-      <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
-    </nz-tab>
-    <nz-tab nzTitle="消息(0)">
-      <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
-    </nz-tab>
-    <nz-tab nzTitle="待办(0)">
-      <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
-    </nz-tab>
-  </nz-tabset>
-</nz-card>
+<nz-tabset nzCentered [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByDate' | translate: {Default: 'By Date'} }}({{notification().total}})">
+    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByType' | translate: {Default: 'By Type'} }}(0)">
+    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByPriority' | translate: {Default: 'By Priority'} }}(0)">
+    <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+  </nz-tab>
+</nz-tabset>
+
 <ng-template #notificationTpl>
-  <nz-list nzItemLayout="horizontal">
-    <nz-list-item *ngFor="let i of messages()">
-      <nz-list-item-meta>
-        <nz-list-item-meta-title>
-          <div class="flex p-l-10 p-r-10">
-            <span class="flex-1" nz-typography nzEllipsis></span>
-            <nz-tag class="m-l-10" [nzColor]="'red'"></nz-tag>
-          </div>
-        </nz-list-item-meta-title>
-        <nz-list-item-meta-description>
-          <div class="p-l-10 p-r-10">
-            <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3"></p>
-            <p>审核时间：2022-2-22</p>
-          </div>
-        </nz-list-item-meta-description>
-      </nz-list-item-meta>
-    </nz-list-item>
-     <nz-list-empty *ngIf="messages().length === 0"></nz-list-empty>
+  <nz-list nzItemLayout="horizontal" [@listAnimation]="notification().notifications.length">
+    @if (notification().notifications.length) {
+      @for (notification of notification().notifications; track notification.Id) {
+        <nz-list-item [class.isRead]="notification.IsRead">
+          <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
+            <nz-list-item-meta-title>
+              <div class="flex p-l-10 p-r-10">
+                <nz-tag class="m-l-10" [nzColor]="'red'">{{notification.Priority}}</nz-tag>
+                <span class="flex-1" nz-typography nzEllipsis>{{notification.SensitiveText}}</span>
+              </div>
+            </nz-list-item-meta-title>
+            <nz-list-item-meta-description>
+              <div class="p-l-10 p-r-10">
+                <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">
+                {{notification.SubTitle}}</p>
+                <p>{{notification.CreatedAt}}</p>
+              </div>
+            </nz-list-item-meta-description>
+          </nz-list-item-meta>
+
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              @if (notification.IsActionable) {
+                <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                  <span nz-icon nzType="down"></span>
+                </button>
+              } @else {
+                <button nz-button nzType="dashed" (click)="dismiss(notification)">
+                  <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+                </button>
+              }
+            </nz-list-item-action>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                @for (action of notification.Actions; track action.ActionId) {
+                  <li nz-menu-item (click)="executeAction(notification, action)">
+                    <a>{{action.ActionText}}</a>
+                  </li>
+                }
+              </ul>
+            </nz-dropdown-menu>
+          </ul>
+        </nz-list-item>
+      }
+    } @else {
+      <nz-list-empty></nz-list-empty>
+    }
+     
     <nz-list-footer>
       <div class="center operate-text full-with full-height"></div>
     </nz-list-footer>

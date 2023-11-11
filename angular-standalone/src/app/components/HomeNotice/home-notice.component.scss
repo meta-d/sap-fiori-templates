@@ -1,11 +1,10 @@
-.ant-card {
-  @apply rounded-lg shadow-lg;
+:host {
+  @apply block;
 }
 
 .ant-list-item {
-  @apply px-4 cursor-pointer;
-
-  &.read {
-    opacity: .4;
+  @apply opacity-80;
+  &:hover {
+    @apply opacity-100;
   }
 }
