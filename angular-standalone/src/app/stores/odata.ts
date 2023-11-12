@@ -2,6 +2,7 @@ import { isString } from '@/app/utils/isString'
 import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
 import { isPlainObject } from '../utils/isPlainObject'
+import { environment } from '@/environments/environment'
 
 export enum StoreStatus {
   init,
@@ -29,7 +30,8 @@ export function defineODataStore(
     Schema: null
   })
 
-  const baseUrl = `${base}/${service}${version ? `/${version}` : ''}`
+  // Dont use version when use fe mock server, because it doesn't support versioning
+  const baseUrl = `${base}/${service}${version && !environment.mockData ? `/${version}` : ''}`
 
   const init = () => {
     store.next({

@@ -13,9 +13,15 @@ const customMiddlewares = config
   .toJSON()
 const sapFeMockserver = customMiddlewares.find((item) => item.name === 'sap-fe-mockserver')
 
+var basePath = process.cwd()
 let server
 const mockServer = new FEMockserver({
   ...sapFeMockserver.configuration,
+  services: sapFeMockserver.configuration.services.map((item) => ({
+    ...item,
+    metadataPath: `${basePath}/${item.metadataPath}`,
+    mockdataPath: `${basePath}/${item.mockdataPath}`,
+  })),
   contextBasedIsolation: true
 })
 

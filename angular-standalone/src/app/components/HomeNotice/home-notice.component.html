@@ -23,7 +23,7 @@
   <nz-list nzItemLayout="horizontal" [@listAnimation]="notifications?.length">
     @if (notifications?.length) {
       @for (notification of notifications; track notification.Id) {
-        <nz-list-item [class.isRead]="notification.IsRead">
+        <nz-list-item class="zng-list-animation__item" [class.isRead]="notification.IsRead">
           <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
             <nz-list-item-meta-title>
               <div class="flex p-l-10 p-r-10">
@@ -35,8 +35,7 @@
             </nz-list-item-meta-title>
             <nz-list-item-meta-description>
               <div class="p-l-10 p-r-10">
-                <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">
-                {{notification.SubTitle}}</p>
+                <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">{{notification.SubTitle}}</p>
                 <p>{{notification.CreatedAt}}</p>
               </div>
             </nz-list-item-meta-description>
@@ -70,8 +69,8 @@
       <nz-list-empty></nz-list-empty>
     }
      
-    <nz-list-footer>
+    <!-- <nz-list-footer>
       <div class="center operate-text full-with full-height"></div>
-    </nz-list-footer>
+    </nz-list-footer> -->
   </nz-list>
 </ng-template>

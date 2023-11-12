@@ -64,6 +64,20 @@
               "with": "src/environments/environment.development.ts"
             }
           ]
+        },
+        "mock": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "src/environments/environment.ts",
+              "with": "src/environments/environment.mock.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -81,7 +95,7 @@
           "buildTarget": "angular-standalone:build:development"
         },
         "mock": {
-          "buildTarget": "angular-standalone:build:development",
+          "buildTarget": "angular-standalone:build:mock",
           "proxyConfig": "src/mock.conf.json"
         }
       },

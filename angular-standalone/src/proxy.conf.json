@@ -1,5 +1,5 @@
 {
-  "/sap/opu/odata/": {
+  "/sap/opu/": {
     "target": "http://<SAP Server>:<SAP Port>/",
     "secure": false,
     "changeOrigin": true,

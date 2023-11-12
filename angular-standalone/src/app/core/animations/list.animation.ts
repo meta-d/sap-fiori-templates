@@ -5,6 +5,6 @@ export const listAnimation = trigger('listAnimation', [
     query(':enter', [style({ opacity: 0 }), stagger('60ms', animate('300ms ease-out', style({ opacity: 1 })))], {
       optional: true
     }),
-    query(':leave', animate('100ms', style({ opacity: 0, height: 0 })), { optional: true })
+    query('.zng-list-animation__item:leave', animate('100ms', style({ opacity: 0, height: 0 })), { optional: true })
   ])
 ])

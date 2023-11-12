@@ -120,13 +120,9 @@ export class NotificationService {
     await resetBadgeNumber()
   }
 
-  async dismiss(id: string) {
-    await dismiss(id)
-    this.state.update((state) => ({
-      ...state,
-      notifications: state.notifications.filter((item) => item.Id !== id),
-      priorities: state.priorities.filter((item) => item.Id !== id),
-    }))
+  async dismiss(notificationId: string) {
+    await dismiss(notificationId)
+    this.deleteNotification(notificationId)
   }
 
   async markRead(id: string) {
@@ -149,6 +145,17 @@ export class NotificationService {
             }
             : item
         ),
+      groups: state.groups.map((group) => ({
+        ...group,
+        items: group.items?.map((item) =>
+          item.Id === id
+            ? {
+                ...item,
+                IsRead: true
+            }
+            : item
+        )
+      }))
     }))
   }
 
@@ -162,11 +169,19 @@ export class NotificationService {
     }
 
     if (result.DeleteOnReturn) {
-      this.state.update((state) => ({
-        ...state,
-        notifications: state.notifications.filter((item) => item.Id !== notificationId),
-        priorities: state.priorities.filter((item) => item.Id !== notificationId)
-      }))
+      this.deleteNotification(notificationId)
     }
+  }
+
+  deleteNotification(notificationId: string) {
+    this.state.update((state) => ({
+      ...state,
+      notifications: state.notifications.filter((item) => item.Id !== notificationId),
+      priorities: state.priorities.filter((item) => item.Id !== notificationId),
+      groups: state.groups.map((group) => ({
+        ...group,
+        items: group.items?.filter((item) => item.Id !== notificationId)
+      }))
+    }))
   }
 }

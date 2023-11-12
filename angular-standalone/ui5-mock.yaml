@@ -21,6 +21,11 @@ server:
             mockdataPath: ./src/mock/odata/INTEROP/data
             generateMockData: true
             debug: false
+          - urlPath: /sap/opu/odata4/iwngw/notification/default/iwngw/notification_srv
+            metadataPath: ./src/mock/odata/notification_srv/metadata.xml
+            mockdataPath: ./src/mock/odata/notification_srv/data
+            generateMockData: false
+            debug: false
           - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
             metadataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
             mockdataPath: ./src/mock/odata/EPM_REF_APPS_PO_APV_SRV/data
