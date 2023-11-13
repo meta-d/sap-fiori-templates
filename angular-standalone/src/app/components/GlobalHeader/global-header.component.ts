@@ -10,7 +10,7 @@ import {
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { AppStoreService } from '@/app/stores'
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, ViewChild, computed, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
 import { Params, Router } from '@angular/router'
@@ -23,6 +23,7 @@ import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
 import { environment } from '@/environments/environment'
+import { NzPopoverDirective } from 'ng-zorro-antd/popover'
 
 @Component({
   standalone: true,
@@ -50,6 +51,8 @@ export class GlobalHeaderComponent {
   public notificationService = inject(NotificationService)
   private router = inject(Router)
 
+  @ViewChild(NzPopoverDirective) notification!: NzPopoverDirective
+
   languages = [
     { value: 'zh-Hans', label: '简体中文' },
     { value: 'zh-Hant', label: '繁体中文' },
@@ -62,20 +65,13 @@ export class GlobalHeaderComponent {
   }
 
   readonly user = this.appStore.user
-
   readonly enableNotification = environment.enableNotification
-  readonly startRefreshNotification = new Subject<boolean>()
-  readonly badgeNumber = toSignal(
-    this.startRefreshNotification.pipe(
-      switchMap((start) => (start ? timer(0, 60 * 1000) : EMPTY)),
-      switchMap(async () => this.notificationService.refreshBadgeNumber())
-    ),
-    { initialValue: 0 }
-  )
+
+  readonly badgeNumber = this.notificationService.badgeNumber
 
   constructor() {
     if (this.enableNotification) {
-      this.startRefreshNotification.next(true)
+      this.notificationService.startRefreshNotification()
     }
   }
 
@@ -96,10 +92,6 @@ export class GlobalHeaderComponent {
 
   goLogin(): void {
     this.router.navigate(['auth/login'])
-  }
-
-  clean(): void {
-    this.message.success('清除成功，请重新登录')
   }
 
   goPage(path: string): void {
@@ -141,5 +133,11 @@ export class GlobalHeaderComponent {
       nzClassName: 'zng-global-search-modal'
     }
     this.modalService.create(options)
+  }
+
+  closeNotification() {
+    if (this.notification.component) {
+      this.notification.component.nzVisible = false
+    }
   }
 }

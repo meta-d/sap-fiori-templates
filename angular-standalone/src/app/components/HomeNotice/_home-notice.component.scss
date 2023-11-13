@@ -16,4 +16,8 @@
   .ant-collapse-borderless {
     @apply bg-transparent;
   }
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    @apply items-center;
+  }
 }

@@ -16,6 +16,7 @@ export interface Notification {
   NavigationTargetParams: NavigationTargetParam[]
   NotificationTypeKey: string
   NotificationTypeDesc: string
+  ParentId: string
 
   Actions: Action[]
   GroupHeaderText: string
@@ -39,6 +40,7 @@ export interface ExecuteActionResultType {
   DeleteOnReturn: boolean
   MessageText: string
   Success: boolean
+  NotificationId: string
 }
 
 const notificationStore = defineODataStore('notification_srv', {
@@ -75,6 +77,14 @@ export async function dismiss(notificationId: string) {
   })
 }
 
+export async function dismissAll(parentId: string) {
+  const { actionImport } = notificationStore
+
+  await actionImport('DismissAll', {
+    ParentId: parentId
+  })
+}
+
 export async function markRead(notificationId: string) {
   const { actionImport } = notificationStore
 
@@ -91,6 +101,16 @@ export async function executeAction(notificationId: string, actionId: string) {
     ActionId: actionId
   })
 }
+
+export async function bulkActionByHeader(parentId: string, actionId: string) {
+  const { actionImport } = notificationStore
+
+  return await actionImport<ExecuteActionResultType[]>('BulkActionByHeader', {
+    ParentId: parentId,
+    ActionId: actionId
+  })
+}
+
 
 export async function countNotifications() {
   const { count } = notificationStore

@@ -6,10 +6,31 @@
     (nzSelect)="onSelectByType()">
     <nz-collapse [nzBordered]="false">
       @for (group of groups(); track group.header.Id) {
-        <nz-collapse-panel [nzHeader]="'('+group.header.NotificationCount+')'+group.header.GroupHeaderText"
+        <nz-collapse-panel #panel [nzHeader]="'('+group.header.NotificationCount+')'+group.header.GroupHeaderText"
+          [nzExtra]="collapseExtraTpl"
           (nzActiveChange)="onActiveGroup(group)">
           <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: group.items}"></ng-container>
         </nz-collapse-panel>
+        <ng-template #collapseExtraTpl>
+          @if (panel.nzActive) {
+            @if (group.header.IsActionable) {
+              <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu" (click)="$event.stopPropagation()"><span nz-icon nzType="ellipsis"></span></button>
+            }
+          } @else {
+            <button nz-button nzType="text" nzDanger [title]="'ZNG.HomeNotice.CloseAll' | translate: {Default: 'Close All'}" (click)="dismissAll(group.header)">
+              <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+            </button>
+          }
+        </ng-template>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            @for (action of group.header.Actions; track action.ActionId) {
+              <li nz-menu-item [nzDanger]="action.Nature === 'NEGATIVE'" (click)="bulkActionByHeader(group.header, action)">
+                <a>{{action.GroupActionText}}</a>
+              </li>
+            }
+          </ul>
+        </nz-dropdown-menu>
       }
     </nz-collapse>
   </nz-tab>
@@ -47,7 +68,7 @@
                 <span nz-icon nzType="down"></span>
               </button>
             } @else {
-              <button nz-button nzType="dashed" (click)="dismiss(notification)">
+              <button nz-button nzType="text" nzDanger (click)="dismiss(notification)">
                 <span nz-icon nzType="close-circle" nzTheme="outline"></span>
               </button>
             }
@@ -55,7 +76,7 @@
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
               @for (action of notification.Actions; track action.ActionId) {
-                <li nz-menu-item (click)="executeAction(notification, action)">
+                <li nz-menu-item [nzDanger]="action.Nature === 'NEGATIVE'" (click)="executeAction(notification, action)">
                   <a>{{action.ActionText}}</a>
                 </li>
               }

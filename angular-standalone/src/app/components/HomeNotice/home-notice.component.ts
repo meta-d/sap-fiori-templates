@@ -3,7 +3,7 @@ import { listAnimation } from '@/app/core/animations'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { Action, Notification } from '@/app/stores'
 import { CommonModule } from '@angular/common'
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Output, computed, inject, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import formatRelative from 'date-fns/formatRelative'
@@ -22,8 +22,11 @@ export class HomeNoticeComponent implements AfterViewInit {
   private readonly router = inject(Router)
   private readonly notificationService = inject(NotificationService)
 
+  @Output() closed = new EventEmitter()
+
   readonly notification = computed(() => {
-    const { total, notifications } = this.notificationService.state()
+    const total = this.notificationService.total()
+    const notifications = this.notificationService.notifications()
     return {
       total,
       notifications: notifications?.map((item) => ({
@@ -41,12 +44,9 @@ export class HomeNoticeComponent implements AfterViewInit {
   readonly hasByType = signal(false)
   readonly hasByPriority = signal(false)
 
-  constructor() {
-    this.notificationService.refresh()
-  }
 
   ngAfterViewInit(): void {
-    this.notificationService.resetBadgeNumber()
+    this.notificationService.refresh().then(() => this.notificationService.resetBadgeNumber())
   }
 
   onClickNotification(item: Notification) {
@@ -59,11 +59,17 @@ export class HomeNoticeComponent implements AfterViewInit {
       this.router.navigate(['app', item.NavigationIntent], {
         fragment: item.NavigationIntent + (queryString ? '?' + queryString : '')
       })
+
+      this.closed.emit()
     }
   }
 
   dismiss(item: Notification) {
     this.notificationService.dismiss(item.Id)
+  }
+
+  dismissAll(parent: Notification) {
+    this.notificationService.dismissAll(parent.Id)
   }
 
   markRead(item: Notification) {
@@ -72,6 +78,10 @@ export class HomeNoticeComponent implements AfterViewInit {
 
   executeAction(item: Notification, action: Action) {
     this.notificationService.executeAction(item.Id, action)
+  }
+
+  bulkActionByHeader(item: Notification, action: Action) {
+    this.notificationService.bulkActionByHeader(item, action)
   }
 
   onSelectByType() {
