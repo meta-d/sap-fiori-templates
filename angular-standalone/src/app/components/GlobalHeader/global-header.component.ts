@@ -1,10 +1,3 @@
-import { ZngAntdModule } from '@/app/core/shared.module'
-import { CommonModule } from '@angular/common'
-import { Component, inject, signal } from '@angular/core'
-import { FormsModule } from '@angular/forms'
-import { NzMessageService } from 'ng-zorro-antd/message'
-import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
-import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import {
   AuthenticationService,
   NotificationService,
@@ -14,14 +7,22 @@ import {
   ToggleFullscreenDirective,
   toSAPLanguage
 } from '@/app/core'
-import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
-import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
-import { AppStoreService, countNotifications, getBadgeNumber, getNotifications } from '@/app/stores'
-import { Params, Router } from '@angular/router'
-import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
-import { CookieService } from 'ngx-cookie-service'
+import { ZngAntdModule } from '@/app/core/shared.module'
+import { AppStoreService } from '@/app/stores'
+import { CommonModule } from '@angular/common'
+import { Component, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { EMPTY, Subject, interval, switchMap, timer } from 'rxjs'
+import { FormsModule } from '@angular/forms'
+import { Params, Router } from '@angular/router'
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
+import { CookieService } from 'ngx-cookie-service'
+import { EMPTY, Subject, switchMap, timer } from 'rxjs'
+import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
+import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
+import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
+import { environment } from '@/environments/environment'
 
 @Component({
   standalone: true,
@@ -62,14 +63,20 @@ export class GlobalHeaderComponent {
 
   readonly user = this.appStore.user
 
+  readonly enableNotification = environment.enableNotification
   readonly startRefreshNotification = new Subject<boolean>()
-  readonly badgeNumber = toSignal(this.startRefreshNotification.pipe(
-    switchMap((start) => start ? timer(0, 60 * 1000) : EMPTY),
-    switchMap(async () => this.notificationService.refreshBadgeNumber()),
-  ), { initialValue: 0 })
+  readonly badgeNumber = toSignal(
+    this.startRefreshNotification.pipe(
+      switchMap((start) => (start ? timer(0, 60 * 1000) : EMPTY)),
+      switchMap(async () => this.notificationService.refreshBadgeNumber())
+    ),
+    { initialValue: 0 }
+  )
 
   constructor() {
-    this.startRefreshNotification.next(true)
+    if (this.enableNotification) {
+      this.startRefreshNotification.next(true)
+    }
   }
 
   useLanguage(lang: string): void {
@@ -92,11 +99,7 @@ export class GlobalHeaderComponent {
   }
 
   clean(): void {
-    this.message.success('清除成功，请重新登录');
-  }
-
-  showMessage(): void {
-    this.message.info('切换成功');
+    this.message.success('清除成功，请重新登录')
   }
 
   goPage(path: string): void {
@@ -117,7 +120,7 @@ export class GlobalHeaderComponent {
     const queryParams: Params = {}
     if (userContext) {
       const searchParams = new URL(`http://localhost?${userContext}`).searchParams
-      searchParams.forEach((value, key) => queryParams[key] = value)
+      searchParams.forEach((value, key) => (queryParams[key] = value))
     }
     this.authService.logout().subscribe(async () => {
       await this.router.navigate(['/'], {
@@ -135,9 +138,8 @@ export class GlobalHeaderComponent {
       nzStyle: { top: '48px' },
       nzFooter: null,
       nzBodyStyle: { padding: '0' },
-      nzClassName: 'zng-global-search-modal',
+      nzClassName: 'zng-global-search-modal'
     }
     this.modalService.create(options)
   }
-
 }

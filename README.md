@@ -63,7 +63,7 @@ We plan to provide project templates in multiple frameworks and multiple combina
 * Website **watermark** functionality.
 * Global application **search** feature.
 * **Full-screen** mode for web pages and Fiori applications.
-* Support for SAP system **notification** messages.
+* Support for SAP system [**notification**](./docs/Notification.md) messages.
 
 ## 🌼 Screenshots
 

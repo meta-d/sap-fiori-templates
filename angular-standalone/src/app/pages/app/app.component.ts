@@ -19,9 +19,8 @@ import { FormsModule } from '@angular/forms'
 import { Title } from '@angular/platform-browser'
 import { ActivatedRoute, RouterModule } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
-import { CookieService } from 'ngx-cookie-service'
 import { NGXLogger } from 'ngx-logger'
-import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
+import { distinctUntilChanged, map, startWith } from 'rxjs'
 
 @Component({
   standalone: true,
@@ -44,18 +43,10 @@ import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
 export class AppComponent implements AfterViewInit {
   private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
-  private cookieService = inject(CookieService)
   private title = inject(Title)
   private logger = inject(NGXLogger)
 
   @ViewChildren('appiframe') apps!: QueryList<ElementRef>
-
-  // public groupId = toSignal(
-  //   this.route.parent?.paramMap.pipe(
-  //     map((params) => params.get('group') as string),
-  //     distinctUntilChanged()
-  //   ) ?? EMPTY
-  // )
 
   public semanticObject = toSignal(
     this.route.paramMap.pipe(
@@ -64,15 +55,9 @@ export class AppComponent implements AfterViewInit {
     )
   )
 
-  // readonly appGroup = computed(() => {
-  //   const groupId = this.groupId()
-  //   return groupId ? this.flpService.getGroup(groupId) : null
-  // })
-
   readonly chip = computed(() => {
     const soUrl = this.semanticObject()
     if (soUrl) {
-      // const group = this.groupId()
       return this.flpService.getChip(soUrl)
     }
 

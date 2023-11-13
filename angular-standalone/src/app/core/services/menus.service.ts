@@ -135,6 +135,10 @@ export class MenusService {
         isUi5App = 'group'
         return null
       }
+      if (path === 'app') {
+        isUi5App = 'app'
+        return null
+      }
 
       // Skip hidden routes
       if (route.routeConfig?.data?.['hidden']) {

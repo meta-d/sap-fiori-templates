@@ -21,6 +21,9 @@
 This is a template for building SAP Fiori apps with [Angular](https://angular.io/) framework and [Ant Design](https://ant-design.antgroup.com/index-cn). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
 - Angular 17
+- Tailwindcss 3
+- Storybook 7.5
+- ui5-tooling 1
 
 ## 🛫 Start the app
 
@@ -120,7 +123,7 @@ default: {
 
 ## 🚀 Ready to deploy?
 
-Ready to deploy, you can ref to [How to deploy?](../Deploy.md).
+Ready to deploy, you can ref to [How to deploy?](../docs/Deploy.md).
 
 ### Base url
 

@@ -1,6 +1,6 @@
 {
     "ZNG": {
-        "AppName": "思爱普アプリ",
+        "AppName": "Fiori アプリ",
         "Common": {
             "Fullscreen": "フルスクリーン",
             "ExitFullscreen": "フルスクリーンを終了"
@@ -19,8 +19,8 @@
             "Title": "グローバル設定",
             "Theme": "テーマ",
             "MenuTheme": "メニューのスタイル",
-            "FioriTheme": "Fioriテーマ",
-            "PrimaryColor": "プライマリカラー",
+            "FioriTheme": "Fiori テーマ",
+            "PrimaryColor": "主要色",
             "NavigationMode": "ナビゲーションモード",
             "FixedLayoutSider": "固定サイドバー",
             "FixedLayoutHeader": "固定ヘッダー",
@@ -31,20 +31,25 @@
                 "Dark": "ダーク"
             },
             "NavigationModes": {
-                "side": "サイドメニューレイアウト",
-                "top": "トップメニューレイアウト",
-                "mix": "ミックスメニューレイアウト"
+                "side": "サイドメニュー レイアウト",
+                "top": "トップメニュー レイアウト",
+                "mix": "ミックスメニュー レイアウト"
             }
         },
+        "HomeNotice": {
+            "ByDate": "日付別",
+            "ByType": "タイプ別",
+            "ByPriority": "優先度別"
+        },
         "UI5": {
-            "FioriAppNotFound": "申し訳ありませんが、このFioriアプリケーションは見つかりませんでした！"
+            "FioriAppNotFound": "申し訳ありませんが、この Fiori アプリが見つかりませんでした！"
         },
         "Pages": {
             "Home": "ホーム",
             "Dashboard": "ダッシュボード",
             "Admin": "管理",
             "Settings": "設定",
-            "Fiori App": "Fioriアプリ",
+            "Fiori App": "Fiori アプリ",
             "User Info": "ユーザー情報",
             "Launchpad": "ランチパッド"
         }

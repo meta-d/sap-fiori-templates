@@ -49,7 +49,7 @@ export default defineConfig({
 
 ## 🚀 Ready to deploy?
 
-Ready to deploy, you can ref to [How to deploy?](../Deploy.md).
+Ready to deploy, you can ref to [How to deploy?](../docs/Deploy.md).
 
 ### Base url
 

@@ -21,51 +21,49 @@
 
 <ng-template #notificationTpl let-notifications="notifications" >
   <nz-list nzItemLayout="horizontal" [@listAnimation]="notifications?.length">
-    @if (notifications?.length) {
-      @for (notification of notifications; track notification.Id) {
-        <nz-list-item class="zng-list-animation__item" [class.isRead]="notification.IsRead">
-          <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
-            <nz-list-item-meta-title>
-              <div class="flex p-l-10 p-r-10">
-                <nz-tag class="m-l-10" [nzColor]="getPriorityColor(notification.Priority)">
-                  <span nz-icon [nzType]="getPriorityIcon(notification.Priority)" nzTheme="outline"></span>
-                </nz-tag>
-                <span class="flex-1" nz-typography nzEllipsis>{{notification.SensitiveText}}</span>
-              </div>
-            </nz-list-item-meta-title>
-            <nz-list-item-meta-description>
-              <div class="p-l-10 p-r-10">
-                <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">{{notification.SubTitle}}</p>
-                <p>{{notification.CreatedAt}}</p>
-              </div>
-            </nz-list-item-meta-description>
-          </nz-list-item-meta>
+    @for (notification of notifications; track notification.Id) {
+      <nz-list-item class="zng-list-animation__item" [class.isRead]="notification.IsRead">
+        <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
+          <nz-list-item-meta-title>
+            <div class="flex p-l-10 p-r-10">
+              <nz-tag class="m-l-10" [nzColor]="getPriorityColor(notification.Priority)">
+                <span nz-icon [nzType]="getPriorityIcon(notification.Priority)" nzTheme="outline"></span>
+              </nz-tag>
+              <span class="flex-1" nz-typography nzEllipsis>{{notification.SensitiveText}}</span>
+            </div>
+          </nz-list-item-meta-title>
+          <nz-list-item-meta-description>
+            <div class="p-l-10 p-r-10">
+              <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">{{notification.SubTitle}}</p>
+              <p>{{notification.CreatedAt}}</p>
+            </div>
+          </nz-list-item-meta-description>
+        </nz-list-item-meta>
 
-          <ul nz-list-item-actions>
-            <nz-list-item-action>
-              @if (notification.IsActionable) {
-                <button nz-button nz-dropdown [nzDropdownMenu]="menu">
-                  <span nz-icon nzType="down"></span>
-                </button>
-              } @else {
-                <button nz-button nzType="dashed" (click)="dismiss(notification)">
-                  <span nz-icon nzType="close-circle" nzTheme="outline"></span>
-                </button>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            @if (notification.IsActionable) {
+              <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                <span nz-icon nzType="down"></span>
+              </button>
+            } @else {
+              <button nz-button nzType="dashed" (click)="dismiss(notification)">
+                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+              </button>
+            }
+          </nz-list-item-action>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              @for (action of notification.Actions; track action.ActionId) {
+                <li nz-menu-item (click)="executeAction(notification, action)">
+                  <a>{{action.ActionText}}</a>
+                </li>
               }
-            </nz-list-item-action>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu>
-                @for (action of notification.Actions; track action.ActionId) {
-                  <li nz-menu-item (click)="executeAction(notification, action)">
-                    <a>{{action.ActionText}}</a>
-                  </li>
-                }
-              </ul>
-            </nz-dropdown-menu>
-          </ul>
-        </nz-list-item>
-      }
-    } @else {
+            </ul>
+          </nz-dropdown-menu>
+        </ul>
+      </nz-list-item>
+    } @empty {
       <nz-list-empty></nz-list-empty>
     }
      

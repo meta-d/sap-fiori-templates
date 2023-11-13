@@ -132,7 +132,14 @@ export class FioriLaunchpadService {
   }
 
   getChip(path: string, group?: string | null): Chip | null {
-    return this.routes()?.find((item) => !group || item.route.path === group)?.submenus?.find((item) => item.route.path === path)?.data
+    let chip: Chip | null = null
+    this.routes()?.filter((item) => !group || item.route.path === group).forEach((menu) => {
+      const submenu = menu?.submenus?.find((item) => item.route.path === path)
+      if (submenu) {
+        chip = submenu.data
+      }
+    })
+    return chip
   }
 
   /**

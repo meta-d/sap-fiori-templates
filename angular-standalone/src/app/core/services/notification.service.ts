@@ -1,6 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core'
 import addMinutes from 'date-fns/addMinutes'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
+import { NGXLogger } from 'ngx-logger'
 import {
   Action,
   Notification,
@@ -14,21 +15,20 @@ import {
   getNotificationsByType,
   markRead,
   resetBadgeNumber,
-  useNotificationStore
 } from '../../stores/index'
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   private notificationService = inject(NzNotificationService)
+  private logger = inject(NGXLogger)
 
   readonly state = signal<{
     badgeNumber: number
     total: number
     notifications: Notification[]
-    groups: {header: Notification; items?: Notification[] | null}[]
+    groups: { header: Notification; items?: Notification[] | null }[]
     priorities: Notification[]
   }>({
     badgeNumber: 0,
@@ -40,8 +40,6 @@ export class NotificationService {
 
   readonly groups = computed(() => this.state().groups)
   readonly priorities = computed(() => this.state().priorities)
-
-  store = useNotificationStore()
 
   async refresh() {
     const [total, notifications] = await Promise.all([countNotifications(), getNotifications()])
@@ -56,7 +54,15 @@ export class NotificationService {
     }))
 
     this.state().notifications.forEach((item) => {
-      if (item.Priority === 'HIGH' && addMinutes(item.CreatedAt as Date, 1) > new Date()) {
+      this.logger.debug(
+        `Notification date is `,
+        item.CreatedAt,
+        `current date is `,
+        new Date(),
+        `add 2 min than current is `,
+        addMinutes(item.CreatedAt as Date, 2) > new Date()
+      )
+      if (item.Priority === 'HIGH' && !item.IsRead && addMinutes(item.CreatedAt as Date, 2) > new Date()) {
         this.notificationService.info(item.Priority, item.Text)
       }
     })
@@ -83,10 +89,13 @@ export class NotificationService {
       ...state,
       groups: state.groups.map((item) => ({
         ...item,
-        items: item.header.Id === groupId ? items.map((item) => ({
-          ...item,
-          CreatedAt: new Date(item.CreatedAt)
-        })) : item.items
+        items:
+          item.header.Id === groupId
+            ? items.map((item) => ({
+                ...item,
+                CreatedAt: new Date(item.CreatedAt)
+              }))
+            : item.items
       }))
     }))
   }
@@ -139,12 +148,12 @@ export class NotificationService {
       ),
       priorities: state.priorities.map((item) =>
         item.Id === id
-            ? {
-                ...item,
-                IsRead: true
+          ? {
+              ...item,
+              IsRead: true
             }
-            : item
-        ),
+          : item
+      ),
       groups: state.groups.map((group) => ({
         ...group,
         items: group.items?.map((item) =>
@@ -152,7 +161,7 @@ export class NotificationService {
             ? {
                 ...item,
                 IsRead: true
-            }
+              }
             : item
         )
       }))

@@ -21,6 +21,9 @@
 这是一个 SAP Fiori 应用的模板项目，它使用了 [Angular](https://angular.io/) 框架和 [Ant Design](https://ant-design.antgroup.com/index-cn) 组件库构建。基于 [Nx](https://nx.dev) 和 [UI5 Tooling](https://sap.github.io/ui5-tooling/)。
 
 - Angular 17
+- Tailwindcss 3
+- Storybook 7.5
+- ui5-tooling 1
 
 ## 🛫 启动应用程序！
 
@@ -121,7 +124,7 @@ default: {
 
 ## 🚀 准备部署？
 
-通用部署过程，你可以参考 [如何部署？](../Deploy.md)。
+通用部署过程，你可以参考 [如何部署？](../docs/Deploy.md)。
 
 ### 基路径
 

@@ -12,4 +12,8 @@
   .ant-tag {
     @apply border-none;
   }
+
+  .ant-collapse-borderless {
+    @apply bg-transparent;
+  }
 }

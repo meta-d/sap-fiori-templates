@@ -19,6 +19,7 @@
   </ng-template>
 </span>
 
+@if (enableNotification) {
 <span class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown nzPlacement="bottomRight" nzTrigger="click"
   nz-popover
   nzPopoverTrigger="click"
@@ -29,6 +30,7 @@
     <i class="p-2" nz-icon nzTheme="outline" nzType="bell"></i>
   </nz-badge>
 </span>
+}
 
 <span class="zng-global-header__button flex justify-start items-center gap-1 px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown [nzDropdownMenu]="userSettingMenu">
   <img class="avatar w-8 rounded-full" alt="" src="assets/images/default-user.jpg" />
