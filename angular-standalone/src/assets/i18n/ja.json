@@ -39,7 +39,8 @@
         "HomeNotice": {
             "ByDate": "日付別",
             "ByType": "タイプ別",
-            "ByPriority": "優先度別"
+            "ByPriority": "優先度別",
+            "LoadingMore": "もっと読み込む"
         },
         "UI5": {
             "FioriAppNotFound": "申し訳ありませんが、この Fiori アプリが見つかりませんでした！"

@@ -1,12 +1,12 @@
-import { NotificationService, mapDateLocale } from '@/app/core'
+import { NotificationListType, NotificationService } from '@/app/core'
 import { listAnimation } from '@/app/core/animations'
+import { RelativeDatePipe } from '@/app/core/pipes'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { Action, Notification } from '@/app/stores'
 import { CommonModule } from '@angular/common'
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Output, computed, inject, signal } from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Output, inject, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
-import formatRelative from 'date-fns/formatRelative'
 
 @Component({
   selector: 'zng-home-notice',
@@ -14,39 +14,28 @@ import formatRelative from 'date-fns/formatRelative'
   styleUrls: ['./home-notice.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, ZngAntdModule, TranslateModule],
+  imports: [CommonModule, ZngAntdModule, TranslateModule, RelativeDatePipe],
   animations: [listAnimation]
 })
 export class HomeNoticeComponent implements AfterViewInit {
-  private readonly translate = inject(TranslateService)
   private readonly router = inject(Router)
   private readonly notificationService = inject(NotificationService)
+  readonly #translate = inject(TranslateService)
+
+  NotificationListType = NotificationListType
 
   @Output() closed = new EventEmitter()
 
-  readonly notification = computed(() => {
-    const total = this.notificationService.total()
-    const notifications = this.notificationService.notifications()
-    return {
-      total,
-      notifications: notifications?.map((item) => ({
-        ...item,
-        CreatedAt: formatRelative(item.CreatedAt as Date, new Date(), {
-          locale: mapDateLocale(this.translate.currentLang)
-        })
-      }))
-    }
-  })
-
-  readonly groups = this.notificationService.groups
-  readonly priorities = this.notificationService.priorities
+  currentLang = this.#translate.currentLang
+  readonly byDateNotifications = this.notificationService.byDateNotifications
+  readonly byPriorityNotifications = this.notificationService.byPriorityNotifications
+  readonly byTypeNotifications = this.notificationService.byTypeNotifications
 
   readonly hasByType = signal(false)
   readonly hasByPriority = signal(false)
 
-
   ngAfterViewInit(): void {
-    this.notificationService.refresh().then(() => this.notificationService.resetBadgeNumber())
+    this.notificationService.refreshBadgeNumber().then(() => this.notificationService.resetBadgeNumber())
   }
 
   onClickNotification(item: Notification) {
@@ -123,6 +112,20 @@ export class HomeNoticeComponent implements AfterViewInit {
         return 'info-circle'
       default:
         return 'check-circle'
+    }
+  }
+
+  onLoadMore(type: NotificationListType) {
+    switch (type) {
+      case NotificationListType.ByDate:
+        this.notificationService.loadMoreByDate()
+        break
+      case NotificationListType.ByPriority:
+        this.notificationService.loadMoreByPriority()
+        break
+      case NotificationListType.ByType:
+        this.notificationService.loadMoreByType()
+        break
     }
   }
 }

@@ -274,11 +274,6 @@ export function defineODataStore(
         ...(options?.headers ?? {})
       }
     }).then(async (response) => {
-      // const token = response.headers.get('X-Csrf-Token')
-      // if (token) {
-      //   setXCsrfToken(token)
-      // }
-
       if (response.ok) {
         return await response.json()
       }

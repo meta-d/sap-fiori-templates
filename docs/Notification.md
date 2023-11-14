@@ -40,3 +40,9 @@ Actions are associated with notifications to allow users to act on notifications
 How to create and respond to notifications and actions, please refer to the sample programs in the system:
 - The program `/IWNGW/R_BEP_DEMO_CREATE_NOTIF` demonstrates how to create notifications.
 - The class `/iwngw/cl_demo_notif_provider` demonstrates how to create notification parameters, actions, text, and how to respond to actions performed by the user.
+
+## 🧱 Best practices
+
+### Cache
+
+To make the changes you have made to your notification config in your SAP system, refresh the cache using the transaction _**/IWNGW/H_CLEAR_CACHE**_ .

@@ -1,47 +1,76 @@
 <nz-tabset [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
-  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByDate' | translate: {Default: 'By Date'} }}({{notification().total}})">
-    <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: notification().notifications}"></ng-container>
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByDate' | translate: {Default: 'By Date'} }}">
+    <ng-container *ngTemplateOutlet="notificationTpl; context: {
+      notificationList: byDateNotifications(),
+      notifications: byDateNotifications().items,
+    }"></ng-container>
   </nz-tab>
-  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByType' | translate: {Default: 'By Type'} }}({{groups().length}})"
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByType' | translate: {Default: 'By Type'} }}"
     (nzSelect)="onSelectByType()">
     <nz-collapse [nzBordered]="false">
-      @for (group of groups(); track group.header.Id) {
-        <nz-collapse-panel #panel [nzHeader]="'('+group.header.NotificationCount+')'+group.header.GroupHeaderText"
-          [nzExtra]="collapseExtraTpl"
-          (nzActiveChange)="onActiveGroup(group)">
-          <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: group.items}"></ng-container>
-        </nz-collapse-panel>
-        <ng-template #collapseExtraTpl>
-          @if (panel.nzActive) {
-            @if (group.header.IsActionable) {
-              <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu" (click)="$event.stopPropagation()"><span nz-icon nzType="ellipsis"></span></button>
-            }
-          } @else {
-            <button nz-button nzType="text" nzDanger [title]="'ZNG.HomeNotice.CloseAll' | translate: {Default: 'Close All'}" (click)="dismissAll(group.header)">
-              <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+      @for (group of byTypeNotifications().groups; track group.header.Id) {
+      <nz-collapse-panel #panel [nzHeader]="'('+group.header.NotificationCount+')'+group.header.GroupHeaderText"
+        [nzExtra]="collapseExtraTpl"
+        (nzActiveChange)="onActiveGroup(group)">
+        <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: group.items}"></ng-container>
+      </nz-collapse-panel>
+      <ng-template #collapseExtraTpl>
+        @if (panel.nzActive) {
+          @if (group.header.IsActionable) {
+            <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu" (click)="$event.stopPropagation()">
+              <span nz-icon nzType="ellipsis"></span>
             </button>
           }
-        </ng-template>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            @for (action of group.header.Actions; track action.ActionId) {
-              <li nz-menu-item [nzDanger]="action.Nature === 'NEGATIVE'" (click)="bulkActionByHeader(group.header, action)">
-                <a>{{action.GroupActionText}}</a>
-              </li>
-            }
-          </ul>
-        </nz-dropdown-menu>
+        } @else {
+          <button nz-button nzType="text" nzDanger [title]="'ZNG.HomeNotice.CloseAll' | translate: {Default: 'Close All'}" (click)="dismissAll(group.header)">
+            <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+          </button>
+        }
+      </ng-template>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          @for (action of group.header.Actions; track action.ActionId) {
+            <li nz-menu-item [nzDanger]="action.Nature === 'NEGATIVE'" (click)="bulkActionByHeader(group.header, action)">
+              <a>{{action.GroupActionText}}</a>
+            </li>
+          }
+        </ul>
+      </nz-dropdown-menu>
+      } @empty {
+        <nz-list>
+          <nz-list-empty></nz-list-empty>
+        </nz-list>
+      }
+
+      @if (byTypeNotifications().hasMore) {
+        <div class="flex flex-col items-center" nz-list-load-more>
+          @if (!byTypeNotifications().loadingMore) {
+          <button nz-button (click)="onLoadMore(byTypeNotifications().type)">
+            {{ 'ZNG.HomeNotice.LoadingMore' | translate: {Default: 'Loading More'} }}
+          </button>
+          } @else {
+          <nz-skeleton class="w-full"
+            [nzAvatar]="true"
+            [nzActive]="true"
+            [nzTitle]="false"
+            [nzLoading]="true"
+          ></nz-skeleton>
+          }
+        </div>
       }
     </nz-collapse>
   </nz-tab>
-  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByPriority' | translate: {Default: 'By Priority'} }}({{notification().total}})"
+  <nz-tab nzTitle="{{ 'ZNG.HomeNotice.ByPriority' | translate: {Default: 'By Priority'} }}"
     (nzSelect)="onSelectByPriority()">
-    <ng-container *ngTemplateOutlet="notificationTpl; context: {notifications: priorities()}"></ng-container>
+    <ng-container *ngTemplateOutlet="notificationTpl; context: {
+      notificationList: byPriorityNotifications(),
+      notifications: byPriorityNotifications().items
+    }"></ng-container>
   </nz-tab>
 </nz-tabset>
 
-<ng-template #notificationTpl let-notifications="notifications" >
-  <nz-list nzItemLayout="horizontal" [@listAnimation]="notifications?.length">
+<ng-template #notificationTpl let-notificationList="notificationList" let-notifications="notifications" let-type="type" let-loadingMore="loadingMore">
+  <nz-list nzItemLayout="vertical" [@listAnimation]="notifications?.length">
     @for (notification of notifications; track notification.Id) {
       <nz-list-item class="zng-list-animation__item" [class.isRead]="notification.IsRead">
         <nz-list-item-meta class="cursor-pointer" (click)="onClickNotification(notification)">
@@ -56,38 +85,50 @@
           <nz-list-item-meta-description>
             <div class="p-l-10 p-r-10">
               <p nz-typography nzEllipsis nzType="secondary" [nzEllipsisRows]="3">{{notification.SubTitle}}</p>
-              <p>{{notification.CreatedAt}}</p>
+              <p>{{notification.CreatedAt | relativeDate: currentLang}}</p>
             </div>
           </nz-list-item-meta-description>
         </nz-list-item-meta>
 
         <ul nz-list-item-actions>
+          @for (action of notification.Actions; track action.ActionId) {
+            <nz-list-item-action >
+              <button nz-button nzType="text" [nzDanger]="action.Nature === 'NEGATIVE'" (click)="executeAction(notification, action)">
+                {{action.ActionText}}
+              </button>
+            </nz-list-item-action>
+          }
+          
           <nz-list-item-action>
-            @if (notification.IsActionable) {
-              <button nz-button nz-dropdown [nzDropdownMenu]="menu">
-                <span nz-icon nzType="down"></span>
-              </button>
-            } @else {
-              <button nz-button nzType="text" nzDanger (click)="dismiss(notification)">
-                <span nz-icon nzType="close-circle" nzTheme="outline"></span>
-              </button>
-            }
+            <button nz-button nzType="text" nzDanger (click)="dismiss(notification)">
+              <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+            </button>
           </nz-list-item-action>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              @for (action of notification.Actions; track action.ActionId) {
-                <li nz-menu-item [nzDanger]="action.Nature === 'NEGATIVE'" (click)="executeAction(notification, action)">
-                  <a>{{action.ActionText}}</a>
-                </li>
-              }
-            </ul>
-          </nz-dropdown-menu>
         </ul>
       </nz-list-item>
     } @empty {
       <nz-list-empty></nz-list-empty>
     }
-     
+    
+    @if (notificationList?.hasMore) {
+    <div class="flex flex-col items-center" nz-list-load-more>
+      @if (!notificationList.loadingMore) {
+        <button nz-button (click)="onLoadMore(notificationList.type)">
+          {{ 'ZNG.HomeNotice.LoadingMore' | translate: {Default: 'Loading More'} }}
+        </button>
+      } @else {
+        <nz-list-item class="w-full">
+          <nz-skeleton
+            [nzAvatar]="true"
+            [nzActive]="true"
+            [nzTitle]="false"
+            [nzLoading]="true"
+          ></nz-skeleton>
+        </nz-list-item>
+      }
+    </div>
+    }
+
     <!-- <nz-list-footer>
       <div class="center operate-text full-with full-height"></div>
     </nz-list-footer> -->

@@ -111,7 +111,6 @@ export async function bulkActionByHeader(parentId: string, actionId: string) {
   })
 }
 
-
 export async function countNotifications() {
   const { count } = notificationStore
   return await count('Notifications')
@@ -136,11 +135,11 @@ export async function getNotifications(filters?: Filter[], skip?: number, top?: 
       ...(filters ?? [])
     ],
     $skip: skip ?? 0,
-    $top: top ?? 24
+    $top: top ?? 5
   })
 }
 
-export async function getNotificationsByType() {
+export async function getNotificationsByType(skip?: number, top?: number) {
   const { query } = notificationStore
   return await query<Notification>('Notifications', {
     $expand: ['Actions', 'NavigationTargetParams'],
@@ -150,7 +149,15 @@ export async function getNotificationsByType() {
         operator: FilterOperator.eq,
         value: true
       }
-    ]
+    ],
+    $orderby: [
+      {
+        name: 'CreatedAt',
+        order: OrderEnum.desc
+      }
+    ],
+    $skip: skip ?? 0,
+    $top: top ?? 5
   })
 }
 

@@ -1,12 +1,15 @@
 import { Injectable, computed, inject, signal } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import addMinutes from 'date-fns/addMinutes'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NGXLogger } from 'ngx-logger'
+import { EMPTY, Subject, switchMap, timer } from 'rxjs'
 import {
   Action,
   Notification,
   bulkActionByHeader,
   countNotifications,
+  countNotificationsByType,
   dismiss,
   dismissAll,
   executeAction,
@@ -16,10 +19,26 @@ import {
   getNotificationsByPriority,
   getNotificationsByType,
   markRead,
-  resetBadgeNumber,
+  resetBadgeNumber
 } from '../../stores/index'
-import { EMPTY, Subject, switchMap, timer } from 'rxjs'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+
+export enum NotificationListType {
+  ByDate = 'ByDate',
+  ByType = 'ByType',
+  ByPriority = 'ByPriority'
+}
+
+export interface NotificationList {
+  type: NotificationListType
+  // for notifications by date / by priority
+  items?: Notification[] | null
+  // for notifications by type
+  groups?: { header: Notification; items?: Notification[] | null }[]
+  loadingMore?: boolean
+  hasMore?: boolean
+  page: number
+  total: number | null
+}
 
 @Injectable({
   providedIn: 'root'
@@ -28,50 +47,64 @@ export class NotificationService {
   private notificationService = inject(NzNotificationService)
   private logger = inject(NGXLogger)
 
+  #pageSize = 5
+
   readonly #state = signal<{
     badgeNumber: number
     total: number
-    notifications: Notification[]
-    groups: { header: Notification; items?: Notification[] | null }[]
-    priorities: Notification[]
+    initialized?: boolean
   }>({
     badgeNumber: 0,
     total: 0,
-    notifications: [],
-    groups: [],
-    priorities: []
+    initialized: false
+  })
+
+  readonly byDateNotifications = signal<NotificationList>({
+    type: NotificationListType.ByDate,
+    total: 0,
+    page: 0,
+    loadingMore: false,
+    hasMore: true
+  })
+  readonly byPriorityNotifications = signal<NotificationList>({
+    type: NotificationListType.ByPriority,
+    total: 0,
+    page: 0,
+    loadingMore: false,
+    hasMore: true
+  })
+  readonly byTypeNotifications = signal<NotificationList>({
+    type: NotificationListType.ByType,
+    total: null,
+    page: 0,
+    loadingMore: false,
+    hasMore: true
   })
 
   readonly total = computed(() => this.#state().total)
-  readonly notifications = computed(() => this.#state().notifications)
-  readonly groups = computed(() => this.#state().groups)
-  readonly priorities = computed(() => this.#state().priorities)
   readonly badgeNumber = computed(() => this.#state().badgeNumber)
-  
+
   #startRefreshNotification$ = new Subject<boolean>()
-  #badgeNumberSub = this.#startRefreshNotification$.pipe(
-    switchMap((start) => (start ? timer(0, 60 * 1000) : EMPTY)),
-    switchMap(async () => this.refreshBadgeNumber()),
-    takeUntilDestroyed()
-  ).subscribe()
-  
+  #badgeNumberSub = this.#startRefreshNotification$
+    .pipe(
+      switchMap((start) => (start ? timer(0, 60 * 1000) : EMPTY)),
+      switchMap(async () => this.refreshBadgeNumber()),
+      takeUntilDestroyed()
+    )
+    .subscribe()
+
   startRefreshNotification() {
     this.#startRefreshNotification$.next(true)
   }
 
   async refresh() {
-    const [total, notifications] = await Promise.all([countNotifications(), getNotifications()])
+    const total = await countNotifications()
+    this.byDateNotifications.update((state) => ({ ...state, total, page: 0, items: [] }))
+    this.#state.update((state) => ({...state, initialized: true}))
 
-    this.#state.update((state) => ({
-      ...state,
-      total,
-      notifications: notifications.map((item) => ({
-        ...item,
-        CreatedAt: new Date(item.CreatedAt)
-      }))
-    }))
+    await this.loadMoreByDate()
 
-    this.#state().notifications.forEach((item) => {
+    this.byDateNotifications().items?.forEach((item) => {
       this.logger.debug(
         `Notification date is `,
         item.CreatedAt,
@@ -87,47 +120,115 @@ export class NotificationService {
   }
 
   async refreshByType() {
-    const headers = await getNotificationsByType()
+    const count = await countNotificationsByType()
 
-    this.#state.update((state) => ({
+    this.byTypeNotifications.update((state) => ({
       ...state,
-      groups: headers.map((item) => ({
-        header: {
+      total: count,
+      page: 0,
+      groups: []
+    }))
+
+    await this.loadMoreByType()
+  }
+
+  async loadMoreByDate() {
+    this.byDateNotifications.update((state) => ({
+      ...state,
+      loadingMore: true
+    }))
+
+    const notifications = await getNotifications([], this.byDateNotifications().page * this.#pageSize, this.#pageSize)
+    this.byDateNotifications.update((state) => ({
+      ...state,
+      items: [
+        ...(state.items ?? []),
+        ...notifications.map((item) => ({
           ...item,
           CreatedAt: new Date(item.CreatedAt)
-        }
-      }))
+        }))
+      ],
+      loadingMore: false,
+      hasMore: notifications.length === this.#pageSize,
+      page: state.page + 1
+    }))
+  }
+
+  async loadMoreByPriority() {
+    this.byPriorityNotifications.update((state) => ({
+      ...state,
+      loadingMore: true
+    }))
+    const notifications = await getNotificationsByPriority(
+      this.byPriorityNotifications().page * this.#pageSize,
+      this.#pageSize
+    )
+    this.byPriorityNotifications.update((state) => ({
+      ...state,
+      items: [
+        ...(state.items ?? []),
+        ...notifications.map((item) => ({
+          ...item,
+          CreatedAt: new Date(item.CreatedAt)
+        }))
+      ],
+      loadingMore: false,
+      hasMore: notifications.length === this.#pageSize,
+      page: state.page + 1
+    }))
+  }
+
+  async loadMoreByType() {
+    this.byTypeNotifications.update((state) => ({
+      ...state,
+      loadingMore: true
+    }))
+
+    const notifications = await getNotificationsByType(this.byTypeNotifications().page * this.#pageSize, this.#pageSize)
+    this.byTypeNotifications.update((state) => ({
+      ...state,
+      groups: [
+        ...(state.groups ?? []),
+        ...notifications.map((item) => ({
+          header: {
+            ...item,
+            CreatedAt: new Date(item.CreatedAt)
+          }
+        }))
+      ],
+      loadingMore: false,
+      hasMore: notifications.length === this.#pageSize,
+      page: state.page + 1
     }))
   }
 
   async refreshGroup(groupId: string) {
     const items = await getNotificationsByGroup(groupId)
-
-    this.#state.update((state) => ({
+    this.byTypeNotifications.update((state) => ({
       ...state,
-      groups: state.groups.map((item) => ({
-        ...item,
+      groups: state.groups?.map((g) => ({
+        ...g,
         items:
-          item.header.Id === groupId
+          g.header.Id === groupId
             ? items.map((item) => ({
                 ...item,
                 CreatedAt: new Date(item.CreatedAt)
               }))
-            : item.items
+            : g.items
       }))
     }))
   }
 
   async refreshByPriority() {
-    const notifications = await getNotificationsByPriority()
-
-    this.#state.update((state) => ({
+    this.byPriorityNotifications.update((state) => ({
       ...state,
-      priorities: notifications.map((item) => ({
-        ...item,
-        CreatedAt: new Date(item.CreatedAt)
-      }))
+      items: [],
+      page: 0,
+      hasMore: true,
+      loadingMore: false
     }))
+
+    await this.loadMoreByPriority()
   }
 
   async refreshBadgeNumber() {
@@ -137,16 +238,11 @@ export class NotificationService {
       badgeNumber
     }))
 
-    if (badgeNumber > 0) {
+    if (badgeNumber > 0 || !this.#state().initialized) {
       await this.refresh()
     }
+    
     return badgeNumber
-  }
-
-  async refreshAll() {
-    await this.refresh()
-    await this.refreshByType()
-    await this.refreshByPriority()
   }
 
   async resetBadgeNumber() {
@@ -169,25 +265,32 @@ export class NotificationService {
 
   async markRead(id: string) {
     await markRead(id)
-    this.#state.update((state) => ({
+
+    this.byDateNotifications.update((state) => ({
       ...state,
-      notifications: state.notifications.map((item) =>
+      items: state.items?.map((item) =>
         item.Id === id
           ? {
               ...item,
               IsRead: true
             }
           : item
-      ),
-      priorities: state.priorities.map((item) =>
+      )
+    }))
+    this.byPriorityNotifications.update((state) => ({
+      ...state,
+      items: state.items?.map((item) =>
         item.Id === id
           ? {
               ...item,
               IsRead: true
             }
           : item
-      ),
-      groups: state.groups.map((group) => ({
+      )
+    }))
+    this.byTypeNotifications.update((state) => ({
+      ...state,
+      groups: state.groups?.map((group) => ({
         ...group,
         items: group.items?.map((item) =>
           item.Id === id
@@ -221,30 +324,35 @@ export class NotificationService {
   }
 
   deleteNotification(notificationId: string) {
-    this.#state.update((state) => ({
+    this.byDateNotifications.update((state) => ({
       ...state,
-      notifications: state.notifications.filter((item) => item.Id !== notificationId),
-      priorities: state.priorities.filter((item) => item.Id !== notificationId),
-      groups: state.groups.map((group) => ({
+      items: state.items?.filter((item) => item.Id !== notificationId)
+    }))
+    this.byPriorityNotifications.update((state) => ({
+      ...state,
+      items: state.items?.filter((item) => item.Id !== notificationId)
+    }))
+    this.byTypeNotifications.update((state) => ({
+      ...state,
+      groups: state.groups?.map((group) => ({
         ...group,
         items: group.items?.filter((item) => item.Id !== notificationId)
       }))
     }))
-
-    this.refreshAll()
   }
 
   deleteGroupNotifications(id: string) {
-    this.#state.update((state) => {
-      const group = state.groups.find(({header}) => header.Id === id)
-      return {
-        ...state,
-        notifications: state.notifications.filter((item) => item.ParentId !== id),
-        priorities: state.priorities.filter((item) => item.ParentId !== id),
-        groups: state.groups.filter((g) => g.header.Id !== id)
-      }
-    })
-
-    this.refreshAll()
+    this.byDateNotifications.update((state) => ({
+      ...state,
+      items: state.items?.filter((item) => item.ParentId !== id)
+    }))
+    this.byPriorityNotifications.update((state) => ({
+      ...state,
+      items: state.items?.filter((item) => item.ParentId !== id)
+    }))
+    this.byTypeNotifications.update((state) => ({
+      ...state,
+      groups: state.groups?.filter((g) => g.header.Id !== id)
+    }))
   }
 }
