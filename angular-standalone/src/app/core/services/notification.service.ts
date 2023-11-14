@@ -1,9 +1,10 @@
-import { Injectable, computed, inject, signal } from '@angular/core'
+import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import addMinutes from 'date-fns/addMinutes'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NGXLogger } from 'ngx-logger'
-import { EMPTY, Subject, switchMap, timer } from 'rxjs'
+import { EMPTY, Subject, Subscription, switchMap, timer } from 'rxjs'
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket'
 import {
   Action,
   Notification,
@@ -17,6 +18,7 @@ import {
   getNotificationsByGroup,
   getNotificationsByPriority,
   getNotificationsByType,
+  getSAPWebsocket,
   markRead,
   resetBadgeNumber
 } from '../../stores/index'
@@ -45,6 +47,10 @@ export interface NotificationList {
 export class NotificationService {
   private notificationService = inject(NzNotificationService)
   private logger = inject(NGXLogger)
+  #destroyRef = inject(DestroyRef)
+
+  #socket?: WebSocketSubject<string>
+  #socketSub?: Subscription
 
   #pageSize = 5
 
@@ -80,6 +86,8 @@ export class NotificationService {
     hasMore: true
   })
 
+  readonly #highPriorityBanners = signal<string[]>([])
+
   readonly total = computed(() => this.#state().total)
   readonly badgeNumber = computed(() => this.#state().badgeNumber)
 
@@ -92,14 +100,36 @@ export class NotificationService {
     )
     .subscribe()
 
+
   startRefreshNotification() {
     this.#startRefreshNotification$.next(true)
+    getSAPWebsocket().then((value) => {
+      this.logger.debug(`SAP Websocket is `, value)
+      if (value.IsActive) {
+        // set ws protocol when using http and wss when using https
+        const protocol = window.location.protocol.replace('http', 'ws')
+        // get location host
+        const host = window.location.host
+        this.#socket = webSocket({
+          url: `${protocol}//${host}/sap/bc/apc/iwngw/notification_push_apc`,
+          protocol: ["v10.pcp.sap.com"],
+          deserializer: (e: MessageEvent<any>) => {
+            return e.data
+          }
+        })
+
+        this.#socketSub?.unsubscribe()
+        this.#socketSub = this.#socket.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((result) => {
+          this.refreshBadgeNumber()
+        })
+      }
+    })
   }
 
   async refresh() {
     const total = await countNotifications()
     this.byDateNotifications.update((state) => ({ ...state, total, page: 0, items: [] }))
-    this.#state.update((state) => ({...state, initialized: true}))
+    this.#state.update((state) => ({ ...state, initialized: true }))
 
     await this.loadMoreByDate()
 
@@ -112,8 +142,12 @@ export class NotificationService {
         `add 2 min than current is `,
         addMinutes(item.CreatedAt as Date, 2) > new Date()
       )
-      if (item.Priority === 'HIGH' && !item.IsRead && addMinutes(item.CreatedAt as Date, 2) > new Date()) {
-        this.notificationService.info(item.Priority, item.Text)
+      if (item.Priority === 'HIGH' && !item.IsRead && addMinutes(item.CreatedAt as Date, 2) > new Date() && !this.#highPriorityBanners().some((ban) => ban === item.Id)) {
+        this.#highPriorityBanners.update((state) => [
+          ...state,
+          item.Id
+        ])
+        this.notificationService.error(item.Text, item.SubTitle)
       }
     })
   }
@@ -207,9 +241,9 @@ export class NotificationService {
         items:
           g.header.Id === groupId
             ? items.map((item) => ({
-                ...item,
-                CreatedAt: new Date(item.CreatedAt)
-              }))
+              ...item,
+              CreatedAt: new Date(item.CreatedAt)
+            }))
             : g.items
       }))
     }))
@@ -237,7 +271,7 @@ export class NotificationService {
     if (badgeNumber > 0 || !this.#state().initialized) {
       await this.refresh()
     }
-    
+
     return badgeNumber
   }
 
@@ -267,9 +301,9 @@ export class NotificationService {
       items: state.items?.map((item) =>
         item.Id === id
           ? {
-              ...item,
-              IsRead: true
-            }
+            ...item,
+            IsRead: true
+          }
           : item
       )
     }))
@@ -278,9 +312,9 @@ export class NotificationService {
       items: state.items?.map((item) =>
         item.Id === id
           ? {
-              ...item,
-              IsRead: true
-            }
+            ...item,
+            IsRead: true
+          }
           : item
       )
     }))
@@ -291,9 +325,9 @@ export class NotificationService {
         items: group.items?.map((item) =>
           item.Id === id
             ? {
-                ...item,
-                IsRead: true
-              }
+              ...item,
+              IsRead: true
+            }
             : item
         )
       }))

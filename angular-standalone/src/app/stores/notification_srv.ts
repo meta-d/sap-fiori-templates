@@ -192,3 +192,9 @@ export async function getNotificationsByGroup(parentId: string, skip?: number, t
     }
   ], skip, top)
 }
+
+export async function getSAPWebsocket() {
+  const { read } = notificationStore
+
+  return await read('Channels', 'SAP_WEBSOCKET')
+}
