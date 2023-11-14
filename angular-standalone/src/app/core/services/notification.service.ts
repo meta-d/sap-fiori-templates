@@ -9,7 +9,6 @@ import {
   Notification,
   bulkActionByHeader,
   countNotifications,
-  countNotificationsByType,
   dismiss,
   dismissAll,
   executeAction,
@@ -120,11 +119,8 @@ export class NotificationService {
   }
 
   async refreshByType() {
-    const count = await countNotificationsByType()
-
     this.byTypeNotifications.update((state) => ({
       ...state,
-      total: count,
       page: 0,
       groups: []
     }))
