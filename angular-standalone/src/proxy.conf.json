@@ -1,4 +1,11 @@
 {
+  "/sap/bc/apc/iwngw/": {
+    "target": "http://<SAP Server>:<SAP Port>/",
+    "secure": false,
+    "changeOrigin": false,
+    "ws": true,
+    "auth": "<SAP Username>:<SAP Password>"
+  },
   "/sap/opu/": {
     "target": "http://<SAP Server>:<SAP Port>/",
     "secure": false,
