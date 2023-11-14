@@ -40,7 +40,8 @@
             "ByDate": "日付別",
             "ByType": "タイプ別",
             "ByPriority": "優先度別",
-            "LoadingMore": "もっと読み込む"
+            "LoadingMore": "もっと読み込む",
+            "CloseAll": "すべて閉じる"
         },
         "UI5": {
             "FioriAppNotFound": "申し訳ありませんが、この Fiori アプリが見つかりませんでした！"

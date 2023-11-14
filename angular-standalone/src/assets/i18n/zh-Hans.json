@@ -40,7 +40,8 @@
             "ByDate": "按日期",
             "ByType": "按类型",
             "ByPriority": "按优先级",
-            "LoadingMore": "加载更多"
+            "LoadingMore": "加载更多",
+            "CloseAll": "关闭所有"
         },
         "UI5": {
             "FioriAppNotFound": "抱歉，未找到此 Fiori 应用程序！"
