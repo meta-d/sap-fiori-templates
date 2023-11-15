@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.less';
-
+import { Button, ConfigProvider, Space, Input, ColorPicker, Divider } from 'antd';
+import React from 'react';
 import { Products } from '@zng/products';
 
 
@@ -8,8 +9,29 @@ import { Products } from '@zng/products';
 import { Route, Routes, Link } from 'react-router-dom';
 
 export function App() {
+  const [primary, setPrimary] = React.useState('#1677ff');
+  
   return (
     <div>
+
+<ColorPicker showText value={primary} onChangeComplete={(color) => setPrimary(color.toHexString())} />
+      <Divider />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: primary,
+          },
+        }}
+      >
+        <Space>
+          <Input placeholder="Please Input" />
+          <Button type="primary">Submit</Button>
+        </Space>
+      </ConfigProvider>
+
+      <div className="App">
+        <Button type="primary">Button</Button>
+      </div>
       <Products />
 
       {/* START: routes */}
