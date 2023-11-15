@@ -1,0 +1,33 @@
+{
+  "name": "launchpad-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/launchpad-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/launchpad-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "launchpad:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "launchpad:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "launchpad:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/launchpad-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "implicitDependencies": ["launchpad"],
+  "tags": []
+}
