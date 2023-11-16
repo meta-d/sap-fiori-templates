@@ -1,5 +1,5 @@
 import { ChromeFilled, CrownFilled, SmileFilled, TabletFilled } from '@ant-design/icons'
-import { Products } from '@zng/products'
+import { Products } from '@zsap/products'
 import { Route, RouteObject } from 'react-router-dom'
 import Welcome from '../components/Welcome'
 
@@ -105,9 +105,9 @@ export default {
     path: '/',
     routes
   },
-  // location: {
-  //   pathname: '/',
-  // },
+  location: {
+    pathname: '/',
+  },
   appList: [
     {
       icon: 'favicon.svg',

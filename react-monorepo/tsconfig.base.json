@@ -15,8 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@zng/odata": ["packages/odata/src/index.ts"],
-      "@zng/products": ["libs/products/src/index.ts"]
+      "@zsap/flp-store": ["packages/flp-store/src/index.ts"],
+      "@zsap/mockserver": ["packages/mockserver/src/index.js"],
+      "@zsap/odata": ["packages/odata/src/index.ts"],
+      "@zsap/products": ["libs/products/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

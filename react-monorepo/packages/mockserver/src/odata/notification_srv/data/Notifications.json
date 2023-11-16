@@ -1,0 +1,1083 @@
+[
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2a733fca6162",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:48:07Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappnavsample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappnavsample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "NotificationTypeKey": "LeaveRequestTypeKey",
+        "ParentId": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "Priority": "MEDIUM",
+        "SensitiveText": "Leave request #3352 by Gavin Gradel requires your attention",
+        "Text": "A leave request requires your attention",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "",
+        "NotificationTypeDesc": "Leave Request",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2a733fca6162",
+                "Key": "LeaveRequestId",
+                "Value": "724934632"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2a733fca6162",
+                "Key": "PosId",
+                "Value": "10"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "ApproveLRActionKey",
+                "ActionText": "Approve",
+                "GroupActionText": "Approve All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "DenyLRActionKey",
+                "ActionText": "Deny",
+                "GroupActionText": "Deny All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-29d82befe14b",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:47:59Z",
+        "IsActionable": true,
+        "IsRead": false,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "1246368b-d7aa-1ed9-beed-0209a3d2f5e8",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "1246368b-d7aa-1ed9-beed-0209a3d2f5e8",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #3829 for $3,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $3,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-29d82befe14b",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-29d82befe14b",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1eee-a092-1ec387b5fd8a",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T12:50:58Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #2138 for $2,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $2,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1eee-a092-1ec387b5fd8a",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1eee-a092-1ec387b5fd8a",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1eee-a091-f70cd135dd34",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T12:42:05Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappnavsample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappnavsample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "NotificationTypeKey": "LeaveRequestTypeKey",
+        "ParentId": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "Priority": "MEDIUM",
+        "SensitiveText": "Leave request #4087 by Gavin Gradel requires your attention",
+        "Text": "A leave request requires your attention",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "",
+        "NotificationTypeDesc": "Leave Request",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1eee-a091-f70cd135dd34",
+                "Key": "LeaveRequestId",
+                "Value": "724934632"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1eee-a091-f70cd135dd34",
+                "Key": "PosId",
+                "Value": "10"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "ApproveLRActionKey",
+                "ActionText": "Approve",
+                "GroupActionText": "Approve All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "DenyLRActionKey",
+                "ActionText": "Deny",
+                "GroupActionText": "Deny All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": true,
+        "NavigationTargetAction": "",
+        "NavigationTargetObject": "",
+        "NavigationIntent": "",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "00000000-0000-0000-0000-000000000000",
+        "Priority": "HIGH",
+        "SensitiveText": "",
+        "Text": "",
+        "GroupHeaderText": "You have 2 Purchase orders requiring your approval",
+        "NotificationCount": 2,
+        "SubTitle": "",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "",
+            "DisplayText": "",
+            "ImageSource": ""
+        },
+        "NavigationTargetParams": [],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:48:07Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": true,
+        "NavigationTargetAction": "",
+        "NavigationTargetObject": "",
+        "NavigationIntent": "",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-f70cd135bd34",
+        "NotificationTypeKey": "LeaveRequestTypeKey",
+        "ParentId": "00000000-0000-0000-0000-000000000000",
+        "Priority": "MEDIUM",
+        "SensitiveText": "",
+        "Text": "",
+        "GroupHeaderText": "You have 2 leave requests requiring your attention",
+        "NotificationCount": 2,
+        "SubTitle": "",
+        "NotificationTypeDesc": "Leave Request",
+        "Actor": {
+            "Id": "",
+            "DisplayText": "",
+            "ImageSource": ""
+        },
+        "NavigationTargetParams": [],
+        "Actions": [
+            {
+                "ActionId": "ApproveLRActionKey",
+                "ActionText": "Approve",
+                "GroupActionText": "Approve All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "DenyLRActionKey",
+                "ActionText": "Deny",
+                "GroupActionText": "Deny All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "1246368b-d7aa-1ed9-beed-0209a3d2f5e8",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:47:59Z",
+        "IsActionable": true,
+        "IsRead": false,
+        "IsGroupable": true,
+        "IsGroupHeader": true,
+        "NavigationTargetAction": "",
+        "NavigationTargetObject": "",
+        "NavigationIntent": "",
+        "NotificationTypeId": "1246368b-d7aa-1ed9-beed-0209a3d2f5e8",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "00000000-0000-0000-0000-000000000000",
+        "Priority": "HIGH",
+        "SensitiveText": "",
+        "Text": "",
+        "GroupHeaderText": "You have 1 Purchase orders requiring your approval",
+        "NotificationCount": 1,
+        "SubTitle": "",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "",
+            "DisplayText": "",
+            "ImageSource": ""
+        },
+        "NavigationTargetParams": [],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "A1",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "A2",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "A3",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    },
+    {
+        "Id": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+        "OriginId": "LOCAL",
+        "CreatedAt": "2023-11-11T14:49:12Z",
+        "IsActionable": true,
+        "IsRead": true,
+        "IsGroupable": true,
+        "IsGroupHeader": false,
+        "NavigationTargetAction": "toappstatesample",
+        "NavigationTargetObject": "Action",
+        "NavigationIntent": "Action-toappstatesample",
+        "NotificationTypeId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "NotificationTypeKey": "PurchaseOrderType2Key",
+        "ParentId": "7446a0a1-157d-1eee-a091-77409a90fc43",
+        "Priority": "HIGH",
+        "SensitiveText": "Purchase order #4851 for $1,000 by Gavin Gradel requires your approval",
+        "Text": "A purchase order requires your approval",
+        "GroupHeaderText": "",
+        "NotificationCount": 0,
+        "SubTitle": "Over the last 12 months Gavin Gradel ordered goods $1,000.Currently 10,000 are due.",
+        "NotificationTypeDesc": "Purchase Order",
+        "Actor": {
+            "Id": "mtda.cloud",
+            "DisplayText": "mtda.cloud",
+            "ImageSource": "https://scn.sap.com/people/guest/avatar/mtda.cloud.png"
+        },
+        "NavigationTargetParams": [
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderId",
+                "Value": "236400"
+            },
+            {
+                "NotificationId": "7446a0a1-157d-1ede-a094-2f3d7faca165",
+                "Key": "PurchaseOrderVendor",
+                "Value": "PARTNER_137"
+            }
+        ],
+        "Actions": [
+            {
+                "ActionId": "AcceptPOActionKey",
+                "ActionText": "Accept",
+                "GroupActionText": "Accept All",
+                "Nature": "POSITIVE"
+            },
+            {
+                "ActionId": "RejectPOActionKey",
+                "ActionText": "Reject",
+                "GroupActionText": "Reject All",
+                "Nature": "NEGATIVE"
+            }
+        ]
+    }
+    
+]

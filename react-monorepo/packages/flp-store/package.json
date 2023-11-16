@@ -1,12 +1,11 @@
 {
-  "name": "@zsap/odata",
+  "name": "@zsap/flp-store",
   "version": "0.0.1",
   "dependencies": {},
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts",
   "peerDependencies": {
-    "rxjs": "~7.8.0",
-    "xml-js": "^1.6.11"
+    "rxjs": "~7.8.0"
   }
 }

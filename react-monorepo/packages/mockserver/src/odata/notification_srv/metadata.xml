@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+    xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.gateway.default.iwngw.notification_srv.v0001" Alias="SAP__self">
+            <EntityType Name="BulkActionResultType">
+                <Key>
+                    <PropertyRef Name="NotificationId" />
+                </Key>
+                <Property Name="NotificationId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Success" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="DeleteOnReturn" Type="Edm.Boolean" Nullable="false" />
+            </EntityType>
+            <EntityType Name="Channel">
+                <Key>
+                    <PropertyRef Name="ChannelId" />
+                </Key>
+                <Property Name="ChannelId" Type="Edm.String" Nullable="false" MaxLength="21" />
+                <Property Name="IsActive" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="Description" Type="Edm.String" MaxLength="60" />
+            </EntityType>
+            <EntityType Name="NavigationTargetParam">
+                <Key>
+                    <PropertyRef Name="NotificationId" />
+                    <PropertyRef Name="Key" />
+                </Key>
+                <Property Name="NotificationId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Key" Type="Edm.String" Nullable="false" MaxLength="100" />
+                <Property Name="Value" Type="Edm.String" Nullable="false" />
+            </EntityType>
+            <EntityType Name="Notification">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+                <Property Name="OriginId" Type="Edm.String" Nullable="false" MaxLength="16" />
+                <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Nullable="false" />
+                <Property Name="IsActionable" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="IsRead" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="IsGroupable" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="IsGroupHeader" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="NavigationTargetAction" Type="Edm.String" Nullable="false" />
+                <Property Name="NavigationTargetObject" Type="Edm.String" Nullable="false" />
+                <Property Name="NavigationIntent" Type="Edm.String" Nullable="false" />
+                <Property Name="NotificationTypeId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="NotificationTypeKey" Type="Edm.String" Nullable="false"
+                    MaxLength="32" />
+                <Property Name="ParentId" Type="Edm.Guid" />
+                <Property Name="Priority" Type="Edm.String" Nullable="false" MaxLength="20" />
+                <Property Name="SensitiveText" Type="Edm.String" Nullable="false" />
+                <Property Name="Text" Type="Edm.String" Nullable="false" />
+                <Property Name="GroupHeaderText" Type="Edm.String" Nullable="false" />
+                <Property Name="NotificationCount" Type="Edm.Int32" Nullable="false" />
+                <Property Name="SubTitle" Type="Edm.String" />
+                <Property Name="NotificationTypeDesc" Type="Edm.String" MaxLength="40" />
+                <Property Name="Actor"
+                    Type="com.sap.gateway.default.iwngw.notification_srv.v0001.Actor"
+                    Nullable="false" />
+                <NavigationProperty Name="NavigationTargetParams"
+                    Type="Collection(com.sap.gateway.default.iwngw.notification_srv.v0001.NavigationTargetParam)" />
+                <NavigationProperty Name="Actions"
+                    Type="Collection(com.sap.gateway.default.iwngw.notification_srv.v0001.Action)" />
+            </EntityType>
+            <EntityType Name="NotificationTypePersonalization">
+                <Key>
+                    <PropertyRef Name="NotificationTypeId" />
+                </Key>
+                <Property Name="NotificationTypeId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="NotificationTypeDesc" Type="Edm.String" Nullable="false"
+                    MaxLength="40" />
+                <Property Name="PriorityDefault" Type="Edm.String" MaxLength="20" />
+                <Property Name="DoNotDeliver" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="DoNotDeliverMob" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="DoNotDeliverEmail" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="IsEmailEnabled" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="IsEmailIdMaintained" Type="Edm.Boolean" Nullable="false" />
+            </EntityType>
+            <EntityType Name="Action">
+                <Key>
+                    <PropertyRef Name="ActionId" />
+                </Key>
+                <Property Name="ActionId" Type="Edm.String" Nullable="false" MaxLength="32" />
+                <Property Name="ActionText" Type="Edm.String" Nullable="false" MaxLength="40" />
+                <Property Name="GroupActionText" Type="Edm.String" Nullable="false" MaxLength="40" />
+                <Property Name="Nature" Type="Edm.String" Nullable="false" MaxLength="20" />
+            </EntityType>
+            <ComplexType Name="ExecuteActionResultType">
+                <Property Name="Success" Type="Edm.Boolean" Nullable="false" />
+                <Property Name="MessageText" Type="Edm.String" Nullable="false" MaxLength="255" />
+                <Property Name="DeleteOnReturn" Type="Edm.Boolean" Nullable="false" />
+            </ComplexType>
+            <ComplexType Name="Actor">
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="20" />
+                <Property Name="DisplayText" Type="Edm.String" Nullable="false" MaxLength="120" />
+                <Property Name="ImageSource" Type="Edm.String" Nullable="false" />
+            </ComplexType>
+            <Action Name="AcBulkActionByHeader">
+                <Parameter Name="ParentId" Type="Edm.Guid" Nullable="false" />
+                <Parameter Name="ActionId" Type="Edm.String" Nullable="false" MaxLength="32" />
+                <ReturnType
+                    Type="Collection(com.sap.gateway.default.iwngw.notification_srv.v0001.BulkActionResultType)"
+                    Nullable="false" />
+            </Action>
+            <Action Name="AcDismiss">
+                <Parameter Name="NotificationId" Type="Edm.Guid" Nullable="false" />
+            </Action>
+            <Action Name="AcDismissAll">
+                <Parameter Name="ParentId" Type="Edm.Guid" Nullable="false" />
+            </Action>
+            <Action Name="AcExecuteAction">
+                <Parameter Name="NotificationId" Type="Edm.Guid" Nullable="false" />
+                <Parameter Name="ActionId" Type="Edm.String" Nullable="false" MaxLength="32" />
+                <ReturnType
+                    Type="com.sap.gateway.default.iwngw.notification_srv.v0001.ExecuteActionResultType"
+                    Nullable="false" />
+            </Action>
+            <Action Name="AcMarkRead">
+                <Parameter Name="NotificationId" Type="Edm.Guid" Nullable="false" />
+            </Action>
+            <Action Name="AcResetBadgeNumber" />
+            <Action Name="AcResetBadgeNumberByIntent">
+                <Parameter Name="NavigationIntent" Type="Edm.String" Nullable="false" />
+            </Action>
+            <Function Name="FuGetBadgeNumber">
+                <ReturnType Type="Edm.Int32" Nullable="false" />
+            </Function>
+            <Function Name="FuGetBadgeNumberByIntent">
+                <Parameter Name="NavigationIntent" Type="Edm.String" Nullable="false" />
+                <ReturnType Type="Edm.Int32" Nullable="false" />
+            </Function>
+            <EntityContainer Name="Container">
+                <EntitySet Name="Actions"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.Action" />
+                <EntitySet Name="BulkActionResultTypes"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.BulkActionResultType"
+                    IncludeInServiceDocument="false" />
+                <EntitySet Name="Channels"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.Channel" />
+                <EntitySet Name="NavigationTargetParams"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.NavigationTargetParam" />
+                <EntitySet Name="Notifications"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.Notification">
+                    <NavigationPropertyBinding Path="Actions" Target="Actions" />
+                    <NavigationPropertyBinding Path="NavigationTargetParams"
+                        Target="NavigationTargetParams" />
+                </EntitySet>
+                <EntitySet Name="NotificationTypePersonalizationSet"
+                    EntityType="com.sap.gateway.default.iwngw.notification_srv.v0001.NotificationTypePersonalization" />
+                <ActionImport Name="BulkActionByHeader"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcBulkActionByHeader"
+                    EntitySet="com.sap.gateway.default.iwngw.notification_srv.v0001.Container/BulkActionResultTypes" />
+                <ActionImport Name="Dismiss"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcDismiss" />
+                <ActionImport Name="DismissAll"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcDismissAll" />
+                <ActionImport Name="ExecuteAction"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcExecuteAction" />
+                <ActionImport Name="MarkRead"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcMarkRead" />
+                <ActionImport Name="ResetBadgeNumber"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcResetBadgeNumber" />
+                <ActionImport Name="ResetBadgeNumberByIntent"
+                    Action="com.sap.gateway.default.iwngw.notification_srv.v0001.AcResetBadgeNumberByIntent" />
+                <FunctionImport Name="GetBadgeNumber"
+                    Function="com.sap.gateway.default.iwngw.notification_srv.v0001.FuGetBadgeNumber"
+                    IncludeInServiceDocument="true" />
+                <FunctionImport Name="GetBadgeNumberByIntent"
+                    Function="com.sap.gateway.default.iwngw.notification_srv.v0001.FuGetBadgeNumberByIntent"
+                    IncludeInServiceDocument="true" />
+            </EntityContainer>
+            <Annotations Target="SAP__self.NotificationTypePersonalization/PriorityDefault">
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>
+                            ../../../../f4/iwngw/hub_cos_priority_d-fv/0001;ps='default-*iwngw*notification_srv-0001';va='com.sap.gateway.default.iwngw.notification_srv.v0001.ET-NOTIF_TYPE_PERSONALIZATION.PRIORITY_DEFAULT'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.ValueListWithFixedValues" />
+            </Annotations>
+            <Annotations Target="SAP__self.Container/Actions">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/BulkActionResultTypes">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/Channels">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/NavigationTargetParams">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/Notifications">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/NotificationTypePersonalizationSet">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

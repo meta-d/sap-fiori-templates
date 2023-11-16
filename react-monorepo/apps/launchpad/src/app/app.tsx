@@ -1,5 +1,5 @@
 import { ProConfigProvider } from '@ant-design/pro-components'
-import { updateODataConfig } from '@zng/odata'
+import { updateODataConfig } from '@zsap/odata'
 import { ConfigProvider } from 'antd'
 import ProLayout from './components/ProLayout'
 

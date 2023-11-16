@@ -8,13 +8,13 @@ import {
   QuestionCircleFilled,
   SearchOutlined
 } from '@ant-design/icons'
-import type { ProSettings } from '@ant-design/pro-components'
 import { PageContainer, ProCard, ProLayout, SettingDrawer } from '@ant-design/pro-components'
 import { css } from '@emotion/css'
 import { Button, Divider, Dropdown, Input, Popover, theme } from 'antd'
 import React, { useState } from 'react'
 import { Link, Routes, useLocation } from 'react-router-dom'
 import defaultProps, { renderRoutes, routes } from '../../config/routes'
+import { usePersonalization, useUser } from '../../core/'
 
 const Item: React.FC<{ children: React.ReactNode }> = (props) => {
   const { token } = theme.useToken()
@@ -267,11 +267,9 @@ const SearchInput = () => {
 }
 
 const MyLayout = () => {
-  const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
-    fixSiderbar: true,
-    layout: 'mix',
-    splitMenus: true
-  })
+
+  const [settings, setSetting] = usePersonalization()
+  const [user ] = useUser()
 
   const location = useLocation()
   const [num, setNum] = useState(40)
@@ -314,7 +312,7 @@ const MyLayout = () => {
       avatarProps={{
         src: 'assets/images/default-user.jpg',
         size: 'small',
-        title: '元数信息',
+        title: user?.name,
         render: (props, dom) => {
           return (
             <Dropdown
@@ -439,7 +437,7 @@ const MyLayout = () => {
         onSettingChange={(changeSetting) => {
           setSetting(changeSetting)
         }}
-        disableUrlParams={false}
+        disableUrlParams={true}
       />
     </ProLayout>
   )

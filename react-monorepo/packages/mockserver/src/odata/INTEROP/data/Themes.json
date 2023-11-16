@@ -1,0 +1,62 @@
+[
+    {
+        "id": "sap_belize",
+        "name": "SAP Belize",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_belize_hcb",
+        "name": "SAP High Contrast Black (SAP Belize)",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_belize_hcw",
+        "name": "SAP High Contrast White (SAP Belize)",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_belize_plus",
+        "name": "SAP Belize Deep",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_fiori_3",
+        "name": "SAP Quartz Light",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_fiori_3_dark",
+        "name": "SAP Quartz Dark",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_fiori_3_hcb",
+        "name": "SAP High Contrast Black (SAP Quartz)",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_fiori_3_hcw",
+        "name": "SAP High Contrast White (SAP Quartz)",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_horizon",
+        "name": "SAP Morning Horizon",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_horizon_dark",
+        "name": "SAP Evening Horizon",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_horizon_hcb",
+        "name": "SAP High Contrast Black (SAP Horizon)",
+        "shellType": "FLP"
+    },
+    {
+        "id": "sap_horizon_hcw",
+        "name": "SAP High Contrast White (SAP Horizon)",
+        "shellType": "FLP"
+    }
+]
