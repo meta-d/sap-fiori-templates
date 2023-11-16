@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve launchpad",
-    "build": "nx build launchpad"
+    "start": "VITE_ENV=development VITE_MOCK_DATA=true nx serve launchpad",
+    "build": "nx build launchpad",
+    "build-packages": "nx build odata"
   },
   "private": true,
   "dependencies": {
@@ -14,8 +15,10 @@
     "antd": "^5.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.11.2",
-    "tslib": "^2.3.0"
+    "react-router-dom": "^6.18.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -52,7 +55,12 @@
     "nx": "17.1.2",
     "prettier": "^2.6.2",
     "typescript": "~5.2.2",
+    "verdaccio": "^5.0.4",
     "vite": "~4.3.9",
+    "vite-plugin-dts": "~2.3.0",
     "vitest": "~0.32.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

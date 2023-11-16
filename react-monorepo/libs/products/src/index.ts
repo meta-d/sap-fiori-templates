@@ -1,1 +1,2 @@
-export * from './lib/products';
+export * from './lib/odata'
+export * from './lib/products'

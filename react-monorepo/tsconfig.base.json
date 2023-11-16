@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@zng/odata": ["packages/odata/src/index.ts"],
       "@zng/products": ["libs/products/src/index.ts"]
     }
   },

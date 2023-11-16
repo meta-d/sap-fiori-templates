@@ -9,6 +9,12 @@ export default defineConfig({
   server: {
     port: 4200,
     host: 'localhost',
+    proxy: {
+      '/sap/': {
+        target: 'http://127.0.0.1:3000',
+        changeOrigin: true,
+      }
+    }
   },
 
   preview: {
@@ -31,4 +37,5 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
+  optimizeDeps: { exclude: ["fsevents"] },
 });
