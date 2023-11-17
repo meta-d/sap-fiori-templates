@@ -15,12 +15,14 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
+    "concurrently": "^8.2.2",
     "sqlite3": "^5.1.6"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch": "cds w",
-    "build": "yarn --cwd ./apps/launchpad build && rm -rf ./app/launchpad/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/launchpad/ && mbt build -t gen --mtar mta.tar -e less.mtaext",
+    "watch": "concurrently \"cds w\" \"cd apps/launchpad && npm start\"",
+    "build-blp": "cd apps/launchpad && npm run build && cd ../.. && rm -rf ./app/launchpad/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/launchpad/",
+    "build": "npm run build-blp && mbt build -t gen --mtar mta.tar -e less.mtaext",
     "deploy": "cf deploy gen/mta.tar"
   },
   "cds": {

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,14 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'launchpad';
+
+  #httpClient = inject(HttpClient)
+
+  books: any[] = []
+  constructor() {
+    this.#httpClient.get<{value: any[]}>('/browse/Books').subscribe((data) => {
+      console.log(data.value);
+      this.books = data.value;
+    });
+  }
 }
