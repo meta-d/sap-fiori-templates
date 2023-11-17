@@ -1,0 +1,38 @@
+{
+  "name": "btp-cap-standalone",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.3.1",
+    "@sap/cds": "^7",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "sqlite3": "^5.1.6"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds w",
+    "build": "yarn --cwd ./apps/launchpad build && rm -rf ./app/launchpad/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/launchpad/ && mbt build -t gen --mtar mta.tar -e less.mtaext",
+    "deploy": "cf deploy gen/mta.tar"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "db": "postgres",
+        "auth": "xsuaa"
+      },
+      "db": {
+        "kind": "postgres",
+        "impl": "@cap-js/postgres"
+      }
+    }
+  }
+}
