@@ -13,10 +13,8 @@
     "passport": "^0"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
-    "concurrently": "^8.2.2",
-    "sqlite3": "^5.1.6"
+    "concurrently": "^8.2.2"
   },
   "scripts": {
     "start": "cds-serve",
