@@ -5,6 +5,14 @@
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "concurrently \"cds w\" \"cd apps/launchpad && npm start\"",
+    "w": "npm run watch",
+    "build-blp": "cd apps/launchpad && npm run build && cd ../.. && rm -rf ./app/blp/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/blp/",
+    "build": "npm run build-blp && mbt build -t gen --mtar mta.tar -e less.mtaext",
+    "deploy": "cf deploy gen/mta.tar"
+  },
   "dependencies": {
     "@cap-js/postgres": "^1.3.1",
     "@sap/cds": "^7",
@@ -15,13 +23,6 @@
   "devDependencies": {
     "@sap/cds-dk": "^7",
     "concurrently": "^8.2.2"
-  },
-  "scripts": {
-    "start": "cds-serve",
-    "watch": "concurrently \"cds w\" \"cd apps/launchpad && npm start\"",
-    "build-blp": "cd apps/launchpad && npm run build && cd ../.. && rm -rf ./app/launchpad/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/launchpad/",
-    "build": "npm run build-blp && mbt build -t gen --mtar mta.tar -e less.mtaext",
-    "deploy": "cf deploy gen/mta.tar"
   },
   "cds": {
     "requires": {

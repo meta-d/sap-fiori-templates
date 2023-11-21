@@ -1,10 +1,10 @@
 {
-  "welcomeFile": "launchpad/index.html",
+  "welcomeFile": "blp/index.html",
   "routes": [
     {
-      "source": "^/launchpad/(.*)$",
+      "source": "^/blp/(.*)$",
       "target": "$1",
-      "localDir": "./launchpad",
+      "localDir": "./blp",
       "cacheControl": "no-cache, no-store, must-revalidate"
     },
     {

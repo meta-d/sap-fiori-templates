@@ -8,7 +8,7 @@ default-*.json
 gen/
 node_modules/
 target/
-app/launchpad/
+app/blp/
 
 # Web IDE, App Studio
 .che/

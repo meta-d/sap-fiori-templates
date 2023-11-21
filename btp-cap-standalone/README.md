@@ -41,10 +41,12 @@ File or Folder | Purpose
 
 ## Local Develop
 
-`docker-compose -f pg.yml up -d`
+- `docker-compose -f pg.yml up -d`
 
-`npm run watch`
+- `npm run watch`
 
-`npm run build`
+- `npm update --package-lock-only`: Deployed applications should freeze all their dependencies, including transient ones. Create a package-lock.json file for that:
 
-`npm run deploy`
+- `npm run build`
+
+- `npm run deploy`
