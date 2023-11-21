@@ -1,4 +1,7 @@
 const cds = require('@sap/cds')
+
+cds.env.requires.auth.restrict_all_services = false
+
 module.exports = async function (){
 
   const db = await cds.connect.to('db') // connect to database service

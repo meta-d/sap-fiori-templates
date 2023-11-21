@@ -1,0 +1,24 @@
+{
+    "requires":{
+      "[hybrid]": {
+         "db":{
+            "credentials":{
+               "host":"localhost",
+               "port":5432,
+               "user":"postgres",
+               "password":"postgres",
+               "database":"postgres"
+            }
+         }
+      },
+       "db":{
+          "credentials":{
+             "host":"localhost",
+             "port":5432,
+             "user":"postgres",
+             "password":"postgres",
+             "database":"postgres"
+          }
+       }
+    }
+ }

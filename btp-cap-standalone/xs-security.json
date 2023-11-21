@@ -1,10 +1,26 @@
 {
-  "scopes": [],
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Admin"
+    }
+  ],
   "attributes": [],
-  "role-templates": [],
+  "role-templates": [
+    {
+      "name": "admin",
+      "description": "Admin",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
+    }
+  ],
   "oauth2-configuration": {
     "redirect-uris": [
-      "https://*.us10-001.hana.ondemand.com/**"
+      "https://*.us10-001.hana.ondemand.com/**",
+      "http://localhost:4004/",
+      "http://localhost:5000/"
     ]
   }
 }

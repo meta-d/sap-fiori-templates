@@ -17,6 +17,7 @@ app/blp/
 # MTA
 *_mta_build_tmp
 *.mtar
+*.mta
 mta_archives/
 
 # Other

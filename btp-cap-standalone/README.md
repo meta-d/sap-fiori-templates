@@ -50,3 +50,29 @@ File or Folder | Purpose
 - `npm run build`
 
 - `npm run deploy`
+
+
+
+
+`cf create-service xsuaa application btp-cap-standalone-uaa -c xs-security.json`
+
+`cf update-service btp-cap-standalone-uaa -c xs-security.json`
+
+- Create service key: `cf create-service-key btp-cap-standalone-uaa btp-cap-standalone-uaa-key`
+- Bind service to local project: `cds bind -2 btp-cap-standalone-uaa`
+
+```
+# cds bind -2 btp-cap-standalone-uaa
+Retrieving data from Cloud Foundry...
+Binding auth to Cloud Foundry managed service btp-cap-standalone-uaa:btp-cap-standalone-uaa-key with kind xsuaa
+Saving bindings to .cdsrc-private.json in profile hybrid
+TIP: Run with cloud bindings: cds watch --profile hybrid
+```
+
+Check authentication configuration:
+
+`cds env list requires.auth --resolve-bindings --profile hybrid`
+
+`cds bind --exec -- npm start --prefix app`
+
+`cds watch --profile hybrid`

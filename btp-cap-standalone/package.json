@@ -33,6 +33,13 @@
       "db": {
         "kind": "postgres",
         "impl": "@cap-js/postgres"
+      },
+      "[hybrid]": {
+        "db": {
+          "kind": "postgres",
+          "impl": "@cap-js/postgres"
+        },
+        "auth": "xsuaa"
       }
     }
   }
