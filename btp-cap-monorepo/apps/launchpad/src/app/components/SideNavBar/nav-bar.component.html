@@ -1,0 +1,34 @@
+<ul nz-menu nzMode="inline" [nzTheme]="nzTheme" [nzInlineCollapsed]="isCollapsed">
+  @for (menu of menus(); track menu.path) {
+    @if (!menu.hasSubmenus) {
+      <li nz-menu-item [routerLink]="menu.path" nzMatchRouter
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? menu.title : ''">
+        @if (menu.icon) {
+          <span nz-icon [nzType]="menu.icon"></span>
+        }
+        <span>{{ menu.title }}</span>
+      </li>
+    } @else {
+      <li nz-submenu [nzTitle]="isCollapsed ? menu.title[0] : menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"
+        (click)="loadMenus(menu)">
+        <!-- for highlight the active parent menu -->
+        <div [routerLink]="menu.path"></div>
+        <ul>
+          @for (submenu of menu.submenus; track submenu.path) {
+            <li nz-menu-item [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter
+              (click)="$event.stopPropagation()"
+            >
+              {{ submenu.title }}
+            </li>
+          }
+        </ul>
+      </li>
+    }
+  }
+</ul>
+
+@if(flpLoading()) {
+  <nz-spin nzSimple class="m-4"></nz-spin>
+}

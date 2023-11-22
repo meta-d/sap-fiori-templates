@@ -1,0 +1,61 @@
+@if(hasMoreMenus()) {
+  <button nz-button [disabled]="alignLeft" nzType="text" class="zng-top-nav-bar__scroll-button p-2" (click)="scrollLeft()">
+    <span nz-icon nzType="double-left" nzTheme="outline"></span>
+  </button>
+}
+
+<div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize($event)">
+  <ul #mEl nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
+    <ng-container *ngFor="let menu of menus(); trackBy: trackByPath">
+      <li nz-menu-item *ngIf="isMix() || !menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+        <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+        {{ menu.title }}
+      </li>
+
+      <li nz-submenu *ngIf="!isMix() && menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
+        [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+        (click)="loadMenus(menu)">
+        <ul>
+          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
+            {{ submenu.title }}
+          </li>
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</div>
+
+@if(flpLoading()) {
+  <nz-spin nzSimple class="m-4"></nz-spin>
+}
+
+@if(hasMoreMenus()) {
+<button nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
+  <span nz-icon nzType="double-right" nzTheme="outline"></span>
+</button>
+
+<a nz-dropdown class="zng-top-nav-bar__more-button" nzTrigger="click" [nzDropdownMenu]="menu1" nzPlacement="bottomRight" [nzOverlayStyle]="{maxHeight: '90vh', 'overflow-y': 'auto'}"
+  nzOverlayClassName="rounded-md shadow-md z-10">
+  <span nz-icon nzType="more" nzTheme="outline"></span>
+</a>
+}
+
+<nz-dropdown-menu #menu1="nzDropdownMenu">
+  <ul nz-menu>
+    <ng-container *ngFor="let menu of menus(); trackBy: trackByPath">
+      <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+        <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+        {{ menu.title }}
+      </li>
+      <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
+        [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+        (click)="loadMenus(menu)">
+        <ul>
+          <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
+            {{ submenu.title }}
+          </li>
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</nz-dropdown-menu>

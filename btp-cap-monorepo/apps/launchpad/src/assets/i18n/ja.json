@@ -1,0 +1,59 @@
+{
+    "ZNG": {
+        "AppName": "Business Launchpad",
+        "Common": {
+            "Fullscreen": "フルスクリーン",
+            "ExitFullscreen": "フルスクリーンを終了"
+        },
+        "GlobalHeader": {
+            "LanguageChanged": "言語が変更されました！",
+            "ChangePassword": "パスワードの変更",
+            "Logout": "ログアウト",
+            "Search": "検索"
+        },
+        "GlobalSearch": {
+            "WhatDoYouNeed": "何が必要ですか？",
+            "PleaseSearch": "検索するメニュー名を入力してください"
+        },
+        "GlobalSettings": {
+            "Title": "グローバル設定",
+            "Theme": "テーマ",
+            "MenuTheme": "メニューのスタイル",
+            "FioriTheme": "Fiori テーマ",
+            "PrimaryColor": "主要色",
+            "NavigationMode": "ナビゲーションモード",
+            "FixedLayoutSider": "固定サイドバー",
+            "FixedLayoutHeader": "固定ヘッダー",
+            "Pin": "ピン留め",
+            "Close": "閉じる",
+            "Themes": {
+                "Light": "ライト",
+                "Dark": "ダーク"
+            },
+            "NavigationModes": {
+                "side": "サイドメニュー レイアウト",
+                "top": "トップメニュー レイアウト",
+                "mix": "ミックスメニュー レイアウト"
+            }
+        },
+        "HomeNotice": {
+            "ByDate": "日付別",
+            "ByType": "タイプ別",
+            "ByPriority": "優先度別",
+            "LoadingMore": "もっと読み込む",
+            "CloseAll": "すべて閉じる"
+        },
+        "UI5": {
+            "FioriAppNotFound": "申し訳ありませんが、この Fiori アプリが見つかりませんでした！"
+        },
+        "Pages": {
+            "Home": "ホーム",
+            "Dashboard": "ダッシュボード",
+            "Admin": "管理",
+            "Settings": "設定",
+            "Fiori App": "Fiori アプリ",
+            "User Info": "ユーザー情報",
+            "Launchpad": "ランチパッド"
+        }
+    }
+}

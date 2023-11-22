@@ -1,0 +1,59 @@
+{
+    "ZNG": {
+        "AppName": "商业启动平台",
+        "Common": {
+            "Fullscreen": "全屏",
+            "ExitFullscreen": "退出全屏"
+        },
+        "GlobalHeader": {
+            "LanguageChanged": "语言已切换！",
+            "ChangePassword": "修改密码",
+            "Logout": "退出登录",
+            "Search": "搜索"
+        },
+        "GlobalSearch": {
+            "WhatDoYouNeed": "您需要什么？",
+            "PleaseSearch": "请输入菜单名称进行搜索"
+        },
+        "GlobalSettings": {
+            "Title": "全局设置",
+            "Theme": "主题",
+            "MenuTheme": "菜单风格",
+            "FioriTheme": "Fiori 主题",
+            "PrimaryColor": "主色调",
+            "NavigationMode": "导航模式",
+            "FixedLayoutSider": "固定侧边栏",
+            "FixedLayoutHeader": "固定顶部栏",
+            "Pin": "固定",
+            "Close": "关闭",
+            "Themes": {
+                "Light": "亮色",
+                "Dark": "暗色"
+            },
+            "NavigationModes": {
+                "side": "侧边菜单布局",
+                "top": "顶部菜单布局",
+                "mix": "混合菜单布局"
+            }
+        },
+        "HomeNotice": {
+            "ByDate": "按日期",
+            "ByType": "按类型",
+            "ByPriority": "按优先级",
+            "LoadingMore": "加载更多",
+            "CloseAll": "关闭所有"
+        },
+        "UI5": {
+            "FioriAppNotFound": "抱歉，未找到此 Fiori 应用程序！"
+        },
+        "Pages": {
+            "Home": "首页",
+            "Dashboard": "仪表板",
+            "Admin": "管理",
+            "Settings": "设置",
+            "Fiori App": "Fiori 应用",
+            "User Info": "用户信息",
+            "Launchpad": "启动页"
+        }
+    }
+}

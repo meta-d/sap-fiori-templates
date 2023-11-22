@@ -1,0 +1,29 @@
+.ant-modal-wrap {
+  &::before {
+    background-image: radial-gradient(at 27% 37%, hsl(215, 98%, 61%) 0px, transparent 50%),
+      radial-gradient(at 97% 21%, hsl(256, 98%, 72%) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsl(354, 98%, 61%) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, hsl(133, 96%, 67%) 0px, transparent 50%),
+      radial-gradient(at 97% 96%, hsl(38, 60%, 74%) 0px, transparent 50%),
+      radial-gradient(at 33% 50%, hsl(222, 67%, 73%) 0px, transparent 50%),
+      radial-gradient(at 79% 53%, hsl(343, 68%, 79%) 0px, transparent 50%);
+    position: absolute;
+    content: '';
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0.05;
+  }
+
+  .ant-modal {
+    z-index: 10;
+  }
+
+  .zng-global-search-modal {
+    .ant-modal-content {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+}

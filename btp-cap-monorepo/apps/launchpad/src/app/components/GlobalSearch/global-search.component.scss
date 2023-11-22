@@ -1,0 +1,10 @@
+:host {
+  .vercel .cmdk-empty {
+    height: unset;
+  }
+}
+
+.cmdk-item:hover {
+  color: var(--ant-primary-color);
+  background-color: var(--ant-primary-color-outline);
+}

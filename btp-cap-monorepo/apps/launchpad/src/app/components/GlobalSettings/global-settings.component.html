@@ -1,0 +1,96 @@
+<div class="flex flex-col justify-start items-start">
+    <div class="mb-2">
+        <h3 class="title text-base">{{'ZNG.GlobalSettings.Theme' | translate: {Default: 'Theme'} }}</h3>
+        <nz-segmented [(ngModel)]="themeIndex"
+            [nzOptions]="themeOptions()"
+        ></nz-segmented>
+    </div>
+
+    <div class="mb-2">
+        <h3 class="title text-base">{{'ZNG.GlobalSettings.MenuTheme' | translate: {Default: 'Menu Theme'} }}</h3>
+        <div class="zng-global-settings__menu-theme flex items-center gap-2">
+            <div *ngFor="let theme of menuThemes" class="cursor-pointer relative"
+                nz-tooltip
+                [nzTooltipTitle]=" 'ZNG.GlobalSettings.Themes.' + theme.value | translate: {Default: theme.value} "
+                (click)="toggleMenuTheme(theme.value)"
+                >
+                <img [alt]="theme.label" [src]="theme.image" />
+                <div *ngIf="theme.value === menuTheme()" class="flex justify-center items-center absolute inset-0">
+                    <i nz-icon nzTheme="outline" nzType="check" class="ml-1 mt-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentTheme() === ThemeType.default" class="mb-2">
+        <h3 class="title text-base">{{'ZNG.GlobalSettings.PrimaryColor' | translate: {Default: 'Primary Color'} }}</h3>
+        <div class="zng-global-settings__primary-color flex items-center">
+            <div *ngFor="let color of primaryColors" class="zng-global-settings__color-block cursor-pointer"
+                nz-tooltip
+                [nzTooltipTitle]="color.label"
+                [style.background]="color.value"
+                (click)="selectPrimaryColor(color.value)">
+                <i *ngIf="color.value === primaryColor" nz-icon nzTheme="outline" nzType="check"></i>
+            </div>
+        </div>
+    </div>
+
+    @if (enableFiori) {
+    <div class="mb-2">
+        <h3 class="title text-base">{{'ZNG.GlobalSettings.FioriTheme' | translate: {Default: 'Fiori Theme'} }}</h3>
+        <div class="zng-global-settings__menu-mode grid grid-cols-6 gap-2">
+        @for (theme of flpThemes(); track theme.id) {
+            <div class="cursor-pointer relative w-8 h-8 rounded-full shadow-lg dark:shadow-neutral-600"
+                [ngClass]="'zng_'+theme.id+'_icon_style'"
+                nz-tooltip
+                [nzTooltipTitle]=" theme.name "
+                (click)="setFioriTheme(theme.id)"
+                >
+                @if (flpTheme() === theme.id) {
+                <div class="flex justify-center items-center absolute inset-0">
+                    <i nz-icon nzTheme="outline" nzType="check"></i>
+                </div>
+                }
+            </div>
+        }
+        </div>
+    </div>
+    }
+
+    <nz-divider></nz-divider>
+
+    <div class="mb-2">
+        <h3 class="title text-base">{{'ZNG.GlobalSettings.NavigationMode' | translate: {Default: 'Navigation Mode'} }}</h3>
+        <div class="zng-global-settings__menu-mode flex items-center gap-2">
+            <div *ngFor="let mode of menuModes" class="cursor-pointer relative"
+                nz-tooltip
+                [nzTooltipTitle]=" 'ZNG.GlobalSettings.NavigationModes.' + mode.value | translate: { Default: mode.label }"
+                (click)="toggleMenuMode(mode.value)"
+                >
+                <img [alt]="mode.label" [src]="mode.image" />
+
+                <div *ngIf="mode.value === menuMode()" class="flex justify-center items-center absolute inset-0">
+                    <i nz-icon nzTheme="outline" nzType="check" class="ml-1 mt-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nz-divider></nz-divider>
+
+    <div class="w-full flex flex-col gap-4">
+        <div *ngIf="menuMode() === MenuMode.side" class="w-full flex justify-between items-center gap-2">
+            <label class="title text-base">{{'ZNG.GlobalSettings.FixedLayoutSider' | translate: {Default: 'Fixed Layout Sider'} }}</label>
+            <nz-switch [(ngModel)]="fixedLayoutSider"
+                [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
+                [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
+        </div>
+
+        <div class="w-full flex justify-between items-center gap-2">
+            <label class="title text-base">{{'ZNG.GlobalSettings.FixedLayoutHeader' | translate: {Default: 'Fixed Layout Header'} }}</label>
+            <nz-switch [(ngModel)]="fixedLayoutHeader"
+                [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
+                [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+@import './base';
+@import './modal/search';
+
+@layout-sider-background: @white;
+@layout-trigger-background: @white;
+@layout-header-background: @white;
+
+:root {
+    --zng-header-bg-color: white;
+    --zng-header-color: theme('colors.gray.500');
+    --zng-header-color-hover: theme('colors.gray.700');
+}
+
+.zng-layout__menu-dark {
+    --zng-header-bg-color: #001529;
+    --zng-header-color: theme('colors.gray.500');
+    --zng-header-color-hover: theme('colors.gray.300');
+}
+
+.ant-menu-submenu.ant-menu-dark .ant-menu-sub{
+    background: #001529;
+}

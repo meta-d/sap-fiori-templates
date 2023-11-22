@@ -1,0 +1,23 @@
+.zng-notification-popover {
+  .ant-popover-inner-content {
+    @apply max-w-xl min-w-[500px] max-h-[80vh] overflow-y-auto overflow-x-hidden;
+  }
+
+  .ant-list-item.isRead {
+    .ant-list-item-meta-title {
+      opacity: .6;
+    }
+  }
+
+  .ant-tag {
+    @apply border-none;
+  }
+
+  .ant-collapse-borderless {
+    @apply bg-transparent;
+  }
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    @apply items-center;
+  }
+}

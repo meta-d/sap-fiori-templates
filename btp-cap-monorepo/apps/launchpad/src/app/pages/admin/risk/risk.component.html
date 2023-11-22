@@ -1,0 +1,351 @@
+<style>
+  :host {
+    --bright-blue: oklch(51.01% 0.274 263.83);
+    --electric-violet: oklch(53.18% 0.28 296.97);
+    --french-violet: oklch(47.66% 0.246 305.88);
+    --vivid-pink: oklch(69.02% 0.277 332.77);
+    --hot-red: oklch(61.42% 0.238 15.34);
+    --orange-red: oklch(63.32% 0.24 31.68);
+
+    --gray-900: oklch(19.37% 0.006 300.98);
+    --gray-700: oklch(36.98% 0.014 302.71);
+    --gray-400: oklch(70.9% 0.015 304.04);
+
+    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
+      180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
+      90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --pill-accent: var(--bright-blue);
+
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    font-size: 3.125rem;
+    color: var(--gray-900);
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.125rem;
+    margin: 0;
+    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+  }
+
+  p {
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+    position: relative;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
+
+  .content h1 {
+    margin-top: 1.75rem;
+  }
+
+  .content p {
+    margin-top: 1.5rem;
+  }
+
+  .divider {
+    width: 1px;
+    background: var(--red-to-pink-to-purple-vertical-gradient);
+    margin-inline: 0.5rem;
+  }
+
+  .pill-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    --pill-accent: var(--bright-blue);
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+    color: var(--pill-accent);
+    padding-inline: 0.75rem;
+    padding-block: 0.375rem;
+    border-radius: 2.75rem;
+    border: 0;
+    transition: background 0.3s ease;
+    font-family: var(--inter-font);
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.4rem;
+    letter-spacing: -0.00875rem;
+    text-decoration: none;
+  }
+
+  .pill:hover {
+    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
+  }
+
+  .pill-group .pill:nth-child(6n + 1) {
+    --pill-accent: var(--bright-blue);
+  }
+  .pill-group .pill:nth-child(6n + 2) {
+    --pill-accent: var(--french-violet);
+  }
+  .pill-group .pill:nth-child(6n + 3),
+  .pill-group .pill:nth-child(6n + 4),
+  .pill-group .pill:nth-child(6n + 5) {
+    --pill-accent: var(--hot-red);
+  }
+
+  .pill-group svg {
+    margin-inline-start: 0.25rem;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.73rem;
+    margin-top: 1.5rem;
+  }
+
+  .social-links path {
+    transition: fill 0.3s ease;
+    fill: var(--gray-400);
+  }
+
+  .social-links a:hover svg path {
+    fill: var(--gray-900);
+  }
+
+  @media screen and (max-width: 650px) {
+    .content {
+      flex-direction: column;
+      width: max-content;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+    }
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  .content p {
+    margin-bottom: 1em;
+  }
+
+  .content-link a {
+    margin-right: 16px;
+  }
+
+  .content-link a img {
+    margin-right: 8px;
+  }
+
+  .content-image {
+    margin: 0 0 0 60px;
+    display: flex;
+    align-items: center;
+  }
+
+  .content-image img {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .content-image {
+      flex: 100%;
+      margin: 24px 0 0;
+    }
+  }
+</style>
+
+<nz-layout>
+  <nz-header>
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+      <li nz-menu-item nzSelected>nav 1</li>
+      <li nz-menu-item>nav 2</li>
+      <li nz-menu-item>nav 3</li>
+    </ul>
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <ul nz-menu nzMode="inline" class="sider-menu">
+        <li nz-submenu nzOpen nzIcon="user" nzTitle="subnav 1">
+          <ul>
+            <li nz-menu-item nzSelected>option1</li>
+            <li nz-menu-item>option2</li>
+            <li nz-menu-item>option3</li>
+            <li nz-menu-item>option4</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
+          <ul>
+            <li nz-menu-item>option5</li>
+            <li nz-menu-item>option6</li>
+            <li nz-menu-item>option7</li>
+            <li nz-menu-item>option8</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
+          <ul>
+            <li nz-menu-item>option9</li>
+            <li nz-menu-item>option10</li>
+            <li nz-menu-item>option11</li>
+            <li nz-menu-item>option12</li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item>List</nz-breadcrumb-item>
+        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <nz-content>
+
+        <nz-page-header class="site-page-header">
+          <!--breadcrumb-->
+          <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item>First-level Menu</nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+              <a>Second-level Menu</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>Third-level Menu</nz-breadcrumb-item>
+          </nz-breadcrumb>
+    
+          <!--avatar-->
+          <nz-avatar nz-page-header-avatar nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"></nz-avatar>
+    
+          <!--title-->
+          <nz-page-header-title>Title</nz-page-header-title>
+    
+          <!--subtitle-->
+          <nz-page-header-subtitle>This is a subtitle</nz-page-header-subtitle>
+    
+          <!--tags-->
+          <nz-page-header-tags>
+            <nz-tag [nzColor]="'blue'">Running</nz-tag>
+          </nz-page-header-tags>
+    
+          <!--extra-->
+          <nz-page-header-extra>
+            <nz-space>
+              <button *nzSpaceItem nz-button>Operation</button>
+              <button *nzSpaceItem nz-button>Operation</button>
+              <button *nzSpaceItem nz-button nzType="primary">Primary</button>
+              <button
+                *nzSpaceItem
+                nz-button
+                nzNoAnimation
+                nz-dropdown
+                [nzDropdownMenu]="menu"
+                nzPlacement="bottomRight"
+                style="border: none; padding: 0"
+              >
+                <span nz-icon nzType="more" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></span>
+              </button>
+            </nz-space>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item>1st menu item length</li>
+                <li nz-menu-item>2nd menu item length</li>
+                <li nz-menu-item>3rd menu item length</li>
+              </ul>
+            </nz-dropdown-menu>
+          </nz-page-header-extra>
+    
+          <!--content-->
+          <nz-page-header-content>
+            <div nz-row>
+              <div class="content">
+                <p nz-paragraph>
+                  Ant Design interprets the color system into two levels: a system-level color system and a product-level
+                  color system.
+                </p>
+                <p nz-paragraph>
+                  Ant Design's design team preferred to design with the HSB color model, which makes it easier for designers
+                  to have a clear psychological expectation of color when adjusting colors, as well as facilitate
+                  communication in teams.
+                </p>
+                <div class="content-link">
+                  <a>
+                    <img src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" alt="start" />
+                    Quick Start
+                  </a>
+                  <a>
+                    <img src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" alt="info" />
+                    Product Info
+                  </a>
+                  <a>
+                    <img src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" alt="doc" />
+                    Product Doc
+                  </a>
+                </div>
+              </div>
+              <div class="content-image">
+                <img src="https://gw.alipayobjects.com/zos/antfincdn/K%24NnlsB%26hz/pageHeader.svg" alt="content" />
+              </div>
+            </div>
+          </nz-page-header-content>
+        </nz-page-header>
+
+        <nz-table #basicTable [nzData]="books" style="margin: 20px;">
+          <thead>
+            <tr>
+              <th *ngFor="let col of columns">{{col.name}}</th>
+              <th>Quantity</th>
+              <th>Error</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td *ngFor="let col of columns">{{data[col.name]}}</td>
+              <td>{{data.quantity}}</td>
+              <td>{{data.error}}</td>
+              <td>
+                <button nz-button nzType="text" (click)="submitOrder(data, (data.quantity ?? 0) + 1)">Order</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

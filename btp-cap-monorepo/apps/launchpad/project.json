@@ -20,16 +20,33 @@
           "apps/launchpad/src/favicon.ico",
           "apps/launchpad/src/assets"
         ],
-        "styles": ["apps/launchpad/src/styles.scss"],
-        "scripts": []
+        "styles": [
+          "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+          "apps/launchpad/src/styles.less",
+          "apps/launchpad/src/styles.scss",
+          {
+            "input": "apps/launchpad/src/styles/default.less",
+            "bundleName": "default",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/dark.less",
+            "bundleName": "dark",
+            "inject": false
+          }
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["apps/launchpad/src/styles/themes"]
+        }
       },
       "configurations": {
         "production": {
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "2000kb",
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
