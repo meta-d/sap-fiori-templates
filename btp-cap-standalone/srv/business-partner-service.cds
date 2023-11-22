@@ -1,4 +1,4 @@
-using { zsap.capire.bookshop as my } from '../db/schema';
+using { zsap.capire as my } from '../db/schema';
 
 @impl: 'srv/impl/business-partner/business-partner-service-handler.js'
 service BupaService  {

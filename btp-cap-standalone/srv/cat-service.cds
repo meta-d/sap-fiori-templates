@@ -1,4 +1,4 @@
-using { zsap.capire.bookshop as my } from '../db/schema';
+using { zsap.capire as my } from '../db/schema';
 service CatalogService @(path:'/browse') { 
 
   @readonly entity Books as SELECT from my.Books {*,

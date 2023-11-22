@@ -9,6 +9,7 @@
     "start": "cds-serve",
     "watch": "concurrently \"cds w\" \"cd apps/launchpad && npm start\"",
     "w": "npm run watch",
+    "w-sandbox": "concurrently \"cds w --profile sandbox\" \"npm start --prefix=apps/launchpad\" ",
     "build-blp": "cd apps/launchpad && npm run build && cd ../.. && rm -rf ./app/blp/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/blp/",
     "build": "npm run build-blp && npm run build-src && mbt build -t gen --mtar mta.tar -e less.mtaext",
     "deploy": "cf deploy gen/mta.tar",
@@ -51,6 +52,15 @@
       "EPM_REF_APPS_PROD_MAN": {
         "kind": "odata-v2",
         "model": "srv/external/EPM_REF_APPS_PROD_MAN"
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[sandbox]": {
+          "credentials": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
+          }
+        }
       }
     }
   }
