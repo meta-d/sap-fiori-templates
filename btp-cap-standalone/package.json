@@ -10,19 +10,26 @@
     "watch": "concurrently \"cds w\" \"cd apps/launchpad && npm start\"",
     "w": "npm run watch",
     "build-blp": "cd apps/launchpad && npm run build && cd ../.. && rm -rf ./app/blp/ && mv ./apps/launchpad/dist/launchpad/browser/ ./app/blp/",
-    "build": "npm run build-blp && mbt build -t gen --mtar mta.tar -e less.mtaext",
-    "deploy": "cf deploy gen/mta.tar"
+    "build": "npm run build-blp && npm run build-src && mbt build -t gen --mtar mta.tar -e less.mtaext",
+    "deploy": "cf deploy gen/mta.tar",
+    "build-src": "tsc -p tsconfig.json",
+    "generate-client": "npx generate-odata-client --input resources/service-specs --outputDir src/generated --clearOutputDir --transpile=false --optionsPerService=resources/service-specs/options-per-service.json"
   },
   "dependencies": {
     "@cap-js/postgres": "^1.3.1",
     "@sap/cds": "^7",
     "@sap/xssec": "^3",
+    "@sap-cloud-sdk/odata-v2": "^3.8.0",
+    "@sap-cloud-sdk/odata-v4": "^3.8.1",
     "express": "^4",
     "passport": "^0"
   },
   "devDependencies": {
     "@sap/cds-dk": "^7",
-    "concurrently": "^8.2.2"
+    "@sap-cloud-sdk/generator": "^3.8.0",
+    "@sap-cloud-sdk/test-util": "^3.8.0",
+    "concurrently": "^8.2.2",
+    "typescript": "^5.2.2"
   },
   "cds": {
     "requires": {
@@ -40,6 +47,10 @@
           "impl": "@cap-js/postgres"
         },
         "auth": "xsuaa"
+      },
+      "EPM_REF_APPS_PROD_MAN": {
+        "kind": "odata-v2",
+        "model": "srv/external/EPM_REF_APPS_PROD_MAN"
       }
     }
   }

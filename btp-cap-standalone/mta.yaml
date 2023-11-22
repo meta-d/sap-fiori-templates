@@ -25,7 +25,9 @@ modules:
     requires:
       - name: btp-cap-standalone-auth
       - name: btp-cap-standalone-postgres
-
+      - name: destination-service
+        # parameters:
+        #   content-target: true
   - name: btp-cap-standalone
     type: approuter.nodejs
     path: app/
@@ -70,3 +72,9 @@ resources:
     parameters:
       service: postgresql-db
       service-plan: trial
+  - name: destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: btp-cap-standalone-destination-${org}-${space}
+      service-plan: lite

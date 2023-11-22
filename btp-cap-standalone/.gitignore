@@ -9,6 +9,9 @@ gen/
 node_modules/
 target/
 app/blp/
+dist/
+src/generated/
+srv/impl/
 
 # Web IDE, App Studio
 .che/

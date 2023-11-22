@@ -24,3 +24,13 @@ entity Genres : sap.common.CodeList {
   parent   : Association to Genres;
   children : Composition of many Genres on children.parent = $self;
 }
+
+
+entity CapBusinessPartner {
+  key ID : String;
+  firstName  : String;
+  lastName  : String;
+  businessPartnerName: String;
+  businessPartnerFullName: String;
+  businessPartnerUuid: String;  
+}
