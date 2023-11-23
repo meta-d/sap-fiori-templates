@@ -9,6 +9,7 @@ build-parameters:
     - builder: custom
       commands:
         - npx cds build --production
+        - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
         - ./pg-build.sh
 modules:
   - name: app-store-srv
@@ -46,7 +47,7 @@ modules:
 
   - name: app-store-db-deployer
     type: hdb
-    path: gen/db
+    path: gen/pg
     parameters:
       buildpack: nodejs_buildpack
     requires:

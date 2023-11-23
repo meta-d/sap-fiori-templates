@@ -1,4 +1,4 @@
-import { Filter, FilterOperator, OrderEnum, defineODataStore } from './odata'
+import { Filter, FilterOperator, OrderEnum, defineODataStore } from '@zcap/odata'
 
 export interface Notification {
   Id: string

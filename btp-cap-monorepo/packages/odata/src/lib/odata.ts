@@ -1,8 +1,11 @@
-import { isString } from '@/app/utils/isString'
+
+
 import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
-import { isPlainObject } from '../utils/isPlainObject'
-import { environment } from '@/environments/environment'
+import queryString from 'query-string';
+import { isString } from './utils/isString'
+import { isPlainObject } from './utils/isPlainObject'
+import { Filter, FilterOperator, Keys, KeysParameters, OrderEnum, entityKeyValue, uuidRegex } from './types'
 
 export enum StoreStatus {
   init,
@@ -12,7 +15,24 @@ export enum StoreStatus {
   complete
 }
 
-const xCsrfToken$ = new BehaviorSubject<string | null>(null)
+export interface ODataConfig {
+  xCsrfToken: string | null
+  environment: string
+  isMockData: boolean
+}
+
+const _config$ = new BehaviorSubject<ODataConfig>({
+  xCsrfToken: null,
+  environment: 'production',
+  isMockData: false
+})
+
+export function updateODataConfig(value: Partial<ODataConfig>) {
+  _config$.next({
+    ..._config$.value,
+    ...value
+  })
+}
 
 export function defineODataStore(
   service: string,
@@ -31,7 +51,7 @@ export function defineODataStore(
   })
 
   // Dont use version when use fe mock server, because it doesn't support versioning
-  const baseUrl = `${base}/${service}${version && !environment.mockData ? `/${version}` : ''}`
+  const baseUrl = `${removeLastSlash(base)}/${service}${version && !_config$.value.isMockData ? `/${version}` : ''}`
 
   const init = () => {
     store.next({
@@ -73,16 +93,14 @@ export function defineODataStore(
   const entityType = (entity: string) => store.value.Schema?.EntityType.find((item: any) => item['@'].Name === entity)
 
   function setXCsrfToken(token: string) {
-    xCsrfToken$.next(token)
-    // store.next({
-    //   ...store.value,
-    //   xCsrfToken: token
-    // })
+    updateODataConfig({
+      xCsrfToken: token
+    })
   }
 
   const read = async (
     entity: string,
-    keys: string | Record<string, number | string> | null,
+    keys: Keys,
     options?: {
       headers?: Record<string, string>
       $filter?: {
@@ -113,13 +131,7 @@ export function defineODataStore(
 
     let url = `${baseUrl}/${entity}`
     if (keys) {
-      if (isPlainObject(keys)) {
-        url += `(${Object.keys(keys)
-          .map((key) => `${key}=${entityKeyValue(keys[key])}`)
-          .join(',')})`
-      } else {
-        url += `(${entityKeyValue(keys)})`
-      }
+      url += KeysParameters(keys)
     }
 
     const queryString = query.toString()
@@ -160,7 +172,32 @@ export function defineODataStore(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Csrf-Token': xCsrfToken$.value ?? ''
+        'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
+      },
+      body: JSON.stringify(body)
+    }
+    return fetch(url, reqOptions).then(async (response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw {
+        code: response.status,
+        error: await response.text()
+      }
+    })
+  }
+
+  const update = async (entitySet: string, keys: Keys, body: any) => {
+    let url = `${baseUrl}/${entitySet}`
+    if (keys) {
+      url += KeysParameters(keys)
+    }
+    const reqOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
       },
       body: JSON.stringify(body)
     }
@@ -177,8 +214,8 @@ export function defineODataStore(
 
   const query = async <T>(entitySet: string, options?: ODataQueryOptions): Promise<T[]> => {
     const queryObj = constructQuery(options)
-    // const qString = queryString.stringify(queryObj) // .toString()
-    const qString = queryObj.toString()
+    const qString = queryString.stringify(queryObj)
+    // const qString = queryObj.toString()
 
     const url = `${baseUrl}/${entitySet}`
     return fetch(`${url}${qString ? '?' + qString : ''}`, {
@@ -241,7 +278,7 @@ export function defineODataStore(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Csrf-Token': xCsrfToken$.value ?? ''
+        'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
       },
       body: body ? JSON.stringify(body) : null
     }
@@ -263,7 +300,7 @@ export function defineODataStore(
 
   const count = async (entitySet: string, options?: ODataQueryOptions): Promise<number> => {
     const queryObj = constructQuery(options)
-    const queryString = queryObj.toString()
+    const qString = queryString.stringify(queryObj)
 
     const url = `${baseUrl}/${entitySet}/$count`
     return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
@@ -293,6 +330,7 @@ export function defineODataStore(
     read,
     query,
     save,
+    update,
     functionImport,
     actionImport,
     count,
@@ -303,7 +341,7 @@ export function defineODataStore(
 export interface ODataQueryOptions {
   headers?: Record<string, string>
   $filter?: {
-    [key: string]: any
+    [key: string]: unknown
   } | Filter[]
   $expand?: string | string[];
 
@@ -316,94 +354,77 @@ export interface ODataQueryOptions {
   $top?: number;
 }
 
-const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-
-export function entityKeyValue(value: number | string | Date): string {
-  if (isString(value)) {
-    if (uuidRegex.test(value)) {
-      return `${value}`
-    }
-    return `'${encodeURIComponent(value)}'`
-  } else {
-    return `${value}`
-  }
-}
 
 export function constructQuery(options?: ODataQueryOptions) {
   const { $filter, $expand, $orderby, $skip, $top } = options ?? {}
-  // const query = {} as any // new URLSearchParams()
-  const query = new URLSearchParams()
+  const query = {} as any
+  // const query = new URLSearchParams()
 
   // Filters to query string
   if ($filter) {
     if (Array.isArray($filter)) {
-      query.append('$filter', $filter.reduce((acc, item) => {
-        const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
-        if (acc) {
-          return acc + ' and ' + filterString
-        } else {
-          return filterString
-        }
-      }, ''))
-      // query['$filter'] = $filter.reduce((acc, item) => {
-      //     const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
-      //     if (acc) {
-      //       return acc + ' and ' + filterString
-      //     } else {
-      //       return filterString
-      //     }
-      //   }, '')
+      // query.append('$filter', $filter.reduce((acc, item) => {
+      //   const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
+      //   if (acc) {
+      //     return acc + ' and ' + filterString
+      //   } else {
+      //     return filterString
+      //   }
+      // }, ''))
+      query['$filter'] = $filter.reduce((acc, item) => {
+          const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
+          if (acc) {
+            return acc + ' and ' + filterString
+          } else {
+            return filterString
+          }
+        }, '')
     } else {
-      query.append('$filter', Object.keys($filter).reduce((acc, key) => {
-        const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
-        if (acc) {
-          return acc + ' and ' + filterString
-        } else {
-          return filterString
-        }
-      }, ''))
-      // query['$filter'] = Object.keys($filter).reduce((acc, key) => {
-      //     const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
-      //     if (acc) {
-      //       return acc + ' and ' + filterString
-      //     } else {
-      //       return filterString
-      //     }
-      //   }, '')
+      // query.append('$filter', Object.keys($filter).reduce((acc, key) => {
+      //   const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+      //   if (acc) {
+      //     return acc + ' and ' + filterString
+      //   } else {
+      //     return filterString
+      //   }
+      // }, ''))
+      query['$filter'] = Object.keys($filter).reduce((acc, key) => {
+          const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+          if (acc) {
+            return acc + ' and ' + filterString
+          } else {
+            return filterString
+          }
+        }, '')
     }
   }
 
   if ($expand) {
-    // query['$expand'] = isString($expand) ? $expand : $expand.join(',')
-    query.append('$expand', isString($expand) ? $expand : $expand.join(','))
+    query['$expand'] = isString($expand) ? $expand : $expand.join(',')
+    // query.append('$expand', isString($expand) ? $expand : $expand.join(','))
   }
 
   if ($orderby) {
-    // query['$orderby'] = $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(',')
-    query.append('$orderby', $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(','))
+    query['$orderby'] = $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(',')
+    // query.append('$orderby', $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(','))
   }
 
   if ($skip != null) {
-    // query['$skip'] = `${$skip}`
-    query.append('$skip', `${$skip}`)
+    query['$skip'] = `${$skip}`
+    // query.append('$skip', `${$skip}`)
   }
   if ($top != null) {
-    // query['$top'] = `${$top}`
-    query.append('$top', `${$top}`)
+    query['$top'] = `${$top}`
+    // query.append('$top', `${$top}`)
   }
 
   return query
 }
 
-export enum OrderEnum {
-  asc = 'asc',
-  desc = 'desc'
-}
-export interface Filter {
-  path: string;
-  operator: FilterOperator;
-  value: number | string
-}
-export enum FilterOperator {
-  eq = 'eq'
+
+function removeLastSlash(url: string) {
+  if (url.endsWith('/')) {
+    return url.slice(0, -1)
+  }
+  return url
 }

@@ -1,7 +1,8 @@
-import { StoreStatus, defineODataStore } from './odata'
+import { PersContainer } from '@zcap/contracts'
+import { StoreStatus, defineODataStore } from '@zcap/odata'
 
 const persStore = defineODataStore('personalization', {
-  base: '/odata/v4/'
+  base: '/api/odata/v4/'
 })
 export const usePersStore = () => {
   const { store, init } = persStore
@@ -12,7 +13,19 @@ export const usePersStore = () => {
   return persStore
 }
 
-export async function createPersonalization(value: unknown) {
-  const { save } = persStore
-  return await save('PersContainers', value)
+export async function upsertPersonalization(value: Partial<PersContainer>) {
+  const { save, update } = persStore
+  return await (value.ID ? update('PersContainers', { ID: value.ID }, value) : save('PersContainers', value))
+}
+
+export async function readPersonalization(appId: string) {
+  const { query } = persStore
+  return await query<PersContainer>('PersContainers', {
+    $filter: { category: 'P', appId },
+    headers: {
+      'X-Csrf-Token': 'Fetch'
+    }
+  })
+    .then((result) => result?.[0])
+    .catch((err) => null)
 }

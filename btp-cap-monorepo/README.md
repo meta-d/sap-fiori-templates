@@ -18,3 +18,10 @@
 **English** | [**中文**](./README_zh.md)
 
 ## 🌟 What is this?
+
+## Let's Start
+
+- `yarn install` install all dependencies.
+- `yarn ar` run approuter in url *http://localhost:5000/*.
+- `yarn w` run webapp and watch changes to reload in url *http://localhost:4200/*.
+- `yarn sb` run storybook to preview components in url *http://localhost:4400/*.

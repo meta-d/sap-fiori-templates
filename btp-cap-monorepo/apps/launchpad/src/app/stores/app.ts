@@ -5,20 +5,22 @@ import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
 import { MenuMode, ThemeType } from '../core/types'
 import { getCurrentUser } from './auth'
-import { useINTEROPStore } from './INTEROP'
-import { createPersonalization } from './personalization'
+import { upsertPersonalization, readPersonalization } from './personalization'
+import { PersContainer } from '@zcap/contracts'
 
 const PersContainerId = 'zng.settings'
-const PersPersonalizationId = 'personalization'
 
 export interface AppStoreState {
   personalization: {
-    theme: ThemeType
-    menuTheme: NzMenuThemeType
-    menuMode: MenuMode
-    primaryColor: string
-    fixedLayoutSider: boolean
-    fixedLayoutHeader: boolean
+    record?: PersContainer
+    value: {
+      theme: ThemeType
+      menuTheme: NzMenuThemeType
+      menuMode: MenuMode
+      primaryColor: string
+      fixedLayoutSider: boolean
+      fixedLayoutHeader: boolean
+    }
   }
   user?: {
     id: string
@@ -38,10 +40,12 @@ const DefaultPersonalization = {
 export class AppStoreService {
   private readonly logger = inject(NGXLogger)
 
-  private state$ = new BehaviorSubject<AppStoreState>({ personalization: DefaultPersonalization })
+  private state$ = new BehaviorSubject<AppStoreState>({ personalization: {
+    value: DefaultPersonalization
+  } })
 
   readonly user = toSignal(this.state$.pipe(map((state) => state.user)))
-  readonly personalization = toSignal(this.state$.pipe(map((state) => state.personalization)), { requireSync: true })
+  readonly personalization = toSignal(this.state$.pipe(map((state) => state.personalization.value)), { requireSync: true })
 
   async currentUser() {
     if (!this.user()) {
@@ -70,58 +74,36 @@ export class AppStoreService {
   }
 
   async refreshPersonalization() {
-    const { read } = useINTEROPStore()
-    const personalization = await read(
-      'PersContainers',
-      { category: 'P', id: PersContainerId },
-      {
-        headers: {
-          'X-Csrf-Token': 'Fetch'
-        },
-        $expand: 'PersContainerItems'
-      }
-    )
-      .then((result) => {
-        const personalization = result.PersContainerItems.results.find((item: any) => item.id === PersPersonalizationId)
-        if (personalization) {
-          try {
-            return JSON.parse(personalization.value)
-          } catch (err) {
-            this.logger.error(err)
-          }
-        }
-        return null
-      })
-      .catch((err) => this.logger.error(err))
+    const personalization = await readPersonalization(PersContainerId)
 
     if (personalization) {
       this.state$.next({
         ...this.state$.value,
-        personalization
+        personalization: {
+          record: personalization,
+          value: {
+            ...this.state$.value.personalization.value,
+            ...JSON.parse(personalization.value)
+          }
+        }
       })
     }
   }
 
   async savePersonalization() {
-    const value = this.state$.value.personalization
+    const value = this.state$.value.personalization.value
 
     const containerCategory = 'P'
-    await createPersonalization({
-      id: PersContainerId,
+    const body = {
+      appId: PersContainerId,
       category: containerCategory,
-      validity: 0,
-      component: '',
       appName: 'ZNG',
-      PersContainerItems: [
-        {
-          value: JSON.stringify(value),
-          id: PersPersonalizationId,
-          category: 'I',
-          containerId: PersContainerId,
-          containerCategory: containerCategory
-        }
-      ]
-    })
+      value: JSON.stringify(value)
+    } as PersContainer
+    if (this.state$.value.personalization.record) {
+      body.ID = this.state$.value.personalization.record.ID
+    }
+    await upsertPersonalization(body)
   }
 
   updatePersonalization(value: any) {
@@ -129,7 +111,10 @@ export class AppStoreService {
       ...this.state$.value,
       personalization: {
         ...(this.state$.value.personalization ?? {}),
-        ...value
+        value: {
+          ...this.state$.value.personalization.value,
+          ...value
+        }
       }
     })
 

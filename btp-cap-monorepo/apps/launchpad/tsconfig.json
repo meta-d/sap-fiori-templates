@@ -8,10 +8,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@/*": ["./apps/launchpad/src/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
   "files": [],
   "include": [],

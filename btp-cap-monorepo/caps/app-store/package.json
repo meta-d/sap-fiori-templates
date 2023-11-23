@@ -15,14 +15,16 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@cap-js/cds-typer": ">=0.1"
   },
   "scripts": {
     "start": "cds-serve",
     "build-src": "tsc -p tsconfig.json",
     "w": "concurrently \"tsc -w -p tsconfig.json\" \"cds w\"",
     "build": "mbt build -t gen --mtar mta.tar",
-    "deploy": "cf deploy gen/mta.tar"
+    "deploy": "cf deploy gen/mta.tar -f",
+    "approuter": "cds bind --exec -- npm start --prefix app"
   },
   "cds": {
     "requires": {
@@ -43,5 +45,8 @@
       },
       "auth": "dummy"
     }
+  },
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
   }
 }

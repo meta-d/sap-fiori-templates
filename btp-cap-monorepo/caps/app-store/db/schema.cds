@@ -3,14 +3,15 @@ namespace zm.appstore;
 using {
   Currency,
   managed,
+  cuid,
   sap
 } from '@sap/cds/common';
 
-entity PersContainers : managed {
-  key ID       : UUID @(Core.Computed: true);
-      category : String(50);
-      appName  : String(100);
-      value    : String;
+entity PersContainers : cuid, managed {
+  appId    : String(100);
+  category : String(50);
+  appName  : String(100);
+  value    : String;
 }
 
 

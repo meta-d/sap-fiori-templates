@@ -1,4 +1,4 @@
-import { StoreStatus, defineODataStore } from "./odata";
+import { StoreStatus, defineODataStore } from "@zcap/odata";
 
 export interface UI5Theme {
     id: string;

@@ -10,7 +10,10 @@
     "sourceMap": true,
     "outDir": "./srv/impl",
     "baseUrl": ".",
-    "incremental": true
+    "incremental": true,
+    "moduleResolution": "nodenext"
   },
-  "include": ["src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }

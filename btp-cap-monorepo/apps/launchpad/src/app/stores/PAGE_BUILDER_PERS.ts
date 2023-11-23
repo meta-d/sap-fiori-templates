@@ -1,4 +1,4 @@
-import { StoreStatus, defineODataStore } from "./odata";
+import { StoreStatus, defineODataStore } from "@zcap/odata";
 
 const pageStore = defineODataStore('PAGE_BUILDER_PERS', {
     base: '/sap/opu/odata/UI2'
