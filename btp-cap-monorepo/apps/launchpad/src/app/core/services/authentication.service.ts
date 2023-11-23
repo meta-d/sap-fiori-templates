@@ -10,8 +10,4 @@ export class AuthenticationService {
   logout() {
     return this.httpClient.get('/sap/public/bc/icf/logoff', {responseType: 'text'})
   }
-
-  currentUser() {
-    return this.httpClient.get('/api/admin/current()')
-  }
 }

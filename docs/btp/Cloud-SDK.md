@@ -7,5 +7,3 @@ Destinations contain the necessary information to connect to a remote system. Th
 ## External Services
 
 - import external service `cds import resources/service-specs/API_BUSINESS_PARTNER.edmx`
-
-https://sapes5.sapdevcenter.com/sap/opu/odata/sap/API_BUSINESS_PARTNER/$metadata

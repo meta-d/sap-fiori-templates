@@ -1,18 +1,18 @@
 import { StoreStatus, defineODataStore } from './odata'
 
-const adminStore = defineODataStore('auth', {
+const authStore = defineODataStore('auth', {
   base: '/api'
 })
-export const useAdminStore = () => {
-  const { store, init } = adminStore
+export const useAuthStore = () => {
+  const { store, init } = authStore
   if (store.value.status === StoreStatus.init || store.value.status === StoreStatus.error) {
     init()
   }
 
-  return adminStore
+  return authStore
 }
 
 export async function getCurrentUser() {
-  const { functionImport } = useAdminStore()
+  const { functionImport } = useAuthStore()
   return await functionImport('current')
 }

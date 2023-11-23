@@ -1,5 +1,5 @@
 export * from './epm'
-export * from './admin'
+export * from './auth'
 export * from './app'
 export * from './PAGE_BUILDER_PERS'
 export * from './INTEROP'

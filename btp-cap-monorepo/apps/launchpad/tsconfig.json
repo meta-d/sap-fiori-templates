@@ -11,7 +11,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./apps/launchpad/src/*"]
-    },
+    }
   },
   "files": [],
   "include": [],
@@ -24,6 +24,9 @@
     },
     {
       "path": "./tsconfig.editor.json"
+    },
+    {
+      "path": "./.storybook/tsconfig.json"
     }
   ],
   "extends": "../../tsconfig.base.json",

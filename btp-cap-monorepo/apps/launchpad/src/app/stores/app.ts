@@ -4,8 +4,9 @@ import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
 import { MenuMode, ThemeType } from '../core/types'
-import { getCurrentUser } from './admin'
+import { getCurrentUser } from './auth'
 import { useINTEROPStore } from './INTEROP'
+import { createPersonalization } from './personalization'
 
 const PersContainerId = 'zng.settings'
 const PersPersonalizationId = 'personalization'
@@ -102,12 +103,10 @@ export class AppStoreService {
   }
 
   async savePersonalization() {
-    const { save } = useINTEROPStore()
-
     const value = this.state$.value.personalization
 
     const containerCategory = 'P'
-    await save('PersContainers', {
+    await createPersonalization({
       id: PersContainerId,
       category: containerCategory,
       validity: 0,

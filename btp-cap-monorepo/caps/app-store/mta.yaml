@@ -16,8 +16,8 @@ modules:
     path: gen/srv
     parameters:
       buildpack: nodejs_buildpack
-      disk-quota: 256M
-      memory: 256M
+      disk-quota: 1024M
+      memory: 1024M
     build-parameters:
       builder: npm
     provides:

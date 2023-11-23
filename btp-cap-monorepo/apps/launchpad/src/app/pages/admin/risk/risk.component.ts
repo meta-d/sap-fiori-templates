@@ -27,10 +27,6 @@ export class AdminRiskComponent {
       console.log(data.value)
       this.books = data.value
     })
-
-    this.#httpClient.get<{ value: any[] }>('/api/admin/current()').subscribe((user) => {
-      console.log(user)
-    })
   }
 
   submitOrder(book: any, quantity: number) {
