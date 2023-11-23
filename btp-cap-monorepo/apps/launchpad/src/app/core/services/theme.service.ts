@@ -1,16 +1,15 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { NzMenuThemeType } from 'ng-zorro-antd/menu';
-import { MenuMode, ThemeType } from '../types';
-import { AppStoreService } from '@/app/stores';
-import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { AppStoreService, PersonalizationType } from '@/app/stores'
+import { Injectable, computed, effect, inject } from '@angular/core'
+import { NzConfigService } from 'ng-zorro-antd/core/config'
+import { ThemeType } from '../types'
 
 export interface ThemeState {
-  fixedLayoutSider: boolean;
-  fixedLayoutHeader: boolean;
+  fixedLayoutSider: boolean
+  fixedLayoutHeader: boolean
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ThemeService {
   private appStore = inject(AppStoreService)
@@ -40,46 +39,46 @@ export class ThemeService {
   }
 
   private reverseTheme(theme: ThemeType | undefined): ThemeType {
-    return theme === ThemeType.dark ? ThemeType.default : ThemeType.dark;
+    return theme === ThemeType.dark ? ThemeType.default : ThemeType.dark
   }
 
   private removeUnusedTheme(theme: ThemeType): void {
-    document.documentElement.classList.remove(theme);
-    const removedThemeStyle = document.getElementById(theme);
+    document.documentElement.classList.remove(theme)
+    const removedThemeStyle = document.getElementById(theme)
     if (removedThemeStyle) {
-      document.head.removeChild(removedThemeStyle);
+      document.head.removeChild(removedThemeStyle)
     }
   }
 
   private loadCss(href: string, id: string): Promise<Event> {
     return new Promise((resolve, reject) => {
-      const style = document.createElement('link');
-      style.rel = 'stylesheet';
-      style.href = href;
-      style.id = id;
-      style.onload = resolve;
-      style.onerror = reject;
-      document.head.append(style);
-    });
+      const style = document.createElement('link')
+      style.rel = 'stylesheet'
+      style.href = href
+      style.id = id
+      style.onload = resolve
+      style.onerror = reject
+      document.head.append(style)
+    })
   }
 
   public loadTheme(firstLoad = true): Promise<Event> {
-    const theme = this.currentTheme() as string;
+    const theme = this.currentTheme() as string
     if (firstLoad) {
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add(theme)
     }
     return new Promise<Event>((resolve, reject) => {
       this.loadCss(`${theme}.css`, theme).then(
         (e) => {
           if (!firstLoad) {
-            document.documentElement.classList.add(theme);
+            document.documentElement.classList.add(theme)
           }
-          this.removeUnusedTheme(this.reverseTheme(this.currentTheme()));
-          resolve(e);
+          this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
+          resolve(e)
         },
         (e) => reject(e)
-      );
-    });
+      )
+    })
   }
 
   setTheme(theme?: ThemeType) {
@@ -94,7 +93,7 @@ export class ThemeService {
     })
   }
 
-  updatePersonalization(value: any) {
+  updatePersonalization(value: Partial<PersonalizationType>) {
     this.appStore.updatePersonalization(value)
   }
 }

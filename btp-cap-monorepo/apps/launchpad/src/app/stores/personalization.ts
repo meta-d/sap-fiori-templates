@@ -1,4 +1,4 @@
-import { PersContainer } from '@zcap/contracts'
+import { PersContainer } from '#cds-models/zm/appstore'
 import { StoreStatus, defineODataStore } from '@zcap/odata'
 
 const persStore = defineODataStore('personalization', {
@@ -27,5 +27,5 @@ export async function readPersonalization(appId: string) {
     }
   })
     .then((result) => result?.[0])
-    .catch((err) => null)
+    .catch(() => null)
 }

@@ -3,24 +3,26 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
+import { PersContainer } from '#cds-models/zm/appstore'
 import { MenuMode, ThemeType } from '../core/types'
 import { getCurrentUser } from './auth'
 import { upsertPersonalization, readPersonalization } from './personalization'
-import { PersContainer } from '@zcap/contracts'
 
 const PersContainerId = 'zng.settings'
+
+export interface PersonalizationType {
+  theme: ThemeType
+  menuTheme: NzMenuThemeType
+  menuMode: MenuMode
+  primaryColor?: string
+  fixedLayoutSider: boolean
+  fixedLayoutHeader: boolean
+}
 
 export interface AppStoreState {
   personalization: {
     record?: PersContainer
-    value: {
-      theme: ThemeType
-      menuTheme: NzMenuThemeType
-      menuMode: MenuMode
-      primaryColor: string
-      fixedLayoutSider: boolean
-      fixedLayoutHeader: boolean
-    }
+    value: PersonalizationType
   }
   user?: {
     id: string
@@ -28,13 +30,13 @@ export interface AppStoreState {
   }
 }
 
-const DefaultPersonalization = {
+const DefaultPersonalization: PersonalizationType = {
   theme: ThemeType.default,
   menuTheme: 'dark',
   menuMode: MenuMode.side,
   fixedLayoutSider: true,
-  fixedLayoutHeader: false
-} as any
+  fixedLayoutHeader: false,
+}
 
 @Injectable()
 export class AppStoreService {
@@ -83,7 +85,7 @@ export class AppStoreService {
           record: personalization,
           value: {
             ...this.state$.value.personalization.value,
-            ...JSON.parse(personalization.value)
+            ...JSON.parse(personalization.value ?? '{}')
           }
         }
       })
@@ -106,7 +108,7 @@ export class AppStoreService {
     await upsertPersonalization(body)
   }
 
-  updatePersonalization(value: any) {
+  updatePersonalization(value: Partial<PersonalizationType>) {
     this.state$.next({
       ...this.state$.value,
       personalization: {
