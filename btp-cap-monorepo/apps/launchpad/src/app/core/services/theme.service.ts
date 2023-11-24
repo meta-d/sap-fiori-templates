@@ -1,5 +1,5 @@
-import { AppStoreService, PersonalizationType } from '@/app/stores'
-import { Injectable, computed, effect, inject } from '@angular/core'
+import { AppStoreService, PersonalizationType } from '../../stores'
+import { Injectable, computed, effect, inject, signal } from '@angular/core'
 import { NzConfigService } from 'ng-zorro-antd/core/config'
 import { ThemeType } from '../types'
 
@@ -23,6 +23,11 @@ export class ThemeService {
   readonly fixedLayoutSider = computed(() => this.personalization().fixedLayoutSider)
   readonly fixedLayoutHeader = computed(() => this.personalization().fixedLayoutHeader)
   readonly primaryColor = computed(() => this.personalization().primaryColor)
+  readonly isShowTab = computed(() => this.personalization().isShowTab)
+  readonly fixedTab = computed(() => this.personalization().fixedTab)
+  readonly isOverMode = computed(() => this.personalization().isOverMode)
+
+  readonly isCollapsed = signal(false)
 
   constructor() {
     effect(() => {

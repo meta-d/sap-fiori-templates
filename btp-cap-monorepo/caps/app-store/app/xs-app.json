@@ -8,7 +8,7 @@
       "cacheControl": "no-cache, no-store, must revalidate"
     },
     {
-      "source": "^/blp/(.*.(json|txt|html|js|css))$",
+      "source": "^/blp/(.*.(json|txt|html|js|css|ico))$",
       "target": "$1",
       "localDir": "./blp",
       "cacheControl": "no-cache, no-store, must-revalidate"

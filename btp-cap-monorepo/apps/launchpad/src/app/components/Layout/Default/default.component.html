@@ -1,20 +1,23 @@
 <nz-layout class="zng-layout">
   <ng-container *ngIf="menuMode() === MenuMode.side" >
     <!-- fixed sider placeholder -->
-    <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed" [class.w-[60px]]="isCollapsed && fixedLayoutSider()"></div>
+    <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
     <!-- fixed sider -->
     <nz-sider class="zng-layout__sider flex flex-col"
       [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
-      [nzTheme]="currentTheme === 'light' ? menuTheme() : 'dark'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null"
-      [nzCollapsedWidth]="isCollapsed ? fixedLayoutSider() ? 60 : 0 : 200">
+      [nzTheme]="currentTheme === 'light' ? menuTheme() : 'dark'"
+      nzCollapsible
+      [nzCollapsed]="isCollapsed()"
+      [nzTrigger]="null"
+      [nzCollapsedWidth]="isCollapsed() ? fixedLayoutSider() ? 60 : 0 : 200">
       <div class="h-full flex flex-col">
         <ng-container *ngTemplateOutlet="logo;" ></ng-container>
-        <zng-side-nav-bar class="flex-1" [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed"/>
+        <zng-side-nav-bar class="flex-1" [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed()"/>
     
         <nz-divider></nz-divider>
         <button class="mx-auto" nz-button nzType="text" (click)="toggleSideMenu()">
-          <span nz-icon *ngIf="isCollapsed" nzType="menu-unfold" nzTheme="outline"></span>
-          <span nz-icon *ngIf="!isCollapsed" nzType="menu-fold" nzTheme="outline"></span>
+          <span nz-icon *ngIf="isCollapsed()" nzType="menu-unfold" nzTheme="outline"></span>
+          <span nz-icon *ngIf="!isCollapsed()" nzType="menu-fold" nzTheme="outline"></span>
         </button>
   
         <div class="p-4">
@@ -43,12 +46,12 @@
       <div *ngIf="fixedLayoutHeader()" class="w-full h-[64px]"></div>
       <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
 
-        <div *ngIf="fixedLayoutHeader()" class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed" [class.w-[60px]]="isCollapsed && fixedLayoutSider()"></div>
+        <div *ngIf="fixedLayoutHeader()" class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
         
-        <button nz-button nzType="text" class="m-4" (click)="isCollapsed = !isCollapsed">
+        <button nz-button nzType="text" class="m-4" (click)="toggleSideMenu()">
           <span class=""
             nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"
           ></span>
         </button>
 
@@ -68,7 +71,8 @@
       </div>
     </nz-sider>
 
-    <nz-layout class="inner-layout p-4">
+    <nz-layout class="inner-layout">
+      <zng-menu-tab *ngIf="isShowTab()"/>
       <ng-container *ngIf="menuMode() !== MenuMode.side">
         <div class="mb-4">
           <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
@@ -88,7 +92,7 @@
 <ng-template #logo>
   <div class="p-4 h-[64px] flex justify-start items-center">
     <img src="assets/images/favicon.svg" alt="logo" class="inline-block w-8 h-8 rounded-sm mr-2" />
-    <span *ngIf="!isCollapsed" class="whitespace-nowrap">{{'ZNG.AppName' | translate: {Default: 'Fiori App'} }}</span>
+    <span *ngIf="!isCollapsed()" class="whitespace-nowrap">{{'ZNG.AppName' | translate: {Default: 'Fiori App'} }}</span>
   </div>
 </ng-template>
 

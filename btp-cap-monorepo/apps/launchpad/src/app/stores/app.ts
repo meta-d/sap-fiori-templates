@@ -17,6 +17,14 @@ export interface PersonalizationType {
   primaryColor?: string
   fixedLayoutSider: boolean
   fixedLayoutHeader: boolean
+  isShowTab: boolean
+  fixedTab: boolean
+  isOverMode: boolean
+  hasTopArea: boolean; // 是否展示顶部区域
+  hasFooterArea: boolean; // 是否展示底部区域
+  hasNavArea: boolean; // 是否有菜单
+  hasNavHeadArea: boolean; // 菜单是否有菜单头
+  splitNav: boolean; // 是否分割菜单
 }
 
 export interface AppStoreState {
@@ -36,6 +44,14 @@ const DefaultPersonalization: PersonalizationType = {
   menuMode: MenuMode.side,
   fixedLayoutSider: true,
   fixedLayoutHeader: false,
+  isShowTab: true,
+  fixedTab: false,
+  isOverMode: false,
+  hasTopArea: true,
+  hasFooterArea: true,
+  hasNavArea: true,
+  hasNavHeadArea: true,
+  splitNav: true
 }
 
 @Injectable()
