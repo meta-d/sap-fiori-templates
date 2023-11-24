@@ -7,21 +7,24 @@
   "private": true,
   "dependencies": {
     "@cap-js/postgres": "^1.3.1",
+    "@sap-cloud-sdk/http-client": "^3.8.1",
+    "@sap-cloud-sdk/util": "^3.8.1",
     "@sap/cds": "^7",
-    "express": "^4",
     "@sap/xssec": "^3",
+    "express": "^4",
     "passport": "^0"
   },
   "devDependencies": {
+    "@cap-js/cds-typer": ">=0.1",
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
-    "typescript": "^5.2.2",
-    "@cap-js/cds-typer": ">=0.1"
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "start": "cds-serve",
     "build-src": "tsc -p tsconfig.json",
     "w": "concurrently \"tsc -w -p tsconfig.json\" \"cds w\"",
+    "w-sandbox": "concurrently \"tsc -w -p tsconfig.json\" \"cds w --profile sandbox\"",
     "build": "mbt build -t gen --mtar mta.tar",
     "deploy": "cf deploy gen/mta.tar -f",
     "approuter": "cds bind --exec -- npm start --prefix app"
@@ -43,7 +46,16 @@
         "kind": "postgres",
         "impl": "@cap-js/postgres"
       },
-      "auth": "dummy"
+      "auth": "dummy",
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[sandbox]": {
+          "credentials": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
+          }
+        }
+      }
     }
   },
   "imports": {

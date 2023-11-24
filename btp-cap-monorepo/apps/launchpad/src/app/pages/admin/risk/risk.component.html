@@ -281,23 +281,38 @@
   </nz-page-header-content>
 </nz-page-header>
 
-<nz-table #basicTable [nzData]="books" style="margin: 20px;">
+<nz-table #basicTable [nzData]="risks()" [nzLoading]="loading()" nzSize="small" [nzScroll]="{x: '2000px'}" style="margin: 20px;">
   <thead>
     <tr>
+      <th></th>
       <th *ngFor="let col of columns">{{col.name}}</th>
-      <th>Quantity</th>
-      <th>Error</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data">
-      <td *ngFor="let col of columns">{{data[col.name]}}</td>
-      <td>{{data.quantity}}</td>
-      <td>{{data.error}}</td>
-      <td>
-        <button nz-button nzType="text" (click)="submitOrder(data, (data.quantity ?? 0) + 1)">Order</button>
-      </td>
-    </tr>
+    @for (data of basicTable.data; track data.ID) {
+      <tr>
+        <td [(nzExpand)]="data.expand"></td>
+        <td *ngFor="let col of columns">{{data[col.name]}}</td>
+        <td>
+          <button nz-button nzType="text" nzSize="small">Order</button>
+        </td>
+      </tr>
+
+      <tr [nzExpand]="data.expand">
+        <nz-descriptions nzTitle="Supplier" nzSize="small">
+          <nz-descriptions-item nzTitle="ID">{{data.supplier.ID}}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Full Name">{{data.supplier.fullName}}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Is Blocked">
+            @if (data.supplier.isBlocked) {
+              <span nz-icon nzType="stop" nzTheme="outline"></span>
+            } @else {
+              <nz-badge nzStatus="processing"></nz-badge>
+            }
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </tr>
+    }
+
   </tbody>
 </nz-table>

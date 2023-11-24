@@ -14,7 +14,6 @@ entity PersContainers : cuid, managed {
   value    : String;
 }
 
-
 type User {
   ID   : UUID @(Core.Computed: true);
   Name : String(100);

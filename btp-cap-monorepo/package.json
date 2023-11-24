@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "w": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w\"",
+    "w-sandbox": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w-sandbox\"",
     "ar": "yarn bapp && yarn --cwd caps/app-store approuter",
     "sb": "yarn nx run launchpad:storybook",
     "bapp": "nx build launchpad -- --base-href /blp/ && rm -rf ./caps/app-store/app/blp/ && mv ./dist/apps/launchpad/browser/ ./caps/app-store/app/blp/",

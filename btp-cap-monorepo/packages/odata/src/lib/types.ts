@@ -40,3 +40,7 @@ export function KeysParameters(keys: Keys) {
     return `(${entityKeyValue(keys)})`
   }
 }
+
+export function getEntityName(entity: string | {name: string}): string {
+  return typeof entity === 'string' ? entity : entity.name.split('.').pop()!
+}

@@ -10,7 +10,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "btpCapMonorepo",
+            "prefix": "zng",
             "style": "camelCase"
           }
         ],
@@ -18,7 +18,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "btp-cap-monorepo",
+            "prefix": "zng",
             "style": "kebab-case"
           }
         ]

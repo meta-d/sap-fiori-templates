@@ -4,8 +4,7 @@ import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
 import queryString from 'query-string';
 import { isString } from './utils/isString'
-import { isPlainObject } from './utils/isPlainObject'
-import { Filter, FilterOperator, Keys, KeysParameters, OrderEnum, entityKeyValue, uuidRegex } from './types'
+import { Filter, FilterOperator, Keys, KeysParameters, OrderEnum, entityKeyValue, getEntityName, uuidRegex } from './types'
 
 export enum StoreStatus {
   init,
@@ -212,7 +211,8 @@ export function defineODataStore(
     })
   }
 
-  const query = async <T>(entitySet: string, options?: ODataQueryOptions): Promise<T[]> => {
+  const query = async <T>(entity: string | {name: string}, options?: ODataQueryOptions): Promise<T[]> => {
+    const entitySet = getEntityName(entity)
     const queryObj = constructQuery(options)
     const qString = queryString.stringify(queryObj)
     // const qString = queryObj.toString()
@@ -299,8 +299,8 @@ export function defineODataStore(
   }
 
   const count = async (entitySet: string, options?: ODataQueryOptions): Promise<number> => {
-    const queryObj = constructQuery(options)
-    const qString = queryString.stringify(queryObj)
+    // const queryObj = constructQuery(options)
+    // const qString = queryString.stringify(queryObj)
 
     const url = `${baseUrl}/${entitySet}/$count`
     return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
