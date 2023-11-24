@@ -1,6 +1,6 @@
 <!--非固定tab模式-->
 @if (!fixedTab()) {
-  <nz-card id="multi-tab" class="m-t-10" style="height: 35px" [nzBodyStyle]="{ padding: 0 }" [nzBordered]="false">
+  <nz-card id="multi-tab" [nzBodyStyle]="{ padding: '5px', paddingBottom: 0 }" [nzBordered]="false">
     <nz-tabset [nzHideAdd]="true" [nzSelectedIndex]="currentIndex" [nzTabBarStyle]="{ height: '35px' }" [nzTabPosition]="'top'" [nzType]="'editable-card'" (nzClose)="clickCloseIcon($event)">
       <nz-tab *ngFor="let tab of tabsSourceData$ | async; let i = index; trackBy: trackByTab" nzClosable [nzTitle]="tab.title" (nzClick)="goPage(tab)" (nzContextmenu)="contextMenu($event, menu)">
         <nz-dropdown-menu #menu="nzDropdownMenu">

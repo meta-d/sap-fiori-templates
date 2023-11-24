@@ -1,0 +1,48 @@
+@import 'mixin';
+
+.themeMixin({
+  :host ::ng-deep {
+    .ant-tabs-tab.ant-tabs-tab-active {
+      background: @layout-body-background;
+      border-bottom-color: transparent;
+    }
+  }
+});
+
+:host ::ng-deep {
+  .ant-tabs-tab {
+    transition: background-color 0s !important;
+  }
+
+  .ant-tabs-nav {
+    margin-bottom: 0 !important;
+    transition: background-color 0s !important;
+  }
+
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab {
+    @apply rounded-tl-md rounded-tr-md;
+  }
+}
+
+.fixed-tab {
+  position: fixed;
+  right: 0;
+  z-index: 999;
+  width: calc(100% - 208px);
+  transition: width 0.2s;
+
+  i {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    display: none;
+  }
+}
+
+.fixed-collapsed {
+  width: calc(100% - 48px);
+}
+
+.fixed-over-mode {
+  width: 100%;
+}

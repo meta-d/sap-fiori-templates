@@ -1,6 +1,7 @@
 .themeMixin(@rules) {
     html {
       &.default {
+        @import (multiple) 'node_modules/ng-zorro-antd/src/style/themes/default';
         @import './default.less';
         @rules();
       }

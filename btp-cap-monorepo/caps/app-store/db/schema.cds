@@ -11,7 +11,7 @@ entity PersContainers : cuid, managed {
   appId    : String(100);
   category : String(50);
   appName  : String(100);
-  value    : String;
+  value    : String(5000);
 }
 
 type User {

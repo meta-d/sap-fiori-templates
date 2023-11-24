@@ -2,7 +2,7 @@
   "name": "launchpad",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "btp-cap-monorepo",
+  "prefix": "zng",
   "sourceRoot": "apps/launchpad/src",
   "tags": [],
   "targets": {
@@ -34,8 +34,8 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "node_modules",
-            "apps/launchpad/src/styles/themes"]
+            "apps/launchpad/src/styles/themes"
+          ]
         }
       },
       "configurations": {

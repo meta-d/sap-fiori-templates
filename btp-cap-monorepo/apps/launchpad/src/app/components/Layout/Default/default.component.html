@@ -42,7 +42,7 @@
   </ng-container>
 
   <nz-layout>
-    <ng-container *ngIf="menuMode() === MenuMode.side">
+    @if (menuMode() === MenuMode.side) {
       <div *ngIf="fixedLayoutHeader()" class="w-full h-[64px]"></div>
       <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
 
@@ -61,20 +61,22 @@
   
         <zng-global-header/>
       </nz-header>
-    </ng-container>
+    }
 
-    <nz-sider *ngIf="menuMode() === MenuMode.mix" nzCollapsible [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme" >
-      <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
-      
-      <div class="absolute bottom-0 p-4">
-        <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
-      </div>
-    </nz-sider>
+    @if (menuMode() === MenuMode.mix) {
+      <nz-sider nzCollapsible [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme" >
+        <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
+        
+        <div class="absolute bottom-0 p-4">
+          <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
+        </div>
+      </nz-sider>
+    }
 
     <nz-layout class="inner-layout">
       <zng-menu-tab *ngIf="isShowTab()"/>
       <ng-container *ngIf="menuMode() !== MenuMode.side">
-        <div class="mb-4">
+        <div class="mb-4 p-4">
           <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
         </div>
       </ng-container>
@@ -108,7 +110,7 @@
 </ng-template>
 
 <ng-template #breadcrumb>
-  <nz-breadcrumb>
+  <nz-breadcrumb >
     <nz-breadcrumb-item *ngFor="let route of breadcrumbs()" >
       <a [routerLink]="route.value">{{route.label}}</a>
     </nz-breadcrumb-item>
