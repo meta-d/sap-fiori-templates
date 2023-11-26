@@ -45,7 +45,7 @@ const DefaultPersonalization: PersonalizationType = {
   fixedLayoutSider: true,
   fixedLayoutHeader: false,
   isShowTab: true,
-  fixedTab: false,
+  fixedTab: true,
   isOverMode: false,
   hasTopArea: true,
   hasFooterArea: true,

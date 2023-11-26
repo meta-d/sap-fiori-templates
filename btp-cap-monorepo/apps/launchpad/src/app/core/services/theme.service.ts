@@ -24,7 +24,7 @@ export class ThemeService {
   readonly fixedLayoutHeader = computed(() => this.personalization().fixedLayoutHeader)
   readonly primaryColor = computed(() => this.personalization().primaryColor)
   readonly isShowTab = computed(() => this.personalization().isShowTab)
-  readonly fixedTab = computed(() => this.personalization().fixedTab)
+  readonly fixedTab = computed(() => this.personalization().fixedLayoutHeader || this.personalization().fixedTab)
   readonly isOverMode = computed(() => this.personalization().isOverMode)
 
   readonly isCollapsed = signal(false)

@@ -1,7 +1,7 @@
 import { appRoutes } from '@/app/app.routes'
 import { Injectable, computed, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Params, Route, Router } from '@angular/router'
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Params, Route, Router, Routes } from '@angular/router'
 import { distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
@@ -38,9 +38,11 @@ export class MenusService {
   /**
    * All menus in app
    */
-  private appMenus = signal<AppMenu[]>(
-    appRoutes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route))
-  )
+  private appMenus = signal<AppMenu[]>(mapRoutes2Menus(appRoutes))
+  
+  /**
+   * App menus with title translation
+   */
   private tAppMenus = computed(() => {
     return this.appMenus().map((menu) => ({
       ...menu,
@@ -187,7 +189,7 @@ export class MenusService {
     if (menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
       const result = await menu.route?.loadChildren()
       if (Array.isArray(result)) {
-        const submenus = result.map((route: Route) => mapRouteToMenu(route, menu.route))
+        const submenus = mapRoutes2Menus(result, menu.route) // result.map((route: Route) => mapRouteToMenu(route, menu.route))
         menu = {
           ...this.appMenus()[index],
           submenus,
@@ -213,16 +215,19 @@ export class MenusService {
   }
 }
 
+export function mapRoutes2Menus(routes: Routes, parent?: Route): AppMenu[] {
+  return routes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route, parent))
+}
+
 export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
+  const children = route.children ? mapRoutes2Menus(route.children, route) : null
   return {
     path: parent ? parent.path + '/' + route.path : route.path,
     title: route.title as string,
     icon: route.data?.['icon'],
     route: route,
-    hasSubmenus: !!((route.children && route.children?.length > 0) || route.loadChildren),
-    submenus: route.children?.map((child) => {
-      return mapRouteToMenu(child, route)
-    }),
+    hasSubmenus: !!((children && children.length > 0) || route.loadChildren),
+    submenus: children,
     isUi5: false
   }
 }

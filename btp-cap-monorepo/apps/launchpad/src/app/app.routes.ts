@@ -8,5 +8,13 @@ export const appRoutes: Routes = [
       icon: 'setting'
     },
     loadChildren: () => import('./pages/admin/admin-routing').then((m) => m.default)
+  },
+  {
+    path: 'dashboard',
+    title: 'Dashboard',
+    data: {
+      icon: 'dashboard'
+    },
+    loadChildren: () => import('./demo/dashboard/dashboard-routing').then((m) => m.default)
   }
 ]

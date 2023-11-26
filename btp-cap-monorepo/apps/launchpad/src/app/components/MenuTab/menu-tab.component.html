@@ -28,7 +28,7 @@
         menuMode() === 'top' ||
         (menuMode() === 'mix' && (leftMenuArray$ | async)!.length === 0 && splitNav())
     }"
-    [ngStyle]="{ top: hasTopArea() ? '48px' : '0', left: !hasNavArea() ? '0' : '' }"
+    [ngStyle]="{ top: hasTopArea() ? '64px' : '0', left: !hasNavArea() ? '0' : '' }"
     [nzBodyStyle]="{ padding: 0 }"
     [nzBordered]="true"
   >
@@ -52,4 +52,7 @@
       </nz-tab>
     </nz-tabset>
   </nz-card>
+}
+@if (fixedTab()) {
+  <div class="w-full h-[42px]"></div>
 }
