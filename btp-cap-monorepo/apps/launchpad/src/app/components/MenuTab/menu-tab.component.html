@@ -21,12 +21,7 @@
     id="multi-tab2"
     class="fixed-tab"
     [ngClass]="{
-      'fixed-collapsed': isCollapsed(),
-      'fixed-over-mode':
-        (isOverMode()) ||
-        !hasNavArea() ||
-        menuMode() === 'top' ||
-        (menuMode() === 'mix' && (leftMenuArray$ | async)!.length === 0 && splitNav())
+      'fixed-collapsed': isCollapsed()
     }"
     [ngStyle]="{ top: hasTopArea() ? '64px' : '0', left: !hasNavArea() ? '0' : '' }"
     [nzBodyStyle]="{ padding: 0 }"

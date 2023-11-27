@@ -3,7 +3,7 @@ import { ZngAntdModule } from '@/app/core/shared.module'
 import { AppStoreService } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject } from '@angular/core'
+import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, computed, inject } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
@@ -39,6 +39,11 @@ import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
   }
 })
 export class LayoutDefaultComponent {
+  @HostBinding('class.zng-layout__fixed-sider')
+  get _fixedLayoutSider() {
+    return this.fixedLayoutSider()
+  }
+
   private themeService = inject(ThemeService)
   private menusService = inject(MenusService)
   private appStore = inject(AppStoreService)
@@ -137,6 +142,10 @@ export class LayoutDefaultComponent {
 
   toggleSideMenu() {
     this.isCollapsed.update((state) => !state)
+  }
+
+  onSubMenuCollapsed(event: boolean) {
+    this.isCollapsed.set(event)
   }
 
   // 设置混合模式时，左侧菜单"自动分割菜单"模式的数据源

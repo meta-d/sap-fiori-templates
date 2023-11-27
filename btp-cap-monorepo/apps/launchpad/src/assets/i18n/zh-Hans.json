@@ -24,6 +24,8 @@
             "NavigationMode": "导航模式",
             "FixedLayoutSider": "固定侧边栏",
             "FixedLayoutHeader": "固定顶部栏",
+            "ShowTabMenu": "显示页签菜单",
+            "FixedTabMenu": "固定页签菜单",
             "Pin": "固定",
             "Close": "关闭",
             "Themes": {

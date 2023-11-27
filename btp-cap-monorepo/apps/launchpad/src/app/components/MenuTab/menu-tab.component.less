@@ -28,7 +28,7 @@
   position: fixed;
   right: 0;
   z-index: 999;
-  width: calc(100% - 208px);
+  width: calc(100% - var(--zng-left-sider-width));
   transition: width 0.2s;
 
   i {
@@ -40,9 +40,5 @@
 }
 
 .fixed-collapsed {
-  width: calc(100% - 48px);
-}
-
-.fixed-over-mode {
-  width: 100%;
+  width: calc(100% - var(--zng-left-sider-collapsed-width));
 }

@@ -92,5 +92,22 @@
                 [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
                 [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
         </div>
+
+        <div class="w-full flex justify-between items-center gap-2">
+            <label class="title text-base">{{'ZNG.GlobalSettings.ShowTabMenu' | translate: {Default: 'Show Tab Menu'} }}</label>
+            <nz-switch [(ngModel)]="isShowTab"
+                [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
+                [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
+        </div>
+
+        @if (isShowTab && fixedLayoutHeader) {
+            <div class="w-full flex justify-between items-center gap-2">
+                <label class="title text-base">{{'ZNG.GlobalSettings.FixedTabMenu' | translate: {Default: 'Fixed Tab Menu'} }}</label>
+                <nz-switch [(ngModel)]="fixedTab"
+                    [nzCheckedChildren]=" 'ZNG.GlobalSettings.Pin' | translate: {Default: 'Pin'}"
+                    [nzUnCheckedChildren]="'ZNG.GlobalSettings.Close' | translate: {Default: 'Close'}"></nz-switch>
+            </div>
+        }
+        
     </div>
 </div>

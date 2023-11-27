@@ -1,9 +1,9 @@
-import { registerLocaleData } from '@angular/common'
+import { DOCUMENT, registerLocaleData } from '@angular/common'
 import { provideHttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { TitleStrategy, provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router'
+import { RouteReuseStrategy, TitleStrategy, provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router'
 import { IconDefinition } from '@ant-design/icons-angular'
 import * as AllIcons from '@ant-design/icons-angular/icons'
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config'
@@ -11,8 +11,8 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon'
 import { CookieService } from 'ngx-cookie-service'
 
 import { appRoutes } from './app.routes'
-import { provideLogger, provideTranslate } from './core'
-import { ZngPageTitleStrategy } from './core/strategies'
+import { ScrollService, provideLogger, provideTranslate } from './core'
+import { SimpleReuseStrategy, ZngPageTitleStrategy } from './core/strategies'
 import { AppStoreService } from './stores'
 
 registerLocaleData(en)
@@ -46,6 +46,7 @@ const APPINIT_PROVIDES = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: RouteReuseStrategy, useClass: SimpleReuseStrategy, deps: [DOCUMENT, ScrollService] }, // 路由复用
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideAnimations(),
     provideHttpClient(),

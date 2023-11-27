@@ -153,6 +153,24 @@ export class GlobalSettingsComponent {
     })
   }
 
+  get isShowTab() {
+    return this.themeService.isShowTab()
+  }
+  set isShowTab(value: boolean | undefined) {
+    this.themeService.updatePersonalization({
+      isShowTab: value
+    })
+  }
+
+  get fixedTab() {
+    return this.themeService.fixedTab()
+  }
+  set fixedTab(value: boolean | undefined) {
+    this.themeService.updatePersonalization({
+      fixedTab: value
+    })
+  }
+
   constructor() {
     if (environment.enableFiori) {
       this.flpService.loadThemes().then()

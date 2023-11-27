@@ -40,7 +40,6 @@
       <zng-global-header/>
     </nz-header>
   </ng-container>
-
   <nz-layout>
     @if (menuMode() === MenuMode.side) {
       <div *ngIf="fixedLayoutHeader()" class="w-full h-[64px]"></div>
@@ -64,7 +63,8 @@
     }
 
     @if (menuMode() === MenuMode.mix) {
-      <nz-sider nzCollapsible [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme" >
+      <nz-sider nzCollapsible [nzCollapsed]="isCollapsed()" [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme"
+        (nzCollapsedChange)="onSubMenuCollapsed($event)">
         <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
         
         <div class="absolute bottom-0 p-4">
@@ -72,22 +72,23 @@
         </div>
       </nz-sider>
     }
+    <nz-content>
+      <zng-menu-tab *ngIf="isShowTab()" class="zng-fixed-top__left-sider"/>
+      <nz-layout class="inner-layout">
+        <ng-container *ngIf="menuMode() !== MenuMode.side">
+          <div class="p-4">
+            <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+          </div>
+        </ng-container>
+        
+        <nz-content class="zng-layout__content relative">
+          <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
+          <router-outlet></router-outlet>
+        </nz-content>
 
-    <nz-layout class="inner-layout">
-      <zng-menu-tab *ngIf="isShowTab()"/>
-      <ng-container *ngIf="menuMode() !== MenuMode.side">
-        <div class="mb-4 p-4">
-          <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
-        </div>
-      </ng-container>
-      
-      <nz-content class="zng-layout__content relative">
-        <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
-        <router-outlet></router-outlet>
-      </nz-content>
-
-      <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
-    </nz-layout>
+        <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
+      </nz-layout>
+    </nz-content>
   </nz-layout>
 </nz-layout>
 

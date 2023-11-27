@@ -19,7 +19,7 @@ export interface ReuseComponentRef {
 }
 
 /*路由复用*/
-// 参考https://zhuanlan.zhihu.com/p/29823560
+// 参考 https://zhuanlan.zhihu.com/p/29823560
 // https://blog.csdn.net/weixin_30561425/article/details/96985967?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control
 export class SimpleReuseStrategy implements RouteReuseStrategy {
   destroyRef = inject(DestroyRef);
