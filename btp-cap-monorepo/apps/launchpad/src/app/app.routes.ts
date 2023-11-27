@@ -16,5 +16,13 @@ export const appRoutes: Routes = [
       icon: 'dashboard'
     },
     loadChildren: () => import('./demo/dashboard/dashboard-routing').then((m) => m.default)
-  }
+  },
+  {
+    path: 'feature',
+    title: 'Feature',
+    data: {
+      icon: 'block'
+    },
+    loadChildren: () => import('./demo/feat/feat-routing').then((m) => m.default)
+  },
 ]

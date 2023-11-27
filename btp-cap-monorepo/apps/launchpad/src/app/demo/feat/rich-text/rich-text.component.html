@@ -1,0 +1,18 @@
+<div class="normal-table-wrap">
+  <nz-card>
+    <!-- <zng-water-mark /> -->
+    <form class="form-wrap" nz-form [formGroup]="validateForm">
+      <nz-form-item nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXl]="24" [nzXs]="24" [nzXXl]="24">
+        <nz-form-label nzFor="detail" nzRequired nzSpan="24">描述</nz-form-label>
+        <nz-form-control [nzErrorTip]="combineTpl" [nzLg]="18" [nzMd]="24" [nzSm]="24" [nzXl]="18" [nzXXl]="18">
+          <!--自己去申请一个key啊-->
+          <editor formControlName="detail"
+            [apiKey]="''" [init]="editInit"></editor>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+</div>
+<ng-template #combineTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">必填项</ng-container>
+</ng-template>

@@ -61,7 +61,7 @@
 }
 
 .zng-layout__content {
-  @apply p-0 flex flex-col;
+  @apply p-4 flex flex-col;
 }
 
 .ant-water-mark  {
@@ -88,4 +88,8 @@
   --zng-scrollbar-track-background: rgba(255,255,255,.15);
   --zng-scrollbar-thumb-background: rgba(255,255,255,.2);
   color: var(--zng-header-color);
+}
+
+.ant-layout-content {
+  @apply flex flex-col;
 }

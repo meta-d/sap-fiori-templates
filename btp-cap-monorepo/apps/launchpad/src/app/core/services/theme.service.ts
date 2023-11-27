@@ -2,6 +2,7 @@ import { AppStoreService, PersonalizationType } from '../../stores'
 import { Injectable, computed, effect, inject, signal } from '@angular/core'
 import { NzConfigService } from 'ng-zorro-antd/core/config'
 import { ThemeType } from '../types'
+import { toObservable } from '@angular/core/rxjs-interop'
 
 export interface ThemeState {
   fixedLayoutSider: boolean
@@ -100,5 +101,9 @@ export class ThemeService {
 
   updatePersonalization(value: Partial<PersonalizationType>) {
     this.appStore.updatePersonalization(value)
+  }
+
+  getThemesMode() {
+    return toObservable(this.personalization)
   }
 }

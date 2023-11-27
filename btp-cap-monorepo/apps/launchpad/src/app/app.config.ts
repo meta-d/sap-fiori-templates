@@ -1,7 +1,7 @@
 import { DOCUMENT, registerLocaleData } from '@angular/common'
 import { provideHttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core'
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core'
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { RouteReuseStrategy, TitleStrategy, provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router'
 import { IconDefinition } from '@ant-design/icons-angular'
@@ -14,6 +14,8 @@ import { appRoutes } from './app.routes'
 import { ScrollService, provideLogger, provideTranslate } from './core'
 import { SimpleReuseStrategy, ZngPageTitleStrategy } from './core/strategies'
 import { AppStoreService } from './stores'
+import { NzDrawerModule } from 'ng-zorro-antd/drawer'
+import { NzModalModule } from 'ng-zorro-antd/modal'
 
 registerLocaleData(en)
 
@@ -61,6 +63,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TitleStrategy,
       useExisting: ZngPageTitleStrategy
-    }
+    },
+    importProvidersFrom(NzDrawerModule, NzModalModule),
   ]
 }
