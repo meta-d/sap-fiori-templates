@@ -32,4 +32,14 @@ export class SideNavBarComponent {
   goUI5Page(menu: AppMenu) {
     this.menusService.goUI5Page(menu)
   }
+
+  /**
+   * @todo implementation
+   * 
+   * @param path 
+   * @returns 
+   */
+  isOpen(path: string | undefined) {
+    return false
+  }
 }

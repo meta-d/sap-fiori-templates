@@ -111,7 +111,7 @@
 </ng-template>
 
 <ng-template #breadcrumb>
-  <nz-breadcrumb >
+  <nz-breadcrumb class="font-semibold">
     <nz-breadcrumb-item *ngFor="let route of breadcrumbs()" >
       <a [routerLink]="route.value">{{route.label}}</a>
     </nz-breadcrumb-item>

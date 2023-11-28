@@ -81,19 +81,6 @@ export class LayoutDefaultComponent {
   #navigationEndSub = this.#navigationEnd$.subscribe(() => {
     // @ts-expect-error Object is possibly 'null'
     this.routerPath = this.activatedRoute.snapshot['_routerState'].url
-
-    // // 做一个copyMenus来记录当前menu状态，因为顶部模式时是不展示子menu的，然而主题由顶部模式切换成侧边栏模式，要把当前顶部模式中菜单的状态体现于侧边栏模式的菜单中
-    // this.clickMenuItem(this.menus);
-    // this.clickMenuItem(this.copyMenus);
-    // // 是折叠的菜单并且不是over菜单,解决折叠左侧菜单时，切换tab会有悬浮框菜单的bug
-    // if (this.isCollapsed && !this.isOverMode) {
-    //   this.closeMenuOpen(this.menus);
-    // }
-
-    // // 顶部菜单模式，并且不是over模式，解决顶部模式时，切换tab会有悬浮框菜单的bug
-    // if (this.themesMode === 'top' && !this.isOverMode) {
-    //   this.closeMenu();
-    // }
   })
 
   #navigationEndSub2 = this.#navigationEnd$
@@ -122,7 +109,7 @@ export class LayoutDefaultComponent {
         route = route.firstChild
       }
 
-      let title = 'Ant Design'
+      let title = 'Metad Team'
       if (typeof route.routeConfig?.title === 'string') {
         title = route.routeConfig?.title
       }
@@ -136,7 +123,7 @@ export class LayoutDefaultComponent {
         isNewTabDetailPage
       )
       this.tabService.findIndex(this.routerPath)
-      // 混合模式时，切换tab，让左侧菜单也相应变化
+      // 混合模式时，切换 tab，让左侧菜单也相应变化
       this.setMixModeLeftMenu()
     })
 

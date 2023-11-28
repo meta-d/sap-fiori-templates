@@ -1,4 +1,4 @@
-import { Route } from '@angular/router'
+import { Routes } from '@angular/router'
 
 export default [
   { path: '', redirectTo: 'ex-modal', pathMatch: 'full', data: { hidden: true } },
@@ -102,4 +102,4 @@ export default [
     data: { key: 'water-mark' },
     loadComponent: () => import('./water-mark/water-mark.component').then((m) => m.WaterMarkComponent)
   }
-] as Route[]
+] as Routes
