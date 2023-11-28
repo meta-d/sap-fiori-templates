@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
 export default [
-  { path: 'zorro-doc', title: 'zorro文档', data: { key: 'zorro-doc' }, loadComponent: () => import('./zorro-doc/zorro-doc.component').then(m => m.ZorroDocComponent) },
-  { path: '', redirectTo: 'zorro-doc', pathMatch: 'full' }
+  { path: 'metad-doc', title: 'Metad 文档', data: { key: 'metad-doc' }, loadComponent: () => import('./zorro-doc/zorro-doc.component').then(m => m.ZorroDocComponent) },
+  { path: '', redirectTo: 'metad-doc', pathMatch: 'full', data: {hidden: true}}
 ] as Route[];

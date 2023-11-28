@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'zng-zorro-doc',
@@ -7,8 +7,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
-export class ZorroDocComponent implements OnInit {
-  constructor() {}
+export class ZorroDocComponent {
 
-  ngOnInit(): void {}
 }

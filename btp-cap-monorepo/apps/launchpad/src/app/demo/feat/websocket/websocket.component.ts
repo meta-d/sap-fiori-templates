@@ -24,10 +24,7 @@ export class WebsocketComponent implements OnInit, OnDestroy, AfterViewInit {
   concate = true;
   destroyRef = inject(DestroyRef);
   // https://github.com/ReactiveX/rxjs/issues/4166
-  pageHeaderInfo: Partial<PageHeaderType> = {
-    title: 'websocket',
-    breadcrumb: ['首页', '功能', 'websocket']
-  };
+
   subject = webSocket(`ws://${location.host}:8003/webSocket`);
   result: string[] = [];
   msg = '';

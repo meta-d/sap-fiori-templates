@@ -1,30 +1,21 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, inject, Inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { driver, DriveStep } from 'driver.js';
-import { ThemeService } from './theme.service';
+import { ThemeService } from '@/app/core'
+import { DOCUMENT } from '@angular/common'
+import { computed, DestroyRef, inject, Inject, Injectable } from '@angular/core'
+import { driver, DriveStep } from 'driver.js'
 /*
  * https://madewith.cn/766
  * 引导页
  * */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DriverService {
-  themesService = inject(ThemeService);
-  destroyRef = inject(DestroyRef);
+  themesService = inject(ThemeService)
+  destroyRef = inject(DestroyRef)
+  tabId = computed(() => this.themesService.personalization().fixedTab ? '#multi-tab2' : '#multi-tab')
+
   constructor(@Inject(DOCUMENT) private doc: Document) {}
 
   load(): void {
     // 是否是固定页签
-    let tabId = '';
-    this.themesService
-      .getThemesMode()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(res => {
-        tabId = !res.fixedTab ? '#multi-tab' : '#multi-tab2';
-      });
     const steps: DriveStep[] = [
       {
         element: '#menuNav',
@@ -68,14 +59,14 @@ export class DriverService {
         }
       },
       {
-        element: tabId,
+        element: this.tabId(),
         popover: {
           title: '多标签',
           description: '鼠标右键点击单个标签可以展开多个选项，超出屏幕后，滚动鼠标滚轮可以进行页签滚动',
           side: 'bottom'
         }
       }
-    ];
+    ]
 
     const driverObj = driver({
       showProgress: true,
@@ -85,11 +76,11 @@ export class DriverService {
       nextBtnText: '下一步',
       prevBtnText: '上一步',
       onHighlightStarted: () => {
-        this.doc.body.style.cssText = 'overflow:hidden';
+        this.doc.body.style.cssText = 'overflow:hidden'
       },
       steps
-    });
+    })
 
-    driverObj.drive();
+    driverObj.drive()
   }
 }

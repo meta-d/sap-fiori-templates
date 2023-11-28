@@ -1,7 +1,10 @@
 :host {
-  --zng-left-sider-width: 200px;
+  --zng-left-sider-width: 0px;
   --zng-left-sider-collapsed-width: 0px;
 
+  &.zng-layout__mix {
+    --zng-left-sider-width: 200px;
+  }
   &.zng-layout__side.zng-layout__fixed-sider {
     --zng-left-sider-width: 200px;
     --zng-left-sider-collapsed-width: 60px;

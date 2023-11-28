@@ -19,5 +19,5 @@ export default [
     data: { key: 'echarts' },
     loadComponent: () => import('./echarts/echarts.component').then((m) => m.EchartsComponent)
   },
-  { path: '', redirectTo: 'gaode-map', pathMatch: 'full' }
+  { path: '', redirectTo: 'gaode-map', pathMatch: 'full', data: { hidden: true } }
 ] as Route[]

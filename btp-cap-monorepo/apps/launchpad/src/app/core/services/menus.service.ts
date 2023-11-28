@@ -181,25 +181,19 @@ export class MenusService {
    * @returns
    */
   async loadMenus(menu: AppMenu) {
-    const index = this.appMenus().findIndex((m) => m.path === menu.path)
-    if (index === -1) {
-      return menu
-    }
+    const indexes = findMenuIndex(this.appMenus(), menu)
 
-    if (menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
-      const result = await menu.route?.loadChildren()
+    if (indexes.length > 0 && menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
+      // 兼容 export Routes 和 export default Routes 两种方式
+      const result = await (<Promise<any>>menu.route?.loadChildren()).then((m) => Array.isArray(m) ? m : m.default)
       if (Array.isArray(result)) {
-        const submenus = mapRoutes2Menus(result, menu.route) // result.map((route: Route) => mapRouteToMenu(route, menu.route))
+        const submenus = mapRoutes2Menus(result, menu.path)
         menu = {
-          ...this.appMenus()[index],
+          ...menu,
           submenus,
           hasSubmenus: !!submenus.length,
         }
-        this.appMenus.set([
-          ...this.appMenus().slice(0, index),
-          menu,
-          ...this.appMenus().slice(index + 1),
-        ])
+        this.appMenus.update((menus) => updateMenus(menus, indexes, menu))
       }
     }
 
@@ -215,14 +209,14 @@ export class MenusService {
   }
 }
 
-export function mapRoutes2Menus(routes: Routes, parent?: Route): AppMenu[] {
+export function mapRoutes2Menus(routes: Routes, parent?: string): AppMenu[] {
   return routes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route, parent))
 }
 
-export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
-  const children = route.children ? mapRoutes2Menus(route.children, route) : null
+export function mapRouteToMenu(route: Route, parent?: string): AppMenu {
+  const children = route.children ? mapRoutes2Menus(route.children, route.path) : null
   return {
-    path: parent ? parent.path + '/' + route.path : route.path,
+    path: parent ? parent + '/' + route.path : route.path,
     title: route.title as string,
     icon: route.data?.['icon'],
     route: route,
@@ -230,4 +224,63 @@ export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
     submenus: children,
     isUi5: false
   }
+}
+
+/**
+ * 
+ * 
+ * @param menus 
+ * @param menu 
+ * @returns 
+ */
+function findMenuIndex(menus: AppMenu[] | undefined | null, menu: AppMenu) {
+  if (menus == null) {
+    return []
+  }
+  const index = menus.findIndex((item) => item.path === menu.path)
+  if (index > -1) {
+    return [index]
+  }
+
+  const indexes: number[] = []
+  menus.find((item, index) => {
+    const _indexes = findMenuIndex(item.submenus, menu)
+    if (_indexes.length > 0) {
+      indexes.push(index, ..._indexes)
+      return true
+    }
+
+    return false
+  })
+
+  return indexes
+}
+
+/**
+ * 
+ * 
+ * @param menus 
+ * @param indexes 
+ * @param menu 
+ * @returns 
+ */
+function updateMenus(menus: AppMenu[], indexes: number[], menu: AppMenu): AppMenu[] {
+  const index = indexes[0]
+
+  if (indexes.length === 1) {
+    return [
+      ...menus.slice(0, index),
+      menu,
+      ...menus.slice(index + 1)
+    ]
+  }
+
+  return [
+    ...menus.slice(0, index),
+    {
+      ...menus[index],
+      submenus: updateMenus(menus[index].submenus!, indexes.slice(1), menu)
+    },
+    ...menus.slice(index + 1)
+  ] 
 }

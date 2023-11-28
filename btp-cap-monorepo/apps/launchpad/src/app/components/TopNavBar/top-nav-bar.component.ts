@@ -1,7 +1,7 @@
 import { AppMenu, MenusService, ResizeObserverDirective, ThemeService } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
-import { Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
+import { Component, ElementRef, Input, ViewChild, computed, effect, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
@@ -42,7 +42,13 @@ export class TopNavBarComponent {
   readonly menus = this.menusService.menus
   readonly flpLoading = this.menusService.flpLoading
 
-  trackByIndex(index: number, item: AppMenu) {
+  constructor() {
+    effect(() => {
+      console.log(this.menus())
+    })
+  }
+
+  trackByIndex(index: number) {
     return index
   }
   trackByPath(index: number, item: AppMenu) {
