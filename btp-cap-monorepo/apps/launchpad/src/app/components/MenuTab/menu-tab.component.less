@@ -9,6 +9,10 @@
   }
 });
 
+:host {
+  --zng-tab-menu-height: 45px;
+}
+
 :host ::ng-deep {
   .ant-tabs-tab {
     transition: background-color 0s !important;
@@ -24,7 +28,7 @@
   }
 }
 
-.fixed-tab {
+.zng-fixed-tab {
   position: fixed;
   right: 0;
   z-index: 999;
@@ -39,6 +43,10 @@
   }
 }
 
-.fixed-collapsed {
+.zng-fixed-collapsed {
   width: calc(100% - var(--zng-left-sider-collapsed-width));
+}
+
+.zng-tab-menu__fixed-placeholder {
+  height: var(--zng-tab-menu-height);
 }
