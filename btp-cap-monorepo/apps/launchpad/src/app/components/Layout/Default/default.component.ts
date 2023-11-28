@@ -43,6 +43,10 @@ export class LayoutDefaultComponent {
   get _fixedLayoutSider() {
     return this.fixedLayoutSider()
   }
+  @HostBinding('class.zng-layout__collapsed')
+  get _layoutCollapsed() {
+    return this.isCollapsed()
+  }
 
   private themeService = inject(ThemeService)
   private menusService = inject(MenusService)

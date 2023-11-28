@@ -1,3 +1,6 @@
+import { Type } from "@angular/core"
+import { NzSafeAny } from "ng-zorro-antd/core/types"
+
 export enum MenuMode {
   top = 'top',
   side = 'side',
@@ -43,4 +46,21 @@ export interface Menu {
   children?: Menu[]
   code?: string // 权限码
   newLinkFlag?: 0 | 1 // 是否是新页
+}
+
+// 动态组件
+export class DynamicComponent {
+  constructor(public component: Type<NzSafeAny>, public data: NzSafeAny) {}
+}
+
+// 动态组件
+export interface AdComponent {
+  data: NzSafeAny;
+}
+
+// 列表搜索
+export interface SearchCommonVO<T> {
+  pageNum: number;
+  pageSize: number;
+  filters?: T;
 }

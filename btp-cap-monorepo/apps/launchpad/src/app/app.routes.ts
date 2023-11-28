@@ -25,4 +25,12 @@ export const appRoutes: Routes = [
     },
     loadChildren: () => import('./demo/feat/feat-routing').then((m) => m.default)
   },
+  {
+    path: 'page',
+    title: 'Pages',
+    data: {
+      icon: 'form'
+    },
+    loadChildren: () => import('./demo/page/page-demo-routing').then((m) => m.default)
+  },
 ]

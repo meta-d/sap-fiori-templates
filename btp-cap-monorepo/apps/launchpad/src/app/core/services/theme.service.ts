@@ -27,6 +27,7 @@ export class ThemeService {
   readonly isShowTab = computed(() => this.personalization().isShowTab)
   readonly fixedTab = computed(() => this.personalization().fixedLayoutHeader && this.personalization().fixedTab)
   readonly isOverMode = computed(() => this.personalization().isOverMode)
+  readonly isNightTheme = computed(() => this.personalization().theme === ThemeType.dark)
 
   readonly isCollapsed = signal(false)
 

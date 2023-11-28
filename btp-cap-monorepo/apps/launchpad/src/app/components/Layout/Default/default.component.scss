@@ -5,10 +5,19 @@
   &.zng-layout__mix {
     --zng-left-sider-width: 200px;
   }
-  &.zng-layout__side.zng-layout__fixed-sider {
+  &.zng-layout__side {
     --zng-left-sider-width: 200px;
-    --zng-left-sider-collapsed-width: 60px;
+    &.zng-layout__fixed-sider {
+      --zng-left-sider-collapsed-width: 60px;
+    }
+    &.zng-layout__collapsed.zng-layout__fixed-sider {
+      --zng-left-sider-width: 60px;
+    }
+    &.zng-layout__collapsed {
+      --zng-left-sider-width: 0px;
+    }
   }
+  
 }
 
 .zng-layout.ant-layout {

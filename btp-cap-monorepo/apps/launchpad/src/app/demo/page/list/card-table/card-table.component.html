@@ -1,0 +1,112 @@
+<!--头部版块-->
+<nz-page-header class="site-page-header" [nzGhost]="false">
+  <!--breadcrumb-->
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>First-level Menu</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>Second-level Menu</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Third-level Menu</nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <!--avatar-->
+  <nz-avatar nz-page-header-avatar nzSrc="https://avatars0.githubusercontent.com/u/22736418?s=88&v=4"></nz-avatar>
+
+  <!--title-->
+  <nz-page-header-title>Title</nz-page-header-title>
+
+  <!--subtitle-->
+  <nz-page-header-subtitle>This is a subtitle</nz-page-header-subtitle>
+
+  <!--tags-->
+  <nz-page-header-tags>
+    <nz-tag [nzColor]="'blue'">Running</nz-tag>
+  </nz-page-header-tags>
+
+  <!--extra-->
+  <nz-page-header-extra>
+    <nz-space>
+      <button *nzSpaceItem nz-button>Operation</button>
+      <button *nzSpaceItem nz-button>Operation</button>
+      <button *nzSpaceItem nz-button nzType="primary">Primary</button>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzNoAnimation
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        nzPlacement="bottomRight"
+        style="border: none; padding: 0"
+      >
+        <span nz-icon nzType="more" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></span>
+      </button>
+    </nz-space>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item>1st menu item length</li>
+        <li nz-menu-item>2nd menu item length</li>
+        <li nz-menu-item>3rd menu item length</li>
+      </ul>
+    </nz-dropdown-menu>
+  </nz-page-header-extra>
+
+  <!--content-->
+  <nz-page-header-content>
+    <div class="flex items-end">
+      <div class="content">
+        <p nz-paragraph>
+          Ant Design interprets the color system into two levels: a system-level color system and a product-level
+          color system.
+        </p>
+        <p nz-paragraph>
+          Ant Design's design team preferred to design with the HSB color model, which makes it easier for designers
+          to have a clear psychological expectation of color when adjusting colors, as well as facilitate
+          communication in teams.
+        </p>
+        <div class="content-link flex gap-4 items-center">
+          <a class="flex items-center">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" alt="start" />
+            Quick Start
+          </a>
+          <a class="flex items-center">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" alt="info" />
+            Product Info
+          </a>
+          <a class="flex items-center">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" alt="doc" />
+            Product Doc
+          </a>
+        </div>
+      </div>
+
+      <div class="content-image p-8">
+        <img class="w-[200px]" src="https://gw.alipayobjects.com/zos/antfincdn/K%24NnlsB%26hz/pageHeader.svg" alt="content" />
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>
+
+
+<div class="normal-table-wrap m-t-0">
+  <div nz-row [nzGutter]="16">
+    <div class="flex" nz-col [nzLg]="12" [nzMd]="12" [nzSm]="12" [nzXl]="8" [nzXs]="24" [nzXXl]="6">
+      <nz-card class="mt-4 flex-1" [nzBodyStyle]="{ padding: 0, height: '100%', display: 'flex', justifyContent: 'center', minHeight: '160px' }">
+        <div class="flex justify-center items-center new-btn">
+          <i class="m-r-8" nz-icon nzTheme="outline" nzType="plus"></i>
+          <span>新增产品</span>
+        </div>
+      </nz-card>
+    </div>
+
+    <div *ngFor="let item of list" nz-col [nzLg]="12" [nzMd]="12" [nzSm]="12" [nzXl]="8" [nzXs]="24" [nzXXl]="6">
+      <nz-card class="mt-4" nzHoverable [nzActions]="[actionSetting, actionEdit]">
+        <nz-card-meta [nzAvatar]="avatarTemplate" [nzDescription]="item.desc" [nzTitle]="item.name"></nz-card-meta>
+      </nz-card>
+      <ng-template #avatarTemplate>
+        <nz-avatar [nzSrc]="item.avatar"></nz-avatar>
+      </ng-template>
+      <ng-template #actionSetting>操作一</ng-template>
+      <ng-template #actionEdit>操作二</ng-template>
+    </div>
+  </div>
+</div>

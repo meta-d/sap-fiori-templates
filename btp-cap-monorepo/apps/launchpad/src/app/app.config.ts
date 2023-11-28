@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { RouteReuseStrategy, TitleStrategy, provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router'
+import { RouteReuseStrategy, TitleStrategy, provideRouter, withComponentInputBinding, withEnabledBlockingInitialNavigation } from '@angular/router'
 import { IconDefinition } from '@ant-design/icons-angular'
 import * as AllIcons from '@ant-design/icons-angular/icons'
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config'
@@ -49,7 +49,11 @@ const APPINIT_PROVIDES = [
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: RouteReuseStrategy, useClass: SimpleReuseStrategy, deps: [DOCUMENT, ScrollService] }, // 路由复用
-    provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
+    provideRouter(
+      appRoutes,
+      withEnabledBlockingInitialNavigation(),
+      withComponentInputBinding() // 开启路由参数绑定到组件的输入属性,ng16新增特性
+    ),
     provideAnimations(),
     provideHttpClient(),
     { provide: NZ_ICONS, useValue: icons },

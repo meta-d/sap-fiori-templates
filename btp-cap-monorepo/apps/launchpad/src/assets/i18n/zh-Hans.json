@@ -3,7 +3,8 @@
         "AppName": "商业启动平台",
         "Common": {
             "Fullscreen": "全屏",
-            "ExitFullscreen": "退出全屏"
+            "ExitFullscreen": "退出全屏",
+            "Cancel": "取消"
         },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",
@@ -56,7 +57,10 @@
             "Fiori App": "Fiori 应用",
             "User Info": "用户信息",
             "Launchpad": "启动页",
-            "Feature": "功能"
+            "Feature": "功能",
+            "Pages": "页面",
+            "Forms": "表单",
+            "List": "列表"
         }
     }
 }
