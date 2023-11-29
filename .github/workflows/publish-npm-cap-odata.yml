@@ -6,6 +6,12 @@ on:
       - '*'
     paths:
       - "btp-cap-monorepo/**"
+  workflow_run:
+    workflows: ["Build"]
+    types: [requested]
+    branches:
+      - 'btp-**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
