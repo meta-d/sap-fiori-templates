@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzWaveModule } from 'ng-zorro-antd/core/wave';
-import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzWaveModule } from 'ng-zorro-antd/core/wave'
+import { NzResultModule } from 'ng-zorro-antd/result'
 
 @Component({
   selector: 'zng-except403',
@@ -17,8 +17,4 @@ import { NzResultModule } from 'ng-zorro-antd/result';
   standalone: true,
   imports: [NzResultModule, NzButtonModule, NzWaveModule]
 })
-export class Except403Component implements OnInit {
-  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
-
-  ngOnInit(): void {}
-}
+export class Except403Component {}

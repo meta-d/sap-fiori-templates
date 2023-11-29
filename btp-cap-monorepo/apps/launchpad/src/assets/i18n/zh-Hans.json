@@ -60,7 +60,13 @@
             "Feature": "功能",
             "Pages": "页面",
             "Forms": "表单",
-            "List": "列表"
+            "List": "列表",
+            "Detail": "详情",
+            "Personal": "个人",
+            "Except": "异常",
+            "Result": "结果",
+            "Visual": "图形化",
+            "Task": "任务"
         }
     }
 }

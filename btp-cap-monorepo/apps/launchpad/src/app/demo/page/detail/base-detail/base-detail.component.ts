@@ -1,20 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, TemplateRef, ViewChild } from '@angular/core';
+import { AntTableComponent, AntTableConfig } from '@/app/components'
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core'
 
-import { AntTableConfig, AntTableComponent } from '@shared/components/ant-table/ant-table.component';
-import { PageHeaderType, PageHeaderComponent } from '@shared/components/page-header/page-header.component';
-import { WaterMarkComponent } from '@shared/components/water-mark/water-mark.component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzSafeAny } from 'ng-zorro-antd/core/types'
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
 
 interface ReturnObj {
-  num: string;
-  name: string;
-  code: string;
-  unitPrice: string;
-  number: string;
-  price: string;
+  num: string
+  name: string
+  code: string
+  unitPrice: string
+  number: string
+  price: string
 }
 
 @Component({
@@ -22,16 +20,16 @@ interface ReturnObj {
   templateUrl: './base-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [PageHeaderComponent, NzCardModule, WaterMarkComponent, NzDescriptionsModule, NzDividerModule, AntTableComponent]
+  imports: [NzCardModule, NzDescriptionsModule, NzDividerModule, AntTableComponent]
 })
 export class BaseDetailComponent implements OnInit {
-  @ViewChild('returnProductTpl', { static: true }) returnProductTpl!: TemplateRef<NzSafeAny>;
-  pageHeaderInfo: Partial<PageHeaderType> = {
-    title: '基础详情页',
-    breadcrumb: ['首页', '详情页', '基础详情页']
-  };
-  returnTableConfig!: AntTableConfig;
-  returnTableConfig2!: AntTableConfig;
+  @ViewChild('returnProductTpl', { static: true }) returnProductTpl!: TemplateRef<NzSafeAny>
+  // pageHeaderInfo: Partial<PageHeaderType> = {
+  //   title: '基础详情页',
+  //   breadcrumb: ['首页', '详情页', '基础详情页']
+  // };
+  returnTableConfig!: AntTableConfig
+  returnTableConfig2!: AntTableConfig
   returnDataList: ReturnObj[] = [
     {
       num: '1234561',
@@ -73,7 +71,7 @@ export class BaseDetailComponent implements OnInit {
       number: '1',
       price: '2.00'
     }
-  ];
+  ]
 
   constructor() {}
 
@@ -116,7 +114,7 @@ export class BaseDetailComponent implements OnInit {
       loading: false,
       pageSize: 10,
       pageIndex: 1
-    };
+    }
     this.returnTableConfig2 = {
       showCheckbox: false,
       headers: [
@@ -155,10 +153,10 @@ export class BaseDetailComponent implements OnInit {
       loading: false,
       pageSize: 10,
       pageIndex: 1
-    };
+    }
   }
 
   ngOnInit(): void {
-    this.initReturnTable();
+    this.initReturnTable()
   }
 }

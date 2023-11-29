@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzWaveModule } from 'ng-zorro-antd/core/wave';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzWaveModule } from 'ng-zorro-antd/core/wave'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzResultModule } from 'ng-zorro-antd/result'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'zng-fail',
@@ -14,8 +14,4 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   standalone: true,
   imports: [NzCardModule, NzResultModule, NzTypographyModule, NzIconModule, NzButtonModule, NzWaveModule]
 })
-export class FailComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class FailComponent {}

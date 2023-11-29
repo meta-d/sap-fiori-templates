@@ -1,14 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core'
 
-import { Graph } from '@antv/x6';
-import { Dnd } from '@antv/x6-plugin-dnd';
-import { PageHeaderType, PageHeaderComponent } from '@shared/components/page-header/page-header.component';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { Graph } from '@antv/x6'
+import { Dnd } from '@antv/x6-plugin-dnd'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzResultModule } from 'ng-zorro-antd/result'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 @Component({
   selector: 'zng-flow-chat',
@@ -16,16 +15,12 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   styleUrls: ['./flow-chat.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [PageHeaderComponent, NzCardModule, NzResultModule, NzGridModule, NzButtonModule, NzToolTipModule, NzIconModule]
+  imports: [NzCardModule, NzResultModule, NzGridModule, NzButtonModule, NzToolTipModule, NzIconModule]
 })
-export class FlowChatComponent implements OnInit, AfterViewInit {
-  pageHeaderInfo: Partial<PageHeaderType> = {
-    title: '流程编辑器，有了流程图，我就该知道未来该做什么了',
-    breadcrumb: ['首页', '扩展功能', '图形编辑器', '流程图'],
-    desc: '千言万语不如一张图，流程图是表示算法思路的好方法(简单流程图示例,具体功能需要自己完善，antV x6)'
-  };
-  graph!: Graph;
-  @ViewChild('container') container!: ElementRef;
+export class FlowChatComponent implements AfterViewInit {
+
+  graph!: Graph
+  @ViewChild('container') container!: ElementRef
 
   /** x6画布的一些基础属性 */
   graphBasicConfig = {
@@ -45,19 +40,15 @@ export class FlowChatComponent implements OnInit, AfterViewInit {
       connector: 'rounded',
       connectionPoint: 'boundary'
     }
-  };
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  }
 
   drag(event: MouseEvent): void {
-    const target = event.currentTarget as HTMLElement;
-    const shap = target.getAttribute('shap')!;
+    const target = event.currentTarget as HTMLElement
+    const shap = target.getAttribute('shap')!
 
     const dnd = new Dnd({
       target: this.graph
-    });
+    })
 
     const node = this.graph.createNode({
       width: 100,
@@ -120,19 +111,19 @@ export class FlowChatComponent implements OnInit, AfterViewInit {
           // fill: '#ccc'
         }
       }
-    });
-    dnd.start(node, event);
+    })
+    dnd.start(node, event)
   }
 
   initGraph(): void {
     const graphConfig = {
       ...this.graphBasicConfig,
       container: this.container.nativeElement
-    };
-    this.graph = new Graph(graphConfig);
+    }
+    this.graph = new Graph(graphConfig)
   }
 
   ngAfterViewInit(): void {
-    this.initGraph();
+    this.initGraph()
   }
 }

@@ -24,6 +24,8 @@
     "@angular/router": "~17.0.0",
     "@ant-design/icons-angular": "^16.0.0",
     "@antv/g2plot": "^2.4.31",
+    "@antv/x6": "^2.16.1",
+    "@antv/x6-plugin-dnd": "^2.1.1",
     "@ngneat/cmdk": "^2.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",

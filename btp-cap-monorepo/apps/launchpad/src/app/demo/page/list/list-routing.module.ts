@@ -5,7 +5,8 @@ export default [
   {
     path: 'search-table',
     title: '搜索表格',
-    loadChildren: () => import('./search-table/search-table-routing') },
+    loadChildren: () => import('./search-table/search-table-routing')
+  },
   {
     path: 'standard-table',
     title: '标准表格',
@@ -29,5 +30,6 @@ export default [
     title: '搜索列表',
     loadComponent: () => import('./search-list/search-list.component').then((m) => m.SearchListComponent),
     data: { key: 'search-list' },
-    loadChildren: () => import('./search-list/search-list-routing') }
+    loadChildren: () => import('./search-list/search-list-routing')
+  }
 ] as Routes

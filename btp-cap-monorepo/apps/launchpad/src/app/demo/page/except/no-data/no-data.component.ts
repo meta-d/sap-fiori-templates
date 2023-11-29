@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzWaveModule } from 'ng-zorro-antd/core/wave';
-import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzWaveModule } from 'ng-zorro-antd/core/wave'
+import { NzResultModule } from 'ng-zorro-antd/result'
 
 @Component({
   selector: 'zng-no-data',
@@ -11,10 +11,6 @@ import { NzResultModule } from 'ng-zorro-antd/result';
   standalone: true,
   imports: [NzResultModule, NzButtonModule, NzWaveModule]
 })
-export class NoDataComponent implements OnInit {
-  img = '../../../../../assets/imgs/except/no-data.svg';
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class NoDataComponent {
+  img = 'assets/images/except/no-data.svg'
 }

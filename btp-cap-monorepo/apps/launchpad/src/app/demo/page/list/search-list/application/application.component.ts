@@ -1,21 +1,21 @@
-import { NumberLoopPipe } from '@/app/core';
-import { NgStyle, NgFor, NgIf, DecimalPipe } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NumberLoopPipe } from '@/app/core'
+import { DecimalPipe, NgFor, NgIf, NgStyle } from '@angular/common'
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { SearchListStoreService } from '../../search-list-store.service';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzMenuModule } from 'ng-zorro-antd/menu'
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
+import { SearchListComponent } from '../search-list.component'
 
 @Component({
   selector: 'zng-application',
@@ -44,14 +44,16 @@ import { SearchListStoreService } from '../../search-list-store.service';
     NumberLoopPipe
   ]
 })
-export class ApplicationComponent implements OnInit {
-  expanded = false;
+export class ApplicationComponent {
+  readonly searchListComponent = inject(SearchListComponent)
+
+  expanded = false
   searchInfo = {
     owner: ['2', '3'],
     author: null,
     like: null
-  };
-  allSelFlag = false;
+  }
+  allSelFlag = false
   tagArray = [
     { name: '类目一', isChecked: false },
     { name: '类目二', isChecked: false },
@@ -65,22 +67,20 @@ export class ApplicationComponent implements OnInit {
     { name: '类目十', isChecked: false },
     { name: '类目十一', isChecked: false },
     { name: '类目十二', isChecked: false }
-  ];
-  constructor(private searchListService: SearchListStoreService) {
-    this._onReuseInit();
+  ]
+  constructor() {
+    this._onReuseInit()
   }
 
   allSel(): void {
-    this.allSelFlag = !this.allSelFlag;
-    this.tagArray.forEach(item => {
-      item.isChecked = this.allSelFlag;
-    });
-    this.tagArray = [...this.tagArray];
+    this.allSelFlag = !this.allSelFlag
+    this.tagArray.forEach((item) => {
+      item.isChecked = this.allSelFlag
+    })
+    this.tagArray = [...this.tagArray]
   }
 
   _onReuseInit(): void {
-    this.searchListService.setCurrentSearchListComponentStore('搜索列表（应用）');
+    this.searchListComponent.setCurrentSearchList('应用')
   }
-
-  ngOnInit(): void {}
 }

@@ -1,6 +1,6 @@
 import { NumberLoopPipe } from '@/app/core';
 import { NgStyle, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -13,7 +13,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { SearchListStoreService } from '../../search-list-store.service';
+import { SearchListComponent } from '../search-list.component';
 
 @Component({
   selector: 'zng-article',
@@ -39,7 +39,9 @@ import { SearchListStoreService } from '../../search-list-store.service';
     NumberLoopPipe
   ]
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent {
+  readonly searchListComponent = inject(SearchListComponent)
+  
   expanded = false;
   searchInfo = {
     owner: ['2', '3'],
@@ -62,7 +64,7 @@ export class ArticleComponent implements OnInit {
     { name: '类目十二', isChecked: false }
   ];
 
-  constructor(private searchListService: SearchListStoreService) {
+  constructor() {
     this._onReuseInit();
   }
 
@@ -75,8 +77,7 @@ export class ArticleComponent implements OnInit {
   }
 
   _onReuseInit(): void {
-    this.searchListService.setCurrentSearchListComponentStore('搜索列表（文章）');
+    this.searchListComponent.setCurrentSearchList('文章')
   }
 
-  ngOnInit(): void {}
 }

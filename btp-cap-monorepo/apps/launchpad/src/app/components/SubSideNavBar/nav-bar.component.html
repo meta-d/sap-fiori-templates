@@ -1,5 +1,8 @@
 <ul nz-menu nzMode="inline" class="sider-menu">
-  <ng-container *ngFor="let menu of menus(); trackBy: trackByIndex">
+  <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
+
+  <ng-template #menuTempl let-menus="menus">
+    @for (menu of menus; track menu.path) {
     <li *ngIf="!menu.hasSubmenus" nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
       <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
       {{ menu.title }}
@@ -9,10 +12,9 @@
       nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
       <ul>
-        <li *ngFor="let submenu of menu.submenus" nz-menu-item  [routerLink]="submenu.path" [queryParams]="submenu.queryParams" [fragment]="submenu.fragment" nzMatchRouter>
-          {{ submenu.title }}
-        </li>
+        <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
       </ul>
     </li>
-  </ng-container>
+    }
+  </ng-template>
 </ul>
