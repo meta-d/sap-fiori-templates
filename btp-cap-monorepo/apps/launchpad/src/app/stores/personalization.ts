@@ -1,5 +1,5 @@
 import { PersContainer } from '#cds-models/zm/appstore'
-import { StoreStatus, defineODataStore } from '@zcap/odata'
+import { StoreStatus, defineODataStore } from '@metad/cap-odata'
 
 const persStore = defineODataStore('personalization', {
   base: '/api/odata/v4/'

@@ -1,4 +1,4 @@
-import { StoreStatus, defineODataStore } from '@zcap/odata'
+import { StoreStatus, defineODataStore } from '@metad/cap-odata'
 
 const authStore = defineODataStore('auth', {
   base: '/api'

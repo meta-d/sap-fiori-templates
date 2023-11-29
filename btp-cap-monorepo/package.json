@@ -1,5 +1,5 @@
 {
-  "name": "@btp-cap-monorepo/source",
+  "name": "@metad/btp-cap-monorepo",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -9,7 +9,9 @@
     "sb": "yarn nx run launchpad:storybook",
     "bapp": "nx build launchpad -- --base-href /blp/ && rm -rf ./caps/app-store/app/blp/ && mv ./dist/apps/launchpad/browser/ ./caps/app-store/app/blp/",
     "build": "yarn bapp && yarn --cwd caps/app-store build",
-    "deploy": "yarn --cwd caps/app-store deploy"
+    "deploy": "yarn --cwd caps/app-store deploy",
+    "build-performance": "yarn nx build --stats-json --sourceMap=true launchpad",
+    "stats": "npx webpack-bundle-analyzer ./dist/apps/launchpad/stats.json"
   },
   "private": true,
   "dependencies": {

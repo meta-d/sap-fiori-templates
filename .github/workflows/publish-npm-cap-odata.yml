@@ -1,0 +1,25 @@
+name: Publish Package to npmjs
+
+on:
+  push:
+    tags:
+      - '*'
+    paths:
+      - "btp-cap-monorepo/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: cd btp-cap-monorepo
+      - run: yarn
+      - run: yarn nx build odata
+      - run: cd dist/packages/odata
+      - run: npm publish --access public --version ${{ github.ref_name }} --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

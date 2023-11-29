@@ -1,5 +1,5 @@
 import { Supplier, Suppliers, Risk, Risks } from '#cds-models/RiskService'
-import { StoreStatus, defineODataStore } from '@zcap/odata'
+import { StoreStatus, defineODataStore } from '@metad/cap-odata'
 
 const riskStore = defineODataStore('risk', {
   base: '/api/odata/v4/'

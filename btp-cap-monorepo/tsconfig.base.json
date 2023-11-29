@@ -16,8 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./apps/launchpad/src/*"],
-      "@zcap/contracts": ["packages/contracts/src/index.ts"],
-      "@zcap/odata": ["packages/odata/src/index.ts"],
+      "@metad/cap-contracts": ["packages/contracts/src/index.ts"],
+      "@metad/cap-odata": ["packages/odata/src/index.ts"],
       "#cds-models/*": [
         "./caps/app-store/@cds-models/*/index.ts"
       ]
