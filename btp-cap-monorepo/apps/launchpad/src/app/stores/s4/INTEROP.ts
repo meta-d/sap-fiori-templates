@@ -1,4 +1,4 @@
-import { StoreStatus, defineODataStore } from "@metad/cap-odata";
+import { defineODataStore } from '@metad/cap-odata'
 
 export interface UI5Theme {
     id: string;

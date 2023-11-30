@@ -1,0 +1,21 @@
+[
+  {
+    "id": "zng.settings",
+    "category": "P",
+    "validity": 0,
+    "clientExpirationTime": null,
+    "component": "",
+    "appName": "ZNG",
+    "PersContainerItems": {
+      "results": [
+        {
+          "containerId": "zng.settings",
+          "containerCategory": "P",
+          "id": "personalization",
+          "category": "I",
+          "value": "{\"theme\":\"default\",\"menuTheme\":\"dark\",\"menuMode\":\"mix\",\"fixedLayoutSider\":true,\"fixedLayoutHeader\":false,\"primaryColor\":\"#722ED1\"}"
+        }
+      ]
+    }
+  }
+]

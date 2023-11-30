@@ -1,6 +1,6 @@
 import { MenuMode, MenusService, ResizeObserverDirective, TabService, ThemeService, ThemeType } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
-import { AppStoreService } from '@/app/stores'
+import { APP_STORE_TOKEN, IAppStore } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, computed, inject } from '@angular/core'
@@ -13,6 +13,7 @@ import { MenuTabComponent } from '../../MenuTab/menu-tab.component'
 import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
+import { ZngPageTitleStrategy } from '@/app/core/strategies'
 
 @Component({
   selector: 'zng-layout-default',
@@ -50,11 +51,12 @@ export class LayoutDefaultComponent {
 
   private themeService = inject(ThemeService)
   private menusService = inject(MenusService)
-  private appStore = inject(AppStoreService)
+  private appStore = inject<IAppStore>(APP_STORE_TOKEN)
   private router = inject(Router)
   private destroyRef = inject(DestroyRef)
   private tabService = inject(TabService)
   private activatedRoute = inject(ActivatedRoute)
+  private titleStrategy = inject(ZngPageTitleStrategy)
 
   ThemeType = ThemeType
   MenuMode = MenuMode
@@ -106,7 +108,7 @@ export class LayoutDefaultComponent {
     )
     .subscribe((routeData) => {
       // 详情页是否是打开新tab页签形式
-      const isNewTabDetailPage = routeData['newTab'] === 'true'
+      const isNewTabDetailPage = routeData['newTab'] === true
 
       let route = this.activatedRoute
       while (route.firstChild) {
@@ -115,7 +117,7 @@ export class LayoutDefaultComponent {
 
       let title = 'Metad Team'
       if (typeof route.routeConfig?.title === 'string') {
-        title = route.routeConfig?.title
+        title = this.titleStrategy.pagesTranslate()?.[route.routeConfig?.title] || route.routeConfig?.title
       }
 
       this.tabService.addTab(

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference
+        Uri="https://SAPES5.SAPDEVCENTER.COM:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+    <edmx:Reference
+        Uri="https://SAPES5.SAPDEVCENTER.COM:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="EPM_REF_APPS_PO_APV_SRV" xml:lang="en" sap:schema-version="1"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="PurchaseOrder" sap:is-thing-type="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="POId" />
+                </Key>
+                <Property Name="POId" Type="Edm.String" Nullable="false" MaxLength="10"
+                    sap:label="Purchase Order ID" sap:creatable="false" sap:updatable="false"
+                    sap:filterable="false" />
+                <Property Name="OrderedById" Type="Edm.String" Nullable="false" MaxLength="10"
+                    sap:label="Ordered by (ID)" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="OrderedByName" Type="Edm.String" Nullable="false"
+                    sap:label="Ordered by" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="ChangedAt" Type="Edm.DateTime" Nullable="false" Precision="7"
+                    sap:label="Changed At" sap:creatable="false" sap:updatable="false"
+                    sap:filterable="false" />
+                <Property Name="SupplierId" Type="Edm.String" Nullable="false" MaxLength="10"
+                    sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" />
+                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="80"
+                    sap:label="Supplier" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" />
+                <Property Name="DeliveryAddress" Type="Edm.String" Nullable="false"
+                    sap:label="Delivered To" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="DeliveryDateEarliest" Type="Edm.DateTime" Precision="7"
+                    sap:label="Delivery Date" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="LaterDelivDateExist" Type="Edm.String" Nullable="false"
+                    MaxLength="1" sap:label="Later Delivery Exist" sap:creatable="false"
+                    sap:updatable="false" sap:sortable="false" sap:filterable="false" />
+                <Property Name="GrossAmount" Type="Edm.Decimal" Nullable="false" Precision="15"
+                    Scale="2" sap:unit="CurrencyCode" sap:label="Gross Amount" sap:creatable="false"
+                    sap:updatable="false" sap:sortable="false" sap:filterable="false" />
+                <Property Name="CurrencyCode" Type="Edm.String" Nullable="false" MaxLength="5"
+                    sap:label="Currency Code" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="currency-code" />
+                <Property Name="ItemCount" Type="Edm.Int32" Nullable="false" sap:label="Item Count"
+                    sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" />
+                <NavigationProperty Name="Supplier"
+                    Relationship="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderSupplier"
+                    FromRole="ToRole_PurchaseOrderSupplier" ToRole="FromRole_PurchaseOrderSupplier"
+                    sap:label="Supplier" />
+                <NavigationProperty Name="PurchaseOrderItems"
+                    Relationship="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderPurchaseOrderItems"
+                    FromRole="FromRole_PurchaseOrderPurchaseOrderItems"
+                    ToRole="ToRole_PurchaseOrderPurchaseOrderItems" sap:label="Purchase Order Items" />
+            </EntityType>
+            <EntityType Name="PurchaseOrderItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="POId" />
+                    <PropertyRef Name="POItemPos" />
+                </Key>
+                <Property Name="POId" Type="Edm.String" Nullable="false" MaxLength="10"
+                    sap:label="Purchase Order ID" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="POItemPos" Type="Edm.String" Nullable="false" MaxLength="10"
+                    sap:label="Item Position" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="255"
+                    sap:label="Product" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="Price" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2"
+                    sap:unit="PriceCurrency" sap:label="Price" sap:creatable="false"
+                    sap:updatable="false" sap:sortable="false" sap:filterable="false" />
+                <Property Name="PriceCurrency" Type="Edm.String" Nullable="false" MaxLength="5"
+                    sap:label="Currency Code" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="currency-code" />
+                <Property Name="GrossAmount" Type="Edm.Decimal" Nullable="false" Precision="15"
+                    Scale="2" sap:unit="GrossAmountCurrency" sap:label="Gross Amount"
+                    sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" />
+                <Property Name="GrossAmountCurrency" Type="Edm.String" Nullable="false"
+                    MaxLength="5" sap:label="Currency Code" sap:creatable="false"
+                    sap:updatable="false" sap:sortable="false" sap:filterable="false"
+                    sap:semantics="currency-code" />
+                <Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="13"
+                    Scale="3" sap:unit="QuantityUnit" sap:label="Quantity" sap:creatable="false"
+                    sap:updatable="false" sap:sortable="false" sap:filterable="false" />
+                <Property Name="QuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3"
+                    sap:label="Unit of Measure" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure" />
+                <Property Name="DeliveryDate" Type="Edm.DateTime" Nullable="false" Precision="7"
+                    sap:label="Delivery Date" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+            </EntityType>
+            <EntityType Name="Supplier" sap:is-thing-type="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="ID"
+                    sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" />
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="80"
+                    m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="true"
+                    sap:label="Supplier" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="Phone" Type="Edm.String" Nullable="false" MaxLength="30"
+                    sap:label="Phone" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="tel" />
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="255"
+                    sap:label="Email" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="email" />
+                <Property Name="Web" Type="Edm.String" Nullable="false" sap:label="URL"
+                    sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" sap:semantics="url" />
+                <Property Name="FormattedAddress" Type="Edm.String" Nullable="false" MaxLength="157"
+                    sap:label="Address" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="FormattedContactName" Type="Edm.String" Nullable="false"
+                    MaxLength="88" sap:label="Name" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+                <Property Name="ContactPhone" Type="Edm.String" Nullable="false" MaxLength="30"
+                    sap:label="Contact Person Tel" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="tel" />
+                <Property Name="ContactFax" Type="Edm.String" Nullable="false" MaxLength="30"
+                    sap:label="Contact Person Fax" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="tel" />
+                <Property Name="ContactEmail" Type="Edm.String" Nullable="false"
+                    sap:label="Contact Person Mail" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" sap:semantics="email" />
+                <Property Name="ChangedAt" Type="Edm.DateTime" Nullable="false" Precision="7"
+                    m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="true"
+                    sap:label="Changed At" sap:creatable="false" sap:updatable="false"
+                    sap:sortable="false" sap:filterable="false" />
+            </EntityType>
+            <ComplexType Name="FunctionImportResult">
+                <Property Name="Success" Type="Edm.Boolean" Nullable="false"
+                    sap:label="Boolean Variable (X=true, -=false, space=unknown)"
+                    sap:creatable="false" sap:updatable="false" sap:sortable="false"
+                    sap:filterable="false" />
+            </ComplexType>
+            <Association Name="PurchaseOrderPurchaseOrderItems" sap:content-version="1"
+                sap:label="Association: Purchase Order --&gt; Purchase Order Items">
+                <End Type="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder" Multiplicity="1"
+                    Role="FromRole_PurchaseOrderPurchaseOrderItems" />
+                <End Type="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderItem" Multiplicity="*"
+                    Role="ToRole_PurchaseOrderPurchaseOrderItems" />
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_PurchaseOrderPurchaseOrderItems">
+                        <PropertyRef Name="POId" />
+                    </Principal>
+                    <Dependent Role="ToRole_PurchaseOrderPurchaseOrderItems">
+                        <PropertyRef Name="POId" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="PurchaseOrderSupplier" sap:content-version="1"
+                sap:label="Association: Supplier --&gt; Purchase Order">
+                <End Type="EPM_REF_APPS_PO_APV_SRV.Supplier" Multiplicity="1"
+                    Role="FromRole_PurchaseOrderSupplier" />
+                <End Type="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder" Multiplicity="*"
+                    Role="ToRole_PurchaseOrderSupplier" />
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_PurchaseOrderSupplier">
+                        <PropertyRef Name="Id" />
+                    </Principal>
+                    <Dependent Role="ToRole_PurchaseOrderSupplier">
+                        <PropertyRef Name="SupplierId" />
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="EPM_REF_APPS_PO_APV_SRV_Entities"
+                m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="PurchaseOrders" EntityType="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder"
+                    sap:label="Purchase Orders" sap:creatable="false" sap:updatable="false"
+                    sap:deletable="false" sap:content-version="1" />
+                <EntitySet Name="PurchaseOrderItems"
+                    EntityType="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderItem"
+                    sap:label="Purchase Order Items" sap:creatable="false" sap:updatable="false"
+                    sap:deletable="false" sap:pageable="false" sap:content-version="1" />
+                <EntitySet Name="Suppliers" EntityType="EPM_REF_APPS_PO_APV_SRV.Supplier"
+                    sap:label="Suppliers" sap:creatable="false" sap:updatable="false"
+                    sap:deletable="false" sap:pageable="false" sap:addressable="false"
+                    sap:content-version="1" />
+                <AssociationSet Name="PurchaseOrderSupplier_AssocSet"
+                    Association="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderSupplier"
+                    sap:creatable="false" sap:updatable="false" sap:deletable="false"
+                    sap:content-version="1">
+                    <End EntitySet="Suppliers" Role="FromRole_PurchaseOrderSupplier" />
+                    <End EntitySet="PurchaseOrders" Role="ToRole_PurchaseOrderSupplier" />
+                </AssociationSet>
+                <AssociationSet Name="PurchaseOrderPurchaseOrderItems_AssocSet"
+                    Association="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderPurchaseOrderItems"
+                    sap:creatable="false" sap:updatable="false" sap:deletable="false"
+                    sap:content-version="1">
+                    <End EntitySet="PurchaseOrders" Role="FromRole_PurchaseOrderPurchaseOrderItems" />
+                    <End EntitySet="PurchaseOrderItems"
+                        Role="ToRole_PurchaseOrderPurchaseOrderItems" />
+                </AssociationSet>
+                <FunctionImport Name="ApprovePurchaseOrder"
+                    ReturnType="EPM_REF_APPS_PO_APV_SRV.FunctionImportResult" m:HttpMethod="POST"
+                    sap:label="Approve Purchase Order with optional note"
+                    sap:action-for="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder">
+                    <Parameter Name="POId" Type="Edm.String" Mode="In" MaxLength="10" />
+                    <Parameter Name="Note" Type="Edm.String" Mode="In" MaxLength="255" />
+                </FunctionImport>
+                <FunctionImport Name="RejectPurchaseOrder"
+                    ReturnType="EPM_REF_APPS_PO_APV_SRV.FunctionImportResult" m:HttpMethod="POST"
+                    sap:label="Reject Purchase Order with optional note"
+                    sap:action-for="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder">
+                    <Parameter Name="POId" Type="Edm.String" Mode="In" MaxLength="10" />
+                    <Parameter Name="Note" Type="Edm.String" Mode="In" MaxLength="255" />
+                </FunctionImport>
+            </EntityContainer>
+            <Annotations Target="EPM_REF_APPS_PO_APV_SRV.PurchaseOrder"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.SemanticObject" String="EPMPurchaseOrder" />
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Purchase Order" />
+                        <PropertyValue Property="TypeNamePlural" String="Purchase Orders" />
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="SupplierName" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="POId" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeImageUrl" String="sap-icon://Fiori6/F0138" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="EPM_REF_APPS_PO_APV_SRV.PurchaseOrderItem"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Purchase Order Item" />
+                        <PropertyValue Property="TypeNamePlural" String="Purchase Order Items" />
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="Product" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="GrossAmount" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeImageUrl" String="sap-icon://sales-order-item" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

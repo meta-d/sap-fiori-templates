@@ -1,4 +1,4 @@
-import { AppStoreService, PersonalizationType } from '../../stores'
+import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
 import { Injectable, computed, effect, inject, signal } from '@angular/core'
 import { NzConfigService } from 'ng-zorro-antd/core/config'
 import { ThemeType } from '../types'
@@ -13,7 +13,7 @@ export interface ThemeState {
   providedIn: 'root'
 })
 export class ThemeService {
-  private appStore = inject(AppStoreService)
+  private appStore = inject<IAppStore>(APP_STORE_TOKEN)
   private nzConfigService = inject(NzConfigService)
 
   readonly personalization = this.appStore.personalization

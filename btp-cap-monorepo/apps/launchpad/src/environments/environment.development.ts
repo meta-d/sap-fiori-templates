@@ -1,7 +1,10 @@
-export const environment = {
+import { IEnvironment } from "./types";
+
+export const environment: IEnvironment = {
     production: false,
-    enableFiori: false,
+    environment: 'S4',
+    enableFiori: true,
+    enableNotification: true,
     enableWaterMark: false,
-    enableNotification: false,
     mockData: false
 };

@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from 
 import { ScrollService } from '../services/scroll.service';
 import { fnGetReuseStrategyKeyFn, getDeepReuseStrategyKeyFn } from '../utils';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { AppStoreService } from '../../stores';
+import { APP_STORE_TOKEN, IAppStore } from '@/app/stores';
 
 export type ReuseHookTypes = '_onReuseInit' | '_onReuseDestroy';
 
@@ -23,7 +23,7 @@ export interface ReuseComponentRef {
 // https://blog.csdn.net/weixin_30561425/article/details/96985967?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control
 export class SimpleReuseStrategy implements RouteReuseStrategy {
   destroyRef = inject(DestroyRef);
-  readonly #appStore = inject(AppStoreService)
+  readonly #appStore = inject<IAppStore>(APP_STORE_TOKEN)
   // 缓存每个component的map
   static handlers: { [key: string]: NzSafeAny } = {};
   // 缓存每个页面的scroll位置,为啥不放在handlers里面呢,因为路由离开时路由复用导致以当前页为key为null了

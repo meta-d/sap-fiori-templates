@@ -8,7 +8,7 @@ import { silentEvent } from 'ng-zorro-antd/core/util';
 
 /*获取1到100之间的随机整数 this.randomNum(1,101)*/
 const fnGetRandomNum = function getRandomNum(m: number, n: number): number {
-  let num = Math.floor(Math.random() * (m - n) + n);
+  const num = Math.floor(Math.random() * (m - n) + n);
   return num;
 };
 

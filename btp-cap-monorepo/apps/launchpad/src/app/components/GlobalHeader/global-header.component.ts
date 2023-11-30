@@ -8,17 +8,15 @@ import {
   toSAPLanguage
 } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
-import { AppStoreService } from '@/app/stores'
+import { APP_STORE_TOKEN, IAppStore } from '@/app/stores'
 import { CommonModule } from '@angular/common'
-import { Component, ViewChild, computed, inject } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
+import { Component, ViewChild, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Params, Router } from '@angular/router'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { ModalOptions, NzModalService } from 'ng-zorro-antd/modal'
 import { CookieService } from 'ngx-cookie-service'
-import { EMPTY, Subject, switchMap, timer } from 'rxjs'
 import { GlobalSearchComponent } from '../GlobalSearch/global-search.component'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
 import { HomeNoticeComponent } from '../HomeNotice/home-notice.component'
@@ -45,7 +43,7 @@ export class GlobalHeaderComponent {
   private translate = inject(TranslateService)
   public message = inject(NzMessageService)
   private modalService = inject(NzModalService)
-  public appStore = inject(AppStoreService)
+  public appStore = inject<IAppStore>(APP_STORE_TOKEN)
   private cookieService = inject(CookieService)
   public authService = inject(AuthenticationService)
   public notificationService = inject(NotificationService)
@@ -92,10 +90,6 @@ export class GlobalHeaderComponent {
 
   goLogin(): void {
     this.router.navigate(['auth/login'])
-  }
-
-  goPage(path: string): void {
-    //
   }
 
   changePassWorld() {

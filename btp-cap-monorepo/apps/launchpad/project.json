@@ -58,7 +58,24 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/launchpad/src/environments/environment.ts",
+              "with": "apps/launchpad/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "mock": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/launchpad/src/environments/environment.ts",
+              "with": "apps/launchpad/src/environments/environment.mock.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -74,6 +91,10 @@
         },
         "development": {
           "buildTarget": "launchpad:build:development"
+        },
+        "mock": {
+          "buildTarget": "launchpad:build:mock",
+          "proxyConfig": "apps/launchpad/mock.conf.json"
         }
       },
       "defaultConfiguration": "development"
