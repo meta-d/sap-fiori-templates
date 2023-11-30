@@ -28,7 +28,7 @@ jobs:
         working-directory: ./btp-cap-monorepo
       - run: yarn nx build odata
         working-directory: ./btp-cap-monorepo
-      - run: npm publish --access public --version ${{ github.ref_name }} --tag latest
+      - run: npm publish --access public --tag latest
         working-directory: ./btp-cap-monorepo/dist/packages/odata
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
