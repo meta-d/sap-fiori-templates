@@ -25,3 +25,9 @@
 - `yarn ar` run approuter in url *http://localhost:5000/*.
 - `yarn w` run webapp and watch changes to reload in url *http://localhost:4200/*.
 - `yarn sb` run storybook to preview components in url *http://localhost:4400/*.
+
+## Deploy
+
+- `yarn b:btp` Build for BTP platform.
+- `yarn d:btp` Deploy to BTP platform, you might be login using cf cli.
+- 

@@ -1,10 +1,18 @@
-
-
+import queryString from 'query-string'
 import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
-import queryString from 'query-string';
+import { filterString } from './filter'
+import {
+  Filter,
+  FilterOperator,
+  Keys,
+  KeysParameters,
+  OrderEnum,
+  ValueOfKey,
+  entityKeyValue,
+  getEntityName
+} from './types'
 import { isString } from './utils/isString'
-import { Filter, FilterOperator, Keys, KeysParameters, OrderEnum, entityKeyValue, getEntityName, uuidRegex } from './types'
 
 export enum StoreStatus {
   init,
@@ -36,15 +44,15 @@ export function updateODataConfig(value: Partial<ODataConfig>) {
 export function defineODataStore(
   service: string,
   options: {
-    base: string;
-    version?: string | null;
+    base: string
+    version?: string | null
   } = {
-    base: '/sap/opu/odata/sap',
+    base: '/sap/opu/odata/sap'
   }
 ) {
   const { base, version } = options
 
-  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any;}>({
+  const store = new BehaviorSubject<{ status: StoreStatus; Schema: any }>({
     status: StoreStatus.init,
     Schema: null
   })
@@ -211,7 +219,7 @@ export function defineODataStore(
     })
   }
 
-  const query = async <T>(entity: string | {name: string}, options?: ODataQueryOptions): Promise<T[]> => {
+  const query = async <T>(entity: string | { name: string }, options?: ODataQueryOptions): Promise<T[]> => {
     const entitySet = getEntityName(entity)
     const queryObj = constructQuery(options)
     const qString = queryString.stringify(queryObj)
@@ -247,7 +255,7 @@ export function defineODataStore(
   }
 
   /**
-   * 
+   *
    * @param name Function Import Name
    */
   const functionImport = async (name: string) => {
@@ -256,8 +264,8 @@ export function defineODataStore(
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+        Accept: 'application/json'
+      }
     }
     return fetch(url, reqOptions).then(async (response) => {
       if (response.ok) {
@@ -286,7 +294,7 @@ export function defineODataStore(
       if (response.ok) {
         try {
           return await response.json()
-        } catch(err) {
+        } catch (err) {
           return null
         }
       }
@@ -340,87 +348,72 @@ export function defineODataStore(
 
 export interface ODataQueryOptions {
   headers?: Record<string, string>
-  $filter?: {
-    [key: string]: unknown
-  } | Filter[]
-  $expand?: string | string[];
+  $filter?:
+    | {
+        [key: string]: ValueOfKey
+      }
+    | Filter[]
+  $expand?: string | string[]
 
   $orderby?: {
-    name: string;
-    order?: OrderEnum | null;
-  }[];
+    name: string
+    order?: OrderEnum | null
+  }[]
 
-  $skip?: number;
-  $top?: number;
+  $skip?: number
+  $top?: number
 }
 
-
+/**
+ * Convert odata query params to query strings
+ *
+ * @param options
+ * @returns
+ */
 export function constructQuery(options?: ODataQueryOptions) {
   const { $filter, $expand, $orderby, $skip, $top } = options ?? {}
-  const query = {} as any
-  // const query = new URLSearchParams()
+  const query = {} as Record<string, string>
 
   // Filters to query string
   if ($filter) {
     if (Array.isArray($filter)) {
-      // query.append('$filter', $filter.reduce((acc, item) => {
-      //   const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
-      //   if (acc) {
-      //     return acc + ' and ' + filterString
-      //   } else {
-      //     return filterString
-      //   }
-      // }, ''))
       query['$filter'] = $filter.reduce((acc, item) => {
-          const filterString = `${item.path} ${item.operator} ${entityKeyValue(item.value)}`
-          if (acc) {
-            return acc + ' and ' + filterString
-          } else {
-            return filterString
-          }
-        }, '')
+        const _filterString = filterString(item)
+        if (acc) {
+          return acc + ' and ' + _filterString
+        } else {
+          return _filterString
+        }
+      }, '')
     } else {
-      // query.append('$filter', Object.keys($filter).reduce((acc, key) => {
-      //   const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
-      //   if (acc) {
-      //     return acc + ' and ' + filterString
-      //   } else {
-      //     return filterString
-      //   }
-      // }, ''))
       query['$filter'] = Object.keys($filter).reduce((acc, key) => {
-          const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
-          if (acc) {
-            return acc + ' and ' + filterString
-          } else {
-            return filterString
-          }
-        }, '')
+        const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
+        if (acc) {
+          return acc + ' and ' + filterString
+        } else {
+          return filterString
+        }
+      }, '')
     }
   }
 
   if ($expand) {
     query['$expand'] = isString($expand) ? $expand : $expand.join(',')
-    // query.append('$expand', isString($expand) ? $expand : $expand.join(','))
   }
 
   if ($orderby) {
-    query['$orderby'] = $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(',')
-    // query.append('$orderby', $orderby.map(({name, order}) => `${name} ${order ?? OrderEnum.asc}`).join(','))
+    query['$orderby'] = $orderby.map(({ name, order }) => `${name} ${order ?? OrderEnum.asc}`).join(',')
   }
 
   if ($skip != null) {
     query['$skip'] = `${$skip}`
-    // query.append('$skip', `${$skip}`)
   }
   if ($top != null) {
     query['$top'] = `${$top}`
-    // query.append('$top', `${$top}`)
   }
 
   return query
 }
-
 
 function removeLastSlash(url: string) {
   if (url.endsWith('/')) {
