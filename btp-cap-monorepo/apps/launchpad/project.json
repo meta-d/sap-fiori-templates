@@ -18,6 +18,7 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets"],
         "styles": [
+          "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "node_modules/driver.js/dist/driver.css",
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss",

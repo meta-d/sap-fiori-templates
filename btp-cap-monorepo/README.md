@@ -25,6 +25,7 @@
 - `yarn ar` run approuter in url *http://localhost:5000/*.
 - `yarn w` run webapp and watch changes to reload in url *http://localhost:4200/*.
 - `yarn sb` run storybook to preview components in url *http://localhost:4400/*.
+- `yarn start:s4:mock` Start launchpad app for S4 system environment. Open in *http://localhost:4400/*.
 
 ## Deploy
 

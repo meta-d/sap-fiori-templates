@@ -54,4 +54,13 @@ export const appRoutes: Routes = [
     },
     loadChildren: () => import('./demo/page/page-demo-routing').then((m) => m.default)
   },
+  {
+    path: 'bi',
+    title: 'BI',
+    data: {
+      icon: 'form',
+      key: 'bi'
+    },
+    loadChildren: () => import('./bi/bi.module').then((m) => m.BIModule)
+  }
 ]
