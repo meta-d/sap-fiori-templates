@@ -1,47 +1,62 @@
-<ngm-member-tree-select displayDensity="compact"
-    [dataSettings]="{
-        dataSource: 'S4CDS',
-        entitySet: '$/CPMB/SOIX6DW',
-    }"
-    [dimension]="{
-        dimension: '[/CPMB/SODE5GU]',
-        hierarchy: '[/CPMB/SODE5GU]'
-    }"
-></ngm-member-tree-select>
-
-<ngm-smart-filter displayDensity="compact"
-    [dataSettings]="{
-        dataSource: 'S4CDS',
-        entitySet: '$/CPMB/SOIX6DW',
-    }"
-    [dimension]="{
-        dimension: '[/CPMB/SODE5GU]',
-        hierarchy: '[/CPMB/SODE5GU                 QTD_PARENTH1]'
-    }"
-></ngm-smart-filter>
-
-<ngm-analytical-card displayDensity="compact"
-    [dataSettings]="{
-        dataSource: 'S4CDS',
-        entitySet: cube,
-        chartAnnotation: {
-            chartType: {
-                type: 'Bar'
-            },
-            measures: [
-                {
-                    dimension: 'Measures',
-                    measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
-                    order: OrderDirection.DESC
-                }
-            ],
-            dimensions: [
-                {
-                    dimension: '[2CZDIMEAIRLINE]',
-                    hierarchy: '[2CZDIMEAIRLINE]',
-                    level: '[2CZDIMEAIRLINE].[LEVEL01]'
-                }
-            ]
-        }
-    }"
-></ngm-analytical-card>
+<div class="zng-content">
+    <form [formGroup]="form" (ngSubmit)="onGo()" novalidate class="grid grid-cols-4 gap-4">
+        <ngm-smart-filter displayDensity="compact"
+            formControlName="country"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+            }"
+            [dimension]="{
+                dimension: country
+            }"
+            [appearance]="{
+                displayDensity: DisplayDensity.compact
+            }"
+        ></ngm-smart-filter>
+        <ngm-smart-filter displayDensity="compact"
+            formControlName="travelAgency"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+            }"
+            [dimension]="{
+                dimension: travelAgency
+            }"
+            [appearance]="{
+                displayDensity: DisplayDensity.compact
+            }"
+        ></ngm-smart-filter>
+    
+        <div class="flex items-end">
+            <button mat-stroked-button >Go</button>
+        </div>
+    </form>
+    
+    <ngm-analytical-card displayDensity="compact"
+        [dataSettings]="{
+            dataSource: 'S4CDS',
+            entitySet: cube,
+            chartAnnotation: {
+                chartType: {
+                    type: 'Bar'
+                },
+                measures: [
+                    {
+                        dimension: 'Measures',
+                        measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
+                        order: OrderDirection.DESC
+                    }
+                ],
+                dimensions: [
+                    {
+                        dimension: '[2CZDIMEAIRLINE]',
+                        hierarchy: '[2CZDIMEAIRLINE]',
+                        level: '[2CZDIMEAIRLINE].[LEVEL01]'
+                    }
+                ]
+            }
+        }"
+        [slicers]="slicers()"
+        [chartSettings]="chartSettings()"
+    ></ngm-analytical-card>
+</div>

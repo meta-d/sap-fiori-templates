@@ -185,7 +185,7 @@ export class MenusService {
 
     if (indexes.length > 0 && menu.hasSubmenus && !menu.submenus?.length && menu.route?.loadChildren) {
       // 兼容 export Routes 和 export default Routes 两种方式
-      const result = await (<Promise<any>>menu.route?.loadChildren()).then((m) => Array.isArray(m) ? m : m.default)
+      const result = await (<Promise<any>>menu.route?.loadChildren()).then(getChildrenRoutes)
       if (Array.isArray(result)) {
         const submenus = mapRoutes2Menus(result, menu.path)
         menu = {
@@ -207,6 +207,21 @@ export class MenusService {
       }
     })
   }
+}
+
+function getChildrenRoutes(m: any) {
+  if (Array.isArray(m)) {
+    // load children from component
+    return m
+  } else if (Array.isArray(m.default)) {
+    // load children from component default
+    return m.default
+  } else if (m.ɵinj) {
+    // load children from providers in sub module 
+    return m.ɵinj.providers[0].ɵproviders[0].useValue
+  }
+
+  return []
 }
 
 export function mapRoutes2Menus(routes: Routes, parent?: string): AppMenu[] {

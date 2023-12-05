@@ -1,0 +1,14 @@
+<ngm-entity-schema class="flex-1"
+    [dataSettings]="{
+        dataSource: 'S4CDS',
+        entitySet: cube
+    }"
+    [capacities]="[
+        EntityCapacity.Dimension,
+        EntityCapacity.Hierarchy,
+        EntityCapacity.Measure,
+        EntityCapacity.Indicator,
+        EntityCapacity.Calculation,
+        EntityCapacity.Parameter,
+    ]"
+></ngm-entity-schema>

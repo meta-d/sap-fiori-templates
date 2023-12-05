@@ -18,18 +18,29 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets"],
         "styles": [
-          "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "node_modules/driver.js/dist/driver.css",
+          "node_modules/@metad/ocap-angular/_index.scss",
+          "node_modules/@metad/ocap-angular/index.css",
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss",
           {
-            "input": "apps/launchpad/src/styles/default.less",
+            "input": "apps/launchpad/src/styles/antd/default.less",
             "bundleName": "default",
             "inject": false
           },
           {
-            "input": "apps/launchpad/src/styles/dark.less",
+            "input": "apps/launchpad/src/styles/antd/dark.less",
             "bundleName": "dark",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/material/default.scss",
+            "bundleName": "mat-default",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/material/dark.scss",
+            "bundleName": "mat-dark",
             "inject": false
           }
         ],

@@ -1,12 +1,14 @@
 import { UI5Theme, queryThemes, readFLPH } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { Injectable, computed, inject, signal } from '@angular/core'
-import { toObservable } from '@angular/core/rxjs-interop'
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { AppGroup, Chip, Ui5Path } from '../types'
 import { AppMenu } from './menus.service'
 import { CookieService } from 'ngx-cookie-service'
+import { ThemeService } from './theme.service'
+import { toSAPLanguage } from './translate'
 
 export const SAPUserContextCookieName = 'sap-usercontext'
 export const SAPUserContextLanguage = 'sap-language'
@@ -16,6 +18,7 @@ export const SAPUserContextLanguage = 'sap-language'
 })
 export class FioriLaunchpadService {
   private cookieService = inject(CookieService)
+  private themeService = inject(ThemeService)
   
   readonly state = signal<{
     pageSets: {
@@ -77,6 +80,14 @@ export class FioriLaunchpadService {
     })
   })
 
+  readonly #translateSub = this.themeService.onLangChange().pipe(takeUntilDestroyed()).subscribe((lang) => {
+    // Update the sap language in the cookie `sap-usercontext`
+    const userContext = this.cookieService.get(SAPUserContextCookieName)
+    const searchParams = new URL(`http://localhost?${userContext}`).searchParams
+    searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
+    this.cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
+  })
+  
   constructor() {
     if (environment.enableFiori) {
       this.loadFLPMenus().then()

@@ -58,8 +58,8 @@ export const appRoutes: Routes = [
     path: 'bi',
     title: 'BI',
     data: {
-      icon: 'form',
-      key: 'bi'
+      icon: 'bar-chart',
+      key: 'bi-platform'
     },
     loadChildren: () => import('./bi/bi.module').then((m) => m.BIModule)
   }

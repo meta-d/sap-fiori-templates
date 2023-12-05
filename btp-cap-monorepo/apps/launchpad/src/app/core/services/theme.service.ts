@@ -1,13 +1,12 @@
-import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
 import { Injectable, computed, effect, inject, signal } from '@angular/core'
-import { NzConfigService } from 'ng-zorro-antd/core/config'
-import { ThemeType } from '../types'
 import { toObservable } from '@angular/core/rxjs-interop'
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { NzConfigService } from 'ng-zorro-antd/core/config'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { map } from 'rxjs/operators'
+import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
+import { ThemeType } from '../types'
 
-export interface ThemeState {
-  fixedLayoutSider: boolean
-  fixedLayoutHeader: boolean
-}
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,8 @@ export interface ThemeState {
 export class ThemeService {
   private appStore = inject<IAppStore>(APP_STORE_TOKEN)
   private nzConfigService = inject(NzConfigService)
+  private translate = inject(TranslateService)
+  readonly #message = inject(NzMessageService)
 
   readonly personalization = this.appStore.personalization
 
@@ -30,6 +31,11 @@ export class ThemeService {
   readonly isNightTheme = computed(() => this.personalization().theme === ThemeType.dark)
 
   readonly isCollapsed = signal(false)
+
+  // Translator
+  get currentLang() {
+    return this.translate.currentLang
+  }
 
   constructor() {
     effect(() => {
@@ -69,23 +75,24 @@ export class ThemeService {
     })
   }
 
-  public loadTheme(firstLoad = true): Promise<Event> {
+  public loadTheme(firstLoad = true): Promise<Event[]> {
     const theme = this.currentTheme() as string
     if (firstLoad) {
       document.documentElement.classList.add(theme)
     }
-    return new Promise<Event>((resolve, reject) => {
-      this.loadCss(`${theme}.css`, theme).then(
-        (e) => {
-          if (!firstLoad) {
-            document.documentElement.classList.add(theme)
-          }
-          this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
-          resolve(e)
-        },
-        (e) => reject(e)
-      )
-    })
+
+    return Promise.all([
+      this.loadCss(`${theme}.css`, theme),
+      this.loadCss(`mat-${theme}.css`, theme)
+    ]).then(
+      (e) => {
+        if (!firstLoad) {
+          document.documentElement.classList.add(theme)
+        }
+        this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
+        return e
+      }
+    )
   }
 
   setTheme(theme?: ThemeType) {
@@ -106,5 +113,18 @@ export class ThemeService {
 
   getThemesMode() {
     return toObservable(this.personalization)
+  }
+
+  useLanguage(lang: string): void {
+    this.translate.use(lang).subscribe()
+    this.#message.info(
+      this.translate.instant('ZNG.GlobalHeader.LanguageChanged', {
+        Default: 'Language changed!'
+      })
+    )
+  }
+
+  onLangChange() {
+    return this.translate.onLangChange.pipe(map((event: LangChangeEvent) => event.lang))
   }
 }

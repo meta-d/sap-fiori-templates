@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { CookieService } from 'ngx-cookie-service'
 
 @Component({
-  selector: 'app-root',
+  selector: 'zng-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, ZngAntdModule, LayoutDefaultComponent],
   templateUrl: './app.component.html',

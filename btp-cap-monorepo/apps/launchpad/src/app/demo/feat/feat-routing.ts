@@ -9,6 +9,12 @@ export default [
     loadComponent: () => import('./ex-drawer/ex-drawer.component').then((m) => m.ExDrawerComponent)
   },
   {
+    path: 'drag-modal',
+    title: '移动 Modal',
+    data: { key: 'drag-modal' },
+    loadComponent: () => import('./drag-modal/drag-modal.component').then((m) => m.DragModalComponent)
+  },
+  {
     path: 'msg',
     title: '消息提示',
     data: { key: 'msg' },
