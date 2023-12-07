@@ -1,4 +1,3 @@
-import { PersContainer } from '#cds-models/zm/appstore'
 import { InjectionToken, Signal } from '@angular/core'
 import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { MenuMode, ThemeType } from '../core/types'
@@ -62,6 +61,12 @@ export interface IAppStore {
   updatePersonalization(value: Partial<PersonalizationType>): void
 }
 
-export const APP_STORE_TOKEN: InjectionToken<IAppStore> = new InjectionToken<
-IAppStore
->("Token for App Store Service");
+export const APP_STORE_TOKEN: InjectionToken<IAppStore> = new InjectionToken<IAppStore>("Token for App Store Service");
+
+export interface PersContainer {
+  ID: string
+  appId: string
+  category: string
+  appName: string
+  value: any
+}

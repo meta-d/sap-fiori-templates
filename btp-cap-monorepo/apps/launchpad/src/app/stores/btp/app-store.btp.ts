@@ -2,10 +2,9 @@ import { Injectable, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
-import { PersContainer } from '#cds-models/zm/appstore'
 import { getCurrentUser } from '../auth'
 import { upsertPersonalization, readPersonalization } from './personalization'
-import { IAppStore, AppStoreState, DefaultPersonalization, PersContainerId, PersonalizationType } from '../app'
+import { IAppStore, AppStoreState, DefaultPersonalization, PersContainerId, PersonalizationType, PersContainer } from '../app'
 
 
 
