@@ -1,9 +1,9 @@
 :host {
-    @apply flex-1 w-full h-full min-h-full flex flex-col;
+  @apply flex-1 w-full h-full min-h-full flex flex-col;
 }
 .zng-ui5__fullscreen-button {
-    @apply absolute;
+  @apply absolute;
 }
 .zng-ui5__app-fullscreen {
-    @apply fixed inset-0 z-10;
+  @apply fixed inset-0 z-50;
 }

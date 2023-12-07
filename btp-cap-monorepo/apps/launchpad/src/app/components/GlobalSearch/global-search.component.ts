@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common'
 import { Component, ElementRef, ViewChild, inject } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
-import { DynamicViewModule } from '@ngneat/overview';
 import {
   CommandComponent,
   EmptyDirective,
@@ -14,6 +13,7 @@ import {
   ListComponent,
   SeparatorComponent
 } from '@ngneat/cmdk'
+import { DynamicViewDirective } from '@ngneat/overview'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { NzModalRef } from 'ng-zorro-antd/modal'
 
@@ -32,7 +32,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal'
     ListComponent,
     EmptyDirective,
     SeparatorComponent,
-    DynamicViewModule
+    DynamicViewDirective,
   ],
   selector: 'zng-global-search',
   templateUrl: './global-search.component.html',

@@ -1,4 +1,3 @@
-import { environment } from '@/environments/environment'
 import { Injectable } from '@angular/core'
 import { Agent, AgentStatus, AgentStatusEnum, AgentType, DataSourceOptions } from '@metad/ocap-core'
 import { EMPTY, Observable, of } from 'rxjs'
@@ -30,7 +29,7 @@ export class S4ServerAgent implements Agent {
    * @returns response text
    */
   async request(dataSource: DataSourceOptions, request: any): Promise<any> {
-    const result = await fetch(`/sap/bw/xml/soap/xmla?sap-client=${environment.sapClient ?? 100}`, {
+    const result = await fetch(`/sap/bw/xml/soap/xmla`, {
       method: 'POST',
       headers: {
         ...request.headers

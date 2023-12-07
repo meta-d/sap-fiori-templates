@@ -23,8 +23,4 @@ export type IEnvironment = {
    * 启用模拟数据
    */
   mockData: boolean
-  /**
-   * sap-client param
-   */
-  sapClient: number
 }
