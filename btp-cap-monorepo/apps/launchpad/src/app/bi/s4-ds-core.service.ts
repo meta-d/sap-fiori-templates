@@ -29,4 +29,11 @@ export class ZngS4DSCoreService extends NgmDSCoreService {
   ) {
     super(agents, [ZngS4DSCoreService.S4Model], dataSourceFactory, cacheService)
   }
+
+  updateCatalog(catalog: string) {
+    this.registerModel({
+      ...ZngS4DSCoreService.S4Model,
+      catalog
+    })
+  }
 }

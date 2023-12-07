@@ -10,7 +10,26 @@
   >
     <nz-resize-handles [nzDirections]="directions"></nz-resize-handles>
 
-    <h3 class="p-2 m-0">Cubes</h3>
+    <div class="p-2">
+      <button mat-button [matMenuTriggerFor]="menu">
+        @if (loadingCatalogs()) {
+          <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
+        } @else {
+          Catalog
+        }
+      </button>
+    </div>
+    <mat-menu #menu="matMenu" class="ngm-density__compact">
+      @for (item of catalogs(); track item.name) {
+      <button mat-menu-item (click)="selectCatalog(item.name)">
+        <div class="whitespace-nowrap text-ellipsis overflow-hidden">
+          {{item.label || item.name}}
+        </div>
+      </button>
+      }
+    </mat-menu>
+
+    <h3 class="py-2 px-4 m-0">Cubes</h3>
     <ngm-search class="m-2" [formControl]="searchControl"></ngm-search>
     <mat-selection-list class="h-[200px] overflow-y-auto mb-4" [multiple]="false" [(ngModel)]="cube">
       @for (item of cubes(); track item.name) {
@@ -18,7 +37,7 @@
       }
     </mat-selection-list>
 
-    <h3 class="p-2 m-0">Entity ({{cube[0]}})</h3>
+    <h3 class="py-2 px-4 m-0">Entity ({{cube[0]}})</h3>
     @for (item of cube; track item) {
     <ngm-entity-schema class="h-[200px] flex-1 overflow-auto" cdkDropList
       [dataSettings]="{

@@ -13,7 +13,6 @@ import {
   ListComponent,
   SeparatorComponent
 } from '@ngneat/cmdk'
-import { DynamicViewDirective } from '@ngneat/overview'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { NzModalRef } from 'ng-zorro-antd/modal'
 
@@ -32,7 +31,6 @@ import { NzModalRef } from 'ng-zorro-antd/modal'
     ListComponent,
     EmptyDirective,
     SeparatorComponent,
-    DynamicViewDirective,
   ],
   selector: 'zng-global-search',
   templateUrl: './global-search.component.html',

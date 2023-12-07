@@ -7,7 +7,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatListModule } from '@angular/material/list'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { NgmSearchComponent } from '@metad/ocap-angular/common'
-import { DensityDirective, DisplayDensity, NgmDSCoreService } from '@metad/ocap-angular/core'
+import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
 import { EntityCapacity, NgmEntitySchemaComponent } from '@metad/ocap-angular/entity'
 import {
   AggregationRole,
@@ -19,9 +19,12 @@ import {
   OrderDirection
 } from '@metad/ocap-core'
 import { NzResizeEvent, NzResizeHandleOption } from 'ng-zorro-antd/resizable'
-import { map, startWith, switchMap } from 'rxjs'
+import { map, startWith, switchMap, take, tap } from 'rxjs'
 import { ZngS4DSCoreService } from '../s4-ds-core.service'
 import { ZngOcapTranslateService } from '../translate.service'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatButtonModule } from '@angular/material/button'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @Component({
   standalone: true,
@@ -35,6 +38,9 @@ import { ZngOcapTranslateService } from '../translate.service'
     ZngAntdModule,
     DragDropModule,
     MatListModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
     NgmEntitySchemaComponent,
     DensityDirective,
     NgmSearchComponent,
@@ -48,7 +54,7 @@ export class ZngOcapSchemaComponent {
 
   readonly #translateService = inject(ZngOcapTranslateService)
 
-  readonly #dsCoreService = inject(NgmDSCoreService)
+  readonly #dsCoreService = inject(ZngS4DSCoreService)
 
   country = '[2CIFICOUNTRY]'
   get cube() {
@@ -65,6 +71,16 @@ export class ZngOcapSchemaComponent {
   slicers = signal<ISlicer[]>([])
 
   readonly #dataSource$ = this.#dsCoreService.getDataSource(ZngS4DSCoreService.S4ModelName)
+  readonly dataSource = toSignal(this.#dataSource$)
+  readonly loadingCatalogs = signal(false)
+  readonly catalogs = toSignal(
+    this.#dataSource$.pipe(
+      take(1),
+      tap(() => this.loadingCatalogs.set(true)),
+      switchMap((dataSource) => dataSource.discoverDBCatalogs()),
+      tap(() => this.loadingCatalogs.set(false)),
+    )
+  )
   readonly cubes = toSignal(
     this.#dataSource$.pipe(
       switchMap((dataSource) => dataSource.discoverMDCubes()),
@@ -77,6 +93,8 @@ export class ZngOcapSchemaComponent {
       )
     )
   )
+
+  readonly catalog = signal<string>('')
 
   col = 8
   id = -1
@@ -113,6 +131,11 @@ export class ZngOcapSchemaComponent {
     this.id = requestAnimationFrame(() => {
       this.col = col!
     })
+  }
+
+  selectCatalog(value: string) {
+    this.catalog.set(value)
+    this.#dsCoreService.updateCatalog(value)
   }
 
   drop(event: CdkDragDrop<any[]>) {

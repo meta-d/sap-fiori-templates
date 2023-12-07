@@ -41,6 +41,7 @@
     "@metad/ocap-xmla": "1.17.0-rc.5",
     "@metad/store": "1.17.0-rc.5",
     "@ngneat/cmdk": "^2.0.0",
+    "@ngneat/overview": "5.1.1",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@tinymce/tinymce-angular": "^7.0.0",
