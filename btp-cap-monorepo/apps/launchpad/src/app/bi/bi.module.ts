@@ -26,6 +26,7 @@ import { routes } from './bi-routing'
 import { S4ServerAgent } from './s4-agent.service'
 import { ZngOcapTranslateService } from './translate.service'
 import { DARK_THEME } from './theme.dark'
+import { ZngS4DSCoreService } from './s4-ds-core.service'
 
 registerTheme(DEFAULT_THEME.name, DEFAULT_THEME.echartsTheme)
 registerTheme(DARK_THEME.name, DARK_THEME.chartTheme)
@@ -71,7 +72,11 @@ class ZngTranslateLoader implements TranslateLoader {
   providers: [
     provideRouter(routes),
     ZngOcapTranslateService,
-    NgmDSCoreService,
+    ZngS4DSCoreService,
+    {
+      provide: NgmDSCoreService,
+      useExisting: ZngS4DSCoreService
+    },
     NgmAgentService,
     S4ServerAgent,
     {

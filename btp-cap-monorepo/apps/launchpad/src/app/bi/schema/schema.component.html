@@ -1,14 +1,53 @@
-<ngm-entity-schema class="flex-1"
-    [dataSettings]="{
+<div nz-row cdkDropListGroup class="h-full max-h-full overflow-hidden">
+  <div class="h-full col bg-white rounded-lg overflow-hidden flex flex-col" displayDensity="compact"
+    nz-col
+    nz-resizable
+    (nzResize)="onResize($event)"
+    [nzMinColumn]="3"
+    [nzMaxColumn]="20"
+    [nzGridColumnCount]="24"
+    [nzSpan]="col"
+  >
+    <nz-resize-handles [nzDirections]="directions"></nz-resize-handles>
+
+    <h3 class="p-2 m-0">Cubes</h3>
+    <ngm-search class="m-2" [formControl]="searchControl"></ngm-search>
+    <mat-selection-list class="h-[200px] overflow-y-auto mb-4" [multiple]="false" [(ngModel)]="cube">
+      @for (item of cubes(); track item.name) {
+      <mat-list-option class="hover:bg-neutral-100/50 rounded-md" [value]="item.name">{{ item.caption }}</mat-list-option>
+      }
+    </mat-selection-list>
+
+    <h3 class="p-2 m-0">Entity ({{cube[0]}})</h3>
+    @for (item of cube; track item) {
+    <ngm-entity-schema class="h-[200px] flex-1 overflow-auto" cdkDropList
+      [dataSettings]="{
         dataSource: 'S4CDS',
-        entitySet: cube
-    }"
-    [capacities]="[
+        entitySet: item
+      }"
+      [capacities]="[
         EntityCapacity.Dimension,
         EntityCapacity.Hierarchy,
         EntityCapacity.Measure,
         EntityCapacity.Indicator,
         EntityCapacity.Calculation,
-        EntityCapacity.Parameter,
-    ]"
-></ngm-entity-schema>
+        EntityCapacity.Parameter
+      ]"
+    ></ngm-entity-schema>
+    }
+  </div>
+
+  <div class="col right pl-2" nz-col [nzSpan]="24 - col">
+    <div class="h-full bg-neutral-100 rounded-lg">
+      <div class="h-full"
+        cdkDropList
+        (cdkDropListDropped)="drop($event)">
+        <ngm-analytical-card class="h-full"
+          [dataSettings]="dataSettings()"
+        >
+        </ngm-analytical-card>
+      </div>
+      
+    </div>
+  </div>
+</div>

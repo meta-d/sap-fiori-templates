@@ -20,7 +20,7 @@
           <span nz-icon *ngIf="!isCollapsed()" nzType="menu-fold" nzTheme="outline"></span>
         </button>
   
-        <div class="p-4">
+        <div class="p-4 text-center">
           <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
         </div>
         
@@ -67,7 +67,7 @@
         (nzCollapsedChange)="onSubMenuCollapsed($event)">
         <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
         
-        <div class="absolute bottom-0 p-4">
+        <div class="absolute bottom-0 p-4 w-full text-center overflow-hidden">
           <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
         </div>
       </nz-sider>
@@ -101,7 +101,7 @@
 
 <ng-template #ProImplementation>
  <a href="https://mtda.cloud/sap/" target="_blank">
-    <img class="w-6 h-6 mx-4 inline-block"
+    <img class="w-6 h-6 inline-block"
       alt="metad-logo"
       src="assets/images/favicon.svg"
     />

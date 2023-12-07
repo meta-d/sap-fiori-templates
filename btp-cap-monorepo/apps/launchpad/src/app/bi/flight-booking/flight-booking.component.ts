@@ -1,26 +1,29 @@
+import { ThemeService } from '@/app/core'
 import { CommonModule } from '@angular/common'
 import { Component, effect, inject, signal } from '@angular/core'
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { ControlsModule } from '@metad/ocap-angular/controls'
-import { DensityDirective, DisplayDensity, NgmDSCoreService } from '@metad/ocap-angular/core'
-import { AgentType, ChartSettings, ISlicer, OrderDirection, Syntax, nonNullable } from '@metad/ocap-core'
-import { ZngOcapTranslateService } from '../translate.service'
-import { MatButtonModule } from '@angular/material/button'
-import { ThemeService } from '@/app/core'
+import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
+import { ChartSettings, ISlicer, OrderDirection, nonNullable } from '@metad/ocap-core'
 
 @Component({
   standalone: true,
   selector: 'zng-flight-booking',
   templateUrl: 'flight-booking.component.html',
   styleUrl: 'flight-booking.component.scss',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AnalyticalCardModule, ControlsModule, DensityDirective,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AnalyticalCardModule,
+    ControlsModule,
+    DensityDirective,
     MatButtonModule
   ]
 })
 export class FlightBookingComponent {
-  #dsCoreService = inject(NgmDSCoreService)
-  #translateService = inject(ZngOcapTranslateService)
   #themeService = inject(ThemeService)
   DisplayDensity = DisplayDensity
   OrderDirection = OrderDirection
@@ -34,29 +37,21 @@ export class FlightBookingComponent {
 
   form = new FormGroup({
     country: new FormControl(),
-    travelAgency: new FormControl(),
+    travelAgency: new FormControl()
   })
 
   chartSettings = signal<ChartSettings>({})
-  
-  constructor() {
-    this.#dsCoreService.registerModel({
-      id: '##########',
-      key: '##########',
-      name: 'S4CDS',
-      type: 'XMLA',
-      agentType: AgentType.Server,
-      syntax: Syntax.MDX,
-      dialect: 'SAP',
-      catalog: '$INFOCUBE'
-    })
 
-    effect(() => {
-      this.chartSettings.update((state) => ({
-        ...state,
-        theme: this.#themeService.currentTheme()
-      }))
-    }, { allowSignalWrites: true })
+  constructor() {
+    effect(
+      () => {
+        this.chartSettings.update((state) => ({
+          ...state,
+          theme: this.#themeService.currentTheme()
+        }))
+      },
+      { allowSignalWrites: true }
+    )
   }
 
   onGo() {

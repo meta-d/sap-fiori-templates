@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { ControlsModule } from '@metad/ocap-angular/controls'
-import { DensityDirective, NgmDSCoreService } from '@metad/ocap-angular/core'
-import { AgentType, Syntax } from '@metad/ocap-core'
+import { DensityDirective } from '@metad/ocap-angular/core'
 
 @Component({
   standalone: true,
@@ -19,23 +18,4 @@ import { AgentType, Syntax } from '@metad/ocap-core'
   ],
   imports: [CommonModule, FormsModule, AnalyticalCardModule, ControlsModule, DensityDirective]
 })
-export class DashboardComponent {
-  #dsCoreService = inject(NgmDSCoreService)
-
-  constructor() {
-    this.#dsCoreService.registerModel({
-      id: '##########',
-      key: '##########',
-      name: 'S4CDS',
-      type: 'XMLA',
-      agentType: AgentType.Server,
-      syntax: Syntax.MDX,
-      dialect: 'SAP',
-      catalog: '$INFOCUBE'
-    })
-
-    // this.#dsCoreService.getDataSource('S4CDS').subscribe((ds) => {
-    //     console.log(`============================`)
-    // })
-  }
-}
+export class DashboardComponent {}

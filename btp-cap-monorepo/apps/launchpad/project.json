@@ -18,9 +18,9 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets"],
         "styles": [
+          "node_modules/ng-zorro-antd/resizable/style/entry.less",
           "node_modules/driver.js/dist/driver.css",
           "node_modules/@metad/ocap-angular/_index.scss",
-          "node_modules/@metad/ocap-angular/index.css",
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss",
           {
@@ -155,13 +155,15 @@
         "compodoc": false,
         "styles": [
           "apps/launchpad/src/styles.less",
-          "apps/launchpad/src/styles/default.less",
+          "apps/launchpad/src/styles/antd/default.less",
+          "apps/launchpad/src/styles/material/default.scss",
           "apps/launchpad/src/styles.scss"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "node_modules",
-            "apps/launchpad/src/styles/themes"]
+            "apps/launchpad/src/styles/themes"
+          ]
         }
       },
       "configurations": {
