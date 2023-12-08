@@ -58,7 +58,6 @@ const chartTheme = {
     theme.dangerLight,
   ],
   textStyle: {
-    fontFamily: theme.fontMain,
     color: theme.chartLabelFontColor,
     fontSize: theme.chartLabelFontSize,
   },

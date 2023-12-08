@@ -40,6 +40,7 @@ You can download the template under this code repository and then modify and dep
 
 We plan to provide project templates in multiple frameworks and multiple combinations. The templates that have been developed can all be used.
 
+* [BTP CAP Angular workspace](./btp-cap-monorepo/)
 * [Angular standalone workspace](./angular-standalone/)
 * [Vue standalone workspace](./sap-fiori-vue-standalone/)
 * React standalone workspace

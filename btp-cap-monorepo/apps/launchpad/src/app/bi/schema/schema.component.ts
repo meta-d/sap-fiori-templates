@@ -25,6 +25,10 @@ import { ZngOcapTranslateService } from '../translate.service'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatButtonModule } from '@angular/material/button'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import {MatTabsModule} from '@angular/material/tabs'
+import {ScrollingModule} from '@angular/cdk/scrolling'
+import { MatIconModule } from '@angular/material/icon'
+
 
 @Component({
   standalone: true,
@@ -41,6 +45,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     MatMenuModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatIconModule,
+    ScrollingModule,
     NgmEntitySchemaComponent,
     DensityDirective,
     NgmSearchComponent,
@@ -64,6 +71,7 @@ export class ZngOcapSchemaComponent {
     this.#cube.set(value)
   }
   readonly #cube = signal<string[]>(['$2CZYCUBEFLIGHTBOOK'])
+  readonly showCubesList = signal(false)
   readonly searchControl = new FormControl('')
 
   calFilter: ISlicer | null = null
@@ -94,7 +102,7 @@ export class ZngOcapSchemaComponent {
     )
   )
 
-  readonly catalog = signal<string>('')
+  readonly catalog = signal<string>(ZngS4DSCoreService.S4InfoCube)
 
   col = 8
   id = -1
@@ -174,5 +182,9 @@ export class ZngOcapSchemaComponent {
         }))
         break
     }
+  }
+
+  toggleCubesList() {
+    this.showCubesList.update((state) => !state)
   }
 }

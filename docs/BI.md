@@ -1,10 +1,14 @@
 # 📊 Embedded BI
 
-## Setup BI Client Code
+This section describes how to develop embedded data analysis applications in SAP S4 system using the ocap framework.
 
-[Intro ocap](https://meta-d.github.io/ocap/storybook/?path=/docs/tutorial-intro--docs)
+## Why embedded analytics?
 
-## CDS Demo
+**Embedded analytics** is a concept involving keeping the data in the operating system – in the case of *SAP S/4HANA* system it’s **SAP HANA database** – and then, using a mechanism called a virtual data model, transforming on-the-fly data optimized for transactional purposes into an analytics-ready structure. The entire process occurs using the SAP Fiori user interface or BI service.
+
+> **For real-time operational reporting**
+
+## CDS Demo Models
 
 我们将使用 SAP Demo data flight booking 数据来做演示，通过 cds 进行嵌入式数据分析的过程。
 
@@ -320,3 +324,10 @@ define view Z_Query_FlightBookings
 ## UI Components
 
 ocap angular 提供了许多用于数据分析的组件，具体请查看文档链接 [OCAP Angular Components](https://meta-d.github.io/ocap/storybook/)
+
+## How build dashboard using ocap framework?
+
+### Setup BI Client Code
+
+[Intro ocap](https://meta-d.github.io/ocap/storybook/?path=/docs/tutorial-intro--docs)
+

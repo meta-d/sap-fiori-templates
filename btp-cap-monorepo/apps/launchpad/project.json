@@ -20,7 +20,7 @@
         "styles": [
           "node_modules/ng-zorro-antd/resizable/style/entry.less",
           "node_modules/driver.js/dist/driver.css",
-          "node_modules/@metad/ocap-angular/_index.scss",
+          "node_modules/@metad/ocap-angular/index.css",
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss",
           {

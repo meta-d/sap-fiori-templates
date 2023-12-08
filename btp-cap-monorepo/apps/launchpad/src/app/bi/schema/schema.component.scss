@@ -11,3 +11,9 @@ col {
   margin-bottom: 8px;
   color: #fff;
 }
+
+:host::ng-deep {
+  .mat-mdc-tab-body-wrapper {
+    @apply flex-1;
+  }
+}

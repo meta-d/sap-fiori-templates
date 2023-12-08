@@ -32,31 +32,43 @@
         </div>
     </form>
     
-    <ngm-analytical-card displayDensity="compact"
-        [dataSettings]="{
-            dataSource: 'S4CDS',
-            entitySet: cube,
-            chartAnnotation: {
-                chartType: {
-                    type: 'Bar'
-                },
-                measures: [
-                    {
-                        dimension: 'Measures',
-                        measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
-                        order: OrderDirection.DESC
-                    }
-                ],
-                dimensions: [
-                    {
-                        dimension: '[2CZDIMEAIRLINE]',
-                        hierarchy: '[2CZDIMEAIRLINE]',
-                        level: '[2CZDIMEAIRLINE].[LEVEL01]'
-                    }
-                ]
-            }
-        }"
-        [slicers]="slicers()"
-        [chartSettings]="chartSettings()"
-    ></ngm-analytical-card>
+    <div nz-row class="h-[400px]">
+        <ngm-analytical-card nz-col nzSpan="8" class="h-full" displayDensity="compact"
+            [dataSettings]="yearTotal"
+            [slicers]="linkAnalysis()['[2CICALENDARYEAR]']"
+            [chartSettings]="chartSettings()"
+            (slicersChanging)="onSlicersChanging('[2CICALENDARYEAR]', $event)"
+        ></ngm-analytical-card>
+
+        <ngm-analytical-card nz-col nzSpan="16" class="h-full" displayDensity="compact"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+                chartAnnotation: {
+                    chartType: {
+                        type: 'Bar'
+                    },
+                    measures: [
+                        {
+                            dimension: 'Measures',
+                            measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
+                            order: OrderDirection.DESC
+                        }
+                    ],
+                    dimensions: [
+                        {
+                            dimension: '[2CZDIMEAIRLINE]',
+                            hierarchy: '[2CZDIMEAIRLINE]',
+                            level: '[2CZDIMEAIRLINE].[LEVEL01]',
+                            zeroSuppression: true
+                        }
+                    ]
+                }
+            }"
+            [slicers]="linkAnalysis()['[2CZDIMEAIRLINE]']"
+            [chartSettings]="chartSettings()"
+            (slicersChanging)="onSlicersChanging('[2CZDIMEAIRLINE]', $event)"
+        ></ngm-analytical-card>
+    </div>
+    
 </div>
