@@ -1,0 +1,11 @@
+@use '@ngneat/cmdk/styles/scss/globals';
+@use '@ngneat/cmdk/styles/scss/vercel';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+html {
+  font-size: 14px;
+}

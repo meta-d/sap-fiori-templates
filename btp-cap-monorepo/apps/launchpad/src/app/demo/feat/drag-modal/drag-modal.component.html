@@ -1,0 +1,8 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" zngModalDrag (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>

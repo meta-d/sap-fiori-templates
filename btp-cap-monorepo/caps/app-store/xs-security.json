@@ -1,0 +1,12 @@
+{
+  "scopes": [],
+  "attributes": [],
+  "role-templates": [],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.us10-001.hana.ondemand.com/**",
+      "http://localhost:4004/",
+      "http://localhost:5000/"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+<div class="vercel">
+  <cmdk-command (keydown)="onKeyDown($event)" [ngStyle]="{'transform': styleTransform}" [loop]="true">
+    <input #searchInput
+      cmdkInput
+      autofocus
+      [placeholder]=" 'ZNG.GlobalSearch.WhatDoYouNeed' | translate: {Default: 'What do you need?' } "
+    />
+    <cmdk-list>
+      <div *cmdkEmpty>
+        <nz-empty [nzNotFoundContent]="contentTpl" class="">
+          <ng-template #contentTpl>
+            <span>{{ 'ZNG.GlobalSearch.PleaseSearch' | translate: {Default: 'Please enter the menu name to search' } }}</span>
+          </ng-template>
+        </nz-empty>
+      </div>
+
+      <cmdk-group [label]="group.group" *ngFor="let group of groups()">
+        <ng-container *ngFor="let item of group.items">
+          <cmdk-separator *ngIf="item.separatorOnTop"></cmdk-separator>
+          <button
+            cmdkItem
+            [value]="item.label + ' ' + item.searchKeywords"
+            (selected)="openApp(item.menu)"
+          >
+            {{ item.label }}
+
+            <div class="cmdk-vercel-shortcuts" *ngIf="item.searchKeywords">
+              <kbd *ngFor="let key of item.searchKeywords.split(',')">{{ key }}</kbd>
+            </div>
+          </button>
+        </ng-container>
+      </cmdk-group>
+      
+    </cmdk-list>
+  </cmdk-command>
+</div>

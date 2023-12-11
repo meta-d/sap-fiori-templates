@@ -1,0 +1,36 @@
+// 通用页面统一布局
+.normal-table-wrap {
+  margin: 27px 27px 0;
+
+  /* 列表顶部样式 */
+  .ant-pro-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .ant-pro-table-toolbar-title {
+      flex: 1 1;
+      font-size: 16px;
+      line-height: 24px;
+      opacity: 0.85;
+      will-change: transform;
+    }
+
+    .ant-pro-table-toolbar-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .ant-pro-table-toolbar-default-option {
+      .ant-space-item:last-child {
+        margin-right: 5px !important;
+      }
+    }
+  }
+
+  // 表单样式
+  .form-wrap {
+    padding: 24px;
+  }
+}

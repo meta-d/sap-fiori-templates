@@ -1,0 +1,21 @@
+.ant-pro-footer-bar {
+  width: calc(100% - var(--zng-left-sider-width));
+
+  height: 44px;
+  line-height: 44px;
+  z-index: 99;
+
+  @apply fixed right-0 bottom-0 flex items-center shadow-xl transition-all duration-200 px-6;
+}
+
+.ant-pro-footer-bar-left {
+  flex: 1 1 0;
+}
+
+.ant-pro-footer-bar-right > * {
+  margin-right: 8px;
+}
+
+.ant-pro-footer-bar-right > :last-child {
+  margin: 0;
+}

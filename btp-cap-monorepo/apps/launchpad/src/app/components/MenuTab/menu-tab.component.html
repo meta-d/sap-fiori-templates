@@ -1,0 +1,28 @@
+<nz-card
+  [ngClass]="{
+    'zng-fixed-tab': fixedTab(),
+    'zng-fixed-collapsed': isCollapsed()
+  }"
+  [nzBodyStyle]="{ padding: '5px', paddingBottom: 0 }" [nzBordered]="false">
+  <nz-tabset [nzHideAdd]="true" [nzSelectedIndex]="currentIndex" [nzTabPosition]="'top'"
+    [nzType]="'editable-card'" (nzClose)="clickCloseIcon($event)">
+    <nz-tab *ngFor="let tab of tabsSourceData$ | async; let i = index; trackBy: trackByTab" nzClosable [nzTitle]="tab.title"
+      (nzClick)="goPage(tab)"
+      (nzContextmenu)="contextMenu($event, menu)"
+    >
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item [nzDisabled]="router.url !== tab.path" (click)="refresh()">刷新</li>
+          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeTab(tab, $event, i)">关闭标签</li>
+          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeOtherTab(tab, $event, i)">关闭其他标签</li>
+          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === i" (click)="closeRithTab(tab, $event, i)">关闭右侧标签</li>
+          <li nz-menu-item [nzDisabled]="i === 0" (click)="closeLeftTab(tab, $event, i)">关闭左侧标签</li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-tab>
+  </nz-tabset>
+</nz-card>
+
+@if (fixedTab()) {
+  <div class="w-full zng-tab-menu__fixed-placeholder"></div>
+}

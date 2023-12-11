@@ -1,0 +1,26 @@
+<div class="normal-table-wrap bg-color-no pb-10">
+  <form nz-form nzLayout="vertical" [formGroup]="validateForm" class="flex flex-col gap-4">
+    <nz-card class="mb-4" nzTitle="仓库管理" [nzBordered]="true">
+      <zng-warehouse-manage-form #warehouseManageComponent formControlName="warehouseManage"></zng-warehouse-manage-form>
+    </nz-card>
+
+    <nz-card class="mb-4" nzTitle="任务管理" [nzBordered]="true">
+      <zng-task-manage-form #taskManageComponent formControlName="taskManage"></zng-task-manage-form>
+    </nz-card>
+
+    <nz-card nzTitle="成员管理" [nzBordered]="false">
+      <zng-user-member-manage></zng-user-member-manage>
+    </nz-card>
+  </form>
+</div>
+
+<zng-footer-submit [leftTpl]="leftTpl">
+  <button class="right" nz-button nzType="primary" (click)="submit()">提交</button>
+</zng-footer-submit>
+
+<ng-template #leftTpl>
+  <button nz-button nzType="link">
+    {{ 'ZNG.Common.Cancel' | translate: {Default: 'Cancel'} }}
+  </button>
+  <span class="flex-1"></span>
+</ng-template>

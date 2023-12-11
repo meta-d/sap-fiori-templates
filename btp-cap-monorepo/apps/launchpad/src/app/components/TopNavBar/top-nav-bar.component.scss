@@ -1,0 +1,39 @@
+:host {
+  @apply overflow-hidden flex items-center;
+  
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgba(255,255,255,.15);
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(37,37,37,.05);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.2);
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(255,255,255,.05);
+  }
+}
+
+.ant-menu.ant-menu-root.ant-menu-dark {
+  background-color: var(--zng-header-bg-color);
+}
+
+.ant-menu-dark {
+  .ant-menu-submenu.active-link {
+    background-color: var(--ant-primary-7);
+  }
+}
+
+.zng-top-nav-bar__scroll-button, .zng-top-nav-bar__more-button {
+  @apply p-2 text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100;
+
+  &[disabled=true] {
+    @apply text-gray-300 dark:text-gray-700;
+  }
+}

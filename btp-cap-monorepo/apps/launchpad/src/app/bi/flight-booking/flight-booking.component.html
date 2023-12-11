@@ -1,0 +1,74 @@
+<div class="zng-content">
+    <form [formGroup]="form" (ngSubmit)="onGo()" novalidate class="grid grid-cols-4 gap-4">
+        <ngm-smart-filter displayDensity="compact"
+            formControlName="country"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+            }"
+            [dimension]="{
+                dimension: country
+            }"
+            [appearance]="{
+                displayDensity: DisplayDensity.compact
+            }"
+        ></ngm-smart-filter>
+        <ngm-smart-filter displayDensity="compact"
+            formControlName="travelAgency"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+            }"
+            [dimension]="{
+                dimension: travelAgency
+            }"
+            [appearance]="{
+                displayDensity: DisplayDensity.compact
+            }"
+        ></ngm-smart-filter>
+    
+        <div class="flex items-end">
+            <button mat-stroked-button >Go</button>
+        </div>
+    </form>
+    
+    <div nz-row class="h-[400px]">
+        <ngm-analytical-card nz-col nzSpan="8" class="h-full" displayDensity="compact"
+            [dataSettings]="yearTotal"
+            [slicers]="linkAnalysis()['[2CICALENDARYEAR]']"
+            [chartSettings]="chartSettings()"
+            (slicersChanging)="onSlicersChanging('[2CICALENDARYEAR]', $event)"
+        ></ngm-analytical-card>
+
+        <ngm-analytical-card nz-col nzSpan="16" class="h-full" displayDensity="compact"
+            [dataSettings]="{
+                dataSource: 'S4CDS',
+                entitySet: cube,
+                chartAnnotation: {
+                    chartType: {
+                        type: 'Bar'
+                    },
+                    measures: [
+                        {
+                            dimension: 'Measures',
+                            measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
+                            order: OrderDirection.DESC
+                        }
+                    ],
+                    dimensions: [
+                        {
+                            dimension: '[2CZDIMEAIRLINE]',
+                            hierarchy: '[2CZDIMEAIRLINE]',
+                            level: '[2CZDIMEAIRLINE].[LEVEL01]',
+                            zeroSuppression: true
+                        }
+                    ]
+                }
+            }"
+            [slicers]="linkAnalysis()['[2CZDIMEAIRLINE]']"
+            [chartSettings]="chartSettings()"
+            (slicersChanging)="onSlicersChanging('[2CZDIMEAIRLINE]', $event)"
+        ></ngm-analytical-card>
+    </div>
+    
+</div>

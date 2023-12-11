@@ -1,0 +1,6 @@
+{
+    "/browse": {
+      "target": "http://localhost:4004",
+      "secure": false
+    }
+}
