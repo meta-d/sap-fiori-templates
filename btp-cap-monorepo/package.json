@@ -3,8 +3,10 @@
   "version": "0.17.0",
   "license": "MIT",
   "scripts": {
-    "w": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w\"",
-    "w-sandbox": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w-sandbox\"",
+    "start": "yarn start:btp",
+    "start:btp": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w\"",
+    "start:btp:sandbox": "concurrently \"nx serve launchpad\" \"yarn --cwd caps/app-store w-sandbox\"",
+    "deploy:btp:local": "yarn --cwd caps/app-store deploy:local",
     "start:s4:mock": "concurrently \"nx serve launchpad -c mock\" \"node apps/launchpad/src/mock/index.mjs\"",
     "start:s4:live": "nx serve launchpad",
     "ar": "yarn bapp && yarn --cwd caps/app-store approuter",
@@ -137,6 +139,11 @@
     "vite-plugin-dts": "~2.3.0",
     "vitest": "~0.34.6"
   },
+  "workspaces": [
+    "apps/*",
+    "caps/*",
+    "packages/*"
+  ],
   "nx": {
     "includedScripts": []
   }

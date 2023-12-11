@@ -2,7 +2,7 @@ import { IEnvironment } from "./types";
 
 export const environment: IEnvironment = {
     production: true,
-    environment: 'S4',
+    platform: 'S4',
     enableFiori: false,
     enableNotification: false,
     enableWaterMark: true,

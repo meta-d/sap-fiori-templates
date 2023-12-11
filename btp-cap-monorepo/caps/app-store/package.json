@@ -1,6 +1,6 @@
 {
-  "name": "app-store",
-  "version": "1.0.0",
+  "name": "@metad/btp-cap-monorepo-app-store",
+  "version": "0.17.0",
   "description": "A simple CAP project.",
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
@@ -25,6 +25,7 @@
     "build-src": "tsc -p tsconfig.json",
     "w": "concurrently \"tsc -w -p tsconfig.json\" \"cds w\"",
     "w-sandbox": "concurrently \"tsc -w -p tsconfig.json\" \"cds w --profile sandbox\"",
+    "deploy:local": "cds deploy",
     "build": "mbt build -t gen --mtar mta.tar",
     "deploy": "cf deploy gen/mta.tar -f",
     "approuter": "cds bind --exec -- npm start --prefix app"

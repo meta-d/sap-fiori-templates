@@ -70,7 +70,7 @@ export const appConfig: ApplicationConfig = {
     CookieService,
     {
       provide: APP_STORE_TOKEN,
-      useClass: environment.environment === 'S4' ? S4AppStoreService : BTPAppStoreService
+      useClass: environment.platform === 'S4' ? S4AppStoreService : BTPAppStoreService
     },
     ...APPINIT_PROVIDES,
     ZngPageTitleStrategy,

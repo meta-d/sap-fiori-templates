@@ -2,7 +2,8 @@
 
 <p align="center">
   <a href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="../docs/images/angular_wordmark_gradient.png"></a> 
-  <a href="https://angular.dev/"><img alt="angular-logo" width="100px" valign="middle" src="../docs/images/cap.svg"></a> <a href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" style="margin-left: 10px;" src="../docs/images/sap.png"></a>
+  <a href="https://cap.cloud.sap/"><img alt="sap-cap-logo" width="100px" valign="middle" src="../docs/images/cap.svg"></a>
+  <a href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" style="margin-left: 10px;" src="../docs/images/sap.png"></a>
 </p>
 <p align="center">
   <em>This project is a development template for building mobile and desktop sap btp & Fiori applications
@@ -31,7 +32,8 @@ This is a template for building SAP BTP and Fiori apps with [Angular](https://an
 
 - `yarn install` install all dependencies.
 - `yarn ar` run approuter in url *http://localhost:5000/*.
-- `yarn w` run webapp and watch changes to reload in url *http://localhost:4200/*.
+- `yarn start` or `yarn start:btp` run webapp and watch changes to reload in url *http://localhost:4200/*.
+- `yarn start:btp:sandbox` run btp app in sandbox environment.
 - `yarn sb` run storybook to preview components in url *http://localhost:4400/*.
 - `yarn start:s4:mock` Start launchpad app for S4 system environment. Open in *http://localhost:4200/*.
 - `yarn start:s4:live` Start launchpad app for live S4 system environment, Open in *http://localhost:4200/*.
@@ -42,7 +44,11 @@ Before you start, install npm packages by running `npm install` or `yarn install
 
 > Before other packages that this project is depend on upgrade to Angular 17 version, please use `npm install --legacy-peer-deps` to install dependent packages.
 
-To start the development server run `nx serve launchpad` or `npm run start`. Open your browser and navigate to http://localhost:4200/. Happy coding!
+Run `docker-compose up -d` to start the docker container of the pg database service.
+
+If you first run this BTP project, run `yarn deploy:btp:local` to deploy db models to local database.
+
+To start the development server run `yarn start` or run `nx serve launchpad` and `yarn --cwd caps/app-store w-sandbox` separately. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
 ### Environments
 
@@ -50,8 +56,11 @@ The application has two environments, `development` and `production`. The defaul
 
 The features in environment are:
 * **production** - enable production mode, disable debug log, and others.
+* **platform** - **S4** | **BTP** | **LOCAL**
 * **enableFiori** - enable load all Fiori apps in SAP system as menus in this application.
+* **enableNotification** - enable notification service in S4HANA system.
 * **enableWaterMark** - enable water mark on page of the application.
+* **mockData** - is mock data in local.
 
 ## ✨ How we generate the code?
 
@@ -136,15 +145,25 @@ default: {
 
 Ready to deploy, you can ref to [How to deploy?](../docs/Deploy.md).
 
-### Base url
+### Deploy to BTP
+
+For BTP platform, you can disable 
 
 - `yarn b:btp` Build for BTP platform.
 - `yarn d:btp` Deploy to BTP platform, you might be login using cf cli.
 
-The deployed application needs to be opened in a non-root path, so you need to configure the base url when building the app. Replace `your_project_name` with the name of the BSP application in command `npm run build`.
+### Deploy to S4HANA
+
+* Base url
+
+The deployed application needs to be opened in a non-root path, so you need to configure the base url when building the app. Replace `your_project_name` with the name of the BSP application in command `yarn b:s4:app`.
 
 ```javascript
 {
-  "build": "nx build -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/"
+  "b:s4:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
 }
 ```
+
+* Deploy
+
+Run `yarn d:s4` to build and deploy to s4 system, other details ref to [Deploying to ABAP](../docs/Deploy.md#deploying-to-abap).

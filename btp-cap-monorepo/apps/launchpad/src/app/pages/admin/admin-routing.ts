@@ -12,7 +12,7 @@ export default [
       key: 'admin-user',
     }
   },
-  ...(environment.environment === 'BTP' ? [
+  ...(environment.platform === 'BTP' ? [
     {
       path: 'risk',
       title: 'Risks',
