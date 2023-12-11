@@ -13,9 +13,9 @@
     "b:btp": "yarn b:app && yarn --cwd caps/app-store build",
     "d:btp": "yarn --cwd caps/app-store deploy",
     "b:s4:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
-    "archive": "cd dist/apps/launchpad/browser && npx bestzip ../../../archive.zip * .Ui5RepositoryBinaryFiles",
+    "archive": "cd dist/apps/launchpad/browser && npx bestzip ../../../../archive.zip * .Ui5RepositoryBinaryFiles",
     "d:fiori": "fiori deploy --archive-path ./archive.zip --config ui5-deploy.yaml --yes",
-    "d:s4": "yarn b:s4 && yarn archive && yarn d:fiori && rimraf ./archive.zip",
+    "d:s4": "yarn b:s4:app && yarn archive && yarn d:fiori && rimraf ./archive.zip",
     "b:performance": "yarn nx build --stats-json --sourceMap=true launchpad",
     "stats": "npx webpack-bundle-analyzer ./dist/apps/launchpad/stats.json"
   },

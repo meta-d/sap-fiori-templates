@@ -11,7 +11,7 @@
         <span>{{ menu.title }}</span>
       </li>
     } @else {
-      <li nz-submenu [nzOpen]="isOpen(menu.path)" [nzTitle]="isCollapsed ? menu.title?.[0] : menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"
+      <li nz-submenu [nzOpen]="isOpen(menu.path)" [nzTitle]="isCollapsed ? menu.title?.[0] : menu.title" [nzIcon]="menu.icon ?? null" nzMatchRouter routerLinkActive="active-link"
         (click)="loadMenus(menu)">
         <!-- for highlight the active parent menu -->
         <div [routerLink]="menu.path"></div>

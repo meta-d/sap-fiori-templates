@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/launchpad/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets"],
+        "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets", "apps/launchpad/src/.Ui5RepositoryBinaryFiles"],
         "styles": [
           "node_modules/ng-zorro-antd/resizable/style/entry.less",
           "node_modules/driver.js/dist/driver.css",
