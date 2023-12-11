@@ -1,7 +1,7 @@
 <ul id="menuNav" nz-menu nzMode="inline" [nzTheme]="nzTheme" [nzInlineCollapsed]="isCollapsed">
   @for (menu of menus(); track menu.path) {
     @if (!menu.hasSubmenus) {
-      <li nz-menu-item [routerLink]="menu.path" nzMatchRouter
+      <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter
         nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? menu.title : ''">
@@ -24,7 +24,7 @@
     <ul>
       @for (menu of menus; track menu.path) {
         @if (!menu.hasSubmenus) {
-          <li nz-menu-item [routerLink]="menu.path" nzMatchRouter
+          <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter
             nz-tooltip
             nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? menu.title : ''">

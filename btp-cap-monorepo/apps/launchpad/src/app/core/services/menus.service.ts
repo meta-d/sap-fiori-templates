@@ -13,7 +13,7 @@ import { environment } from '@/environments/environment'
 export interface AppMenu<T = any> {
   path: string | undefined
   title: string
-  icon: string | null
+  icon?: string | null
   hasSubmenus?: boolean
   submenus?: AppMenu[] | undefined | null
   route: Route
@@ -232,6 +232,7 @@ export function mapRouteToMenu(route: Route, parent?: string): AppMenu {
   const children = route.children ? mapRoutes2Menus(route.children, route.path) : null
   return {
     path: parent ? parent + '/' + route.path : route.path,
+    queryParams: route.data?.['queryParams'],
     title: route.title as string,
     icon: route.data?.['icon'],
     route: route,

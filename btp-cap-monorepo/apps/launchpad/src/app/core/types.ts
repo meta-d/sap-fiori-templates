@@ -27,6 +27,7 @@ export interface Chip {
   searchKeywords: string
   navigationSemanticObject: string
   navigationSemanticAction: string
+  navigationSemanticParameters: Record<string, string> | null
   navigationTargetUrl: string
 }
 

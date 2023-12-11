@@ -28,3 +28,10 @@ export async function readFLPH() {
 
     return result
 }
+
+export interface PageSetsType {
+    AssignedPages: any;
+    Pages: any;
+    id: string;
+    configuration: string;
+}
