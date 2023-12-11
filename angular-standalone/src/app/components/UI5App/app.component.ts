@@ -8,7 +8,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnDestroy,
   QueryList,
   ViewChildren,
   computed,
@@ -42,13 +41,14 @@ import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
     fadeAnimation
   ]
 })
-export class UI5AppComponent implements AfterViewInit, OnDestroy {
+export class UI5AppComponent implements AfterViewInit {
   private flpService = inject(FioriLaunchpadService)
   private route = inject(ActivatedRoute)
   private title = inject(Title)
   private logger = inject(NGXLogger)
 
-  @Input('sap-ui-tech-hint') sapUiTechHint = null
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input({ alias: 'sap-ui-tech-hint' }) sapUiTechHint = null
   
   @ViewChildren('appiframe') apps!: QueryList<ElementRef>
 
@@ -148,7 +148,4 @@ export class UI5AppComponent implements AfterViewInit, OnDestroy {
     this.appFullscreen.update((value) => !value)
   }
 
-  ngOnDestroy() {
-    //
-  }
 }
