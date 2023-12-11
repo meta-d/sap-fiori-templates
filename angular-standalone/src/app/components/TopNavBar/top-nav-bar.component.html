@@ -7,7 +7,7 @@
 <div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize($event)">
   <ul #mEl nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
     <ng-container *ngFor="let menu of menus(); trackBy: trackByPath">
-      <li nz-menu-item *ngIf="isMix() || !menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+      <li nz-menu-item *ngIf="isMix() || !menu.hasSubmenus" [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
         <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
         {{ menu.title }}
       </li>
@@ -43,7 +43,7 @@
 <nz-dropdown-menu #menu1="nzDropdownMenu">
   <ul nz-menu>
     <ng-container *ngFor="let menu of menus(); trackBy: trackByPath">
-      <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" nzMatchRouter>
+      <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
         <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
         {{ menu.title }}
       </li>

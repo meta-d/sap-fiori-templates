@@ -1,5 +1,5 @@
 :host {
-    @apply flex-1 w-full h-full min-h-full flex flex-col;
+    @apply flex-1 w-full h-full min-h-full flex flex-col justify-center items-center;
 }
 .zng-ui5__fullscreen-button {
     @apply absolute;
