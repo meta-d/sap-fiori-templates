@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core'
+
+import { Injectable, inject } from '@angular/core'
 import { Agent, AgentStatus, AgentStatusEnum, AgentType, DataSourceOptions } from '@metad/ocap-core'
 import { EMPTY, Observable, of } from 'rxjs'
+import { ZngOcapTranslateService } from './translate.service'
 
 @Injectable()
 export class S4ServerAgent implements Agent {
   type = AgentType.Server
+
+  readonly #translateService = inject(ZngOcapTranslateService)
 
   selectStatus(): Observable<AgentStatus | AgentStatusEnum> {
     return of({
@@ -28,11 +32,12 @@ export class S4ServerAgent implements Agent {
    * @param request Request options
    * @returns response text
    */
-  async request(dataSource: DataSourceOptions, request: any): Promise<any> {
+  async request(dataSource: DataSourceOptions, request: {headers: any; body: string}): Promise<any> {
     const result = await fetch(`/sap/bw/xml/soap/xmla`, {
       method: 'POST',
       headers: {
-        ...request.headers
+        ...request.headers,
+        // 'Accept-Language': this.#translateService.lang() || ''
       },
       body: request.body
     })
@@ -41,11 +46,13 @@ export class S4ServerAgent implements Agent {
   }
 
   /**
+   * 
    * @todo new api
    * @param dataSource 
    * @param options 
    * @returns 
    */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   _request?(dataSource: DataSourceOptions, options: any): Observable<any> {
     return EMPTY
   }

@@ -1,10 +1,16 @@
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop'
+import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CommonModule } from '@angular/common'
-import { Component, computed, effect, inject, signal } from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatTabsModule } from '@angular/material/tabs'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { NgmSearchComponent } from '@metad/ocap-angular/common'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
@@ -20,14 +26,7 @@ import {
 } from '@metad/ocap-core'
 import { NzResizeEvent, NzResizeHandleOption } from 'ng-zorro-antd/resizable'
 import { map, startWith, switchMap, take, tap } from 'rxjs'
-import { ZngS4DSCoreService } from '../s4-ds-core.service'
-import { ZngOcapTranslateService } from '../translate.service'
-import { MatMenuModule } from '@angular/material/menu'
-import { MatButtonModule } from '@angular/material/button'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import {MatTabsModule} from '@angular/material/tabs'
-import {ScrollingModule} from '@angular/cdk/scrolling'
-import { MatIconModule } from '@angular/material/icon'
+import { ZngS4DSCoreService, ZngOcapTranslateService } from '../services'
 
 
 @Component({
@@ -59,10 +58,15 @@ export class ZngOcapSchemaComponent {
   OrderDirection = OrderDirection
   EntityCapacity = EntityCapacity
 
+  // Don't remove: for translate service creation
   readonly #translateService = inject(ZngOcapTranslateService)
 
   readonly #dsCoreService = inject(ZngS4DSCoreService)
 
+  /**
+   * Change to your sqlViewName of cds
+   */
+  cdsSqlViewName = 'ZYCUBEFLIGHTBOOK'
   country = '[2CIFICOUNTRY]'
   get cube() {
     return this.#cube()
@@ -70,8 +74,9 @@ export class ZngOcapSchemaComponent {
   set cube(value) {
     this.#cube.set(value)
   }
-  readonly #cube = signal<string[]>(['$2CZYCUBEFLIGHTBOOK'])
-  readonly showCubesList = signal(false)
+  readonly #cube = signal<string[]>([`$2C${this.cdsSqlViewName}`])
+
+  readonly showCubesList = signal(true)
   readonly searchControl = new FormControl('')
 
   calFilter: ISlicer | null = null
@@ -86,7 +91,7 @@ export class ZngOcapSchemaComponent {
       take(1),
       tap(() => this.loadingCatalogs.set(true)),
       switchMap((dataSource) => dataSource.discoverDBCatalogs()),
-      tap(() => this.loadingCatalogs.set(false)),
+      tap(() => this.loadingCatalogs.set(false))
     )
   )
   readonly cubes = toSignal(
@@ -130,10 +135,6 @@ export class ZngOcapSchemaComponent {
     } as DataSettings
   })
 
-  constructor() {
-    effect(() => console.log(this.dataSettings()))
-  }
-
   onResize({ col }: NzResizeEvent): void {
     cancelAnimationFrame(this.id)
     this.id = requestAnimationFrame(() => {
@@ -148,14 +149,14 @@ export class ZngOcapSchemaComponent {
 
   drop(event: CdkDragDrop<any[]>) {
     const property = event.item.data
-    console.log(property)
     switch (property.role) {
       case AggregationRole.dimension:
         this.dimension.update((state) => ({
           ...state,
           dimension: property.name,
           hierarchy: undefined,
-          level: undefined
+          level: undefined,
+          zeroSuppression: true
         }))
         break
       case AggregationRole.hierarchy:
@@ -163,7 +164,8 @@ export class ZngOcapSchemaComponent {
           ...state,
           dimension: property.dimension,
           hierarchy: property.name,
-          level: undefined
+          level: undefined,
+          zeroSuppression: true
         }))
         break
       case AggregationRole.level:
@@ -171,15 +173,17 @@ export class ZngOcapSchemaComponent {
           ...state,
           dimension: property.dimension,
           hierarchy: property.hierarchy,
-          level: property.name
+          level: property.name,
+          zeroSuppression: true
         }))
         break
       case AggregationRole.measure:
         this.measure.update((state) => ({
           ...state,
           dimension: C_MEASURES,
-          measure: property.name
-        }))
+          measure: property.name,
+          order: OrderDirection.DESC
+        } as ChartMeasure))
         break
     }
   }

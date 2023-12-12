@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Component, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
-import { from, map, tap } from 'rxjs'
+import { EMPTY, catchError, from, map, tap } from 'rxjs'
 import { ZngAntdModule } from '../../../core/shared.module'
 import { queryRisks } from '../../../stores'
 
@@ -22,6 +22,11 @@ export class AdminRiskComponent {
   books: any[] = []
   risks = toSignal<any[], any[]>(
     from(queryRisks()).pipe(
+      catchError((err) => {
+        console.error(err)
+        this.loading.set(false)
+        return EMPTY
+      }),
       map((risks) => risks.map((item) => ({...item, expand: false}))),
       tap((items) => {
         this.loading.set(false)

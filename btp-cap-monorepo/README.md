@@ -7,7 +7,7 @@
 </p>
 <p align="center">
   <em>This project is a development template for building mobile and desktop sap btp & Fiori applications
-    <br> using Angular and Ant Design.</em>
+    <br> using <b>Angular</b> and Ant Design.</em>
   <br>
 </p>
 
@@ -22,6 +22,7 @@
 
 This is a template for building SAP BTP and Fiori apps with [Angular](https://angular.io/) framework and [Ant Design](https://ant-design.antgroup.com/index-cn). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
+- Node.js 18
 - Angular 17
 - Tailwindcss 3
 - Storybook 7.5
@@ -31,9 +32,9 @@ This is a template for building SAP BTP and Fiori apps with [Angular](https://an
 ## ⚡ Quick Start
 
 - `yarn install` install all dependencies.
-- `yarn ar` run approuter in url *http://localhost:5000/*.
 - `yarn start` or `yarn start:btp` run webapp and watch changes to reload in url *http://localhost:4200/*.
 - `yarn start:btp:sandbox` run btp app in sandbox environment.
+- `yarn ar` run approuter in url *http://localhost:5000/*.
 - `yarn sb` run storybook to preview components in url *http://localhost:4400/*.
 - `yarn start:s4:mock` Start launchpad app for S4 system environment. Open in *http://localhost:4200/*.
 - `yarn start:s4:live` Start launchpad app for live S4 system environment, Open in *http://localhost:4200/*.
@@ -44,11 +45,17 @@ Before you start, install npm packages by running `npm install` or `yarn install
 
 > Before other packages that this project is depend on upgrade to Angular 17 version, please use `npm install --legacy-peer-deps` to install dependent packages.
 
+### Start BTP App
+
 Run `docker-compose up -d` to start the docker container of the pg database service.
 
 If you first run this BTP project, run `yarn deploy:btp:local` to deploy db models to local database.
 
 To start the development server run `yarn start` or run `nx serve launchpad` and `yarn --cwd caps/app-store w-sandbox` separately. Open your browser and navigate to http://localhost:4200/. Happy coding!
+
+### Start S4 App
+
+Run `yarn start:s4:live` or `yarn start:s4:mock` to start the application for S4 system.
 
 ### Environments
 
@@ -61,10 +68,12 @@ The features in environment are:
 * **enableNotification** - enable notification service in S4HANA system.
 * **enableWaterMark** - enable water mark on page of the application.
 * **mockData** - is mock data in local.
+* **embeddedAnalytics** - Enable embedded analytics in S4HANA system.
+* **enableDemo** - Enable demo pages, you can view demo features.
 
 ## ✨ How we generate the code?
 
-We use the Nx CLI to generate code `npx create-nx-workspace <sap-fiori-app-name>`.
+We use the Nx CLI to generate code `npx create-nx-workspace <workspace-name>`.
 
 Add tailwind css use command `npx nx g @nx/angular:setup-tailwind launchpad`.
 
@@ -76,8 +85,10 @@ Add storybook use command `npx nx g @nx/angular:storybook-configuration launchpa
 
 You can execute the following npm scripts to preview the application:
 
-* **start** - starts the application with real service data.
-* **start-mock** - starts the application with mock data.
+* **start** - starts the application (btp).
+* **start:btp** - starts the application for btp.
+* **start:s4:live** - starts the application for S4 system with live service.
+* **start:s4:mock** - starts the application for S4 system with mock data.
 
 ### 📡 Use Live Data
 

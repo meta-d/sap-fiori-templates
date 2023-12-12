@@ -23,4 +23,12 @@ export type IEnvironment = {
    * 启用模拟数据
    */
   mockData: boolean
+  /**
+   * Enable Embedded Analytics Module
+   */
+  embeddedAnalytics: boolean
+  /**
+   * Enable Demo Module
+   */
+  enableDemo: boolean
 }

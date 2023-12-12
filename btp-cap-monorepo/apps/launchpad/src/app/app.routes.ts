@@ -1,3 +1,4 @@
+import { environment } from '@/environments/environment'
 import { Routes } from '@angular/router'
 
 export const appRoutes: Routes = [
@@ -19,15 +20,6 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./pages/app').then((m) => m.routes),
   },
   {
-    path: 'dashboard',
-    title: 'Dashboard',
-    data: {
-      icon: 'dashboard',
-      key: 'demo-dashboard'
-    },
-    loadChildren: () => import('./demo/dashboard/dashboard-routing').then((m) => m.default)
-  },
-  {
     path: 'admin',
     title: 'Admin',
     data: {
@@ -36,25 +28,37 @@ export const appRoutes: Routes = [
     },
     loadChildren: () => import('./pages/admin/admin-routing').then((m) => m.default)
   },
-  {
-    path: 'feature',
-    title: 'Feature',
-    data: {
-      icon: 'block',
-      key: 'demo-features'
+  ...(environment.enableDemo ? [
+    {
+      path: 'dashboard',
+      title: 'Dashboard',
+      data: {
+        icon: 'dashboard',
+        key: 'demo-dashboard'
+      },
+      loadChildren: () => import('./demo/dashboard/dashboard-routing').then((m) => m.default)
     },
-    loadChildren: () => import('./demo/feat/feat-routing').then((m) => m.default)
-  },
-  {
-    path: 'page',
-    title: 'Pages',
-    data: {
-      icon: 'form',
-      key: 'demo-pages'
+    {
+      path: 'feature',
+      title: 'Feature',
+      data: {
+        icon: 'block',
+        key: 'demo-features'
+      },
+      loadChildren: () => import('./demo/feat/feat-routing').then((m) => m.default)
     },
-    loadChildren: () => import('./demo/page/page-demo-routing').then((m) => m.default)
-  },
-  {
+    {
+      path: 'page',
+      title: 'Pages',
+      data: {
+        icon: 'form',
+        key: 'demo-pages'
+      },
+      loadChildren: () => import('./demo/page/page-demo-routing').then((m) => m.default)
+    },
+  ] : []),
+  ...(environment.embeddedAnalytics ? 
+  [{
     path: 'bi',
     title: 'BI',
     data: {
@@ -62,5 +66,5 @@ export const appRoutes: Routes = [
       key: 'bi-platform'
     },
     loadChildren: () => import('./bi/bi.module').then((m) => m.BIModule)
-  }
+  }] : [])
 ]

@@ -42,6 +42,7 @@
           }
         </button>
       </h3>
+
       @if (showCubesList()) {
       <ngm-search class="m-2" [formControl]="searchControl"></ngm-search>
       <cdk-virtual-scroll-viewport class="pac-model__tables-viewport h-[200px]"
@@ -55,20 +56,20 @@
 
       <h3 class="py-2 px-4 m-0 mt-4 text-sm text-neutral-500">Entity ({{cube[0]}})</h3>
       @for (item of cube; track item) {
-      <ngm-entity-schema class="flex-1 overflow-auto" cdkDropList
-        [dataSettings]="{
-          dataSource: 'S4CDS',
-          entitySet: item
-        }"
-        [capacities]="[
-          EntityCapacity.Dimension,
-          EntityCapacity.Hierarchy,
-          EntityCapacity.Measure,
-          EntityCapacity.Indicator,
-          EntityCapacity.Calculation,
-          EntityCapacity.Parameter
-        ]"
-      ></ngm-entity-schema>
+        <ngm-entity-schema class="flex-1 overflow-auto" cdkDropList
+          [dataSettings]="{
+            dataSource: 'S4CDS',
+            entitySet: item
+          }"
+          [capacities]="[
+            EntityCapacity.Dimension,
+            EntityCapacity.Hierarchy,
+            EntityCapacity.Measure,
+            EntityCapacity.Indicator,
+            EntityCapacity.Calculation,
+            EntityCapacity.Parameter
+          ]"
+        ></ngm-entity-schema>
       }
     </div>
   </div>

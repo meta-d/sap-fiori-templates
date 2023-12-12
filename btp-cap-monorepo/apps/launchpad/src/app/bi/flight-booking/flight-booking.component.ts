@@ -7,7 +7,16 @@ import { MatButtonModule } from '@angular/material/button'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { ControlsModule } from '@metad/ocap-angular/controls'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
-import { ChartMeasure, ChartSettings, DataSettings, ISlicer, OrderDirection, nonNullable, putFilter } from '@metad/ocap-core'
+import {
+  ChartMeasure,
+  ChartSettings,
+  DataSettings,
+  ISlicer,
+  OrderDirection,
+  nonNullable,
+  putFilter
+} from '@metad/ocap-core'
+import { ZngS4DSCoreService } from '../services'
 
 @Component({
   standalone: true,
@@ -30,14 +39,18 @@ export class FlightBookingComponent {
   DisplayDensity = DisplayDensity
   OrderDirection = OrderDirection
 
+  /**
+   * Change to your sqlViewName of cds
+   */
+  cdsSqlViewName = 'ZYCUBEFLIGHTBOOK'
+  cube = `$2C${this.cdsSqlViewName}`
   country = '[2CIFICOUNTRY]'
   city = '[2COFZF39VMMOVTFTGW9GF0Y0TJC]'
   travelAgency = '[2CZDIMETRVAGENCY]'
-  cube = '$2CZYCUBEFLIGHTBOOK'
 
   linkAnalysis = signal<Record<string, ISlicer[]>>({
     '[2CICALENDARYEAR]': [],
-    '[2CZDIMEAIRLINE]': [],
+    '[2CZDIMEAIRLINE]': []
   })
 
   form = new FormGroup({
@@ -48,8 +61,8 @@ export class FlightBookingComponent {
   chartSettings = signal<ChartSettings>({})
 
   yearTotal: DataSettings = {
-    dataSource: 'S4CDS',
-    entitySet: '$2CZYCUBEFLIGHTBOOK',
+    dataSource: ZngS4DSCoreService.S4ModelName,
+    entitySet: this.cube,
     chartAnnotation: {
       chartType: {
         type: 'Pie',

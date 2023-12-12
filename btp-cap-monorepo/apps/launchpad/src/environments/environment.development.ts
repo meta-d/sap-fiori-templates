@@ -3,8 +3,10 @@ import { IEnvironment } from "./types";
 export const environment: IEnvironment = {
     production: false,
     platform: 'BTP',
-    enableFiori: true,
+    enableFiori: false,
     enableNotification: false,
     enableWaterMark: false,
     mockData: false,
+    embeddedAnalytics: false,
+    enableDemo: true
 };

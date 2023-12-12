@@ -21,19 +21,40 @@
 
 这是一个 SAP BTP 和 Fiori 应用的模板项目，它使用了 [Angular](https://angular.io/) 框架和 [Ant Design](https://ant-design.antgroup.com/index-cn) 组件库构建。基于 [Nx](https://nx.dev) 和 [UI5 Tooling](https://sap.github.io/ui5-tooling/)。
 
+- Node.js 18
 - Angular 17
 - Tailwindcss 3
 - Storybook 7.5
 - ui5-tooling 1
 - CAP SDK 7
 
+## ⚡ 快速开始
+
+- `yarn install` 安装所有依赖项。
+- `yarn start` 或 `yarn start:btp` 运行 web 应用并且监听变化自动重启 *http://localhost:4200/*.
+- `yarn start:btp:sandbox` 在沙盒环境中运行 btp 应用。
+- `yarn ar` 运行 approuter 链接为 *http://localhost:5000/*.
+- `yarn sb` 运行 storybook 预览组件，链接为 *http://localhost:4400/*.
+- `yarn start:s4:mock` 启动 S4 系统环境的启动应用，链接为 *http://localhost:4200/*.
+- `yarn start:s4:live` 启动连接在线 S4 系统的启动应用，链接为 *http://localhost:4200/*.
+- 
 ## 🛫 启动应用程序！
 
-在开始之前，运行 `npm install` 安装 npm 包。
+在开始之前，运行 `npm install` 或者 `yarn install` 安装所有依赖项。
 
 * 在此项目依赖的其他包升级到 Angular 17 版本之前请使用 `npm install --legacy-peer-deps` 来安装依赖包。
 
-运行 `npx nx serve angular-standalone` 或 `npm run start` 启动开发服务器。打开浏览器并导航到 http://localhost:4200/ 。愉快的编码吧！
+### 启动 BTP 应用
+
+运行 `docker-compose up -d` 启动 Postgres 数据库服务的 docker 容器。
+
+如果您第一次运行此 BTP 项目，请运行 `yarn deploy:btp:local` 将 db models 部署到本地数据库。
+
+运行命令 `yarn start` 或者同时运行 `nx serve launchpad` 和 `yarn --cwd caps/app-store w-sandbox`。打开浏览器并访问 http://localhost:4200/。开始编码吧！
+
+### 启动 S4 应用
+
+运行 `yarn start:s4:live` 或 `yarn start:s4:mock` 以启动适用于 S4 系统的应用程序。
 
 ### 环境配置
 
@@ -42,29 +63,36 @@
 环境的特性有：
 
 * **production** - 启用生产模式，禁用调试日志等。
-* **enableFiori** - 启用从 SAP 系统加载所有 Fiori 应用，作为本应用的菜单。
-* **enableWaterMark** - 启用应用页面上的水印。
+* **platform** - **S4** | **BTP** | **LOCAL**
+* **enableFiori** - 启用所有 Fiori 应用作为此应用程序中的菜单的加载。
+* **enableNotification** - 启用 S4HANA 系统中的通知服务。
+* **enableWaterMark** - 在应用程序的页面上启用水印。
+* **mockData** - 是否在本地使用模拟数据。
+* **embeddedAnalytics** - 在 S4HANA 系统中启用嵌入式分析。
+* **enableDemo** - 启用演示页面，您可以查看演示功能。
 
 ## ✨ 如何生成的代码？
 
-我们使用 Nx CLI 来生成代码 `npx create-nx-workspace <sap-fiori-app-name>`。
+我们使用 Nx CLI 来生成代码 `npx create-nx-workspace <workspace-name>`。
 
-使用命令 `npx nx g @nx/angular:setup-tailwind angular-standalone` 添加 Tailwind css。
+使用命令 `npx nx g @nx/angular:setup-tailwind launchpad` 添加 Tailwind css。
 
 使用命令 `npx nx g @nx/angular:ng-add ng-zorro-antd --style=less` 添加 UI 库 [Ant Design of Angular](https://ng.ant.design/) ng-zorro-antd.
 
-使用命令 `npx nx g @nx/angular:storybook-configuration angular-standalone` 添加 Storybook .
+使用命令 `npx nx g @nx/angular:storybook-configuration launchpad` 添加 Storybook .
 
 ## 🖥 预览应用程序
 
 您可以执行以下 npm 脚本预览应用程序：
 
-* **start** - 以真实服务数据启动应用程序。
-* **start-mock** - 以模拟数据启动应用程序。
+* **start** - 启动应用程序（btp）。
+* **start:btp** - 为 btp 启动应用程序。
+* **start:s4:live** - 为带有实时服务的 S4 系统启动应用程序。
+* **start:s4:mock** - 为带有模拟数据的 S4 系统启动应用程序。
 
 ### 📡 使用在线数据
 
-当运行 `npm run start` 本地开发应用并调用实时的 OData 服务，你需要配置代理将请求转发给 ABAP 服务器。
+当运行 `yarn start:s4:live` 本地开发应用并调用实时的 OData 服务，你需要配置代理将请求转发给 ABAP 服务器。
 
 这里是配置文件 *src/proxy.conf.json*, 所有请求以 `/sap/` 开头的都会被转发到 **target** 服务器，并且授权账号信息 **auth** 已经被配置。
 
@@ -82,7 +110,7 @@
 
 ### 📋 使用模拟数据
 
-当使用`npm run start-mock` 来运行应用程序和模拟数据服务器来模拟 OData 端点时，您可以在不连接到实时 OData 服务的情况下使用应用程序，并即时生成模拟数据。
+当使用`yarn start:s4:mock` 来运行应用程序和模拟数据服务器来模拟 OData 端点时，您可以在不连接到实时 OData 服务的情况下使用应用程序，并即时生成模拟数据。
 
 ### 添加新 OData 的模拟数据
 
@@ -126,14 +154,27 @@ default: {
 
 ## 🚀 准备部署？
 
-通用部署过程，你可以参考 [如何部署？](../docs/Deploy.md)。
+准备部署，常见问题您可以参考[如何部署？](../docs/Deploy.md)。
 
-### 基路径
+### 部署到 BTP
 
-部署的应用程序需要在非根路径中打开，因此在构建应用程序时需要配置基准路径。将 `your_project_name` 替换为 BSP 应用程序的名称，如命令 `npm run build` 所示。
+对于 BTP 平台，您可以禁用以下命令：
+
+- `yarn b:btp` 为BTP平台构建。
+- `yarn d:btp` 部署到BTP平台，您可能需要使用 cf cli 登录。
+
+### 部署到 S4HANA
+
+* 基本 URL
+
+部署的应用程序需要在非根路径中打开，因此在构建应用程序时需要配置基本 URL。在命令 `yarn b:s4:app` 中，将 `your_project_name` 替换为BSP应用程序的名称。
 
 ```javascript
 {
-  "build": "nx build -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/"
+  "b:s4:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
 }
 ```
+
+* 部署
+
+运行 `yarn d:s4` 以构建并部署到S4系统，其他详细信息请参考[部署到ABAP](../docs/Deploy.md#deploying-to-abap)。

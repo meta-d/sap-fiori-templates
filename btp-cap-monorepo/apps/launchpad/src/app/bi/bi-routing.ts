@@ -9,7 +9,7 @@ export const routes: Routes = [
     title: 'OCAP Schema',
     component: ZngOcapSchemaComponent,
     data: {
-      icon: 'user',
+      icon: 'console-sql',
       key: 'ocap-schema'
     }
   },
@@ -18,7 +18,7 @@ export const routes: Routes = [
     title: 'Dashboard',
     component: DashboardComponent,
     data: {
-      icon: 'user',
+      icon: 'dot-chart',
       key: 'ocap-dashboard'
     }
   },
@@ -27,7 +27,7 @@ export const routes: Routes = [
     title: 'Flight Booking Dashboard',
     component: FlightBookingComponent,
     data: {
-      icon: 'user',
+      icon: 'schedule',
       key: 'ocap-flight-booking'
     }
   }

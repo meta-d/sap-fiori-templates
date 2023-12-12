@@ -9,6 +9,7 @@ import { AnalyticalGridModule } from '@metad/ocap-angular/analytical-grid'
 import { ControlsModule } from '@metad/ocap-angular/controls'
 import {
   NgmAgentService,
+  NgmDSCacheService,
   NgmDSCoreService,
   NgmMissingTranslationHandler,
   OCAP_AGENT_TOKEN,
@@ -23,12 +24,16 @@ import { registerTheme } from 'echarts/core'
 import { NgxEchartsModule } from 'ngx-echarts'
 import { Observable, of } from 'rxjs'
 import { routes } from './bi-routing'
-import { S4ServerAgent } from './s4-agent.service'
-import { ZngOcapTranslateService } from './translate.service'
 import { DARK_THEME } from './theme.dark'
-import { ZngS4DSCoreService } from './s4-ds-core.service'
+import { ZngS4DSCoreService, ZngOcapCacheService, ZngOcapTranslateService, S4ServerAgent } from './services'
 
-registerTheme(DEFAULT_THEME.name, DEFAULT_THEME.echartsTheme)
+registerTheme(DEFAULT_THEME.name, {
+  ...DEFAULT_THEME.echartsTheme,
+  textStyle: {
+    ...DEFAULT_THEME.echartsTheme.textStyle,
+    fontFamily: null
+  }
+})
 registerTheme(DARK_THEME.name, DARK_THEME.chartTheme)
 
 class ZngTranslateLoader implements TranslateLoader {
@@ -76,6 +81,10 @@ class ZngTranslateLoader implements TranslateLoader {
     {
       provide: NgmDSCoreService,
       useExisting: ZngS4DSCoreService
+    },
+    {
+      provide: NgmDSCacheService,
+      useClass: ZngOcapCacheService
     },
     NgmAgentService,
     S4ServerAgent,
