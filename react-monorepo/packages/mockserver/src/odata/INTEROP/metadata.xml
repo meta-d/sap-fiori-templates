@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="INTEROP" xml:lang="zh" sap:schema-version="1"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm" />
+            <EntityType Name="NavTarget" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="shellType" Type="Edm.String" />
+                <Property Name="postParameters" Type="Edm.String" />
+                <Property Name="text" Type="Edm.String" />
+                <Property Name="applicationData" Type="Edm.String" />
+                <Property Name="applicationAlias" Type="Edm.String" />
+                <Property Name="applicationType" Type="Edm.String" />
+                <Property Name="url" Type="Edm.String" />
+                <Property Name="xappState" Type="Edm.String" />
+                <Property Name="iappState" Type="Edm.String" />
+                <Property Name="systemAlias" Type="Edm.String" />
+                <Property Name="applicationDependencies" Type="Edm.String" />
+                <NavigationProperty Name="ParameterMappings"
+                    Relationship="INTEROP.NavTargetToParameterMapping"
+                    FromRole="FromRole_NavTargetToParameterMapping"
+                    ToRole="ToRole_NavTargetToParameterMapping" />
+            </EntityType>
+            <EntityType Name="ParameterMapping" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="nav_target_id" />
+                    <PropertyRef Name="source" />
+                </Key>
+                <Property Name="nav_target_id" Type="Edm.String" Nullable="false" />
+                <Property Name="source" Type="Edm.String" Nullable="false" />
+                <Property Name="target" Type="Edm.String" />
+            </EntityType>
+            <EntityType Name="Link" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="text" Type="Edm.String" />
+                <Property Name="applicationAlias" Type="Edm.String" />
+                <Property Name="applicationType" Type="Edm.String" />
+                <NavigationProperty Name="NavTargetStandalone"
+                    Relationship="INTEROP.LinkNavTargetStandalone"
+                    FromRole="FromRole_LinkNavTargetStandalone"
+                    ToRole="ToRole_LinkNavTargetStandalone" />
+            </EntityType>
+            <EntityType Name="SemanticObject" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="30"
+                    sap:label="语义对象" />
+                <Property Name="text" Type="Edm.String" />
+                <NavigationProperty Name="Links" Relationship="INTEROP.SemanticObjectLink"
+                    FromRole="FromRole_SemanticObjectLink" ToRole="ToRole_SemanticObjectLink" />
+                <NavigationProperty Name="MyLinks" Relationship="INTEROP.SemanticObjectLink"
+                    FromRole="FromRole_SemanticObjectLink" ToRole="ToRole_SemanticObjectLink" />
+            </EntityType>
+            <EntityType Name="Message" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="messageNumber" />
+                </Key>
+                <Property Name="messageNumber" Type="Edm.String" Nullable="false" MaxLength="24"
+                    sap:label="文本24" />
+                <Property Name="subject" Type="Edm.String" MaxLength="40" sap:label="字符" />
+                <Property Name="component" Type="Edm.String" MaxLength="24" sap:label="应用组件" />
+                <Property Name="transactionId" Type="Edm.String" />
+                <Property Name="clientContext" Type="Edm.String" />
+                <Property Name="text" Type="Edm.String" />
+                <Property Name="url" Type="Edm.String" />
+                <Property Name="priority" Type="Edm.String" MaxLength="1" sap:label="单字符标记" />
+                <Property Name="catalogId" Type="Edm.String" />
+                <Property Name="hash" Type="Edm.String" />
+            </EntityType>
+            <EntityType Name="TargetMapping" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="formFactors" Type="INTEROP.formFactors" Nullable="false" />
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="semanticObject" Type="Edm.String" MaxLength="30" sap:label="语义对象" />
+                <Property Name="navTargetId" Type="Edm.String" />
+                <Property Name="semanticAction" Type="Edm.String" MaxLength="60" sap:label="操作" />
+                <Property Name="catalogId" Type="Edm.String" />
+                <Property Name="allowAdditionalParameters" Type="Edm.Boolean" sap:label="正确" />
+                <Property Name="information" Type="Edm.String" />
+                <Property Name="createdOn" Type="Edm.DateTime" Precision="0" sap:label="日期" />
+                <Property Name="tmChipId" Type="Edm.String" />
+                <NavigationProperty Name="SignatureParameter"
+                    Relationship="INTEROP.TargetMappingSignatureParameter"
+                    FromRole="FromRole_TargetMappingSignatureParameter"
+                    ToRole="ToRole_TargetMappingSignatureParameter" />
+                <NavigationProperty Name="NavTargetStandalone"
+                    Relationship="INTEROP.TargetMappingNavTargetStandalone"
+                    FromRole="FromRole_TargetMappingNavTargetStandalone"
+                    ToRole="ToRole_TargetMappingNavTargetStandalone" />
+                <NavigationProperty Name="NavTargetFLP"
+                    Relationship="INTEROP.TargetMappingNavTargetFLP"
+                    FromRole="FromRole_TargetMappingNavTargetFLP"
+                    ToRole="ToRole_TargetMappingNavTargetFLP" />
+                <NavigationProperty Name="NavTargetNWBC"
+                    Relationship="INTEROP.TargetMappingNavTargetNWBC"
+                    FromRole="FromRole_TargetMappingNavTargetNWBC"
+                    ToRole="ToRole_TargetMappingNavTargetNWBC" />
+            </EntityType>
+            <EntityType Name="SignatureParameter" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="name" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="navTargetId" Type="Edm.String" />
+                <Property Name="name" Type="Edm.String" Nullable="false" />
+                <Property Name="value" Type="Edm.String" />
+                <Property Name="required" Type="Edm.Boolean" sap:label="正确" />
+                <Property Name="regexp" Type="Edm.Boolean" sap:label="正确" />
+            </EntityType>
+            <EntityType Name="Theme" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="shellType" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="40"
+                    sap:label="Theme Id" />
+                <Property Name="name" Type="Edm.String" MaxLength="128" sap:label="Theme Name" />
+                <Property Name="shellType" Type="Edm.String" Nullable="false" />
+            </EntityType>
+            <EntityType Name="UserProfileProperty" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="shellType" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="shellType" Type="Edm.String" Nullable="false" />
+                <Property Name="value" Type="Edm.String" />
+                <Property Name="dataType" Type="Edm.String" />
+                <Property Name="editState" Type="Edm.Byte" sap:label="INTI" />
+                <Property Name="validationMask" Type="Edm.String" />
+                <NavigationProperty Name="UserProfilePropertyValues"
+                    Relationship="INTEROP.UserProfilePropertyUserProfilePropertyVa"
+                    FromRole="FromRole_UserProfilePropertyUserProfilePropertyVa"
+                    ToRole="ToRole_UserProfilePropertyUserProfilePropertyVa" />
+            </EntityType>
+            <EntityType Name="UserProfilePropertyValue" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="shellType" />
+                    <PropertyRef Name="value" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="shellType" Type="Edm.String" Nullable="false" />
+                <Property Name="value" Type="Edm.String" Nullable="false" />
+                <Property Name="description" Type="Edm.String" />
+            </EntityType>
+            <EntityType Name="SystemAlias" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="http" Type="INTEROP.http" Nullable="false" />
+                <Property Name="https" Type="INTEROP.https" Nullable="false" />
+                <Property Name="rfc" Type="INTEROP.rfc" Nullable="false" />
+                <Property Name="id" Type="Edm.String" Nullable="false" />
+                <Property Name="client" Type="Edm.String" MaxLength="3" sap:label="客户端" />
+                <Property Name="language" Type="Edm.String" />
+            </EntityType>
+            <EntityType Name="TargetDetail" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="tmChipId" />
+                </Key>
+                <Property Name="tmChipId" Type="Edm.String" Nullable="false" />
+                <Property Name="applicationType" Type="Edm.String" />
+                <Property Name="applicationName" Type="Edm.String" />
+                <Property Name="url" Type="Edm.String" />
+                <Property Name="systemAlias" Type="Edm.String" />
+                <Property Name="text" Type="Edm.String" />
+                <Property Name="lpdRole" Type="Edm.String" MaxLength="10" sap:label="角色" />
+                <Property Name="lpdInstance" Type="Edm.String" MaxLength="32" sap:label="实例" />
+                <Property Name="lpdApplicationAlias" Type="Edm.String" sap:label="应用程序别名" />
+                <Property Name="lpdApplicationGuid" Type="Edm.String" MaxLength="32"
+                    sap:label="GUID" />
+                <Property Name="wdApplication" Type="Edm.String" />
+                <Property Name="wdConfiguration" Type="Edm.String" />
+                <Property Name="transactionCode" Type="Edm.String" />
+                <Property Name="sapui5Component" Type="Edm.String" />
+            </EntityType>
+            <EntityType Name="LPDInstance" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lpdRole" />
+                    <PropertyRef Name="instance" />
+                </Key>
+                <Property Name="lpdRole" Type="Edm.String" Nullable="false" />
+                <Property Name="instance" Type="Edm.String" Nullable="false" />
+            </EntityType>
+            <EntityType Name="LPDApplicationAlias" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lpdRole" />
+                    <PropertyRef Name="lpdInstance" />
+                    <PropertyRef Name="lpdApplicationAlias" />
+                </Key>
+                <Property Name="lpdRole" Type="Edm.String" Nullable="false" />
+                <Property Name="lpdInstance" Type="Edm.String" Nullable="false" />
+                <Property Name="lpdApplicationAlias" Type="Edm.String" Nullable="false" />
+            </EntityType>
+            <EntityType Name="PersContainer" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="category" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="40"
+                    sap:label="个性化容器标识" />
+                <Property Name="category" Type="Edm.String" Nullable="false" MaxLength="1"
+                    sap:label="个性化容器类别" />
+                <Property Name="validity" Type="Edm.Int32" sap:label="有效期" />
+                <Property Name="clientExpirationTime" Type="Edm.DateTime" Precision="0"
+                    sap:label="过期时间" />
+                <Property Name="component" Type="Edm.String" MaxLength="24" sap:label="应用组件" />
+                <Property Name="appName" Type="Edm.String" />
+                <NavigationProperty Name="PersContainerItems"
+                    Relationship="INTEROP.PersContainerToItem"
+                    FromRole="FromRole_PersContainerToItem" ToRole="ToRole_PersContainerToItem" />
+            </EntityType>
+            <EntityType Name="PersContainerItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="containerId" />
+                    <PropertyRef Name="containerCategory" />
+                    <PropertyRef Name="id" />
+                    <PropertyRef Name="category" />
+                </Key>
+                <Property Name="containerId" Type="Edm.String" Nullable="false" MaxLength="40"
+                    sap:label="个性化容器标识" />
+                <Property Name="containerCategory" Type="Edm.String" Nullable="false" MaxLength="1"
+                    sap:label="个性化容器类别" />
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="40"
+                    sap:label="个性化项目" />
+                <Property Name="category" Type="Edm.String" Nullable="false" MaxLength="1"
+                    sap:label="个性化容器项目类别" />
+                <Property Name="value" Type="Edm.String" sap:label="容器项目值" />
+            </EntityType>
+            <EntityType Name="GlobalContainer" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="40"
+                    sap:label="个性化容器标识" />
+                <Property Name="sessionKey" Type="Edm.String" MaxLength="40" sap:label="会话密钥" />
+                <Property Name="component" Type="Edm.String" MaxLength="24" sap:label="应用组件" />
+                <Property Name="appName" Type="Edm.String" sap:label="应用程序名称" />
+                <Property Name="value" Type="Edm.String" />
+            </EntityType>
+            <ComplexType Name="formFactors">
+                <Property Name="desktop" Type="Edm.Boolean" sap:label="正确" />
+                <Property Name="tablet" Type="Edm.Boolean" sap:label="正确" />
+                <Property Name="phone" Type="Edm.Boolean" sap:label="正确" />
+            </ComplexType>
+            <ComplexType Name="wda">
+                <Property Name="application" Type="Edm.String" />
+                <Property Name="configuration" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="tra">
+                <Property Name="code" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="sapui5">
+                <Property Name="component" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="http">
+                <Property Name="id" Type="Edm.String" />
+                <Property Name="host" Type="Edm.String" />
+                <Property Name="port" Type="Edm.Int32" />
+                <Property Name="pathPrefix" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="https">
+                <Property Name="id" Type="Edm.String" />
+                <Property Name="host" Type="Edm.String" />
+                <Property Name="port" Type="Edm.Int32" />
+                <Property Name="pathPrefix" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="rfc">
+                <Property Name="id" Type="Edm.String" />
+                <Property Name="systemId" Type="Edm.String" />
+                <Property Name="host" Type="Edm.String" />
+                <Property Name="service" Type="Edm.Int32" />
+                <Property Name="loginGroup" Type="Edm.String" />
+                <Property Name="sncNameR3" Type="Edm.String" />
+                <Property Name="sncQoPR3" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="transformResult">
+                <Property Name="value" Type="Edm.String" />
+            </ComplexType>
+            <Association Name="PersContainerToItem" sap:content-version="1">
+                <End Type="INTEROP.PersContainer" Multiplicity="1"
+                    Role="FromRole_PersContainerToItem" />
+                <End Type="INTEROP.PersContainerItem" Multiplicity="*"
+                    Role="ToRole_PersContainerToItem" />
+            </Association>
+            <Association Name="LinkNavTargetStandalone" sap:content-version="1">
+                <End Type="INTEROP.Link" Multiplicity="1" Role="FromRole_LinkNavTargetStandalone" />
+                <End Type="INTEROP.NavTarget" Multiplicity="1" Role="ToRole_LinkNavTargetStandalone" />
+            </Association>
+            <Association Name="NavTargetToParameterMapping" sap:content-version="1">
+                <End Type="INTEROP.NavTarget" Multiplicity="1"
+                    Role="FromRole_NavTargetToParameterMapping" />
+                <End Type="INTEROP.ParameterMapping" Multiplicity="*"
+                    Role="ToRole_NavTargetToParameterMapping" />
+            </Association>
+            <Association Name="TargetMappingSignatureParameter" sap:content-version="1">
+                <End Type="INTEROP.TargetMapping" Multiplicity="1"
+                    Role="FromRole_TargetMappingSignatureParameter" />
+                <End Type="INTEROP.SignatureParameter" Multiplicity="*"
+                    Role="ToRole_TargetMappingSignatureParameter" />
+            </Association>
+            <Association Name="TargetMappingNavTargetStandalone" sap:content-version="1">
+                <End Type="INTEROP.TargetMapping" Multiplicity="1"
+                    Role="FromRole_TargetMappingNavTargetStandalone" />
+                <End Type="INTEROP.NavTarget" Multiplicity="1"
+                    Role="ToRole_TargetMappingNavTargetStandalone" />
+            </Association>
+            <Association Name="TargetMappingNavTargetFLP" sap:content-version="1">
+                <End Type="INTEROP.TargetMapping" Multiplicity="1"
+                    Role="FromRole_TargetMappingNavTargetFLP" />
+                <End Type="INTEROP.NavTarget" Multiplicity="1"
+                    Role="ToRole_TargetMappingNavTargetFLP" />
+            </Association>
+            <Association Name="TargetMappingNavTargetNWBC" sap:content-version="1">
+                <End Type="INTEROP.TargetMapping" Multiplicity="1"
+                    Role="FromRole_TargetMappingNavTargetNWBC" />
+                <End Type="INTEROP.NavTarget" Multiplicity="1"
+                    Role="ToRole_TargetMappingNavTargetNWBC" />
+            </Association>
+            <Association Name="SemanticObjectLink" sap:content-version="1">
+                <End Type="INTEROP.SemanticObject" Multiplicity="1"
+                    Role="FromRole_SemanticObjectLink" />
+                <End Type="INTEROP.Link" Multiplicity="*" Role="ToRole_SemanticObjectLink" />
+            </Association>
+            <Association Name="UserProfilePropertyUserProfilePropertyVa" sap:content-version="1">
+                <End Type="INTEROP.UserProfileProperty" Multiplicity="1"
+                    Role="FromRole_UserProfilePropertyUserProfilePropertyVa" />
+                <End Type="INTEROP.UserProfilePropertyValue" Multiplicity="*"
+                    Role="ToRole_UserProfilePropertyUserProfilePropertyVa" />
+            </Association>
+            <EntityContainer Name="INTEROP_Entities" m:IsDefaultEntityContainer="true"
+                sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SignatureParameters" EntityType="INTEROP.SignatureParameter"
+                    sap:content-version="1" />
+                <EntitySet Name="Themes" EntityType="INTEROP.Theme" sap:content-version="1" />
+                <EntitySet Name="UserProfileProperties" EntityType="INTEROP.UserProfileProperty"
+                    sap:content-version="1" />
+                <EntitySet Name="UserProfilePropertyValues"
+                    EntityType="INTEROP.UserProfilePropertyValue" sap:content-version="1" />
+                <EntitySet Name="SystemAliases" EntityType="INTEROP.SystemAlias"
+                    sap:content-version="1" />
+                <EntitySet Name="TargetDetails" EntityType="INTEROP.TargetDetail"
+                    sap:content-version="1" />
+                <EntitySet Name="LPDInstances" EntityType="INTEROP.LPDInstance"
+                    sap:content-version="1" />
+                <EntitySet Name="LPDApplicationAlias" EntityType="INTEROP.LPDApplicationAlias"
+                    sap:content-version="1" />
+                <EntitySet Name="PersContainers" EntityType="INTEROP.PersContainer"
+                    sap:content-version="1" />
+                <EntitySet Name="PersContainerItems" EntityType="INTEROP.PersContainerItem"
+                    sap:content-version="1" />
+                <EntitySet Name="GlobalContainers" EntityType="INTEROP.GlobalContainer"
+                    sap:content-version="1" />
+                <EntitySet Name="NavTargets" EntityType="INTEROP.NavTarget" sap:content-version="1" />
+                <EntitySet Name="ParameterMappings" EntityType="INTEROP.ParameterMapping"
+                    sap:content-version="1" />
+                <EntitySet Name="Links" EntityType="INTEROP.Link" sap:content-version="1" />
+                <EntitySet Name="SemanticObjects" EntityType="INTEROP.SemanticObject"
+                    sap:content-version="1" />
+                <EntitySet Name="Messages" EntityType="INTEROP.Message" sap:content-version="1" />
+                <EntitySet Name="TargetMappings" EntityType="INTEROP.TargetMapping"
+                    sap:content-version="1" />
+                <AssociationSet Name="TargetMappingSignatureParameter_AssocSet"
+                    Association="INTEROP.TargetMappingSignatureParameter" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TargetMappings" Role="FromRole_TargetMappingSignatureParameter" />
+                    <End EntitySet="SignatureParameters"
+                        Role="ToRole_TargetMappingSignatureParameter" />
+                </AssociationSet>
+                <AssociationSet Name="TargetMappingNavTargetStandalone_AssocSe"
+                    Association="INTEROP.TargetMappingNavTargetStandalone" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TargetMappings" Role="FromRole_TargetMappingNavTargetStandalone" />
+                    <End EntitySet="NavTargets" Role="ToRole_TargetMappingNavTargetStandalone" />
+                </AssociationSet>
+                <AssociationSet Name="LinkNavTargetStandalone_AssocSet"
+                    Association="INTEROP.LinkNavTargetStandalone" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="Links" Role="FromRole_LinkNavTargetStandalone" />
+                    <End EntitySet="NavTargets" Role="ToRole_LinkNavTargetStandalone" />
+                </AssociationSet>
+                <AssociationSet Name="TargetMappingNavTargetNWBC_AssocSet"
+                    Association="INTEROP.TargetMappingNavTargetNWBC" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TargetMappings" Role="FromRole_TargetMappingNavTargetNWBC" />
+                    <End EntitySet="NavTargets" Role="ToRole_TargetMappingNavTargetNWBC" />
+                </AssociationSet>
+                <AssociationSet Name="UserProfilePropertyUserProfilePropertyVa"
+                    Association="INTEROP.UserProfilePropertyUserProfilePropertyVa"
+                    sap:creatable="false" sap:updatable="false" sap:deletable="false"
+                    sap:content-version="1">
+                    <End EntitySet="UserProfileProperties"
+                        Role="FromRole_UserProfilePropertyUserProfilePropertyVa" />
+                    <End EntitySet="UserProfilePropertyValues"
+                        Role="ToRole_UserProfilePropertyUserProfilePropertyVa" />
+                </AssociationSet>
+                <AssociationSet Name="PersContainerToItem_AssocSet"
+                    Association="INTEROP.PersContainerToItem" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="PersContainers" Role="FromRole_PersContainerToItem" />
+                    <End EntitySet="PersContainerItems" Role="ToRole_PersContainerToItem" />
+                </AssociationSet>
+                <AssociationSet Name="NavTargetToParameterMapping_AssocSet"
+                    Association="INTEROP.NavTargetToParameterMapping" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="NavTargets" Role="FromRole_NavTargetToParameterMapping" />
+                    <End EntitySet="ParameterMappings" Role="ToRole_NavTargetToParameterMapping" />
+                </AssociationSet>
+                <AssociationSet Name="TargetMappingNavTargetFLP_AssocSet"
+                    Association="INTEROP.TargetMappingNavTargetFLP" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TargetMappings" Role="FromRole_TargetMappingNavTargetFLP" />
+                    <End EntitySet="NavTargets" Role="ToRole_TargetMappingNavTargetFLP" />
+                </AssociationSet>
+                <AssociationSet Name="SemanticObjectLink_AssocSet"
+                    Association="INTEROP.SemanticObjectLink" sap:creatable="false"
+                    sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SemanticObjects" Role="FromRole_SemanticObjectLink" />
+                    <End EntitySet="Links" Role="ToRole_SemanticObjectLink" />
+                </AssociationSet>
+                <FunctionImport Name="GetLinksForSemanticObject"
+                    ReturnType="Collection(INTEROP.Link)" EntitySet="Links" m:HttpMethod="GET">
+                    <Parameter Name="semanticObject" Type="Edm.String" Mode="In" MaxLength="30"
+                        sap:label="语义对象" />
+                    <Parameter Name="businessParams" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="formFactor" Type="Edm.String" Mode="In" Nullable="true" />
+                </FunctionImport>
+                <FunctionImport Name="ResolveLink" ReturnType="Collection(INTEROP.NavTarget)"
+                    EntitySet="NavTargets" m:HttpMethod="GET">
+                    <Parameter Name="linkId" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="businessParams" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="shellType" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="formFactor" Type="Edm.String" Mode="In" Nullable="true" />
+                </FunctionImport>
+                <FunctionImport Name="LinksForSemanticObjectsInCatalogs"
+                    ReturnType="Collection(INTEROP.Link)" EntitySet="Links" m:HttpMethod="GET">
+                    <Parameter Name="semanticObject" Type="Edm.String" Mode="In" MaxLength="30"
+                        sap:label="语义对象" />
+                    <Parameter Name="businessParams" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="formFactor" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="catalogs" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="ResolveLinkInCatalogs"
+                    ReturnType="Collection(INTEROP.NavTarget)" EntitySet="NavTargets"
+                    m:HttpMethod="GET">
+                    <Parameter Name="linkId" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="businessParams" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="shellType" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="formFactor" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="catalogs" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="RelatedTargetMappings"
+                    ReturnType="Collection(INTEROP.TargetMapping)" EntitySet="TargetMappings"
+                    m:HttpMethod="GET">
+                    <Parameter Name="catalogId" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="TargetMappingsInCatalogs"
+                    ReturnType="Collection(INTEROP.TargetMapping)" EntitySet="TargetMappings"
+                    m:HttpMethod="GET">
+                    <Parameter Name="catalogs" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="GetTargetsDetail"
+                    ReturnType="Collection(INTEROP.TargetDetail)" EntitySet="TargetDetails"
+                    m:HttpMethod="GET">
+                    <Parameter Name="catalogId" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="GetLPDInstances" ReturnType="Collection(INTEROP.LPDInstance)"
+                    EntitySet="LPDInstances" m:HttpMethod="GET" />
+                <FunctionImport Name="GetLPDAppAlias"
+                    ReturnType="Collection(INTEROP.LPDApplicationAlias)"
+                    EntitySet="LPDApplicationAlias" m:HttpMethod="GET">
+                    <Parameter Name="role" Type="Edm.String" Mode="In" Nullable="true" />
+                    <Parameter Name="instance" Type="Edm.String" Mode="In" Nullable="true" />
+                </FunctionImport>
+                <FunctionImport Name="transformAppLaunchQueryString"
+                    ReturnType="INTEROP.transformResult" m:HttpMethod="GET">
+                    <Parameter Name="domainTransformationId" Type="Edm.String" Mode="In" />
+                    <Parameter Name="domainHandlerSystemAlias" Type="Edm.String" Mode="In"
+                        Nullable="true" />
+                    <Parameter Name="query" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+                <FunctionImport Name="transformAppLaunchIntent" ReturnType="INTEROP.transformResult"
+                    m:HttpMethod="GET">
+                    <Parameter Name="domainTransformationId" Type="Edm.String" Mode="In" />
+                    <Parameter Name="domainHandlerSystemAlias" Type="Edm.String" Mode="In"
+                        Nullable="true" />
+                    <Parameter Name="intentFragment" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

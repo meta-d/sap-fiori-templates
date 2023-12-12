@@ -1,0 +1,12 @@
+{
+  "name": "@zsap/mockserver",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "typings": "./index.d.ts",
+  "dependencies": {},
+  "peerDependencies": {
+    "@sap-ux/fe-mockserver-core": "^1.2.2",
+    "@sap-ux/yaml": "0.14.0 "
+  }
+}

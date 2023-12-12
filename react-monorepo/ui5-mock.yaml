@@ -1,0 +1,33 @@
+specVersion: "2.6"
+metadata:
+  name: sap-fiori-angular-standalone
+type: application
+server:
+  customMiddleware:
+    - name: sap-fe-mockserver
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /sap/opu/odata/sap/ESH_SEARCH_SRV
+            metadataPath: ./packages/mockserver/src/odata/ESH_SEARCH_SRV/metadata.xml
+            mockdataPath: ./packages/mockserver/src/odata/ESH_SEARCH_SRV/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/UI2/PAGE_BUILDER_PERS
+            metadataPath: ./packages/mockserver/src/odata/PAGE_BUILDER_PERS/metadata.xml
+            mockdataPath: ./packages/mockserver/src/odata/PAGE_BUILDER_PERS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/UI2/INTEROP
+            metadataPath: ./packages/mockserver/src/odata/INTEROP/metadata.xml
+            mockdataPath: ./packages/mockserver/src/odata/INTEROP/data
+            generateMockData: true
+            debug: false
+          - urlPath: /sap/opu/odata4/iwngw/notification/default/iwngw/notification_srv
+            metadataPath: ./packages/mockserver/src/odata/notification_srv/metadata.xml
+            mockdataPath: ./packages/mockserver/src/odata/notification_srv/data
+            generateMockData: false
+            debug: false
+          - urlPath: /sap/opu/odata/sap/EPM_REF_APPS_PO_APV_SRV
+            metadataPath: ./packages/mockserver/src/odata/EPM_REF_APPS_PO_APV_SRV/metadata.xml
+            mockdataPath: ./packages/mockserver/src/odata/EPM_REF_APPS_PO_APV_SRV/data
+            generateMockData: true
+        annotations: []
