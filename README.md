@@ -1,14 +1,15 @@
-<h1 align="center">SAP Fiori App Templates</h1>
+<h1 align="center">SAP BTP & Fiori App Templates</h1>
 
 <p align="center">
   <a href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="./docs/images/angular_wordmark_gradient.png"></a><a href="https://vuejs.org/"><img width="100px" valign="middle" src="./docs/images/vue.png"></a>
+  <a href="https://cap.cloud.sap/"><img alt="sap-cap-logo" width="100px" valign="middle" src="./docs/images/cap.svg"></a>
 </p>
 <p align="center">
 <a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a>➕<a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" src="./docs/images/sap.png"></a>
 </p>
 <p align="center">
-  <em>This workspace contains multiple development templates for building mobile and desktop SAP Fiori applications
-    <br> using Angular, Vue, React frameworks and Ant Design.</em>
+  <em>This workspace contains multiple development templates for building mobile and desktop SAP BTP & Fiori applications
+    <br> using <b>Angular</b>, Vue, React frameworks and <b>Ant Design</b>.</em>
   <br>
 </p>
 
@@ -21,9 +22,9 @@
 
 ## 🌟 What is this?
 
-This is a collection of SAP Fiori application templates built by third-party front-end frameworks (Vue, Angular, React, etc.). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
+This is a collection of SAP BTP & Fiori application templates built by third-party front-end frameworks (Angular, Vue, React, etc.). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
-There are several advantages to using open-source frameworks to create Fiori applications:
+There are several advantages to using open-source frameworks to create BTP & Fiori applications:
 
 * A robust ecosystem and active developer community that provide solutions, sample code, and plugins.
 * Rich component libraries and templates.
@@ -36,13 +37,14 @@ There are several advantages to using open-source frameworks to create Fiori app
 
 ## 📄 How to use
 
-You can download the template under this code repository and then modify and deploy it, or you can build a project from scratch according to our creation steps.
+You can download the templates under this code repository and then modify and deploy it, or you can build a project from scratch according to our creation steps.
 
 We plan to provide project templates in multiple frameworks and multiple combinations. The templates that have been developed can all be used.
 
+* ⭐️ [BTP CAP Angular workspace](./btp-cap-monorepo/)
 * [Angular standalone workspace](./angular-standalone/)
 * [Vue standalone workspace](./sap-fiori-vue-standalone/)
-* React standalone workspace
+* [React monorepo workspace](./react-monorepo)
 
 ## ✨ Features
 
@@ -63,7 +65,10 @@ We plan to provide project templates in multiple frameworks and multiple combina
 * Website **watermark** functionality.
 * Global application **search** feature.
 * **Full-screen** mode for web pages and Fiori applications.
+* **Tabs** page management.
+* Functional [OData client library](./btp-cap-monorepo/packages/odata/).
 * Support for SAP system [**notification**](./docs/Notification.md) messages.
+* [Embedded Analytics](./docs/BI.md) using [OCAP framework](https://github.com/meta-d/ocap).
 
 ## 🌼 Screenshots
 
@@ -93,6 +98,10 @@ We plan to provide project templates in multiple frameworks and multiple combina
 ### Internationalization
 
 <img src="./docs/images/internationalization.png" alt="Internationalization Screenshot" height="auto" width="100%" style="border-radius: 10px;">
+
+### Embedded Analytics
+
+<img src="./docs/images/bi/ocap-schema.png" alt="Embedded Analytics Screenshot" height="auto" width="100%" style="border-radius: 10px;">
 
 </details>
 

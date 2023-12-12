@@ -1,0 +1,40 @@
+# CAP btp-cap-standalone
+_out
+*.db
+*.sqlite
+connection.properties
+default-*.json
+.cdsrc-private.json
+gen/
+node_modules/
+target/
+app/blp/
+dist/
+src/generated/
+srv/impl/
+
+# Web IDE, App Studio
+.che/
+.gen/
+.env
+
+# MTA
+*_mta_build_tmp
+*.mtar
+*.mta
+mta_archives/
+
+# Other
+.DS_Store
+*.orig
+*.log
+
+*.iml
+*.flattened-pom.xml
+
+# IDEs
+# .vscode
+# .idea
+
+# @cap-js/cds-typer
+@cds-models

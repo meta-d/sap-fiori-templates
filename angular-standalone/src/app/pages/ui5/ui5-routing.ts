@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router'
-import { Ui5AppComponent } from './app/app.component'
 import { Ui5LaunchpadComponent } from './launchpad/launchpad.component'
 import { Ui5Component } from './ui5.component'
+import { UI5AppComponent } from '@/app/components'
 
 export const routes: Routes = [
   {
@@ -12,7 +12,7 @@ export const routes: Routes = [
       {
         path: ':id',
         title: 'Application',
-        component: Ui5AppComponent,
+        component: UI5AppComponent,
         data: {
           icon: 'application'
         }

@@ -1,0 +1,96 @@
+<div nz-row cdkDropListGroup class="h-full max-h-full overflow-hidden">
+  <div class="h-[600px] col bg-white dark:bg-neutral-900 rounded-lg overflow-hidden flex flex-col" displayDensity="compact"
+    nz-col
+    nz-resizable
+    (nzResize)="onResize($event)"
+    [nzMinColumn]="3"
+    [nzMaxColumn]="20"
+    [nzGridColumnCount]="24"
+    [nzSpan]="col"
+  >
+    <nz-resize-handles [nzDirections]="directions"></nz-resize-handles>
+
+    <div class="h-full flex flex-col items-stretch pb-2">
+
+      <div class="p-2">
+        <span>Catalog:</span>
+        <button mat-button [matMenuTriggerFor]="menu">
+          @if (loadingCatalogs()) {
+            <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
+          } @else {
+            {{catalog()}}
+          }
+        </button>
+      </div>
+      <mat-menu #menu="matMenu" class="ngm-density__compact">
+        @for (item of catalogs(); track item.name) {
+        <button mat-menu-item (click)="selectCatalog(item.name)">
+          <div class="whitespace-nowrap text-ellipsis overflow-hidden">
+            {{item.label || item.name}}
+          </div>
+        </button>
+        }
+      </mat-menu>
+
+      <h3 class="px-4 m-0 mt-4 flex justify-between items-center text-sm text-neutral-500">
+        <span>Cubes</span>
+        <button mat-icon-button (click)="toggleCubesList()">
+          @if (showCubesList()) {
+            <mat-icon>expand_less</mat-icon>
+          } @else {
+            <mat-icon>expand_more</mat-icon>
+          }
+        </button>
+      </h3>
+
+      @if (showCubesList()) {
+      <ngm-search class="m-2" [formControl]="searchControl"></ngm-search>
+      <cdk-virtual-scroll-viewport class="pac-model__tables-viewport h-[200px]"
+        itemSize="30" minBufferPx="360" maxBufferPx="1000"
+      >
+        <mat-selection-list [multiple]="false" [(ngModel)]="cube">
+          <mat-list-option *cdkVirtualFor="let item of cubes()" class="hover:bg-neutral-100/50 rounded-md" [value]="item.name">{{ item.caption }}</mat-list-option>
+        </mat-selection-list>
+      </cdk-virtual-scroll-viewport>
+      }
+
+      <h3 class="py-2 px-4 m-0 mt-4 text-sm text-neutral-500">Entity ({{cube[0]}})</h3>
+      @for (item of cube; track item) {
+        <ngm-entity-schema class="flex-1 overflow-auto" cdkDropList
+          [dataSettings]="{
+            dataSource: 'S4CDS',
+            entitySet: item
+          }"
+          [capacities]="[
+            EntityCapacity.Dimension,
+            EntityCapacity.Hierarchy,
+            EntityCapacity.Measure,
+            EntityCapacity.Indicator,
+            EntityCapacity.Calculation,
+            EntityCapacity.Parameter
+          ]"
+        ></ngm-entity-schema>
+      }
+    </div>
+  </div>
+
+  <div class="col right pl-2" nz-col [nzSpan]="24 - col">
+    <div class="h-full bg-white dark:bg-neutral-900 rounded-lg" cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-tab-group class="h-full" fitInkBarToContent >
+        <mat-tab label="Chart">
+          <ngm-analytical-card class="h-full"
+            [dataSettings]="dataSettings()"
+          >
+          </ngm-analytical-card>
+        </mat-tab>
+        <mat-tab label="Code">
+          <div class="block h-full p-4 overflow-auto">
+            <code class="whitespace-pre-wrap">
+              {{ dataSettings() | json }}
+            </code>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

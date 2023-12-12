@@ -216,6 +216,7 @@ export class MenusService {
 export function mapRouteToMenu(route: Route, parent?: Route): AppMenu {
   return {
     path: parent ? parent.path + '/' + route.path : route.path,
+    queryParams: route.data?.['queryParams'],
     title: route.title as string,
     icon: route.data?.['icon'],
     route: route,

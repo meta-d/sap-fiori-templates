@@ -1,0 +1,194 @@
+{
+  "name": "launchpad",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "zng",
+  "sourceRoot": "apps/launchpad/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/launchpad",
+        "index": "apps/launchpad/src/index.html",
+        "browser": "apps/launchpad/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/launchpad/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets", "apps/launchpad/src/.Ui5RepositoryBinaryFiles"],
+        "styles": [
+          "node_modules/ng-zorro-antd/resizable/style/entry.less",
+          "node_modules/driver.js/dist/driver.css",
+          "node_modules/@metad/ocap-angular/index.css",
+          "apps/launchpad/src/styles.less",
+          "apps/launchpad/src/styles.scss",
+          {
+            "input": "apps/launchpad/src/styles/antd/default.less",
+            "bundleName": "default",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/antd/dark.less",
+            "bundleName": "dark",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/material/default.scss",
+            "bundleName": "mat-default",
+            "inject": false
+          },
+          {
+            "input": "apps/launchpad/src/styles/material/dark.scss",
+            "bundleName": "mat-dark",
+            "inject": false
+          }
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "apps/launchpad/src/styles/themes"
+          ]
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2000kb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "10kb",
+              "maximumError": "100kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/launchpad/src/environments/environment.ts",
+              "with": "apps/launchpad/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "mock": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/launchpad/src/environments/environment.ts",
+              "with": "apps/launchpad/src/environments/environment.mock.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "proxyConfig": "apps/launchpad/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "launchpad:build:production"
+        },
+        "development": {
+          "buildTarget": "launchpad:build:development"
+        },
+        "mock": {
+          "buildTarget": "launchpad:build:mock",
+          "proxyConfig": "apps/launchpad/mock.conf.json"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "launchpad:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/launchpad/**/*.ts", "apps/launchpad/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/launchpad/jest.config.ts"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/launchpad/.storybook",
+        "browserTarget": "launchpad:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/launchpad",
+        "configDir": "apps/launchpad/.storybook",
+        "browserTarget": "launchpad:build-storybook",
+        "compodoc": false,
+        "styles": [
+          "apps/launchpad/src/styles.less",
+          "apps/launchpad/src/styles/antd/default.less",
+          "apps/launchpad/src/styles/material/default.scss",
+          "apps/launchpad/src/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "node_modules",
+            "apps/launchpad/src/styles/themes"
+          ]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps/launchpad/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "launchpad:build-storybook",
+        "staticFilePath": "dist/storybook/launchpad"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "launchpad:build-storybook:ci"
+        }
+      }
+    }
+  }
+}

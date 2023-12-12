@@ -1,0 +1,19 @@
+:host {
+  @apply max-h-full flex flex-col flex-1 overflow-hidden;
+}
+
+col {
+  padding: 16px 0;
+  text-align: center;
+  border-radius: 0;
+  min-height: 30px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+:host::ng-deep {
+  .mat-mdc-tab-body-wrapper {
+    @apply flex-1;
+  }
+}

@@ -1,0 +1,98 @@
+<span *zngScreenLessHidden="'320'" class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10"
+  nz-tooltip nzTooltipPlacement="bottom"
+  [nzTooltipTitle]="'ZNG.GlobalHeader.Search' | translate: {Default: 'Search'}"
+  (click)="openSearch()">
+  <i nz-icon nzTheme="outline" nzType="search"></i>
+</span>
+
+<span class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10"
+  *zngScreenLessHidden="'393'"
+  #toogleFullScreenDir="zngToggleFullscreen"
+  zngToggleFullscreen
+  nz-tooltip
+  nzTooltipPlacement="bottom"
+  [nzTooltipTitle]="toogleFullScreenDir.isFullscreenFlag ? ('ZNG.Common.Fullscreen' | translate: {Default: 'Fullscreen'}) : ('ZNG.Common.ExitFullscreen' | translate: {Default: 'Exit Fullscreen'})"
+>
+  <i *ngIf="toogleFullScreenDir.isFullscreenFlag; else exitFullTpl" nz-icon nzTheme="outline" nzType="fullscreen"></i>
+  <ng-template #exitFullTpl>
+    <i nz-icon nzTheme="outline" nzType="fullscreen-exit"></i>
+  </ng-template>
+</span>
+
+@if (enableNotification) {
+<span #notification class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10"
+  nz-popover
+  nzPopoverTrigger="click"
+  [nzPopoverContent]="noticePopover"
+  nzPopoverPlacement="bottomRight"
+  nzPopoverOverlayClassName="zng-notification-popover"
+  >
+  <nz-badge class="bst-badge" nzSize="small" [nzCount]="badgeNumber()">
+    <i class="p-2" nz-icon nzTheme="outline" nzType="bell"></i>
+  </nz-badge>
+</span>
+}
+
+<span class="zng-global-header__button flex justify-start items-center gap-1 px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown [nzDropdownMenu]="userSettingMenu">
+  <img class="avatar w-8 rounded-full" alt="" src="assets/images/default-user.jpg" />
+  <span class="base-font-size">{{ user()?.name }}</span>
+</span>
+
+<div class="zng-global-header__button inline-block h-full px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10" nz-dropdown [nzDropdownMenu]="language">
+  <i nz-icon nzTheme="outline" nzType="font-size"></i>
+</div>
+<nz-dropdown-menu #language="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item *ngFor="let lang of languages" [nzSelected]="currentLang === lang.value" (click)="useLanguage(lang.value)">{{ lang.label }}</li>
+  </ul>
+</nz-dropdown-menu>
+
+<span class="zng-global-header__button px-4 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-100/10"
+  nz-tooltip nzTooltipPlacement="bottom" [nzPopoverTitle]=" 'ZNG.GlobalSettings.Title' | translate: {Default: 'Global Settings'} "
+  nz-popover
+  nzPopoverTrigger="click"
+  [nzPopoverContent]="gSettingsTemplate"
+  nzPopoverPlacement="bottomRight"
+>
+  <i nz-icon nzTheme="outline" nzType="setting"></i>
+</span>
+
+<ng-template #gSettingsTemplate>
+  <zng-global-settings></zng-global-settings>
+</ng-template>
+
+<ng-template #noticePopover>
+  <zng-home-notice (closed)="closeNotification()"/>
+</ng-template>
+
+<nz-dropdown-menu #userSettingMenu>
+  <ul nz-menu>
+    <!-- <li nz-menu-item (click)="goPage('personal-center')">
+      <i nz-icon nzTheme="outline" nzType="user"></i>
+      <span class="ml-2">个人中心</span>
+    </li>
+    <li nz-menu-item (click)="goPage('personal-setting')">
+      <i nz-icon nzTheme="outline" nzType="setting"></i>
+      <span>个人设置</span>
+    </li> -->
+    <li nz-menu-item (click)="changePassWorld()">
+      <i nz-icon nzTheme="outline" nzType="lock"></i>
+      <span class="ml-2">{{ 'ZNG.GlobalHeader.ChangePassword' | translate: {Default: 'Change Password'} }}</span>
+    </li>
+    <li nz-menu-divider></li>
+    <!-- <li nz-menu-item (click)="clean()">
+      <i nz-icon nzTheme="outline" nzType="clear"></i>
+      <span>清除缓存</span>
+    </li>
+    <li nz-menu-item (click)="lockScreen()">
+      <i nz-icon nzTheme="outline" nzType="lock"></i>
+      <span>锁定屏幕</span>
+    </li> -->
+    <li nz-menu-item>
+      <div (click)="goLogout()">
+        <i nz-icon nzTheme="outline" nzType="logout"></i>
+        <span class="ml-2">{{ 'ZNG.GlobalHeader.Logout' | translate: {Default: 'Logout'} }}</span>
+      </div>
+    </li>
+  </ul>
+</nz-dropdown-menu>

@@ -1,0 +1,28 @@
+<div class="normal-table-wrap">
+  <nz-card>
+    <section class="page-wrap" [class.p-0]="stepDirection === 'vertical'">
+      <section class="step-wrap">
+        <nz-steps [nzCurrent]="currentStep - 1" [nzDirection]="stepDirection">
+          <nz-step nzTitle="填写转账信息"></nz-step>
+          <nz-step nzTitle="确认转账信息"></nz-step>
+          <nz-step nzTitle="完成"></nz-step>
+        </nz-steps>
+      </section>
+
+      <section>
+        <ng-template [cdkPortalOutlet]="selectedPortal" (attached)="initComponent($event)"></ng-template>
+        <!--  <ng-container *ngIf="currentStep===1">
+            <zng-step-one (next)="currentStep=currentStep+1" [stepDirection]="stepDirection"></zng-step-one>
+          </ng-container>
+
+          <ng-container *ngIf="currentStep===2">
+            <zng-step-two (previous)="currentStep=currentStep-1" (next)="currentStep=currentStep+1"></zng-step-two>
+          </ng-container>
+
+          <ng-container *ngIf="currentStep===3">
+            <zng-step-three (next)="currentStep=1" [stepDirection]="stepDirection"></zng-step-three>
+          </ng-container>-->
+      </section>
+    </section>
+  </nz-card>
+</div>

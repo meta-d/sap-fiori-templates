@@ -1,0 +1,8 @@
+:host {
+  height: 100vh;
+  @apply p-2;
+}
+
+.zng-content {
+  @apply p-2 rounded-lg bg-white dark:bg-black;
+}

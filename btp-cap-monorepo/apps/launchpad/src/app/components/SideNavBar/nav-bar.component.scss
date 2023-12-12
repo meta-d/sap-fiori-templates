@@ -1,0 +1,9 @@
+:host {
+  @apply overflow-x-hidden overflow-y-auto flex flex-col items-center;
+}
+.ant-menu.ant-menu-root.ant-menu-dark {
+  background-color: var(--zng-header-bg-color);
+}
+.ant-menu-submenu.active-link {
+  color: var(--ant-primary-7);
+}

@@ -1,0 +1,45 @@
+<ngm-member-tree-select displayDensity="compact"
+    [dataSettings]="{
+        dataSource: 'S4CDS',
+        entitySet: '$/CPMB/SOIX6DW',
+    }"
+    [dimension]="{
+        dimension: '[/CPMB/SODE5GU]',
+        hierarchy: '[/CPMB/SODE5GU]'
+    }"
+></ngm-member-tree-select>
+
+<ngm-smart-filter displayDensity="compact"
+    [dataSettings]="{
+        dataSource: 'S4CDS',
+        entitySet: '$/CPMB/SOIX6DW',
+    }"
+    [dimension]="{
+        dimension: '[/CPMB/SODE5GU]',
+        hierarchy: '[/CPMB/SODE5GU                 QTD_PARENTH1]'
+    }"
+></ngm-smart-filter>
+
+<ngm-analytical-card displayDensity="compact"
+    [dataSettings]="{
+        dataSource: 'S4CDS',
+        entitySet: '$/CPMB/SOIX6DW',
+        chartAnnotation: {
+            chartType: {
+                type: 'Bar'
+            },
+            measures: [
+                {
+                    dimension: 'Measures',
+                    measure: '/CPMB/SDATA'
+                }
+            ],
+            dimensions: [
+                {
+                    dimension: '[/CPMB/SODE5GU]',
+                    hierarchy: '[/CPMB/SODE5GU]'
+                }
+            ]
+        }
+    }"
+></ngm-analytical-card>

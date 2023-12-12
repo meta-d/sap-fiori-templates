@@ -1,0 +1,9 @@
+:host {
+  @apply flex flex-col;
+}
+
+:host::ng-deep {
+  .ant-table-cell {
+    @apply whitespace-nowrap text-ellipsis overflow-hidden;
+  }
+}

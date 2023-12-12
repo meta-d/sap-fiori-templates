@@ -1,0 +1,30 @@
+# Router
+
+## App Router
+
+原配置
+
+```json
+{
+  "welcomeFile": "blp/index.html",
+  "routes": [
+    {
+      "source": "^/blp/(.*)$",
+      "target": "$1",
+      "localDir": "./blp",
+      "cacheControl": "no-cache, no-store, must-revalidate"
+    },
+    {
+      "source": "^/appconfig/",
+      "localDir": ".",
+      "cacheControl": "no-cache, no-store, must-revalidate"
+    },
+    {
+      "source": "^/api/(.*)$",
+      "target": "$1",
+      "destination": "srv-api",
+      "csrfProtection": true
+    }
+  ]
+}
+```

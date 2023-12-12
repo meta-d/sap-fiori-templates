@@ -362,13 +362,16 @@ export class NotificationService {
       ...state,
       items: state.items?.filter((item) => item.Id !== notificationId)
     }))
-    this.byTypeNotifications.update((state) => ({
-      ...state,
-      groups: state.groups?.map((group) => ({
+    this.byTypeNotifications.update((state) => {
+      const groups = state.groups?.map((group) => ({
         ...group,
         items: group.items?.filter((item) => item.Id !== notificationId)
       }))
-    }))
+      return {
+        ...state,
+        groups: groups?.filter((g) => g.items?.length)
+      }
+    })
   }
 
   deleteGroupNotifications(id: string) {

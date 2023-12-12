@@ -1,0 +1,70 @@
+_schema-version: '3.1'
+ID: app-store
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production
+        - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
+        - ./pg-build.sh
+modules:
+  - name: app-store-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      disk-quota: 1024M
+      memory: 1024M
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: app-store-auth
+      - name: app-store-postgres
+
+  - name: app-store
+    type: approuter.nodejs
+    path: app/
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: app-store-auth
+
+  - name: app-store-db-deployer
+    type: hdb
+    path: gen/pg
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: app-store-postgres
+
+resources:
+  - name: app-store-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: app-store-${org}-${space}
+        tenant-mode: dedicated
+  - name: app-store-postgres
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: postgresql-db
+      service-plan: trial

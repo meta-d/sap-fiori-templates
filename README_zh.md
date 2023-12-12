@@ -1,14 +1,15 @@
-<h1 align="center">SAP Fiori 应用模版</h1>
+<h1 align="center">SAP BTP & Fiori 应用模版</h1>
 
 <p align="center">
   <a title="Angular" href="https://angular.dev/"><img alt="angular-logo" width="300px" valign="middle" src="./docs/images/angular_wordmark_gradient.png"></a><a title="Vuejs" href="https://vuejs.org/"><img width="100px" valign="middle" src="./docs/images/vue.png"></a>
+  <a href="https://cap.cloud.sap/"><img alt="sap-cap-logo" width="100px" valign="middle" src="./docs/images/cap.svg"></a>
 </p>
 <p align="center">
 <a title="Ant Design" href="https://ant-design.antgroup.com/index-cn"><img width="80px" valign="middle" src="./docs/images/ant-design.svg"></a>➕<a title="SAP Fiori Design" href="https://experience.sap.com/fiori-design-web/"><img width="100px" valign="middle" src="./docs/images/sap.png"></a>
 </p>
 <p align="center">
-  <em>此工作空间包含多个开发模板用于构建移动和桌面 SAP Fiori 应用程序
-    <br>使用 Angular、Vue、React 等框架和 Ant Design 设计规范</em>
+  <em>此工作空间包含多个开发模板用于构建移动和桌面 SAP BTP & Fiori 应用程序
+    <br>使用 <b>Angular</b>、Vue、React 等框架和 <b>Ant Design</b> 设计规范</em>
   <br>
 </p>
 
@@ -21,8 +22,9 @@
 
 ## 🌟 这是什么？
 
-这是一个由第三方前端框架（Angular、Vue、React等）构建的 SAP Fiori 应用程序模板集合。它基于 [Nx](https://nx.dev) 和 [UI5 Tooling](https://sap.github.io/ui5-tooling/)。
-使用开源框架来创建 Fiori 应用有很多优势：
+这是一个由第三方前端框架（Angular、Vue、React等）构建的 SAP BTP & Fiori 应用程序模板集合。它基于 [Nx](https://nx.dev) 和 [UI5 Tooling](https://sap.github.io/ui5-tooling/)。
+
+使用开源框架来创建 BTP & Fiori 应用有很多优势：
 * 强大的生态系统和活跃的开发社区，提供了问题解决方案、示例代码和插件。
 * 丰富的组件库和模板。
 * 跨平台一致性，支持响应式设计，使应用程序能够适应不同的屏幕尺寸和设备。
@@ -38,9 +40,10 @@
 
 我们计划提供多个框架和多种组合的项目模板。已开发的模板都可以使用。
 
+* ⭐️ [BTP CAP Angular workspace](./btp-cap-monorepo/)
 * [Angular standalone workspace](./angular-standalone/)
 * [Vue standalone workspace](./sap-fiori-vue-standalone/)
-* React standalone workspace
+* [React monorepo workspace](./react-monorepo)
 
 ## ✨ 功能特性
 
@@ -61,7 +64,10 @@
 * 网站**水印**功能。
 * 全局应用**搜索**功能。
 * 网页和 Fiori 应用**全屏**功能。
-* 支持 SAP 系统 [**通知**](./docs/zh/Notification.md)消息。
+* **选项卡** 式页面管理。
+* 函数式 [OData 客户端库](./btp-cap-monorepo/packages/odata/)。
+* 支持 SAP 系统 [**通知**](./docs/Notification.md) 消息。
+* [嵌入式分析](./docs/BI.md) 使用 [OCAP 框架](https://github.com/meta-d/ocap).
 
 ## 🌼 屏幕截图
 
@@ -91,6 +97,10 @@
 ### 国际化语言
 
 <img src="./docs/images/internationalization.png" alt="Internationalization Screenshot" height="auto" width="100%" style="border-radius: 10px;">
+
+### 嵌入式分析
+
+<img src="./docs/images/bi/ocap-schema.png" alt="Embedded Analytics Screenshot" height="auto" width="100%" style="border-radius: 10px;">
 
 </details>
 

@@ -4,6 +4,7 @@ import { Injectable, computed, inject, signal } from '@angular/core'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
+import queryString from 'query-string'
 import { AppGroup, Chip, Ui5Path } from '../types'
 import { AppMenu } from './menus.service'
 import { CookieService } from 'ngx-cookie-service'
@@ -184,6 +185,11 @@ export function toChip(item: any /*odata result*/): Chip {
     //
   }
   
+  let navigationSemanticParameters = null
+  if (tileConfiguration?.navigation_semantic_parameters) {
+    navigationSemanticParameters = queryString.parse(tileConfiguration?.navigation_semantic_parameters) as Record<string, string>
+  }
+
   return {
     id,
     title: chipTitle?.value,
@@ -191,6 +197,7 @@ export function toChip(item: any /*odata result*/): Chip {
     searchKeywords: searchKeywords?.value,
     navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
     navigationSemanticAction: tileConfiguration?.navigation_semantic_action,
+    navigationSemanticParameters,
     navigationTargetUrl: tileConfiguration?.navigation_target_url?.startsWith('#') ? tileConfiguration.navigation_target_url.slice(1) : tileConfiguration?.navigation_target_url,
   }
 }

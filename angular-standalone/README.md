@@ -57,7 +57,7 @@ Add storybook use command `npx nx g @nx/angular:storybook-configuration angular-
 You can execute the following npm scripts to preview the application:
 
 * **start** - starts the application with real service data.
-* **start-mock** - starts the application with mock data.
+* **start:mock** - starts the application with mock data.
 
 ### 📡 Use Live Data
 
@@ -79,7 +79,7 @@ Here is the configuration file *src/proxy.conf.json*, all the requests starting 
 
 ### 📋 Use Mock Data
 
-When using `npm run start-mock` to start the application and a mock server to reflect the OData endpoint, you can use the application without having to connect to a live OData service and generate mock data on the fly.
+When using `npm run start:mock` to start the application and a mock server to reflect the OData endpoint, you can use the application without having to connect to a live OData service and generate mock data on the fly.
 
 ### Add New OData Mock Data
 

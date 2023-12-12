@@ -1,0 +1,23 @@
+:host {
+  @apply block;
+}
+
+.ant-list-item {
+  @apply items-start opacity-80;
+  &:hover {
+    @apply opacity-100;
+  }
+}
+
+.ant-list-vertical .ant-list-item {
+  @apply flex flex-col justify-start items-stretch;
+
+  .ant-list-item-meta {
+    @apply mb-0;
+  }
+
+  .ant-list-item-action {
+    @apply mt-0;
+  }
+}
+

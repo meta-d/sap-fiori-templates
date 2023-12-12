@@ -1,0 +1,14 @@
+:host {
+  @apply flex;
+}
+
+.anticon {
+  color: var(--zng-header-color, theme('colors.gray.500'));
+}
+
+.zng-global-header__button {
+  color: var(--zng-header-color, theme('colors.gray.500'));
+  &:hover {
+    color: var(--zng-header-color-hover, theme('colors.gray.500'));
+  }
+}

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "start-mock": "concurrently \"nx serve -- -c mock\" \"node src/mock/index.mjs\"",
+    "start:mock": "concurrently \"nx serve -- -c mock\" \"node src/mock/index.mjs\"",
     "build": "nx build -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
     "test": "nx test",
     "archive": "cd dist/angular-standalone && npx bestzip ../../archive.zip * .Ui5RepositoryBinaryFiles",
@@ -24,14 +24,15 @@
     "@angular/platform-browser": "^17.0.1",
     "@angular/platform-browser-dynamic": "^17.0.1",
     "@angular/router": "^17.0.1",
-    "@ant-design/icons-angular": "^16.0.0",
+    "@ant-design/icons-angular": "^17.0.0",
     "@ngneat/cmdk": "^2.0.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "date-fns": "^2.30.0",
-    "ng-zorro-antd": "^16.2.2",
+    "ng-zorro-antd": "^17.0.0",
     "ngx-cookie-service": "^16.0.2",
     "ngx-logger": "^5.0.12",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rxjs": "~7.8.0",
@@ -93,4 +94,3 @@
     "ui5-task-flatten-library": "0.2.5"
   }
 }
-

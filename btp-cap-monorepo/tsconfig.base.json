@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./apps/launchpad/src/*"],
+      "@metad/cap-contracts": ["packages/contracts/src/index.ts"],
+      "@metad/cap-odata": ["packages/odata/src/index.ts"],
+      "#cds-models/*": [
+        "./caps/app-store/@cds-models/*/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
