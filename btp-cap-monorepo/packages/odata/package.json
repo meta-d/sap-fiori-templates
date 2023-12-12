@@ -1,6 +1,6 @@
 {
   "name": "@metad/cap-odata",
-  "version": "0.0.7",
+  "version": "0.0.17",
   "dependencies": {},
   "main": "./index.js",
   "module": "./index.mjs",
