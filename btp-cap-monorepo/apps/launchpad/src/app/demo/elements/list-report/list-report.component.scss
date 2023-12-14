@@ -1,0 +1,9 @@
+.zng-page-body-ghost-wrapper {
+  @apply flex-1 p-4 overflow-y-auto;
+}
+
+:host::ng-deep {
+  .ant-table-cell {
+    @apply whitespace-nowrap text-ellipsis overflow-hidden;
+  }
+}

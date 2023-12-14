@@ -1,0 +1,74 @@
+<nz-page-header nzBackIcon [nzGhost]="false">
+  <nz-page-header-title>
+    Products List
+  </nz-page-header-title>
+  <nz-page-header-subtitle></nz-page-header-subtitle>
+  <nz-page-header-extra>
+    <nz-space>
+      <button *nzSpaceItem nz-button [disabled]="saving() || loading() || dirty()" (click)="go()">查询</button>
+      <button *nzSpaceItem nz-button nzType="primary" [disabled]="!selection.size || saving() || loading()" (click)="export()">下载</button>
+    </nz-space>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <zng-page-filter-bar class="w-full" [(ngModel)]="filterValues" [fields]="filterFields" (filtersChanging)="onFiltersChanging($event)">
+    </zng-page-filter-bar>
+  </nz-page-header-content>
+</nz-page-header>
+
+
+<div class="zng-page-body-ghost-wrapper">
+  <nz-table #expandTable class="h-full w-full" [nzFrontPagination]="false" [nzLoading]="loading() || saving()" nzBordered nzOuterBordered
+    [nzData]="items()" nzSize="small" [nzScroll]="{ x: '1100px', y: '500px' }"
+    nzShowPagination
+    nzShowSizeChanger>
+    <thead>
+      <tr>
+        <th nzLeft nzWidth="40px"
+          [nzChecked]="checked"
+          [nzIndeterminate]="indeterminate"
+          nzLabel="Select all"
+          (nzCheckedChange)="onAllChecked($event)"
+        ></th>
+        @for (column of tableColumns(); track column.name) {
+          <th [nzWidth]="column.width ?? defaultColumnWidth" [nzLeft]="column.freeze ?? false" [nzAlign]="column.align!"
+            nz-resizable
+            nzBounds="window"
+            nzPreview
+            (nzResizeEnd)="onResize($event, column.name)"
+          >
+            {{column.label}}
+            <nz-resize-handle nzDirection="right">
+              <div class="resize-trigger"></div>
+            </nz-resize-handle>
+          </th>
+        }
+
+        <th nzWidth="50px" nzRight>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of items(); track row.__key__) {
+        <tr [class.zng__dirty]="row.__dirty__">
+          <td
+            [nzChecked]="selection.has(row.__key__)"
+            [nzLabel]="row.__name__ ?? ''"
+            (nzCheckedChange)="onItemChecked(row.__key__, $event)"
+          ></td>
+          @for (column of tableColumns(); track column.name) {
+            <td [nzLeft]="column.freeze ?? false">
+              @switch (column.name) {
+                @default {
+                  <td [nzLeft]="column.freeze ?? false">
+                    {{ row[column.name] }}
+                  </td>
+                }
+              }
+            </td>
+          }
+
+          <td nzRight>...</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>

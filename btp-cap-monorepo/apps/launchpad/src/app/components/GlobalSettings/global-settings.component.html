@@ -110,4 +110,24 @@
         }
         
     </div>
+
+    @if (enableFiori) {
+        <nz-divider></nz-divider>
+    
+        <div class="w-full flex flex-col items-start justify-start">
+            <label class="title text-base">{{'ZNG.GlobalSettings.WebGUIMode' | translate: {Default: 'WebGUI Mode'} }}</label>
+    
+            <nz-radio-group [(ngModel)]="webGuiMode" nzName="webGuiMode">
+                <label nz-radio nzValue="self">
+                    {{ 'ZNG.GlobalSettings.WebGUIMode_Self' | translate: {Default: 'Self'} }}
+                </label>
+                <label nz-radio nzValue="blank">
+                    {{ 'ZNG.GlobalSettings.WebGUIMode_Blank' | translate: {Default: 'Blank'} }}
+                    </label>
+                <label nz-radio nzValue="popup">
+                    {{ 'ZNG.GlobalSettings.WebGUIMode_Popup' | translate: {Default: 'Popup'} }}
+                </label>
+            </nz-radio-group>
+        </div>
+    }
 </div>

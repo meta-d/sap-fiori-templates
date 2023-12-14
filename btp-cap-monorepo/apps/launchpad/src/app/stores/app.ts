@@ -3,6 +3,11 @@ import { NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { MenuMode, ThemeType } from '../core/types'
 
 export const PersContainerId = 'zng.settings'
+export enum WebGuiModeEnum {
+  self = 'self',
+  blank = 'blank',
+  popup = 'popup'
+}
 
 export interface PersonalizationType {
   theme: ThemeType
@@ -19,6 +24,11 @@ export interface PersonalizationType {
   hasNavArea: boolean // 是否有菜单
   hasNavHeadArea: boolean // 菜单是否有菜单头
   splitNav: boolean // 是否分割菜单
+
+  /**
+   * The mode of open WebGUI tech fiori app
+   */
+  webGuiMode: WebGuiModeEnum
 }
 
 export interface UserType {
@@ -47,7 +57,8 @@ export const DefaultPersonalization: PersonalizationType = {
   hasFooterArea: true,
   hasNavArea: true,
   hasNavHeadArea: true,
-  splitNav: true
+  splitNav: true,
+  webGuiMode: WebGuiModeEnum.blank
 }
 
 export interface IAppStore {

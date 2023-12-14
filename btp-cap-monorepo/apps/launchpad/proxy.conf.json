@@ -1,22 +1,29 @@
 {
-    "/api": {
-      "target": "http://localhost:4004",
-      "secure": false,
-      "pathRewrite": {
-        "^/api": "/"
-      }
-    },
-    "/sap/bc/apc/iwngw/": {
-      "target": "wss://<sap server>",
-      "secure": true,
-      "changeOrigin": false,
-      "ws": true,
-      "auth": "username:password"
-    },
-    "/sap/": {
-      "target": "https://<sap server>",
-      "secure": false,
-      "changeOrigin": true,
-      "auth": "username:password"
+  "/api": {
+    "target": "http://localhost:4004",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": "/"
     }
+  },
+  "/sap/bc/apc/iwngw/": {
+    "target": "wss://<sap server>",
+    "secure": true,
+    "changeOrigin": false,
+    "ws": true,
+    "auth": "username:password"
+  },
+  "/sap/": {
+    "target": "https://<sap server>",
+    "secure": false,
+    "changeOrigin": true,
+    "auth": "username:password"
+  },
+  "/odata.org/": {
+    "target": "https://services.odata.org",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/odata.org/": "/"
+    }
+  }
 }

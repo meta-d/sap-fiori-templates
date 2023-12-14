@@ -1,0 +1,9 @@
+:host::ng-deep {
+  .ant-descriptions-item .ant-descriptions-item-content {
+    @apply w-full pr-4;
+  }
+}
+.ant-select,
+.ant-picker.ant-picker-range {
+  @apply flex-1 max-w-full;
+}

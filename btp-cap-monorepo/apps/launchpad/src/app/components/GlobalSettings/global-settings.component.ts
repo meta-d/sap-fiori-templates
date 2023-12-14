@@ -1,6 +1,7 @@
 import { FioriLaunchpadService, ThemeService } from '@/app/core/services'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { MenuMode, ThemeType } from '@/app/core/types'
+import { WebGuiModeEnum } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
@@ -168,6 +169,15 @@ export class GlobalSettingsComponent {
   set fixedTab(value: boolean | undefined) {
     this.themeService.updatePersonalization({
       fixedTab: value
+    })
+  }
+
+  get webGuiMode() {
+    return this.themeService.webGuiMode()
+  }
+  set webGuiMode(value: WebGuiModeEnum) {
+    this.themeService.updatePersonalization({
+      webGuiMode: value
     })
   }
 

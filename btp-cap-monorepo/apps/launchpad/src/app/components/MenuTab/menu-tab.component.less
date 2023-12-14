@@ -29,12 +29,9 @@
 }
 
 .zng-fixed-tab {
-  position: fixed;
-  right: 0;
-  z-index: 999;
   width: calc(100% - var(--zng-left-sider-width));
   transition: width 0.2s;
-  @apply shadow-sm;
+  @apply fixed right-0 shadow-sm z-40;
 
   i {
     position: absolute;

@@ -41,13 +41,17 @@ export function updateODataConfig(value: Partial<ODataConfig>) {
   })
 }
 
+export function isHighVersion(response: Response) {
+  return response.headers.get('Odata-Version')?.startsWith('4') || response.headers.get('Dataserviceversion')?.startsWith('3')
+}
+
 export function defineODataStore(
   service: string,
   options: {
     base: string
     version?: string | null
   } = {
-    base: '/sap/opu/odata/sap'
+    base: '/sap/opu/odata/sap',
   }
 ) {
   const { base, version } = options
@@ -158,7 +162,7 @@ export function defineODataStore(
 
       if (response.ok) {
         const result = await response.json()
-        if (response.headers.get('Odata-Version') === '4.0') {
+        if (isHighVersion(response)) {
           return result
         } else {
           return result.d
@@ -241,7 +245,7 @@ export function defineODataStore(
 
       if (response.ok) {
         const result = await response.json()
-        if (response.headers.get('Odata-Version') === '4.0') {
+        if (isHighVersion(response)) {
           return result.value
         } else {
           return result.d.results

@@ -3,47 +3,57 @@
 @margin-md: 17px;
 
 .anticon {
-    vertical-align: 0.1em;
+  vertical-align: 0.1em;
 }
 
 *::-webkit-scrollbar-track {
-    background: var(--zng-scrollbar-track-background, white); // Default value for default theme
-    -webkit-box-shadow: inset 0 0 5px rgba(37, 37, 37, .05);
+  background: var(--zng-scrollbar-track-background, white); // Default value for default theme
+  -webkit-box-shadow: inset 0 0 5px rgba(37, 37, 37, 0.05);
 }
 
 *::-webkit-scrollbar-thumb {
-    background: var(--zng-scrollbar-thumb-background, lightgray); // Default value for default theme
-    -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, .05);
+  background: var(--zng-scrollbar-thumb-background, lightgray); // Default value for default theme
+  -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
 .ant-popover-inner {
-    @apply rounded-lg shadow-lg;
+  @apply rounded-lg shadow-lg;
 }
 
 .ant-modal-content {
-    @apply rounded-xl shadow-lg overflow-hidden;
+  @apply rounded-xl shadow-lg overflow-hidden;
 }
 
 .ant-menu-submenu.ant-menu-submenu-popup {
-    .ant-menu-sub {
-        @apply p-2 shadow-sm rounded-xl border border-solid border-gray-300 dark:border-gray-300/50;
-    }
+  .ant-menu-sub {
+    @apply p-2 shadow-lg rounded-xl border border-solid border-neutral-300;
+  }
 
-    .ant-menu-item {
-        @apply rounded-lg hover:bg-gray-200/50;
+  .ant-menu-item {
+    @apply rounded-lg hover:bg-neutral-200/50;
+  }
+
+  &.ant-menu-dark {
+    .ant-menu-sub {
+      @apply border-gray-500;
     }
+    .ant-menu-item {
+      @apply hover:bg-neutral-200/10;
+    }
+  }
 }
 
 .ant-dropdown-menu {
-    @apply rounded-lg shadow-lg;
+  @apply rounded-lg shadow-lg;
 }
 
 .ant-menu-inline.ant-menu-sub {
-    @apply pl-2;
+  @apply pl-2;
 }
 
 .ant-result {
-    svg, img {
-        display: inline-block;
-    }
+  svg,
+  img {
+    display: inline-block;
+  }
 }

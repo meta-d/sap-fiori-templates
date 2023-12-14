@@ -27,6 +27,10 @@
             "FixedLayoutHeader": "固定顶部栏",
             "ShowTabMenu": "显示页签菜单",
             "FixedTabMenu": "固定页签菜单",
+            "WebGUIMode": "WebGUI 模式",
+            "WebGUIMode_Self": "本页面",
+            "WebGUIMode_Blank": "新页面",
+            "WebGUIMode_Popup": "弹出窗",
             "Pin": "固定",
             "Close": "关闭",
             "Themes": {
@@ -47,7 +51,10 @@
             "CloseAll": "关闭所有"
         },
         "UI5": {
-            "FioriAppNotFound": "抱歉，未找到此 Fiori 应用程序！"
+            "FioriAppNotFound": "抱歉，未找到此 Fiori 应用程序！",
+            "OpenWebGUIApp": "打开 WebGUI 应用程序",
+            "Goto": "转到",
+            "Close": "关闭"
         },
         "Pages": {
             "Home": "首页",
@@ -69,7 +76,9 @@
             "Task": "任务",
             "Fiori Application": "Fiori 应用",
             "SAP Application": "SAP 应用",
-            "Risks": "风险管理"
+            "Risks": "风险管理",
+            "List Report": "清单报告",
+            "Elements": "元素组件"
         }
     }
 }

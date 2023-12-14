@@ -1,3 +1,5 @@
+import { isString } from "./isString"
+
 /**
  * Checks if `value` is `null` or `undefined`.
  *
@@ -21,4 +23,8 @@ export function isNil(value: any) {
 
 export function nonNullable<T>(value: T): value is NonNullable<T> {
   return value != null
+}
+
+export function nonBlank<T>(value: T): value is NonNullable<T> {
+  return value != null && (isString(value) && value.trim() !== '')
 }

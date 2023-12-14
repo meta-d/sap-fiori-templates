@@ -12,3 +12,12 @@
     color: var(--zng-header-color-hover, theme('colors.gray.500'));
   }
 }
+
+::ng-deep {
+  .ant-popover.zng-global-settings__popover {
+    .ant-popover-inner-content {
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+  }
+}

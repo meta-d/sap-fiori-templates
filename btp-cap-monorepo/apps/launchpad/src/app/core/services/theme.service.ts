@@ -29,7 +29,8 @@ export class ThemeService {
   readonly fixedTab = computed(() => this.personalization().fixedLayoutHeader && this.personalization().fixedTab)
   readonly isOverMode = computed(() => this.personalization().isOverMode)
   readonly isNightTheme = computed(() => this.personalization().theme === ThemeType.dark)
-
+  readonly webGuiMode = computed(() => this.personalization().webGuiMode)
+  
   readonly isCollapsed = signal(false)
 
   // Translator

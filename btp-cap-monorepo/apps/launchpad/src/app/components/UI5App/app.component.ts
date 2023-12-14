@@ -1,13 +1,15 @@
-import { FioriLaunchpadService, ToggleFullscreenDirective } from '@/app/core'
+import { FioriLaunchpadService, ThemeService, ToggleFullscreenDirective } from '@/app/core'
 import { fadeAnimation } from '@/app/core/animations'
 import { SafePipe } from '@/app/core/pipes'
 import { ZngAntdModule } from '@/app/core/shared.module'
+import { nonBlank } from '@/app/utils'
 import { CommonModule } from '@angular/common'
 import {
   AfterViewInit,
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   QueryList,
   ViewChildren,
   computed,
@@ -15,13 +17,13 @@ import {
   inject,
   signal
 } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
 import { Title } from '@angular/platform-browser'
 import { ActivatedRoute, RouterModule } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
 import { NGXLogger } from 'ngx-logger'
-import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
+import { EMPTY, distinctUntilChanged, filter, map, startWith } from 'rxjs'
 
 @Component({
   standalone: true,
@@ -41,8 +43,9 @@ import { EMPTY, distinctUntilChanged, map, startWith } from 'rxjs'
     fadeAnimation
   ]
 })
-export class UI5AppComponent implements AfterViewInit {
+export class UI5AppComponent implements AfterViewInit, OnDestroy {
   private flpService = inject(FioriLaunchpadService)
+  #themeService = inject(ThemeService)
   private route = inject(ActivatedRoute)
   private title = inject(Title)
   private logger = inject(NGXLogger)
@@ -94,9 +97,9 @@ export class UI5AppComponent implements AfterViewInit {
     return null
   })
 
-  iframeUrls = computed(() => {
+  readonly iframeUrls = computed(() => {
     if (this.semanticObject()) {
-      if (!this.chipIsGui() && this.#semanticTargetUrl()) {
+      if (this.#semanticTargetUrl()) {
         return [this.#semanticTargetUrl()]
       } else {
         return []
@@ -108,13 +111,35 @@ export class UI5AppComponent implements AfterViewInit {
 
   readonly appFullscreen = signal(false)
 
+  readonly #appWindowRef = signal<{
+    status: null | 'Opened' | 'Closed';
+    ref: Window | null
+  }>({
+    status: null,
+    ref: null
+  })
+
+  readonly hasAppWindowRef = computed(() => !!this.#appWindowRef().ref)
+
+  readonly webGuiMode = this.#themeService.webGuiMode
+
+  // Reset window status when semantic object changed
+  #soSub = toObservable(this.semanticObject).pipe(filter(nonBlank), takeUntilDestroyed()).subscribe(() => {
+    this.#appWindowRef().ref?.close()
+    this.#appWindowRef.update((state) => ({
+      ...state,
+      status: null,
+      ref: null
+    }))
+  })
+
   constructor() {
     effect(() => {
       const semanticTargetUrl = this.#semanticTargetUrl()
-      if (this.chipIsGui() && semanticTargetUrl) {
-        window.open(semanticTargetUrl, '_self')
+      if (this.chipIsGui() && semanticTargetUrl && !this.#appWindowRef().status) {
+        this.newAppWindow(semanticTargetUrl)
       }
-    })
+    }, { allowSignalWrites: true })
 
     effect(() => {
       this.title.setTitle(this.chip()?.title ?? this.title.getTitle())
@@ -127,20 +152,19 @@ export class UI5AppComponent implements AfterViewInit {
     })
   }
 
-  private styleFioriApp(iframe: HTMLIFrameElement) {
-    iframe.onload = () => {
+  private styleFioriApp(ref: HTMLIFrameElement | Window) {
+    ref.onload = () => {
+      const newDocument = (<HTMLIFrameElement>ref).contentDocument || (<Window>ref).document
       // Hidden Fiori App shell header
-      const style = document.createElement('style')
+      const style = newDocument.createElement('style')
       style.setAttribute('type', 'text/css')
       style.appendChild(
-        document.createTextNode(
+        newDocument.createTextNode(
           `#shell-hdr.sapUshellShellHead { display: none !important; } #shell-cntnt.sapUshellShellCanvas {top: 10px;}`
         )
       )
 
-      if (iframe.contentDocument) {
-        iframe.contentDocument.head.appendChild(style)
-      }
+      newDocument.head.appendChild(style)
     }
   }
 
@@ -148,4 +172,53 @@ export class UI5AppComponent implements AfterViewInit {
     this.appFullscreen.update((value) => !value)
   }
 
+  newAppWindow(semanticTargetUrl: string) {
+    this.#appWindowRef().ref?.close()
+    let windowObjectRef: Window | null = null
+    switch(this.webGuiMode()) {
+      case 'self':
+        windowObjectRef = window.open(semanticTargetUrl, '_self')
+        break
+      case 'popup':
+        windowObjectRef = window.open(semanticTargetUrl, semanticTargetUrl, 'popup=yes,toolbar=no,location=no,menubar=no,status=no')
+        break
+      default:
+        windowObjectRef = window.open(semanticTargetUrl, '_blank')
+    }
+    
+    if (windowObjectRef) {
+      windowObjectRef.addEventListener('beforeunload', (event) => {
+        this.#appWindowRef.update((state) => ({
+          status: 'Closed',
+          ref: null
+        }))
+      })
+
+      this.styleFioriApp(windowObjectRef)
+
+      this.#appWindowRef.update(() => ({
+        status: 'Opened',
+        ref: windowObjectRef
+      }))
+    }
+  }
+
+  gotoAppWindow() {
+    if (this.#appWindowRef().ref) {
+      this.#appWindowRef().ref?.focus()
+    } else if(this.#semanticTargetUrl()) {
+      this.newAppWindow(this.#semanticTargetUrl()!)
+    }
+  }
+
+  closeAppWindow() {
+    // Bring window to top view
+    this.#appWindowRef().ref?.focus()
+    // Close it!
+    this.#appWindowRef().ref?.close()
+  }
+
+  ngOnDestroy(): void {
+    this.closeAppWindow()
+  }
 }

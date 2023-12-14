@@ -1,0 +1,1 @@
+export * from './list-report/list-report.component'

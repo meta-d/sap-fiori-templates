@@ -31,10 +31,10 @@
             @if (menu.icon) {
               <span nz-icon [nzType]="menu.icon"></span>
             }
-            <span>{{ menu.title }}</span>
+            <span [title]="menu.title">{{ menu.title }}</span>
           </li>
         } @else {
-          <li nz-submenu [nzTitle]="isCollapsed ? menu.title?.[0] : menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"
+          <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"
             (click)="loadMenus(menu)">
             <!-- for highlight the active parent menu -->
             <div [routerLink]="menu.path"></div>

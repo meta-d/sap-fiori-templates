@@ -54,3 +54,83 @@ export function KeysParameters(keys: Keys) {
 export function getEntityName(entity: string | { name: string }): string {
   return typeof entity === 'string' ? entity : entity.name.split('.').pop()!
 }
+
+/**
+ * 
+ * @param entityType EntityType for the entity
+ * @param item 
+ * @returns 
+ */
+export function mapEdmEntity<T extends Record<string, any>>(entityType: EntityType, item: Record<keyof T, any>) {
+  return Object.keys(item).reduce((acc, key: keyof T) => {
+    const property = entityType.Property.find((prop) => prop['@'].Name === key)
+    switch (property?.['@'].Type) {
+      case 'Edm.Time':
+        acc[key] = parseEdmTime(item[key]) as T[keyof T]
+        break
+      case 'Edm.DateTime':
+        acc[key] = parseEdmDateTime(item[key]) as T[keyof T]
+        break
+      case 'Edm.Decimal':
+        acc[key] = Number(item[key]) as T[keyof T]
+        break
+      default:
+        acc[key] = item[key]
+    }
+    return acc
+  }, {} as T)
+}
+
+export type Property = {
+  '@': {
+    Name: string
+    Type: 'Edm.Decimal' | 'Edm.String' | 'Edm.Time' | 'Edm.DateTime'
+  }
+}
+export type EntityType = {
+  Property: Property[]
+}
+
+/**
+ * Convert EDM.Time in OData to humman format
+ * 
+ * Example:
+ * 
+ * ```typescript
+// Example usage
+const edmTimeValue = 'PT12H30M45S';
+const convertedString = parseEdmTime(edmTimeValue);
+console.log(convertedString); // Output: '12:30:45'
+ * ```
+ * @param edmTime is in the format 'PTxxHxxMxxS'
+ * @returns 
+ */
+export function parseEdmTime(edmTime: string) {
+  // Extract hours, minutes, and seconds
+  const hours = edmTime.slice(2, 4)
+  const minutes = edmTime.slice(5, 7)
+  const seconds = edmTime.slice(8, 10)
+
+  // Construct the string representation
+  const timeString = `${hours}:${minutes}:${seconds}`
+
+  return timeString
+}
+
+/**
+ * Parse Edm.DateTime value to Date
+ *
+ * @param value The format is "/Date(1689206400000)/"
+ * @returns
+ */
+export function parseEdmDateTime(value: string) {
+  const mg = value.match(/\d+/)
+  if (mg) {
+    // 提取时间戳部分
+    const timestamp = parseInt(mg[0], 10)
+    // 使用 parse 函数将时间戳转换为 Date 对象
+    const dateObject = new Date(timestamp)
+    return dateObject
+  }
+  return null
+}

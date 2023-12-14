@@ -65,3 +65,11 @@ export interface SearchCommonVO<T> {
   pageSize: number;
   filters?: T;
 }
+
+export type TableColumn<T> = {
+  name: keyof T
+  label: string
+  width?: string
+  freeze?: string | boolean
+  align?: 'left' | 'right' | 'center' | null
+}
