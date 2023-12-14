@@ -1,6 +1,6 @@
 {
   "name": "@metad/cap-contracts",
-  "version": "0.0.1",
+  "version": "0.0.17",
   "dependencies": {},
   "main": "./index.js",
   "module": "./index.mjs",
