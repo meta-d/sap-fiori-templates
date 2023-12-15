@@ -1,6 +1,40 @@
-<!-- <app-page-header [pageHeaderInfo]="pageHeaderInfo" /> -->
+<nz-page-header [nzGhost]="false"
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="工作台"
+  nzSubtitle="日常工作"
+>
+  <nz-page-header-content>
+    <div class="mini-screen" nz-row>
+      <div nz-col nzFlex="1">
+        <div nz-row>
+          <div class="rounded-full overflow-hidden mr-4" nz-col nzFlex="72px">
+            <img alt="" src="assets/images/default-user.jpg" />
+          </div>
+          <div nz-col nzFlex="1">
+            <h4 class="left-start-center m-0" nz-typography style="height: 50%">早安，<a href="https://mtda.cloud/sap/">元数信息</a>，祝你开心每一天！</h4>
+            <div class="left-start-center" nz-typography nzType="secondary" style="height: 50%">ERP 专家 |元数信息－SAP BTP & Fiori 技术栈</div>
+          </div>
+        </div>
+      </div>
+      <div nz-col nzFlex="280px">
+        <nz-row>
+          <nz-col [nzSpan]="8">
+            <nz-statistic [nzTitle]="'项目数'" [nzValue]="(56 | number)!"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="8">
+            <nz-statistic [nzTitle]="'团队内排名'" [nzValue]="'8/24'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="8">
+            <nz-statistic [nzTitle]="'项目访问'" [nzValue]="(2223 | number)!"></nz-statistic>
+          </nz-col>
+        </nz-row>
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>
 
-<div class="normal-table-wrap p-4">
+<div class="normal-table-wrap">
   <div nz-row [nzGutter]="[32, 32]">
     <div nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXl]="16" [nzXs]="24" [nzXXl]="16">
       <div nz-row [nzGutter]="[32, 32]">
@@ -8,10 +42,10 @@
           <nz-card nzTitle="进行中的项目" [nzExtra]="extraTemplate">
             <div nz-row>
               <div *ngFor="let i of 6 | numberLoop" nz-card-grid nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
-                <nz-card-meta nzDescription="城镇中有那么多的酒馆，她却偏偏走进了我的酒馆" [nzTitle]="cardTitleTpl"></nz-card-meta>
+                <nz-card-meta nzDescription="现代化 Fiori 界面已应用至生产环境" [nzTitle]="cardTitleTpl"></nz-card-meta>
                 <div class="card-foot">
                   <span nz-typography nzType="secondary">小华</span>
-                  <span nz-typography nzType="secondary">4年前</span>
+                  <span nz-typography nzType="secondary">4 年前</span>
                 </div>
               </div>
             </div>
@@ -25,10 +59,9 @@
                   <nz-list-item-meta-avatar [nzSrc]="'assets/imgs/default_face.png'"></nz-list-item-meta-avatar>
                   <nz-list-item-meta-title>
                     <a>
-                      曲丽丽 在
-                      <span class="operate-text">高逼格设计天团</span>
-                      新建项目
-                      <span class="operate-text">六月迭代</span>
+                      工厂生产计划
+                      <span class="operate-text">项目</span>
+                      <span class="operate-text">已成功上线！</span>
                     </a>
                   </nz-list-item-meta-title>
                   <nz-list-item-meta-description>19 天前</nz-list-item-meta-description>
@@ -64,12 +97,14 @@
         <div nz-col nzSpan="24">
           <nz-card nzTitle="团队">
             <div nz-row>
-              <div *ngFor="let item of 5 | numberLoop" nz-col nzSpan="12">
-                <a class="group">
-                  <nz-avatar [nzSize]="24" [nzSrc]="'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png'"></nz-avatar>
-                  <span class="m-l-10">科学搬砖组</span>
-                </a>
-              </div>
+              @for (team of teams(); track team) {
+                <div nz-col nzSpan="12">
+                  <a class="group">
+                    <nz-avatar [nzSize]="24" [nzSrc]="'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png'"></nz-avatar>
+                    <span class="ml-2">{{team}}</span>
+                  </a>
+                </div>
+              }
             </div>
           </nz-card>
         </div>
@@ -78,39 +113,11 @@
   </div>
 </div>
 
-<ng-template #pageHeaderContent>
-  <div class="mini-screen" nz-row>
-    <div nz-col nzFlex="1">
-      <div nz-row>
-        <div class="m-r-25" nz-col nzFlex="72px">
-          <img alt="" src="assets/imgs/default_face.png" />
-        </div>
-        <div nz-col nzFlex="1">
-          <h4 class="left-start-center m-0" nz-typography style="height: 50%">早安，Serati Ma，祝你开心每一天！</h4>
-          <div class="left-start-center" nz-typography nzType="secondary" style="height: 50%">交互专家 |蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED</div>
-        </div>
-      </div>
-    </div>
-    <div nz-col nzFlex="280px">
-      <nz-row>
-        <nz-col [nzSpan]="8">
-          <nz-statistic [nzTitle]="'项目数'" [nzValue]="(56 | number)!"></nz-statistic>
-        </nz-col>
-        <nz-col [nzSpan]="8">
-          <nz-statistic [nzTitle]="'团队内排名'" [nzValue]="'8/24'"></nz-statistic>
-        </nz-col>
-        <nz-col [nzSpan]="8">
-          <nz-statistic [nzTitle]="'项目访问'" [nzValue]="(2223 | number)!"></nz-statistic>
-        </nz-col>
-      </nz-row>
-    </div>
-  </div>
-</ng-template>
 <ng-template #extraTemplate>
   <a class="operate-text">全部项目</a>
 </ng-template>
 
 <ng-template #cardTitleTpl>
   <nz-avatar [nzSize]="24" [nzSrc]="'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png'"></nz-avatar>
-  <span class="m-l-10">Angular</span>
+  <span class="ml-1">Angular</span>
 </ng-template>

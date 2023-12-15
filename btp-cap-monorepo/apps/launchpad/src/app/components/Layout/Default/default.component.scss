@@ -73,7 +73,7 @@
 }
 
 .zng-layout__content {
-  @apply p-4 flex flex-col;
+  @apply flex flex-col;
 }
 
 .ant-water-mark  {
@@ -104,4 +104,8 @@
 
 .ant-layout-content {
   @apply flex flex-col;
+}
+
+.zng-logo-title {
+  font-size: 18px;
 }

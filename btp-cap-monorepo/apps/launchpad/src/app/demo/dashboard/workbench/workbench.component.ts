@@ -1,22 +1,31 @@
-import { NumberLoopPipe } from '@/app/core';
-import { NgFor, DecimalPipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, NgZone, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder } from '@angular/forms';
-
-import { Radar } from '@antv/g2plot';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { inNextTick } from 'ng-zorro-antd/core/util';
-import { NzWaveModule } from 'ng-zorro-antd/core/wave';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NumberLoopPipe } from '@/app/core'
+import { DecimalPipe, NgFor } from '@angular/common'
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  NgZone,
+  TemplateRef,
+  ViewChild,
+  inject,
+  signal
+} from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { Radar } from '@antv/g2plot'
+import { NzAvatarModule } from 'ng-zorro-antd/avatar'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzSafeAny } from 'ng-zorro-antd/core/types'
+import { inNextTick } from 'ng-zorro-antd/core/util'
+import { NzWaveModule } from 'ng-zorro-antd/core/wave'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzListModule } from 'ng-zorro-antd/list'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header'
+import { NzStatisticModule } from 'ng-zorro-antd/statistic'
+import { NzTypographyModule } from 'ng-zorro-antd/typography'
 
 @Component({
   selector: 'zng-workbench',
@@ -35,13 +44,17 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzIconModule,
     NzAvatarModule,
     NzStatisticModule,
+    NzPageHeaderModule,
     DecimalPipe,
     NumberLoopPipe
   ]
 })
 export class WorkbenchComponent implements AfterViewInit {
-  @ViewChild('pageHeaderContent', { static: false }) pageHeaderContent!: TemplateRef<NzSafeAny>;
-  destroyRef = inject(DestroyRef);
+  public msg = inject(NzMessageService)
+  private ngZone = inject(NgZone)
+
+  @ViewChild('pageHeaderContent', { static: false }) pageHeaderContent!: TemplateRef<NzSafeAny>
+  destroyRef = inject(DestroyRef)
   radarData = [
     { item: 'Design', user: 'a', score: 70 },
     { item: 'Design', user: 'b', score: 30 },
@@ -63,26 +76,22 @@ export class WorkbenchComponent implements AfterViewInit {
     { item: 'Sales', user: 'b', score: 40 },
     { item: 'UX', user: 'a', score: 50 },
     { item: 'UX', user: 'b', score: 60 }
-  ];
-  // pageHeaderInfo: Partial<PageHeaderType> = {
-  //   title: '',
-  //   breadcrumb: [],
-  //   desc: ''
-  // };
+  ]
 
-  constructor(private fb: FormBuilder, public msg: NzMessageService, private ngZone: NgZone) {}
+  readonly teams = signal([
+    'Financial Accounting',
+    'Controlling',
+    'Sales and Distribution',
+    'Materials Management',
+    'Human Resources',
+  ])
 
   ngAfterViewInit(): void {
-    // this.pageHeaderInfo = {
-    //   title: '工作台',
-    //   breadcrumb: ['首页', 'Dashboard', '工作台'],
-    //   desc: this.pageHeaderContent
-    // };
     inNextTick()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.initRadar();
-      });
+        this.initRadar()
+      })
   }
 
   private initRadar(): void {
@@ -114,8 +123,8 @@ export class WorkbenchComponent implements AfterViewInit {
         point: {
           size: 2
         }
-      });
-      radarPlot.render();
-    });
+      })
+      radarPlot.render()
+    })
   }
 }
