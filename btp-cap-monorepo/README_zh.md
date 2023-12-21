@@ -165,9 +165,9 @@ default: {
 
 ### 部署到 S4HANA
 
-* 基本 URL
+* 基础 URL
 
-部署的应用程序需要在非根路径中打开，因此在构建应用程序时需要配置基本 URL。在命令 `yarn b:s4:app` 中，将 `your_project_name` 替换为BSP应用程序的名称。
+部署的应用程序需要在非根路径中打开，因此在构建应用程序时需要配置基础 URL。在命令 `yarn b:s4:app` 中，将 `your_project_name` 替换为 BSP 应用程序的路径名称。
 
 ```javascript
 {

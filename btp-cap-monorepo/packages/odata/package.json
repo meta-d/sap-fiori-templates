@@ -1,6 +1,6 @@
 {
   "name": "@metad/cap-odata",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "dependencies": {},
   "main": "./index.js",
   "module": "./index.mjs",
@@ -8,6 +8,7 @@
   "peerDependencies": {
     "rxjs": "~7.8.0",
     "xml-js": "^1.6.11",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "date-fns": "^3.0.4"
   }
 }

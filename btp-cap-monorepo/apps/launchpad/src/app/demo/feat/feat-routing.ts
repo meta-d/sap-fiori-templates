@@ -1,3 +1,4 @@
+import { UI5AppComponent } from '@/app/components'
 import { Routes } from '@angular/router'
 
 export default [
@@ -107,5 +108,17 @@ export default [
     title: '水印',
     data: { key: 'water-mark' },
     loadComponent: () => import('./water-mark/water-mark.component').then((m) => m.WaterMarkComponent)
-  }
+  },
+  {
+    path: 'CostingVariant-check',
+    title: 'Check Costing Variant',
+    component: UI5AppComponent,
+    data: {
+      key: 'CostingVariant-check',
+      icon: 'exclamation-circle',
+      queryParams: {
+        'sap-ui-tech-hint': 'GUI'
+      }
+    }
+  },
 ] as Routes

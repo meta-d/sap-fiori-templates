@@ -183,7 +183,12 @@ export function defineODataStore(
     }
     return fetch(url, reqOptions).then(async (response) => {
       if (response.ok) {
-        return response.json()
+        const result = await response.json()
+        if (isHighVersion(response)) {
+          return result
+        } else {
+          return result.d
+        }
       }
       
       await throwODataError(response)
@@ -206,7 +211,12 @@ export function defineODataStore(
     }
     return fetch(url, reqOptions).then(async (response) => {
       if (response.ok) {
-        return response.json()
+        const result = await response.json()
+        if (isHighVersion(response)) {
+          return result
+        } else {
+          return result.d
+        }
       }
       
       await throwODataError(response)
