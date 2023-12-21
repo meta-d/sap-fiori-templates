@@ -1,24 +1,30 @@
 import { defineODataStore } from '@metad/cap-odata'
 
 export interface UI5Theme {
-    id: string;
-    name: string;
-    shellType: string;
+  id: string
+  name: string
+  shellType: string
 }
 
 const INTEROPStore = defineODataStore('INTEROP', {
-    base: '/sap/opu/odata/UI2'
+  base: '/sap/opu/odata/UI2'
 })
 export const useINTEROPStore = () => {
-    const { store, init } = INTEROPStore
+  const { store, init } = INTEROPStore
 
-    return INTEROPStore
+  return INTEROPStore
 }
 
 export async function queryThemes() {
-    const { query } = useINTEROPStore()
-    
-    const themes = await query<UI5Theme>('Themes')
+  const { query } = useINTEROPStore()
 
-    return themes
+  const themes = await query<UI5Theme>('Themes')
+
+  return themes
+}
+
+export type PersContainerType = {
+  PersContainerItems: {
+    results: any[]
+  }
 }

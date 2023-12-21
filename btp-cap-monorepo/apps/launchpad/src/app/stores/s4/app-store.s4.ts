@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NGXLogger } from 'ngx-logger'
 import { BehaviorSubject, map } from 'rxjs'
-import { useESHSearchStore } from './ESH_SEARCH'
-import { useINTEROPStore } from './INTEROP'
+import { UserType, useESHSearchStore } from './ESH_SEARCH'
+import { PersContainerType, useINTEROPStore } from './INTEROP'
 import { IAppStore, AppStoreState, DefaultPersonalization, PersContainerId, PersonalizationType } from '../app'
 
 const PersPersonalizationId = 'personalization'
@@ -29,7 +29,7 @@ export class S4AppStoreService implements IAppStore {
 
   async refreshUser() {
     const { read } = useESHSearchStore()
-    const user = await read('Users', { Id: '<current>' })
+    const user = await read<UserType>('Users', { Id: '<current>' })
       .then((result) => {
         return {
           id: result.Id,
@@ -48,7 +48,7 @@ export class S4AppStoreService implements IAppStore {
 
   async refreshPersonalization() {
     const { read } = useINTEROPStore()
-    const personalization = await read(
+    const personalization = await read<PersContainerType>(
       'PersContainers',
       { category: 'P', id: PersContainerId },
       {

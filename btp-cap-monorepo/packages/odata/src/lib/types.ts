@@ -22,6 +22,29 @@ export enum FilterOperator {
   le = 'le'
 }
 
+export type ODataError = {
+  code: number
+  error: string
+}
+
+export interface ODataQueryOptions {
+  headers?: Record<string, string>
+  $filter?:
+    | {
+        [key: string]: ValueOfKey
+      }
+    | Filter[]
+  $expand?: string | string[]
+
+  $orderby?: {
+    name: string
+    order?: OrderEnum | null
+  }[]
+
+  $skip?: number
+  $top?: number
+}
+
 export const XCsrfTokenName = 'X-Csrf-Token'
 export const XCsrfTokenFetch = 'Fetch'
 

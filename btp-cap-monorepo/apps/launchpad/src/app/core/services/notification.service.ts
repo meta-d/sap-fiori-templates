@@ -349,7 +349,7 @@ export class NotificationService {
   }
 
   async bulkActionByHeader(header: Notification, action: Action) {
-    const result = await bulkActionByHeader(header.Id, action.ActionId)
+    await bulkActionByHeader(header.Id, action.ActionId)
     this.deleteGroupNotifications(header.Id)
   }
 

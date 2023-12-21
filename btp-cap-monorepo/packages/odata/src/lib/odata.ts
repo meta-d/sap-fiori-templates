@@ -3,12 +3,12 @@ import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
 import { filterString } from './filter'
 import {
-  Filter,
   FilterOperator,
   Keys,
   KeysParameters,
+  ODataError,
+  ODataQueryOptions,
   OrderEnum,
-  ValueOfKey,
   entityKeyValue,
   getEntityName
 } from './types'
@@ -105,45 +105,41 @@ export function defineODataStore(
     })
   }
 
-  const read = async (
+  const read = async <T>(
     entity: string,
     keys: Keys,
-    options?: {
-      headers?: Record<string, string>
-      $filter?: {
-        [key: string]: any
-      }
-      $expand?: string | string[]
-    }
-  ) => {
-    const { $filter, $expand } = options ?? {}
-    const query = new URLSearchParams()
-    if ($filter) {
-      query.append(
-        '$filter',
-        Object.keys($filter).reduce((acc, key) => {
-          if (acc) {
-            acc += ' and ' + key + ' eq ' + $filter[key]
-          } else {
-            acc = key + ' eq ' + $filter[key]
-          }
-          return acc
-        }, '')
-      )
-    }
+    options?: ODataQueryOptions
+  ): Promise<T> => {
+    const queryObj = constructQuery(options)
+    const qString = queryString.stringify(queryObj)
 
-    if ($expand) {
-      query.append('$expand', isString($expand) ? $expand : $expand.join(','))
-    }
+    // const query = new URLSearchParams()
+    // if ($filter) {
+    //   query.append(
+    //     '$filter',
+    //     Object.keys($filter).reduce((acc, key) => {
+    //       if (acc) {
+    //         acc += ' and ' + key + ' eq ' + $filter[key]
+    //       } else {
+    //         acc = key + ' eq ' + $filter[key]
+    //       }
+    //       return acc
+    //     }, '')
+    //   )
+    // }
+
+    // if ($expand) {
+    //   query.append('$expand', isString($expand) ? $expand : $expand.join(','))
+    // }
 
     let url = `${baseUrl}/${entity}`
     if (keys) {
       url += KeysParameters(keys)
     }
 
-    const queryString = query.toString()
+    // const queryString = query.toString()
 
-    return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
+    return fetch(`${url}${qString ? '?' + qString : ''}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -164,10 +160,8 @@ export function defineODataStore(
           return result.d
         }
       }
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      
+      await throwODataError(response)
     })
   }
 
@@ -187,10 +181,8 @@ export function defineODataStore(
       if (response.ok) {
         return response.json()
       }
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      
+      await throwODataError(response)
     })
   }
 
@@ -212,10 +204,8 @@ export function defineODataStore(
       if (response.ok) {
         return response.json()
       }
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      
+      await throwODataError(response)
     })
   }
 
@@ -247,10 +237,8 @@ export function defineODataStore(
           return result.d.results
         }
       }
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+
+      await throwODataError(response)
     })
   }
 
@@ -272,10 +260,7 @@ export function defineODataStore(
         return response.json()
       }
 
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      await throwODataError(response)
     })
   }
 
@@ -299,10 +284,7 @@ export function defineODataStore(
         }
       }
 
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      await throwODataError(response)
     })
   }
 
@@ -322,10 +304,8 @@ export function defineODataStore(
       if (response.ok) {
         return await response.json()
       }
-      throw {
-        code: response.status,
-        error: await response.text()
-      }
+      
+      await throwODataError(response)
     })
   }
 
@@ -344,24 +324,6 @@ export function defineODataStore(
     count,
     setXCsrfToken
   }
-}
-
-export interface ODataQueryOptions {
-  headers?: Record<string, string>
-  $filter?:
-    | {
-        [key: string]: ValueOfKey
-      }
-    | Filter[]
-  $expand?: string | string[]
-
-  $orderby?: {
-    name: string
-    order?: OrderEnum | null
-  }[]
-
-  $skip?: number
-  $top?: number
 }
 
 /**
@@ -420,4 +382,27 @@ function removeLastSlash(url: string) {
     return url.slice(0, -1)
   }
   return url
+}
+
+async function throwODataError(response: Response) {
+  throw {
+    code: response.status,
+    error: getODataErrorMessage(await response.text())
+  } as ODataError
+}
+
+/**
+ * Get error message from any error object of odata
+ * 
+ * @param err 
+ * @returns 
+ */
+export function getODataErrorMessage(err: unknown): string {
+  if (isString(err) && /^\{"error":\{/.test(err)) {
+    const error = JSON.parse(err)
+
+    return error.error?.message?.value
+  }
+
+  return err as string
 }
