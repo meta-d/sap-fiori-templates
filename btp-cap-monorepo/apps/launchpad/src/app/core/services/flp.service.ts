@@ -2,15 +2,17 @@ import { PageSetsType, UI5Theme, queryThemes, readFLPH } from '@/app/stores'
 import { environment } from '@/environments/environment'
 import { Injectable, computed, inject, signal } from '@angular/core'
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop'
+import { ODataError } from '@metad/cap-odata'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { CookieService } from 'ngx-cookie-service'
+import queryString from 'query-string'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import queryString from 'query-string'
 import { AppGroup, Chip, Ui5Path } from '../types'
+import { LocalStorageService } from './local-storage.service'
 import { AppMenu } from './menus.service'
-import { CookieService } from 'ngx-cookie-service'
 import { ThemeService } from './theme.service'
 import { toSAPLanguage } from './translate'
-import { LocalStorageService } from './local-storage.service'
 
 export const SAPUserContextCookieName = 'sap-usercontext'
 export const SAPUserContextLanguage = 'sap-language'
@@ -23,11 +25,12 @@ export class FioriLaunchpadService {
   private localStorage = inject(LocalStorageService)
   private cookieService = inject(CookieService)
   private themeService = inject(ThemeService)
-  
+  #message = inject(NzMessageService)
+
   readonly state = signal<{
-    pageSets: PageSets[] | null;
-    themes: UI5Theme[] | null;
-    theme: string;
+    pageSets: PageSets[] | null
+    themes: UI5Theme[] | null
+    theme: string
   }>({
     pageSets: null,
     themes: null,
@@ -55,7 +58,9 @@ export class FioriLaunchpadService {
               path: chipUrl
             },
             isUi5: true,
-            fragment: chip.navigationTargetUrl?.startsWith('#') ? chip.navigationTargetUrl.slice(1) : chip.navigationTargetUrl,
+            fragment: chip.navigationTargetUrl?.startsWith('#')
+              ? chip.navigationTargetUrl.slice(1)
+              : chip.navigationTargetUrl,
             data: chip
           }
         })
@@ -77,14 +82,17 @@ export class FioriLaunchpadService {
     })
   })
 
-  readonly #translateSub = this.themeService.onLangChange().pipe(takeUntilDestroyed()).subscribe((lang) => {
-    // Update the sap language in the cookie `sap-usercontext`
-    const userContext = this.cookieService.get(SAPUserContextCookieName)
-    const searchParams = new URL(`http://localhost?${userContext}`).searchParams
-    searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
-    this.cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
-  })
-  
+  readonly #translateSub = this.themeService
+    .onLangChange()
+    .pipe(takeUntilDestroyed())
+    .subscribe((lang) => {
+      // Update the sap language in the cookie `sap-usercontext`
+      const userContext = this.cookieService.get(SAPUserContextCookieName)
+      const searchParams = new URL(`http://localhost?${userContext}`).searchParams
+      searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
+      this.cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
+    })
+
   constructor() {
     if (environment.platform === 'S4' && environment.enableFiori) {
       this.loadFLPMenus().then()
@@ -125,11 +133,15 @@ export class FioriLaunchpadService {
 
   async loadThemes() {
     if (!this.themes()) {
-      const themes = await queryThemes()
-      this.state.update((state) => ({
-        ...state,
-        themes
-      }))
+      try {
+        const themes = await queryThemes()
+        this.state.update((state) => ({
+          ...state,
+          themes
+        }))
+      } catch (err: unknown) {
+        this.#message.error((<ODataError>err).error)
+      }
     }
   }
 
@@ -138,9 +150,7 @@ export class FioriLaunchpadService {
   // }
 
   selectGroupChips(id: string): Observable<Chip[] | undefined> {
-    return this.state$.pipe(
-      map((state) => state.pageSets?.find((item) => item.id === id)?.chips)
-    )
+    return this.state$.pipe(map((state) => state.pageSets?.find((item) => item.id === id)?.chips))
   }
 
   getGroup(name: string): AppGroup {
@@ -149,19 +159,21 @@ export class FioriLaunchpadService {
 
   getChip(path: string, group?: string | null): Chip | null {
     let chip: Chip | null = null
-    this.routes()?.filter((item) => !group || item.route.path === group).forEach((menu) => {
-      const submenu = menu?.submenus?.find((item) => item.route.path === path)
-      if (submenu) {
-        chip = submenu.data
-      }
-    })
+    this.routes()
+      ?.filter((item) => !group || item.route.path === group)
+      .forEach((menu) => {
+        const submenu = menu?.submenus?.find((item) => item.route.path === path)
+        if (submenu) {
+          chip = submenu.data
+        }
+      })
     return chip
   }
 
   /**
    * Save Fiori theme to sap-usercontext in cookie
-   * 
-   * @param themeId 
+   *
+   * @param themeId
    */
   setFioriTheme(themeId: string) {
     const userContext = this.getUserContext()
@@ -202,9 +214,12 @@ export function toChip(item: any /*odata result*/): Chip {
 
   let navigationSemanticParameters = null
   if (tileConfiguration?.navigation_semantic_parameters) {
-    navigationSemanticParameters = queryString.parse(tileConfiguration?.navigation_semantic_parameters) as Record<string, string>
+    navigationSemanticParameters = queryString.parse(tileConfiguration?.navigation_semantic_parameters) as Record<
+      string,
+      string
+    >
   }
-  
+
   return {
     id,
     title: chipTitle?.value,
@@ -213,7 +228,9 @@ export function toChip(item: any /*odata result*/): Chip {
     navigationSemanticObject: tileConfiguration?.navigation_semantic_object,
     navigationSemanticAction: tileConfiguration?.navigation_semantic_action,
     navigationSemanticParameters,
-    navigationTargetUrl: tileConfiguration?.navigation_target_url?.startsWith('#') ? tileConfiguration.navigation_target_url.slice(1) : tileConfiguration?.navigation_target_url,
+    navigationTargetUrl: tileConfiguration?.navigation_target_url?.startsWith('#')
+      ? tileConfiguration.navigation_target_url.slice(1)
+      : tileConfiguration?.navigation_target_url
   }
 }
 
@@ -229,7 +246,7 @@ function simplifyPageSets(pageSets: PageSetsType): PageSets[] {
 }
 
 interface PageSets {
-  id: string;
-  title: string;
+  id: string
+  title: string
   chips: Chip[]
 }

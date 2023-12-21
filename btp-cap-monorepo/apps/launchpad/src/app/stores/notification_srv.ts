@@ -184,17 +184,25 @@ export async function getNotificationsByPriority(skip?: number, top?: number) {
 }
 
 export async function getNotificationsByGroup(parentId: string, skip?: number, top?: number) {
-  return await getNotifications([
-    {
-      path: 'ParentId',
-      operator: FilterOperator.eq,
-      value: parentId
-    }
-  ], skip, top)
+  return await getNotifications(
+    [
+      {
+        path: 'ParentId',
+        operator: FilterOperator.eq,
+        value: parentId
+      }
+    ],
+    skip,
+    top
+  )
 }
 
 export async function getSAPWebsocket() {
   const { read } = notificationStore
 
-  return await read('Channels', 'SAP_WEBSOCKET')
+  return await read<ChannelType>('Channels', 'SAP_WEBSOCKET')
+}
+
+export type ChannelType = {
+  IsActive: boolean
 }
