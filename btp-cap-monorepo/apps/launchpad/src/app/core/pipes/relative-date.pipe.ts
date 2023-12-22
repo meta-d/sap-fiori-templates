@@ -1,6 +1,5 @@
 import { LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core'
-import formatRelative from 'date-fns/formatRelative'
-import isDate from 'date-fns/isDate'
+import { formatRelative, isDate } from 'date-fns'
 import { mapDateLocale } from '../services/translate'
 
 /*

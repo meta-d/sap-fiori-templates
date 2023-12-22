@@ -4,10 +4,13 @@ on:
   push:
     tags:
       - '*'
-    branches:
-      - 'main'
     paths:
       - "btp-cap-monorepo/**"
+  workflow_run:
+    workflows: ["Build"]
+    types: [requested]
+    branches:
+      - 'main'
 
 jobs:
   build:

@@ -109,7 +109,7 @@ export function defineODataStore(
     })
   }
 
-  const read = async <T>(
+  const read = async <T = any>(
     entity: string,
     keys: Keys,
     options?: ODataQueryOptions
@@ -169,7 +169,7 @@ export function defineODataStore(
     })
   }
 
-  const save = async (entitySet: string, body: any) => {
+  const save = async <T = any>(entitySet: string, body: any): Promise<T> => {
     const url = `${baseUrl}/${entitySet}`
 
     const reqOptions = {
@@ -195,7 +195,7 @@ export function defineODataStore(
     })
   }
 
-  const update = async (entitySet: string, keys: Keys, body: any) => {
+  const update = async <T = any>(entitySet: string, keys: Keys, body: any): Promise<T> => {
     let url = `${baseUrl}/${entitySet}`
     if (keys) {
       url += KeysParameters(keys)
@@ -223,7 +223,7 @@ export function defineODataStore(
     })
   }
 
-  const query = async <T>(entity: string | { name: string }, options?: ODataQueryOptions): Promise<T[]> => {
+  const query = async <T = any>(entity: string | { name: string }, options?: ODataQueryOptions): Promise<T[]> => {
     const entitySet = getEntityName(entity)
     const queryObj = constructQuery(options)
     const qString = queryString.stringify(queryObj)

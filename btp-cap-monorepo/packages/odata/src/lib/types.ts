@@ -1,5 +1,4 @@
-import format from 'date-fns/format'
-import isDate from 'date-fns/isDate'
+import { format, isDate } from 'date-fns'
 import { isPlainObject } from './utils'
 import { isString } from './utils/isString'
 

@@ -1,6 +1,6 @@
 import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import addMinutes from 'date-fns/addMinutes'
+import { addMinutes } from 'date-fns'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NGXLogger } from 'ngx-logger'
 import { EMPTY, Subject, Subscription, switchMap, timer } from 'rxjs'
