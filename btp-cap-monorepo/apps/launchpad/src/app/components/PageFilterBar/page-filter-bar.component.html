@@ -10,6 +10,9 @@
                 <nz-date-picker [formControlName]="field.name"></nz-date-picker>
               }
             }
+            @case ('boolean') {
+              <label nz-checkbox [formControlName]="field.name"></label>
+            }
             @default {
               <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="field.placeHolder ?? null" class="w-64" [formControlName]="field.name"
                 [nzStatus]="isRequiredError(field) ? 'error' : ''"
@@ -37,4 +40,6 @@
         </nz-descriptions-item>
         }
     </nz-descriptions>
+
+    <ng-content></ng-content>
 </form>
