@@ -1,45 +1,50 @@
 <form [formGroup]="formGroup">
-    <nz-descriptions nzSize="small" [nzColumn]="5" nzLayout="vertical">
-        @for (field of fields; track field.name) {
-        <nz-descriptions-item [nzTitle]="field.label + (field.required ? '*' : '')" [nzSpan]="1">
-          @switch (field.valueType) {
-            @case ('date') {
-              @if (field.selectionType === 'singleRange') {
-                <nz-range-picker [formControlName]="field.name"></nz-range-picker>
-              } @else {
-                <nz-date-picker [formControlName]="field.name"></nz-date-picker>
-              }
-            }
-            @case ('boolean') {
-              <label nz-checkbox [formControlName]="field.name"></label>
-            }
-            @default {
-              <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="field.placeHolder ?? null" class="w-64" [formControlName]="field.name"
-                [nzStatus]="isRequiredError(field) ? 'error' : ''"
-                [nzDropdownRender]="renderTemplate"
-                (nzOpenChange)="onSelectOpen($event, field)"
-              >
-                @for (option of field.options; track option.value) {
-                <nz-option [nzLabel]="option.label + (field.showId ? (' #' + option.value) : '')" [nzValue]="option.value" nzCustomContent >
-                    <div class="w-full flex justify-between">
-                        <span>{{option.label}}</span>
-                        @if (field.showId) {
-                          <span>#{{option.value}}</span>
-                        }
-                    </div>
-                </nz-option>
-                }
-    
-                <ng-template #renderTemplate>
-                    <nz-spin *ngIf="field.loading"></nz-spin>
-                </ng-template>
-              </nz-select>
+  <nz-descriptions nzSize="small" [nzColumn]="5" nzLayout="vertical">
+    @for (field of fields; track field.name) {
+      <nz-descriptions-item [nzTitle]="field.label + (field.required ? '*' : '')" [nzSpan]="1">
+        @switch (field.valueType) {
+          @case ('date') {
+            @if (field.selectionType === 'singleRange') {
+              <nz-range-picker [formControlName]="field.name"
+                [nzDisabledDate]="field.shouldDisableValidator"
+                [nzStatus]="isRequiredError(field) ? 'error' : ''"></nz-range-picker>
+            } @else {
+              <nz-date-picker [formControlName]="field.name"
+                [nzDisabledDate]="field.shouldDisableValidator"
+                [nzStatus]="isRequiredError(field) ? 'error' : ''"></nz-date-picker>
             }
           }
-          
-        </nz-descriptions-item>
+          @case ('boolean') {
+            <label nz-checkbox [formControlName]="field.name"></label>
+          }
+          @default {
+            <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="field.placeHolder ?? null" class="w-64" [formControlName]="field.name"
+              [nzStatus]="isRequiredError(field) ? 'error' : ''"
+              [nzDropdownRender]="renderTemplate"
+              (nzOpenChange)="onSelectOpen($event, field)"
+            >
+              @for (option of field.options; track option.value) {
+              <nz-option [nzLabel]="option.label + (field.showId ? (' #' + option.value) : '')" [nzValue]="option.value" nzCustomContent >
+                <div class="w-full flex justify-between">
+                    <span>{{option.label}}</span>
+                    @if (field.showId) {
+                      <span>#{{option.value}}</span>
+                    }
+                </div>
+              </nz-option>
+              }
+  
+              <ng-template #renderTemplate>
+                  <nz-spin *ngIf="field.loading"></nz-spin>
+              </ng-template>
+            </nz-select>
+          }
         }
-    </nz-descriptions>
+        
+      </nz-descriptions-item>
+    }
 
-    <ng-content></ng-content>
+  </nz-descriptions>
+  
+  <ng-content></ng-content>
 </form>

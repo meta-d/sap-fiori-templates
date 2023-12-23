@@ -66,10 +66,14 @@ export class PageFilterBarComponent implements ControlValueAccessor {
 
   formGroup = new FormGroup<Record<string, any>>({})
 
+  get valid() {
+    return this.formGroup.valid
+  }
+
   _onChange?: (value: any) => void
   _onTouched?: (value: any) => void
 
-  #formSub = this.formGroup.valueChanges.subscribe((value) => {
+  #formSub = this.formGroup.valueChanges.subscribe((value: any) => {
     this._onChange?.(value)
     this.filtersChanging.emit(this.getFilters())
   })

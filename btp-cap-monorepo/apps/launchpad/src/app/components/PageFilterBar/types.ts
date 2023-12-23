@@ -1,4 +1,3 @@
-import { isString } from '@/app/utils/'
 import { FilterOperator, ODataQueryOptions, ValueOfKey } from '@metad/cap-odata'
 
 export enum SelectionType {
@@ -18,7 +17,7 @@ export type FilterDependency =
 export type FilterField<T = any> = {
   name: string
   label: string
-  default?: string
+  default?: string | boolean | number | Date | Array<string | boolean | number | Date>
   disabled?: boolean
   valueHelp?: (options?: ODataQueryOptions) => Promise<T[]>
   valueKey?: keyof T
@@ -40,6 +39,14 @@ export type FilterField<T = any> = {
   valueType?: 'date' | 'datetime' | 'string' | 'number' | 'boolean'
   valueFormatter?: (value: ValueOfKey) => string | number
   selectionType?: SelectionType
+  validators?: any[]
+  /**
+   * For example attr `nzDisabledDate` for `nz-range-picker`
+   * 
+   * @param value 
+   * @returns 
+   */
+  shouldDisableValidator?: (value: any) => boolean
 }
 
 export function dependencyName(dependency: FilterDependency) {
