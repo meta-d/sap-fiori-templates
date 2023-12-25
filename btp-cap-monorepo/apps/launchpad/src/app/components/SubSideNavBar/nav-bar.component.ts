@@ -1,6 +1,7 @@
 import { AppMenu, MenusService } from '@/app/core'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
+import { TranslateModule } from '@ngx-translate/core'
 import { Component, Input, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
@@ -12,6 +13,7 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
     CommonModule,
     FormsModule,
     RouterModule,
+    TranslateModule,
     ZngAntdModule,
     GlobalSettingsComponent
   ],

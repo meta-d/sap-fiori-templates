@@ -1,18 +1,20 @@
 <ul nz-menu nzMode="inline" class="sider-menu">
-  <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
+  <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus(), level: 0}"></ng-container>
 
-  <ng-template #menuTempl let-menus="menus">
+  <ng-template #menuTempl let-menus="menus" let-level="level">
     @for (menu of menus; track menu.path) {
     <li *ngIf="!menu.hasSubmenus" nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+      <span [style.padding-left.px]="level * 10"></span>
       <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-      {{ menu.title }}
+      <span [title]="'ZNG.Pages.' + menu.title | translate: {Default: menu.title}">{{ 'ZNG.Pages.' + menu.title | translate: {Default: menu.title} }}</span>
     </li>
 
-    <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
+    <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="'ZNG.Pages.' + menu.title | translate: {Default: menu.title}"
+      [nzIcon]="menu.icon"
       nzMatchRouter routerLinkActive="active-link"
       (click)="loadMenus(menu)">
       <ul>
-        <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
+        <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus, level: level + 1}"></ng-container>
       </ul>
     </li>
     }

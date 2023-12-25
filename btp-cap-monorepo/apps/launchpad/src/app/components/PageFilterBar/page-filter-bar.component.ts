@@ -22,7 +22,7 @@ import { FilterField, dependencyAlias, dependencyName, mapSelectionType2Operator
 
 type _FilterField = FilterField & {
   _valueHelpLoaded?: boolean
-  _dependencies?: Record<string, string[]>
+  _dependencies?: Record<string, ValueOfKey | ValueOfKey[]>
 }
 
 @Component({
@@ -122,20 +122,42 @@ export class PageFilterBarComponent implements ControlValueAccessor {
     }
   }
 
+  /**
+   * Load values for filter field, when dependency values changed or value help is not loaded.
+   * 
+   * @param field 
+   */
   async loadValueHelp(field: _FilterField) {
-    const dependencieValues = field.dependencies?.map((dependency) => ({
-      name: dependencyName(dependency),
-      value: this.getFieldValue(this.#fields().find((item) => item.name === dependencyName(dependency))!),
-      alias: dependencyAlias(dependency)
-    }))
-    const dependenciesChanged = dependencieValues?.some(
+    let dependencyRequired = false
+    const dependencyValues = field.dependencies?.map((dependency) => {
+      const value = this.getFieldValue(this.#fields().find((item) => item.name === dependencyName(dependency))!)
+      if (value == null) {
+        dependencyRequired = true
+      }
+      return {
+        name: dependencyName(dependency),
+        value: value,
+        alias: dependencyAlias(dependency)
+      }
+    })
+
+    // The required dependency is not fullfilled
+    if (dependencyRequired) {
+      return
+    }
+
+    const dependenciesChanged = dependencyValues?.some(
       ({ name, value }) => !isEqual(value, field._dependencies?.[name] as any)
     )
     if (!field.loading && (!field._valueHelpLoaded || dependenciesChanged)) {
-      this.updateField(field.name, { loading: true })
+      const dependencies = dependencyValues?.reduce((acc, {name, value}) => {
+          acc[name] = value
+          return acc
+        }, {} as Record<string, ValueOfKey | ValueOfKey[]>)
+      this.updateField(field.name, { loading: true, _dependencies: dependencies })
       const queryOptions: ODataQueryOptions = {
         // prerestriction
-        $filter: dependencieValues
+        $filter: dependencyValues
           ?.map(({ value, alias }) => ({
             path: alias,
             operator: FilterOperator.eq,
