@@ -79,7 +79,10 @@
             "Risks": "风险管理",
             "List Report": "清单报告",
             "Elements": "元素组件",
-            "Check Costing Variant": "检查成本变体"
+            "Check Costing Variant": "检查成本变体",
+            "Base Form": "基础表单",
+            "Step Form": "分步表单",
+            "Advanced Form": "高级表单"
         }
     }
 }

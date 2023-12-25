@@ -12,7 +12,7 @@
       @for (menu of menus; track menu.path) {
         <li nz-menu-item *ngIf="isMix() || !menu.hasSubmenus" [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
           <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-          {{ menu.title }}
+          <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">{{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}</span>
         </li>
   
         <li nz-submenu *ngIf="!isMix() && menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
@@ -44,22 +44,64 @@
 
 <nz-dropdown-menu #menu1="nzDropdownMenu">
   <ul nz-menu>
-    <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
-
-    <ng-template #menuTempl let-menus="menus">
-      @for (menu of menus; track menu.path) {
-        <li nz-menu-item *ngIf="!menu.hasSubmenus" [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
-          <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-          {{ menu.title }}
-        </li>
-        <li nz-submenu *ngIf="menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
+    <!-- Level 1 -->
+    @for (menu of menus(); track menu.path) {
+      @if (menu.hasSubmenus) {
+        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
           [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
           (click)="loadMenus(menu)">
           <ul>
-            <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
+            <!-- Level 2 -->
+            @for (menu2 of menu.submenus; track menu2.path) {
+              @if (menu2.hasSubmenus) {
+                <li nz-submenu [nzTitle]="menu2.title" [nzIcon]="menu2.icon ?? null"
+                  [routerLink]="menu2.path" nzMatchRouter routerLinkActive="active-link"
+                  (click)="loadMenus(menu2)">
+                  <ul>
+                    <!-- Level 3 -->
+                    @for (menu3 of menu2.submenus; track menu3.path) {
+                      <li nz-menu-item [routerLink]="menu3.path" [queryParams]="menu3.queryParams" [fragment]="menu3.fragment" nzMatchRouter>
+                        <span *ngIf="menu3.icon" nz-icon [nzType]="menu3.icon"></span>
+                        <span>{{ 'ZNG.Pages.'+menu3.title | translate: {Default: menu3.title} }}</span>
+                      </li>
+                    }
+                  </ul>
+                </li>
+              } @else {
+                <li nz-menu-item [routerLink]="menu2.path" [queryParams]="menu2.queryParams" [fragment]="menu2.fragment" nzMatchRouter>
+                  <span *ngIf="menu2.icon" nz-icon [nzType]="menu2.icon"></span>
+                  <span>{{ 'ZNG.Pages.'+menu2.title | translate: {Default: menu2.title} }}</span>
+                </li>
+              }
+            }
           </ul>
         </li>
+      } @else {
+        <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+          <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+          <span>{{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}</span>
+        </li>
       }
-    </ng-template>
+    }
+<!-- 
+    <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
+    <ng-template #menuTempl let-menus="menus">
+      @for (menu of menus; track menu.path) {
+        @if (!menu.hasSubmenus) {
+          <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+            <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
+            {{ menu.title }}
+          </li>
+        } @else {
+          <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon"
+            [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+            (click)="loadMenus(menu)">
+            <ul>
+              <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
+            </ul>
+          </li>
+        }
+      }
+    </ng-template> -->
   </ul>
 </nz-dropdown-menu>

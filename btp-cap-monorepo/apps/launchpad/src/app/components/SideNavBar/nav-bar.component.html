@@ -27,11 +27,11 @@
           <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? menu.title : ''">
+            [nzTooltipTitle]="isCollapsed ? ('ZNG.Pages.'+menu.title | translate: {Default: menu.title}) : ''">
             @if (menu.icon) {
               <span nz-icon [nzType]="menu.icon"></span>
             }
-            <span [title]="menu.title">{{ menu.title }}</span>
+            <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">{{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}</span>
           </li>
         } @else {
           <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"

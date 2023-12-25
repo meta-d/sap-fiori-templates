@@ -1,3 +1,4 @@
+import { isString } from '@/app/utils'
 import { FilterOperator, ODataQueryOptions, ValueOfKey } from '@metad/cap-odata'
 
 export enum SelectionType {
@@ -42,9 +43,9 @@ export type FilterField<T = any> = {
   validators?: any[]
   /**
    * For example attr `nzDisabledDate` for `nz-range-picker`
-   * 
-   * @param value 
-   * @returns 
+   *
+   * @param value
+   * @returns
    */
   shouldDisableValidator?: (value: any) => boolean
 }

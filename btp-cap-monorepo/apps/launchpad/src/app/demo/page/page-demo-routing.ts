@@ -4,6 +4,9 @@ export default [
   {
     path: 'form',
     title: 'Forms',
+    data: {
+      icon: 'form'
+    },
     loadChildren: () => import('./form/form-routing')
   },
   {

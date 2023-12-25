@@ -1,12 +1,17 @@
 import { AppMenu, MenusService, ResizeObserverDirective, ThemeService } from '@/app/core'
-import { ZngAntdModule } from '@/app/core/shared.module'
 import { CommonModule } from '@angular/common'
 import { Component, ElementRef, Input, ViewChild, computed, effect, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { NzMenuThemeType } from 'ng-zorro-antd/menu'
+import { TranslateModule } from '@ngx-translate/core'
+import { NzMenuModule, NzMenuThemeType } from 'ng-zorro-antd/menu'
 import { NzMessageService } from 'ng-zorro-antd/message'
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.component'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 
 @Component({
   standalone: true,
@@ -14,7 +19,13 @@ import { GlobalSettingsComponent } from '../GlobalSettings/global-settings.compo
     CommonModule,
     FormsModule,
     RouterModule,
-    ZngAntdModule,
+    TranslateModule,
+    NzDropDownModule,
+    NzMenuModule,
+    NzButtonModule,
+    NzIconModule,
+    NzSpinModule,
+    NzToolTipModule,
     GlobalSettingsComponent,
     ResizeObserverDirective
   ],
@@ -65,8 +76,8 @@ export class TopNavBarComponent {
 
   onResize(event: any) {
     if (this.menusElement && this.hostElement) {
-      const childWidth = this.menusElement.nativeElement.offsetWidth;
-      const hostWidth = this.hostElement.nativeElement.offsetWidth;
+      const childWidth = this.menusElement.nativeElement.offsetWidth
+      const hostWidth = this.hostElement.nativeElement.offsetWidth
       this.hasMoreMenus.set(childWidth > hostWidth)
     }
   }
@@ -74,7 +85,7 @@ export class TopNavBarComponent {
   scrollLeft() {
     if (this.menusContainer) {
       const width = this.menusContainer.nativeElement.offsetWidth
-      this.menusContainer.nativeElement.scrollLeft -= width -100
+      this.menusContainer.nativeElement.scrollLeft -= width - 100
     }
   }
 
@@ -89,7 +100,10 @@ export class TopNavBarComponent {
     return this.menusContainer?.nativeElement.scrollLeft === 0
   }
   get alignRight() {
-    return this.menusContainer?.nativeElement.scrollWidth - this.menusContainer?.nativeElement.scrollLeft <= this.hostElement.nativeElement.offsetWidth
+    return (
+      this.menusContainer?.nativeElement.scrollWidth - this.menusContainer?.nativeElement.scrollLeft <=
+      this.hostElement.nativeElement.offsetWidth
+    )
   }
 
   goUI5Page(menu: AppMenu) {

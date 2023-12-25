@@ -107,6 +107,5 @@
 }
 
 .zng-logo-title {
-  font-size: 18px;
-  @apply whitespace-nowrap font-extrabold overflow-hidden text-ellipsis;
+  @apply whitespace-nowrap font-extrabold overflow-hidden text-ellipsis text-xl;
 }
