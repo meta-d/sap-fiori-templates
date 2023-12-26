@@ -14,6 +14,7 @@ import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
 import { ZngPageTitleStrategy } from '@/app/core/strategies'
+import { NavigationProgressBarComponent } from '../../NavigationProgressBar/'
 
 @Component({
   selector: 'zng-layout-default',
@@ -31,7 +32,8 @@ import { ZngPageTitleStrategy } from '@/app/core/strategies'
     SubSideNavBarComponent,
     SideNavBarComponent,
     ResizeObserverDirective,
-    MenuTabComponent
+    MenuTabComponent,
+    NavigationProgressBarComponent
   ],
   host: {
     '[class.zng-layout__mix]': `menuMode() === \'mix\'`,

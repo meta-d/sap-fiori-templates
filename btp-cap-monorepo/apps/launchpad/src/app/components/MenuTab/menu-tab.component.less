@@ -25,6 +25,10 @@
 
   .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab {
     @apply rounded-tl-md rounded-tr-md;
+
+    &:not(.ant-tabs-tab-active) {
+      @apply border-transparent bg-transparent;
+    }
   }
 }
 

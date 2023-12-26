@@ -14,7 +14,8 @@ import { distinctUntilChanged, map, of, switchMap } from 'rxjs'
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, TranslateModule, ZngAntdModule],
   selector: 'zng-ui5-launchpad',
-  templateUrl: 'launchpad.component.html'
+  templateUrl: 'launchpad.component.html',
+  styleUrl: 'launchpad.component.scss',
 })
 export class Ui5LaunchpadComponent {
   private flpService = inject(FioriLaunchpadService)
