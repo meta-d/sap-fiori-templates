@@ -20,8 +20,11 @@
           @default {
             <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="field.placeHolder ?? null" class="w-64" [formControlName]="field.name"
               [nzStatus]="isRequiredError(field) ? 'error' : ''"
+              [nzMode]="field.selectionType === SelectionType.multiple ? 'multiple' : 'default'"
               [nzDropdownRender]="renderTemplate"
               (nzOpenChange)="onSelectOpen($event, field)"
+              zngPaste
+              (onPaste)="onPaste(field, $event)"
             >
               @for (option of field.options; track option.value) {
               <nz-option [nzLabel]="option.label + (field.showId ? (' #' + option.value) : '')" [nzValue]="option.value" nzCustomContent >

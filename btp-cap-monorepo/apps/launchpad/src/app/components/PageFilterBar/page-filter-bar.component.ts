@@ -11,14 +11,16 @@ import {
 } from '@angular/forms'
 import { Filter, FilterOperator, ODataQueryOptions, ValueOfKey, isNil } from '@metad/cap-odata'
 import { TranslateModule } from '@ngx-translate/core'
-import { isEqual } from 'lodash'
+import { flattenDeep, isEqual, uniq } from 'lodash-es'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
-import { FilterField, dependencyAlias, dependencyName, mapSelectionType2Operator } from './types'
+import { FilterField, SelectionType, dependencyAlias, dependencyName, mapSelectionType2Operator } from './types'
+import { ZngPasteDirective } from '@/app/core'
+import { nonBlank } from '@/app/utils'
 
 type _FilterField = FilterField & {
   _valueHelpLoaded?: boolean
@@ -36,7 +38,9 @@ type _FilterField = FilterField & {
     NzSpinModule,
     NzSelectModule,
     NzDatePickerModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+
+    ZngPasteDirective
   ],
   selector: 'zng-page-filter-bar',
   templateUrl: './page-filter-bar.component.html',
@@ -50,6 +54,7 @@ type _FilterField = FilterField & {
   ]
 })
 export class PageFilterBarComponent implements ControlValueAccessor {
+  SelectionType = SelectionType
   #message = inject(NzMessageService)
 
   @Input() get fields(): FilterField<any>[] {
@@ -224,5 +229,14 @@ export class PageFilterBarComponent implements ControlValueAccessor {
         ? value.map(field.valueFormatter)
         : field.valueFormatter(<ValueOfKey>value)
       : value
+  }
+
+  onPaste(field: _FilterField, text: string) {
+    const values = flattenDeep(text.split('\r').map((t) => t.split('\n').map((l) => l.split(' ')))).filter(nonBlank)
+    const value = field.selectionType === SelectionType.multiple ? 
+      uniq([...(this.formGroup.get(field.name)?.value ?? []), ...values])
+      : values[0];
+    
+    this.formGroup.get(field.name)?.setValue(value)
   }
 }
