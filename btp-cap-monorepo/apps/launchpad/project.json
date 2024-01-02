@@ -46,7 +46,8 @@
           "node_modules/prismjs/themes/prism.css"
         ],
         "scripts": [
-          "node_modules/marked/marked.min.js"
+          "node_modules/marked/marked.min.js",
+          "node_modules/clipboard/dist/clipboard.min.js"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [

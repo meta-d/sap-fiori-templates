@@ -1,6 +1,8 @@
 @use '@ngneat/cmdk/styles/scss/globals';
 @use '@ngneat/cmdk/styles/scss/vercel';
 
+@import './styles/material/font-face';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
