@@ -1,3 +1,5 @@
+import { ICopilot } from "@metad/copilot"
+
 export type IEnvironment = {
   /**
    * 是否为生产环境
@@ -31,4 +33,9 @@ export type IEnvironment = {
    * Enable Demo Module
    */
   enableDemo: boolean
+
+  /**
+   * AI Copilot config
+   */
+  copilot?: ICopilot
 }

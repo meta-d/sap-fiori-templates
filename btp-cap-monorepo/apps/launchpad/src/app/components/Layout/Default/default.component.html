@@ -1,6 +1,7 @@
 <zng-navigation-progress-bar/>
+
 <nz-layout class="zng-layout">
-  <ng-container *ngIf="menuMode() === MenuMode.side" >
+  @if (menuMode() === MenuMode.side) {
     <!-- fixed sider placeholder -->
     <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
     <!-- fixed sider -->
@@ -27,10 +28,10 @@
         
       </div>
     </nz-sider>
-  </ng-container>
-
-  <ng-container *ngIf="menuMode() === MenuMode.top || menuMode() === MenuMode.mix">
-    <div *ngIf="fixedLayoutHeader()" class="w-full h-[64px]"></div>
+  } @else if (menuMode() === MenuMode.top || menuMode() === MenuMode.mix) {
+    @if (fixedLayoutHeader()) {
+      <div class="w-full h-[64px]"></div>
+    }
   
     <nz-header class="zng-layout__header px-4 flex items-center overflow-hidden z-10" [class.zng-fixed]="fixedLayoutHeader()"
       [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
@@ -38,59 +39,81 @@
     >
       <ng-container *ngTemplateOutlet="logo;" ></ng-container>
       <zng-top-nav-bar #topNavBar class="flex-1" [nzTheme]="menuTheme()" resizeObserver [resizeDebounceTime]="100" (sizeChange)="topNavBar.onResize($event)"></zng-top-nav-bar>
-      <zng-global-header/>
+      <ng-container *ngTemplateOutlet="globalActions;"></ng-container>
     </nz-header>
-  </ng-container>
-  <nz-layout>
-    @if (menuMode() === MenuMode.side) {
-      <div *ngIf="fixedLayoutHeader()" class="w-full h-[64px]"></div>
-      <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
+  }
 
-        <div *ngIf="fixedLayoutHeader()" class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
-        
-        <button nz-button nzType="text" class="m-4" (click)="toggleSideMenu()">
-          <span class=""
-            nz-icon
-            [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"
-          ></span>
-        </button>
+  <nz-content class="flex flex-row">
+    <nz-layout>
+      @if (menuMode() === MenuMode.side) {
+        @if (fixedLayoutHeader()) {
+        <div class="w-full h-[64px]"></div>
+        }
+        <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
+          @if (fixedLayoutHeader()) {
+          <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
+          }
+          <button nz-button nzType="text" class="m-4" (click)="toggleSideMenu()">
+            <span class=""
+              nz-icon
+              [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+          </button>
 
-        <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+          <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
 
-        <span class="flex-1"></span>
-  
-        <zng-global-header/>
-      </nz-header>
-    }
+          <span class="flex-1"></span>
+    
+          <ng-container *ngTemplateOutlet="globalActions;"></ng-container>
+        </nz-header>
+      }
 
-    @if (menuMode() === MenuMode.mix) {
-      <nz-sider nzCollapsible [nzCollapsed]="isCollapsed()" [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme"
-        (nzCollapsedChange)="onSubMenuCollapsed($event)">
-        <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
-        
-        <div class="absolute bottom-0 p-4 w-full text-center overflow-hidden">
-          <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
-        </div>
-      </nz-sider>
-    }
-    <nz-content>
-      <zng-menu-tab *ngIf="isShowTab()" class="zng-fixed-top__left-sider"/>
-      <nz-layout class="inner-layout">
-        <ng-container *ngIf="menuMode() !== MenuMode.side">
-          <div class="p-4">
-            <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+      @if (menuMode() === MenuMode.mix) {
+        <nz-sider nzCollapsible [nzCollapsed]="isCollapsed()" [nzCollapsedWidth]="0" nzWidth="200px" [nzTheme]="currentTheme"
+          (nzCollapsedChange)="onSubMenuCollapsed($event)">
+          <zng-sub-side-nav-bar></zng-sub-side-nav-bar>
+          
+          <div class="absolute bottom-0 p-4 w-full text-center overflow-hidden">
+            <ng-container *ngTemplateOutlet="ProImplementation"></ng-container>
           </div>
-        </ng-container>
-        
-        <nz-content class="zng-layout__content relative">
-          <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
-          <router-outlet></router-outlet>
-        </nz-content>
+        </nz-sider>
+      }
+      <nz-content>
+        <zng-menu-tab *ngIf="isShowTab()" class="zng-fixed-top__left-sider"/>
+        <nz-layout class="inner-layout">
+          <ng-container *ngIf="menuMode() !== MenuMode.side">
+            <div class="p-4">
+              <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+            </div>
+          </ng-container>
+          
+          <nz-content class="zng-layout__content relative">
+            <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
+            <router-outlet></router-outlet>
+          </nz-content>
 
-        <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
-      </nz-layout>
-    </nz-content>
-  </nz-layout>
+          <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+
+    @if (enableCopilot) {
+      <div class="zng-layout__copilot-container shrink-0 border-l border-neutral-200 dark:border-neutral-800"
+        [class.zng-layout__copilot-opened]="openCopilotChat()">
+        <div class="zng-layout__copilot-content flex flex-col">
+          @if (fixedLayoutHeader()) {
+            <div class="w-full h-[64px]"></div>
+          }
+          @if (fixedTab()) {
+            <div class="zng-tab-menu__fixed-placeholder w-full"></div>
+          }
+          <ngm-copilot-chat class="flex-1 w-full"
+            [user]="copilotUser()"
+          ></ngm-copilot-chat>
+        </div>
+      </div>
+    }
+  </nz-content>
 </nz-layout>
 
 <ng-template #logo>
@@ -119,4 +142,12 @@
       <a [routerLink]="route.value">{{route.label}}</a>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
+</ng-template>
+
+<ng-template #globalActions>
+  <zng-global-header/>
+
+  <button nz-button [style.height]="'100%'" nzType="text" (click)="openCopilotChat.set(!openCopilotChat())">
+    <span nz-icon nzType="comment" nzTheme="outline"></span>
+  </button>
 </ng-template>

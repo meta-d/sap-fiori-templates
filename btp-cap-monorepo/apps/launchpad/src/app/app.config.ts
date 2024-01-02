@@ -1,3 +1,4 @@
+import { environment } from '@/environments/environment'
 import { DOCUMENT, registerLocaleData } from '@angular/common'
 import { provideHttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
@@ -12,13 +13,13 @@ import {
 } from '@angular/router'
 import { IconDefinition } from '@ant-design/icons-angular'
 import * as AllIcons from '@ant-design/icons-angular/icons'
+import { provideClientCopilot } from '@metad/ocap-angular/copilot'
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config'
-import { NZ_ICONS } from 'ng-zorro-antd/icon'
-import { CookieService } from 'ngx-cookie-service'
-
-import { environment } from '@/environments/environment'
 import { NzDrawerModule } from 'ng-zorro-antd/drawer'
+import { NZ_ICONS } from 'ng-zorro-antd/icon'
 import { NzModalModule } from 'ng-zorro-antd/modal'
+import { CookieService } from 'ngx-cookie-service'
+import { provideMarkdown } from 'ngx-markdown'
 import { appRoutes } from './app.routes'
 import { ScrollService, provideLogger, provideTranslate } from './core'
 import { SimpleReuseStrategy, ZngPageTitleStrategy } from './core/strategies'
@@ -48,7 +49,7 @@ const APPINIT_PROVIDES = [
   {
     provide: APP_INITIALIZER,
     useFactory: initializeApp,
-    deps: [ APP_STORE_TOKEN ],
+    deps: [APP_STORE_TOKEN],
     multi: true
   }
 ]
@@ -78,6 +79,8 @@ export const appConfig: ApplicationConfig = {
       provide: TitleStrategy,
       useExisting: ZngPageTitleStrategy
     },
-    importProvidersFrom(NzDrawerModule, NzModalModule)
+    importProvidersFrom(NzDrawerModule, NzModalModule),
+    provideClientCopilot(() => Promise.resolve(environment.copilot ?? { enabled: false, chatUrl: '' })),
+    provideMarkdown()
   ]
 }

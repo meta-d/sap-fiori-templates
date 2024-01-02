@@ -65,6 +65,15 @@ export const appRoutes: Routes = [
       },
       loadChildren: () => import('./demo/elements/routing').then((m) => m.default)
     },
+    {
+      path: 'copilot',
+      title: 'AI Copilot',
+      data: {
+        icon: 'comment',
+        key: 'copilot'
+      },
+      loadChildren: () => import('./demo/copilot/routing').then((m) => m.default)
+    },
   ] : []),
   ...(environment.embeddedAnalytics ? 
   [{

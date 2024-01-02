@@ -42,9 +42,12 @@
             "input": "apps/launchpad/src/styles/material/dark.scss",
             "bundleName": "mat-dark",
             "inject": false
-          }
+          },
+          "node_modules/prismjs/themes/prism.css"
         ],
-        "scripts": [],
+        "scripts": [
+          "node_modules/marked/marked.min.js"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "apps/launchpad/src/styles/themes"
