@@ -1,9 +1,10 @@
 import { ZngAntdModule } from '@/app/core/shared.module'
+import { makeCubePrompt, zodToAnnotations } from '@/app/utils'
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CommonModule } from '@angular/common'
 import { Component, computed, inject, signal } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
+import { toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -13,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTabsModule } from '@angular/material/tabs'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { NgmSearchComponent } from '@metad/ocap-angular/common'
+import { injectCopilotCommand, injectMakeCopilotActionable } from '@metad/ocap-angular/copilot'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
 import { EntityCapacity, NgmEntitySchemaComponent } from '@metad/ocap-angular/entity'
 import {
@@ -22,12 +24,15 @@ import {
   ChartMeasure,
   DataSettings,
   ISlicer,
-  OrderDirection
+  OrderDirection,
+  isEntityType,
 } from '@metad/ocap-core'
 import { NzResizeEvent, NzResizeHandleOption } from 'ng-zorro-antd/resizable'
-import { map, startWith, switchMap, take, tap } from 'rxjs'
-import { ZngS4DSCoreService, ZngOcapTranslateService } from '../services'
-
+import { NGXLogger } from 'ngx-logger'
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs'
+import { z } from 'zod'
+import { ZngOcapTranslateService, ZngS4DSCoreService } from '../services'
+import { TranslateModule } from '@ngx-translate/core'
 
 @Component({
   standalone: true,
@@ -38,6 +43,7 @@ import { ZngS4DSCoreService, ZngOcapTranslateService } from '../services'
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     ZngAntdModule,
     DragDropModule,
     MatListModule,
@@ -62,7 +68,9 @@ export class ZngOcapSchemaComponent {
   readonly #translateService = inject(ZngOcapTranslateService)
 
   readonly #dsCoreService = inject(ZngS4DSCoreService)
+  readonly #logger = inject(NGXLogger)
 
+  dataSourceName = ZngS4DSCoreService.S4ModelName
   /**
    * Change to your sqlViewName of cds
    */
@@ -75,6 +83,7 @@ export class ZngOcapSchemaComponent {
     this.#cube.set(value)
   }
   readonly #cube = signal<string[]>([`$2C${this.cdsSqlViewName}`])
+  readonly cube$ = toObservable(this.#cube)
 
   readonly showCubesList = signal(true)
   readonly searchControl = new FormControl('')
@@ -83,7 +92,7 @@ export class ZngOcapSchemaComponent {
 
   slicers = signal<ISlicer[]>([])
 
-  readonly #dataSource$ = this.#dsCoreService.getDataSource(ZngS4DSCoreService.S4ModelName)
+  readonly #dataSource$ = this.#dsCoreService.getDataSource(this.dataSourceName)
   readonly dataSource = toSignal(this.#dataSource$)
   readonly loadingCatalogs = signal(false)
   readonly catalogs = toSignal(
@@ -109,6 +118,13 @@ export class ZngOcapSchemaComponent {
 
   readonly catalog = signal<string>(ZngS4DSCoreService.S4InfoCube)
 
+  readonly entityType = toSignal(
+    this.#dataSource$.pipe(
+      switchMap((dataSource) => this.cube$.pipe(switchMap((cube) => dataSource.selectEntityType(cube[0])))),
+      filter(isEntityType)
+    )
+  )
+
   col = 8
   id = -1
   directions: NzResizeHandleOption[] = [
@@ -123,7 +139,7 @@ export class ZngOcapSchemaComponent {
 
   dataSettings = computed<DataSettings>(() => {
     return {
-      dataSource: 'S4CDS',
+      dataSource: this.dataSourceName,
       entitySet: this.#cube()[0],
       chartAnnotation: {
         chartType: {
@@ -133,6 +149,74 @@ export class ZngOcapSchemaComponent {
         measures: [this.measure()]
       }
     } as DataSettings
+  })
+
+  /**
+   *
+   */
+  #chartCommand = injectCopilotCommand({
+    name: 'chart',
+    description: 'New Chart',
+    examples: ['Total bookings by customer country'],
+    systemPrompt: () => {
+      let prompt = `New a chart by the cube info.`
+      const entityType = this.entityType()
+      if (entityType) {
+        prompt += `The cube is:
+\`\`\`
+${makeCubePrompt(entityType)}
+\`\`\`
+`
+      }
+      return prompt
+    },
+    actions: [
+      injectMakeCopilotActionable({
+        name: 'new_chart',
+        description: 'New chart',
+        argumentAnnotations: [
+          {
+            name: 'chart',
+            type: 'object',
+            description: 'The chart config',
+            required: true,
+            properties: zodToAnnotations(
+              z.object({
+                dimension: z.object({
+                  dimension: z.string().describe('The dimension'),
+                  hierarchy: z.string().optional().describe('The hierarchy'),
+                  level: z.string().optional().describe('The level'),
+                }),
+                measure: z.object({
+                  measure: z.string().describe('The measure')
+                })
+              })
+            )
+          }
+        ],
+        implementation: async (chart) => {
+          this.#logger.debug('The new chart is', chart)
+          // const entityType = this.entityType()
+          // if (entityType) {
+          //   const dimension = parseDimension(chart.dimension, entityType)
+          //   this.dimension.set({
+          //     ...dimension,
+          //     zeroSuppression: true
+          //   })
+          // }
+
+          this.dimension.set({
+            ...chart.dimension,
+            zeroSuppression: true
+          })
+          this.measure.set({
+            dimension: C_MEASURES,
+            ...chart.measure,
+            order: OrderDirection.DESC
+          })
+        }
+      })
+    ]
   })
 
   onResize({ col }: NzResizeEvent): void {
@@ -178,12 +262,15 @@ export class ZngOcapSchemaComponent {
         }))
         break
       case AggregationRole.measure:
-        this.measure.update((state) => ({
-          ...state,
-          dimension: C_MEASURES,
-          measure: property.name,
-          order: OrderDirection.DESC
-        } as ChartMeasure))
+        this.measure.update(
+          (state) =>
+            ({
+              ...state,
+              dimension: C_MEASURES,
+              measure: property.name,
+              order: OrderDirection.DESC
+            } as ChartMeasure)
+        )
         break
     }
   }

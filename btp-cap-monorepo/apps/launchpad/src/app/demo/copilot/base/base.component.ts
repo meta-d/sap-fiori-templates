@@ -1,3 +1,4 @@
+import { zodToAnnotations } from '@/app/utils'
 import { fnCheckForm } from '@/app/utils/tools'
 import { NgFor, NgIf } from '@angular/common'
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core'
@@ -16,7 +17,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NGXLogger } from 'ngx-logger'
 import { z } from 'zod'
-import { zodToAnnotations } from '../types'
 
 
 @Component({

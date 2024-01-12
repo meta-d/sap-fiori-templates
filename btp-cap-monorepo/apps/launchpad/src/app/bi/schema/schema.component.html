@@ -13,7 +13,7 @@
     <div class="h-full flex flex-col items-stretch pb-2">
 
       <div class="p-2">
-        <span>Catalog:</span>
+        <span>{{ 'ZNG.BI.Catalog' | translate: {Default: 'Catalog'} }}:</span>
         <button mat-button [matMenuTriggerFor]="menu">
           @if (loadingCatalogs()) {
             <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
@@ -32,8 +32,8 @@
         }
       </mat-menu>
 
-      <h3 class="px-4 m-0 mt-4 flex justify-between items-center text-sm text-neutral-500">
-        <span>Cubes</span>
+      <h3 class="px-4 m-0 flex justify-between items-center text-sm text-neutral-500">
+        <span>{{'ZNG.BI.Cubes' | translate: {Default: 'Cubes'} }}</span>
         <button mat-icon-button (click)="toggleCubesList()">
           @if (showCubesList()) {
             <mat-icon>expand_less</mat-icon>
@@ -54,11 +54,11 @@
       </cdk-virtual-scroll-viewport>
       }
 
-      <h3 class="py-2 px-4 m-0 mt-4 text-sm text-neutral-500">Entity ({{cube[0]}})</h3>
+      <h3 class="py-2 px-4 m-0 mt-4 text-sm text-neutral-500">{{'ZNG.BI.Entity' | translate: {Default: 'Entity'} }} ({{cube[0]}})</h3>
       @for (item of cube; track item) {
         <ngm-entity-schema class="flex-1 overflow-auto" cdkDropList
           [dataSettings]="{
-            dataSource: 'S4CDS',
+            dataSource: dataSourceName,
             entitySet: item
           }"
           [capacities]="[

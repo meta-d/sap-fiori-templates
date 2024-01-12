@@ -83,6 +83,11 @@
             "Base Form": "基础表单",
             "Step Form": "分步表单",
             "Advanced Form": "高级表单"
+        },
+        "BI": {
+            "Catalog": "目录",
+            "Cubes": "立方体",
+            "Entity": "实体"
         }
     }
 }
