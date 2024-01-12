@@ -156,3 +156,13 @@ export function parseEdmDateTime(value: string) {
   }
   return null
 }
+
+export function getErrorMessage(err: any) {
+  if (isString(err) && /^\{"error"\:\{/.test(err)) {
+    const error = JSON.parse(err)
+
+    return error.error?.message?.value
+  }
+
+  return err
+}

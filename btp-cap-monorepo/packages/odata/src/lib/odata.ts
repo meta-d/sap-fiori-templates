@@ -10,7 +10,8 @@ import {
   ODataQueryOptions,
   OrderEnum,
   entityKeyValue,
-  getEntityName
+  getEntityName,
+  getErrorMessage
 } from './types'
 import { isString } from './utils/isString'
 
@@ -64,18 +65,33 @@ export function defineODataStore(
   // Dont use version when use fe mock server, because it doesn't support versioning
   const baseUrl = `${removeLastSlash(base)}/${service}${version && !_config$.value.isMockData ? `/${version}` : ''}`
 
+  const metadata = async () => {
+    const response = await fetch(`${baseUrl}/$metadata`)
+    const token = response.headers.get('X-Csrf-Token')
+    if (token) {
+      setXCsrfToken(token)
+    }
+
+    if (response.ok) {
+      const text = await response.text()
+      
+      const _metadata: any = convert.xml2js(text, { compact: true, attributesKey: '@' })
+
+      return _metadata['edmx:Edmx']['edmx:DataServices']['Schema']
+    }
+    throw {
+      code: response.status,
+      error: getErrorMessage(await response.text())
+    }
+  }
+  
   const init = () => {
     store.next({
       ...store.value,
       status: StoreStatus.initializing
     })
     setTimeout(() => {
-      fetch(`${baseUrl}/$metadata`)
-        .then((response) => response.text())
-        .then((text) => convert.xml2js(text, { compact: true, attributesKey: '@' }))
-        .then((metadata: any) => {
-          return metadata['edmx:Edmx']['edmx:DataServices']['Schema']
-        })
+      metadata()
         .then((Schema) => {
           store.next({
             ...store.value,
