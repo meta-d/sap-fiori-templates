@@ -16,6 +16,7 @@ import { NavigationProgressBarComponent } from '../../NavigationProgressBar/'
 import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
 import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
+import { DrawerTriggerComponent } from '../../Drawer'
 
 @Component({
   selector: 'zng-layout-default',
@@ -35,6 +36,7 @@ import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
     ResizeObserverDirective,
     MenuTabComponent,
     NavigationProgressBarComponent,
+    DrawerTriggerComponent,
 
     NgmCopilotChatComponent
   ],
@@ -70,6 +72,12 @@ export class LayoutDefaultComponent {
   // Emable AI Copilot Chat for global
   enableCopilot = environment.copilot?.enabled
   readonly openCopilotChat = signal(false)
+  get copilotOpened() {
+    return this.openCopilotChat()
+  }
+  set copilotOpened(value) {
+    this.openCopilotChat.set(value)
+  }
 
   get currentTheme() {
     return this.themeService.currentTheme() === ThemeType.default ? 'light' : 'dark'

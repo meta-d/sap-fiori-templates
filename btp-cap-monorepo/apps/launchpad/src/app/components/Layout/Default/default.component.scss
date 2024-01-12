@@ -114,9 +114,9 @@
   color: var(--zng-header-color);
 }
 
-// .ant-layout-content {
-//   @apply flex flex-col;
-// }
+.ant-layout-content {
+  @apply overflow-hidden;
+}
 
 .zng-logo-title {
   @apply whitespace-nowrap font-extrabold overflow-hidden text-ellipsis text-xl;

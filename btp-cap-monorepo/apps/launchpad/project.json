@@ -19,10 +19,9 @@
         "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets", "apps/launchpad/src/.Ui5RepositoryBinaryFiles"],
         "styles": [
           "node_modules/ng-zorro-antd/resizable/style/entry.less",
+          "node_modules/prismjs/themes/prism.css",
           "node_modules/driver.js/dist/driver.css",
           "node_modules/@metad/ocap-angular/index.css",
-          "apps/launchpad/src/styles.less",
-          "apps/launchpad/src/styles.scss",
           {
             "input": "apps/launchpad/src/styles/antd/default.less",
             "bundleName": "default",
@@ -34,16 +33,13 @@
             "inject": false
           },
           {
-            "input": "apps/launchpad/src/styles/material/default.scss",
-            "bundleName": "mat-default",
-            "inject": false
-          },
-          {
             "input": "apps/launchpad/src/styles/material/dark.scss",
             "bundleName": "mat-dark",
             "inject": false
           },
-          "node_modules/prismjs/themes/prism.css"
+          "apps/launchpad/src/styles/material/default.scss",
+          "apps/launchpad/src/styles.less",
+          "apps/launchpad/src/styles.scss"
         ],
         "scripts": [
           "node_modules/marked/marked.min.js",

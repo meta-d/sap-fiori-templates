@@ -44,7 +44,7 @@
   }
 
   <nz-content class="flex flex-row">
-    <nz-layout>
+    <nz-layout class="overflow-auto">
       @if (menuMode() === MenuMode.side) {
         @if (fixedLayoutHeader()) {
         <div class="w-full h-[64px]"></div>
@@ -78,29 +78,36 @@
           </div>
         </nz-sider>
       }
-      <nz-content>
-        <zng-menu-tab *ngIf="isShowTab()" class="zng-fixed-top__left-sider"/>
-        <nz-layout class="inner-layout">
-          <ng-container *ngIf="menuMode() !== MenuMode.side">
+      <nz-content class="flex flex-col">
+        @if (isShowTab()) {
+          <zng-menu-tab class="zng-fixed-top__left-sider"/>
+        }
+        <nz-layout class="zng-inner-layout flex-1">
+          @if (menuMode() !== MenuMode.side) {
             <div class="p-4">
               <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
             </div>
-          </ng-container>
+          }
           
           <nz-content class="zng-layout__content relative">
-            <nz-water-mark *ngIf="enableWaterMark" class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
+            @if (enableWaterMark) {
+              <nz-water-mark class="block inset-0 w-full h-full pointer-events-none" [nzContent]="waterMark()"></nz-water-mark>
+            }
             <router-outlet></router-outlet>
           </nz-content>
 
-          <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2023 By <a href="https://mtda.cloud/">Metad Team</a></nz-footer>
+          <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2024 By <a href="https://mtda.cloud/sap/">Metad Team</a></nz-footer>
         </nz-layout>
       </nz-content>
     </nz-layout>
 
     @if (enableCopilot) {
-      <div class="zng-layout__copilot-container shrink-0 border-l border-neutral-200 dark:border-neutral-800"
+      <div class="zng-layout__copilot-container shrink-0 border-l border-neutral-100 dark:border-neutral-800"
         [class.zng-layout__copilot-opened]="openCopilotChat()">
-        <div class="zng-layout__copilot-content flex flex-col">
+
+        <div class="zng-layout__copilot-content relative flex flex-col">
+          <zng-drawer-trigger class="absolute -left-8 top-1/2 -translate-y-1/2 z-40" [(opened)]="copilotOpened" side="right"></zng-drawer-trigger>
+
           @if (fixedLayoutHeader()) {
             <div class="w-full h-[64px]"></div>
           }
@@ -147,7 +154,7 @@
 <ng-template #globalActions>
   <zng-global-header/>
 
-  <button nz-button [style.height]="'100%'" nzType="text" (click)="openCopilotChat.set(!openCopilotChat())">
+  <!-- <button nz-button [style.height]="'100%'" nzType="text" (click)="openCopilotChat.set(!openCopilotChat())">
     <span nz-icon nzType="comment" nzTheme="outline"></span>
-  </button>
+  </button> -->
 </ng-template>

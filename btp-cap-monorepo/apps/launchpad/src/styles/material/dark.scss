@@ -7,11 +7,6 @@
 $dark-primary: mat.define-palette(mat.$blue-grey-palette, 600);
 $dark-accent: mat.define-palette(mat.$amber-palette, A700, A400, A200);
 
-// $material-typeface: "Lato, 'Noto Serif SC', monospace";
-// // mat.$light-theme-background-palette: map-merge(mat.$light-theme-background-palette, (surface: rgba(255, 255, 255, 0.875)));
-// $custom-typography: mat.define-typography-config(
-//   $font-family: $material-typeface
-// );
 
 $light-secondary-text: rgba(white, 0.7);
 $light-disabled-text: rgba(white, 0.5);
@@ -69,7 +64,6 @@ $mat-theme: map.deep-merge(
 
 
 html.dark {
-  @include mat.core();
   @include mat.all-component-themes($mat-theme);
 
   @include ocap.core-theme($mat-theme);
