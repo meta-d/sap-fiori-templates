@@ -32,12 +32,8 @@
             "bundleName": "dark",
             "inject": false
           },
-          {
-            "input": "apps/launchpad/src/styles/material/dark.scss",
-            "bundleName": "mat-dark",
-            "inject": false
-          },
           "apps/launchpad/src/styles/material/default.scss",
+          "apps/launchpad/src/styles/material/dark.scss",
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss"
         ],

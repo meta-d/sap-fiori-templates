@@ -7,17 +7,16 @@ import { map } from 'rxjs/operators'
 import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
 import { ThemeType } from '../types'
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private appStore = inject<IAppStore>(APP_STORE_TOKEN)
-  private nzConfigService = inject(NzConfigService)
-  private translate = inject(TranslateService)
+  readonly #appStore = inject<IAppStore>(APP_STORE_TOKEN)
+  readonly #nzConfigService = inject(NzConfigService)
+  readonly #translate = inject(TranslateService)
   readonly #message = inject(NzMessageService)
 
-  readonly personalization = this.appStore.personalization
+  readonly personalization = this.#appStore.personalization
 
   readonly currentTheme = computed(() => this.personalization().theme)
   readonly menuTheme = computed(() => this.personalization().menuTheme)
@@ -30,12 +29,12 @@ export class ThemeService {
   readonly isOverMode = computed(() => this.personalization().isOverMode)
   readonly isNightTheme = computed(() => this.personalization().theme === ThemeType.dark)
   readonly webGuiMode = computed(() => this.personalization().webGuiMode)
-  
+
   readonly isCollapsed = signal(false)
 
   // Translator
   get currentLang() {
-    return this.translate.currentLang
+    return this.#translate.currentLang
   }
 
   constructor() {
@@ -47,7 +46,7 @@ export class ThemeService {
 
     effect(() => {
       if (this.primaryColor()) {
-        this.nzConfigService.set('theme', { primaryColor: this.primaryColor() })
+        this.#nzConfigService.set('theme', { primaryColor: this.primaryColor() })
       }
     })
   }
@@ -64,7 +63,7 @@ export class ThemeService {
     }
   }
 
-  private loadCss(href: string, id: string): Promise<Event> {
+  private async loadCss(href: string, id: string): Promise<Event> {
     return new Promise((resolve, reject) => {
       const style = document.createElement('link')
       style.rel = 'stylesheet'
@@ -76,40 +75,38 @@ export class ThemeService {
     })
   }
 
-  public loadTheme(firstLoad = true): Promise<Event[]> {
+  async loadTheme(firstLoad = true): Promise<Event[]> {
     const theme = this.currentTheme() as string
     if (firstLoad) {
       document.documentElement.classList.add(theme)
     }
 
     return Promise.all([
-      this.loadCss(`${theme}.css`, theme),
-      this.loadCss(`mat-${theme}.css`, theme)
-    ]).then(
-      (e) => {
-        if (!firstLoad) {
-          document.documentElement.classList.add(theme)
-        }
-        this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
-        return e
+      this.loadCss(`${theme}.css`, theme)
+      // this.loadCss(`mat-${theme}.css`, theme)
+    ]).then((e) => {
+      if (!firstLoad) {
+        document.documentElement.classList.add(theme)
       }
-    )
+      this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
+      return e
+    })
   }
 
   setTheme(theme?: ThemeType) {
-    this.appStore.updatePersonalization({
+    this.#appStore.updatePersonalization({
       theme: theme ?? this.reverseTheme(this.currentTheme())
     })
   }
 
   setPrimaryColor(color?: string) {
-    this.appStore.updatePersonalization({
+    this.#appStore.updatePersonalization({
       primaryColor: color
     })
   }
 
   updatePersonalization(value: Partial<PersonalizationType>) {
-    this.appStore.updatePersonalization(value)
+    this.#appStore.updatePersonalization(value)
   }
 
   getThemesMode() {
@@ -117,15 +114,15 @@ export class ThemeService {
   }
 
   useLanguage(lang: string): void {
-    this.translate.use(lang).subscribe()
+    this.#translate.use(lang).subscribe()
     this.#message.info(
-      this.translate.instant('ZNG.GlobalHeader.LanguageChanged', {
+      this.#translate.instant('ZNG.GlobalHeader.LanguageChanged', {
         Default: 'Language changed!'
       })
     )
   }
 
   onLangChange() {
-    return this.translate.onLangChange.pipe(map((event: LangChangeEvent) => event.lang))
+    return this.#translate.onLangChange.pipe(map((event: LangChangeEvent) => event.lang))
   }
 }

@@ -24,7 +24,14 @@ export const appRoutes: Routes = [
     title: 'Admin',
     data: {
       icon: 'setting',
-      key: 'admin'
+      key: 'admin',
+      // authorization: {
+      //   name: 'S_SERVICE',
+      //   params: {
+      //     SRV_NAME: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+      //     SRV_TYPE: 'HT'
+      //   }
+      // }
     },
     loadChildren: () => import('./pages/admin/admin-routing').then((m) => m.default)
   },

@@ -1,5 +1,5 @@
 import { appRoutes } from '@/app/app.routes'
-import { Injectable, computed, inject, signal } from '@angular/core'
+import { Injectable, InjectionToken, computed, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Params, Route, Router, Routes } from '@angular/router'
 import { distinctUntilChanged, filter, map } from 'rxjs/operators'
@@ -9,6 +9,7 @@ import { ThemeService } from './theme.service'
 import { ZngPageTitleStrategy } from '../strategies'
 import { nonNullable } from '@/app/utils'
 import { environment } from '@/environments/environment'
+
 export interface MenuAuthorization {
   filter(menus: AppAuthorizationObject[]): Promise<AppAuthorizationObject[]>
 }
@@ -199,11 +200,11 @@ export class MenusService {
       // 兼容 export Routes 和 export default Routes 两种方式
       const result = await (<Promise<any>>menu.route?.loadChildren()).then(getChildrenRoutes)
       if (Array.isArray(result)) {
-        const submenus = mapRoutes2Menus(result, menu.path)
+        const submenus = await this.filterAuthorizations(mapRoutes2Menus(result, menu.path))
         menu = {
           ...menu,
           submenus,
-          hasSubmenus: !!submenus.length,
+          hasSubmenus: !!submenus?.length,
         }
         this.appMenus.update((menus) => updateMenus(menus, indexes, menu))
       }
