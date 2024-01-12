@@ -3,12 +3,17 @@ import { Injectable, computed, inject, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Params, Route, Router, Routes } from '@angular/router'
 import { distinctUntilChanged, filter, map } from 'rxjs/operators'
-import { Ui5Path } from '../types'
+import { AppAuthorizationObject, Ui5Path } from '../types'
 import { FioriLaunchpadService } from './flp.service'
 import { ThemeService } from './theme.service'
 import { ZngPageTitleStrategy } from '../strategies'
 import { nonNullable } from '@/app/utils'
 import { environment } from '@/environments/environment'
+export interface MenuAuthorization {
+  filter(menus: AppAuthorizationObject[]): Promise<AppAuthorizationObject[]>
+}
+
+export const MENU_AUTH = new InjectionToken<MenuAuthorization>('MenuAuthorization')
 
 export interface AppMenu<T = any> {
   path: string | undefined
@@ -32,13 +37,14 @@ export class MenusService {
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   private titleStrategy = inject(ZngPageTitleStrategy)
+  readonly #menuAuth?: MenuAuthorization | null = inject(MENU_AUTH, { optional: true })
 
   readonly menuMode = this.themeService.menuMode
 
   /**
    * All menus in app
    */
-  private appMenus = signal<AppMenu[]>(mapRoutes2Menus(appRoutes))
+  private appMenus = signal<AppMenu[]>([])
   
   /**
    * App menus with title translation
@@ -174,6 +180,12 @@ export class MenusService {
     }).filter(nonNullable)
   })
 
+  constructor() {
+    // Init App menus filterd by Authorization
+    const appMenus = appRoutes.filter((route) => !route.data?.['hidden']).map((route) => mapRouteToMenu(route))
+    this.filterAuthorizations(appMenus).then((appMenus) => this.appMenus.set(appMenus!))
+  }
+
   /**
    * Load the menu's submenus
    *
@@ -206,6 +218,16 @@ export class MenusService {
         action: menu.data.navigation_semantic_action
       }
     })
+  }
+
+  async filterAuthorizations(menus: AppMenu<any>[]) {
+    const authorizations = collectAuthorizations(menus)
+    if (this.#menuAuth) {
+      const _authorizations = await this.#menuAuth.filter(authorizations)
+      return authorizeMenus(menus, _authorizations)
+    }
+
+    return menus
   }
 }
 
@@ -299,4 +321,42 @@ function updateMenus(menus: AppMenu[], indexes: number[], menu: AppMenu): AppMen
     },
     ...menus.slice(index + 1)
   ] 
+}
+
+
+function collectAuthorizations(menus: AppMenu<any>[]) {
+  const authorizations: AppAuthorizationObject[] = []
+  menus.forEach((menu) => {
+    if (menu.route?.data?.['authorization'] && menu.path) {
+      authorizations.push({
+        path: menu.path!,
+        obj: menu.route?.data?.['authorization']
+      })
+    }
+    if (menu.submenus) {
+      authorizations.push(...collectAuthorizations(menu.submenus))
+    }
+  })
+
+  return authorizations
+}
+
+function authorizeMenus(
+  menus: AppMenu<any>[] | undefined | null,
+  authorized: AppAuthorizationObject[]
+): AppMenu<any>[] | undefined {
+  return menus
+    ?.map((menu) => {
+      if (menu.route?.data?.['authorization'] && menu.path) {
+        if (!authorized.some(({ path, authorized }) => path === menu.path && authorized)) {
+          return null
+        }
+      }
+
+      return {
+        ...menu,
+        submenus: authorizeMenus(menu.submenus, authorized)
+      }
+    })
+    .filter(nonNullable)
 }

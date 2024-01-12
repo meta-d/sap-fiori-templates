@@ -65,3 +65,14 @@ export interface SearchCommonVO<T> {
   pageSize: number;
   filters?: T;
 }
+
+export type AuthorizationObject = {
+  name: string
+  params: Record<string, string>
+}
+
+export type AppAuthorizationObject = {
+  path: string;
+  obj: AuthorizationObject;
+  authorized?: boolean
+}
