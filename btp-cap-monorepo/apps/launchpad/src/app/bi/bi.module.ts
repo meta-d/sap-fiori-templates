@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common'
+import { HttpClient } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -16,16 +17,18 @@ import {
   OCAP_DATASOURCE_TOKEN,
   OcapCoreModule
 } from '@metad/ocap-angular/core'
-import { ZhHans } from '@metad/ocap-angular/i18n'
+import { ZhHans, ZhHant } from '@metad/ocap-angular/i18n'
 import { DataSource, Type } from '@metad/ocap-core'
 import { DEFAULT_THEME } from '@metad/ocap-echarts'
 import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { registerTheme } from 'echarts/core'
 import { NgxEchartsModule } from 'ngx-echarts'
-import { Observable, of } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { routes } from './bi-routing'
+import { S4ServerAgent, ZngOcapCacheService, ZngOcapTranslateService, ZngS4DSCoreService } from './services'
 import { DARK_THEME } from './theme.dark'
-import { ZngS4DSCoreService, ZngOcapCacheService, ZngOcapTranslateService, S4ServerAgent } from './services'
+import { LanguagesEnum } from '../core'
 
 registerTheme(DEFAULT_THEME.name, {
   ...DEFAULT_THEME.echartsTheme,
@@ -36,15 +39,34 @@ registerTheme(DEFAULT_THEME.name, {
 })
 registerTheme(DARK_THEME.name, DARK_THEME.chartTheme)
 
-class ZngTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string): Observable<any> {
+class ZngTranslateLoader extends TranslateHttpLoader {
+  override getTranslation(lang: string): Observable<any> {
+    let ocapTranslates = {}
     switch (lang) {
-      case 'zh-Hans':
-        return of(ZhHans)
+      case LanguagesEnum.Chinese:
+      case LanguagesEnum.SimplifiedChinese:
+        ocapTranslates = { ...ZhHans }
+        break
+      case LanguagesEnum.TraditionalChinese:
+        ocapTranslates = {
+          ...ZhHant
+        }
+        break
       default:
-        return of(null)
+        ocapTranslates = {}
     }
+
+    return super.getTranslation(lang).pipe(
+      map((t) => ({
+        ...t,
+        ...ocapTranslates
+      }))
+    )
   }
+}
+
+function createTranslateLoader(http: HttpClient) {
+  return new ZngTranslateLoader(http, './assets/i18n/', '.json')
 }
 
 @NgModule({
@@ -58,7 +80,11 @@ class ZngTranslateLoader implements TranslateLoader {
     }),
     TranslateModule.forChild({
       defaultLanguage: 'en',
-      loader: { provide: TranslateLoader, useClass: ZngTranslateLoader },
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      },
       missingTranslationHandler: {
         provide: MissingTranslationHandler,
         useClass: NgmMissingTranslationHandler

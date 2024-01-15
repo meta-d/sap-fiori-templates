@@ -2,6 +2,7 @@
 @use '@ngneat/cmdk/styles/scss/vercel';
 
 @import './styles/material/font-face';
+@import "./app/components/HomeNotice/_home-notice.component";
 
 @tailwind base;
 @tailwind components;

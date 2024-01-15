@@ -87,7 +87,9 @@
         "BI": {
             "Catalog": "目录",
             "Cubes": "立方体",
-            "Entity": "实体"
+            "Entity": "实体",
+            "Chart": "图形",
+            "Code": "代码"
         }
     }
 }

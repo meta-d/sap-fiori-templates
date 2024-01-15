@@ -77,13 +77,13 @@
   <div class="col right pl-2" nz-col [nzSpan]="24 - col">
     <div class="h-full bg-white dark:bg-neutral-900 rounded-lg" cdkDropList (cdkDropListDropped)="drop($event)">
       <mat-tab-group class="h-full" fitInkBarToContent >
-        <mat-tab label="Chart">
+        <mat-tab [label]=" 'ZNG.BI.Chart' | translate: {Default: 'Chart'} ">
           <ngm-analytical-card class="h-full"
             [dataSettings]="dataSettings()"
           >
           </ngm-analytical-card>
         </mat-tab>
-        <mat-tab label="Code">
+        <mat-tab [label]=" 'ZNG.BI.Code' | translate: {Default: 'Code'} ">
           <div class="block h-full p-4 overflow-auto">
             <code class="whitespace-pre-wrap">
               {{ dataSettings() | json }}

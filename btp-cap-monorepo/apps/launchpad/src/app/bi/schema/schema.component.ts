@@ -25,14 +25,14 @@ import {
   DataSettings,
   ISlicer,
   OrderDirection,
-  isEntityType,
+  isEntityType
 } from '@metad/ocap-core'
+import { TranslateModule } from '@ngx-translate/core'
 import { NzResizeEvent, NzResizeHandleOption } from 'ng-zorro-antd/resizable'
 import { NGXLogger } from 'ngx-logger'
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs'
 import { z } from 'zod'
 import { ZngOcapTranslateService, ZngS4DSCoreService } from '../services'
-import { TranslateModule } from '@ngx-translate/core'
 
 @Component({
   standalone: true,
@@ -74,7 +74,7 @@ export class ZngOcapSchemaComponent {
   /**
    * Change to your sqlViewName of cds
    */
-  cdsSqlViewName = 'ZYCUBEFLIGHTBOOK'
+  cdsSqlViewName = 'ZCUBEFLIGHTBOOK'
   country = '[2CIFICOUNTRY]'
   get cube() {
     return this.#cube()
@@ -134,8 +134,16 @@ export class ZngOcapSchemaComponent {
     }
   ]
 
-  dimension = signal<ChartDimension>({})
-  measure = signal<ChartMeasure>({} as ChartMeasure)
+  dimension = signal<ChartDimension>({
+    "dimension": "[2CZDIMECUSTOMER]",
+    "hierarchy": "[2CZDIMECUSTOMER]",
+    "level": "[2CZDIMECUSTOMER].[LEVEL01]",
+    "zeroSuppression": true
+  })
+  measure = signal<ChartMeasure>({
+    dimension: C_MEASURES,
+    measure: 'URBookings'
+  } as ChartMeasure)
 
   dataSettings = computed<DataSettings>(() => {
     return {
@@ -185,7 +193,7 @@ ${makeCubePrompt(entityType)}
                 dimension: z.object({
                   dimension: z.string().describe('The dimension'),
                   hierarchy: z.string().optional().describe('The hierarchy'),
-                  level: z.string().optional().describe('The level'),
+                  level: z.string().optional().describe('The level')
                 }),
                 measure: z.object({
                   measure: z.string().describe('The measure')
