@@ -1,6 +1,6 @@
 import { AppMenu, MenusService, ResizeObserverDirective, ThemeService } from '@/app/core'
 import { CommonModule } from '@angular/common'
-import { Component, ElementRef, Input, ViewChild, computed, effect, inject, signal } from '@angular/core'
+import { Component, ElementRef, Input, ViewChild, computed, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
@@ -53,12 +53,6 @@ export class TopNavBarComponent {
   readonly menus = this.menusService.menus
   readonly flpLoading = this.menusService.flpLoading
 
-  constructor() {
-    effect(() => {
-      console.log(this.menus())
-    })
-  }
-
   trackByIndex(index: number) {
     return index
   }
@@ -74,7 +68,7 @@ export class TopNavBarComponent {
     this.message.info('切换成功')
   }
 
-  onResize(event: any) {
+  onResize() {
     if (this.menusElement && this.hostElement) {
       const childWidth = this.menusElement.nativeElement.offsetWidth
       const hostWidth = this.hostElement.nativeElement.offsetWidth

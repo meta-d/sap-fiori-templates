@@ -80,7 +80,7 @@ export const appConfig: ApplicationConfig = {
       useExisting: ZngPageTitleStrategy
     },
     importProvidersFrom(NzDrawerModule, NzModalModule),
-    provideClientCopilot(() => Promise.resolve(environment.copilot ?? { enabled: false, chatUrl: '' })),
+    provideClientCopilot(async () => Promise.resolve(environment.copilot ?? { enabled: false, chatUrl: '' })),
     provideMarkdown()
   ]
 }

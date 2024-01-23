@@ -1,23 +1,16 @@
 import { Inject, Injectable, Optional } from '@angular/core'
 import { NgmDSCacheService, NgmDSCoreService, OCAP_AGENT_TOKEN, OCAP_DATASOURCE_TOKEN } from '@metad/ocap-angular/core'
-import {
-  Agent,
-  AgentType,
-  AggregationRole,
-  C_MEASURES,
-  CalculatedProperty,
-  CalculationType,
-  DataSourceFactory,
-  DataSourceOptions,
-  Syntax
-} from '@metad/ocap-core'
-import { nanoid } from 'nanoid'
+import { Agent, AgentType, DataSourceFactory, DataSourceOptions, Property, Syntax } from '@metad/ocap-core'
+import { cloneDeep } from 'lodash-es'
+import { FlightBookEntityType } from './flightbook'
 
 @Injectable()
 export class ZngS4DSCoreService extends NgmDSCoreService {
   static readonly S4ModelKey = '##########'
   static readonly S4ModelName = 'S4CDS'
   static readonly S4InfoCube = '$INFOCUBE'
+  static readonly S4FlightBookCdsSqlViewName = 'ZCUBEFLIGHTBOOK'
+  static readonly S4FlightBookCube = `$2C${ZngS4DSCoreService.S4FlightBookCdsSqlViewName}`
 
   static readonly S4Model: DataSourceOptions = {
     key: ZngS4DSCoreService.S4ModelKey,
@@ -32,22 +25,9 @@ export class ZngS4DSCoreService extends NgmDSCoreService {
       name: 'FLIGHTBOOK',
       cubes: [],
       entitySets: {
-        $2CZCUBEFLIGHTBOOK: {
-          name: '$2CZCUBEFLIGHTBOOK',
-          entityType: {
-            name: '$2CZCUBEFLIGHTBOOK',
-            properties: {
-              URBookings: {
-                __id__: nanoid(),
-                name: 'URBookings',
-                role: AggregationRole.measure,
-                calculationType: CalculationType.Calculated,
-                formula: `Sum([2CZCUBEFLIGHTBOOK-CURRENCY].[XEU], [Measures].[2CKY735WUO8SZXL3JSSP9T0DC4W])`,
-                dimension: C_MEASURES,
-                caption: '欧元区预定量'
-              } as CalculatedProperty
-            }
-          }
+        [ZngS4DSCoreService.S4FlightBookCube]: {
+          name: ZngS4DSCoreService.S4FlightBookCube,
+          entityType: FlightBookEntityType
         }
       }
     }
@@ -68,6 +48,16 @@ export class ZngS4DSCoreService extends NgmDSCoreService {
     this.registerModel({
       ...ZngS4DSCoreService.S4Model,
       catalog
+    })
+  }
+
+  updateProperty(entity: string, property: Property) {
+    const schema = cloneDeep(ZngS4DSCoreService.S4Model.schema)
+    schema!.entitySets![entity]!.entityType.properties[property.name] = property
+
+    this.registerModel({
+      ...ZngS4DSCoreService.S4Model,
+      schema
     })
   }
 }

@@ -27,6 +27,12 @@ export async function helpProductCategory(options?: ODataQueryOptions) {
   return result
 }
 
+export async function helpSuppliers(options?: ODataQueryOptions) {
+  const { query } = useDemoODataStore()
+  const result = await query<SupplierType>('Suppliers', options)
+  return result
+}
+
 export type ProductType = {
   ID: string
   Name: string
@@ -36,12 +42,29 @@ export type ProductType = {
   Rating: number
   Price: number
 
-  Categories: any[]
-  Supplier: any[]
-  ProductDetail: any[]
+  Categories: CategoryType[]
+  Supplier: SupplierType
+  ProductDetail: ProductDetailType
 }
 
 export type CategoryType = {
   ID: string
   Name: string
+}
+
+export type ProductDetailType = {
+  ProductID: number
+  Details: string
+
+  Product?: ProductType
+}
+
+export type SupplierType = {
+  ID: number
+  Name: string
+  Address: string
+  Location: string
+  Concurrency: string
+
+  Products?: ProductType[]
 }

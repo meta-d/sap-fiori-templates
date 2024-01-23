@@ -16,10 +16,12 @@ import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { NgmSearchComponent } from '@metad/ocap-angular/common'
 import { injectCopilotCommand, injectMakeCopilotActionable } from '@metad/ocap-angular/copilot'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
-import { EntityCapacity, NgmEntitySchemaComponent } from '@metad/ocap-angular/entity'
+import { EntityCapacity, EntitySchemaType, NgmEntitySchemaComponent } from '@metad/ocap-angular/entity'
 import {
   AggregationRole,
   C_MEASURES,
+  CalculatedProperty,
+  CalculationType,
   ChartDimension,
   ChartMeasure,
   DataSettings,
@@ -28,6 +30,7 @@ import {
   isEntityType
 } from '@metad/ocap-core'
 import { TranslateModule } from '@ngx-translate/core'
+import { nanoid } from 'ai'
 import { NzResizeEvent, NzResizeHandleOption } from 'ng-zorro-antd/resizable'
 import { NGXLogger } from 'ngx-logger'
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs'
@@ -74,8 +77,8 @@ export class ZngOcapSchemaComponent {
   /**
    * Change to your sqlViewName of cds
    */
-  cdsSqlViewName = 'ZCUBEFLIGHTBOOK'
-  country = '[2CIFICOUNTRY]'
+  cdsSqlViewName = ZngS4DSCoreService.S4FlightBookCdsSqlViewName
+  // country = '[2CIFICOUNTRY]'
   get cube() {
     return this.#cube()
   }
@@ -90,7 +93,7 @@ export class ZngOcapSchemaComponent {
 
   calFilter: ISlicer | null = null
 
-  slicers = signal<ISlicer[]>([])
+  readonly slicers = signal<ISlicer[]>([])
 
   readonly #dataSource$ = this.#dsCoreService.getDataSource(this.dataSourceName)
   readonly dataSource = toSignal(this.#dataSource$)
@@ -134,15 +137,42 @@ export class ZngOcapSchemaComponent {
     }
   ]
 
+  customerCountry = {
+    dimension: '[2CIFICOUNTRY]',
+    hierarchy: '[2CIFICOUNTRY]',
+    level: '[2CIFICOUNTRY].[LEVEL01]'
+  }
+
   dimension = signal<ChartDimension>({
-    "dimension": "[2CZDIMECUSTOMER]",
-    "hierarchy": "[2CZDIMECUSTOMER]",
-    "level": "[2CZDIMECUSTOMER].[LEVEL01]",
-    "zeroSuppression": true
+    ...this.customerCountry,
+    zeroSuppression: true
   })
   measure = signal<ChartMeasure>({
     dimension: C_MEASURES,
-    measure: 'URBookings'
+    measure: 'EURBookings',
+    order: OrderDirection.DESC,
+    formatting: {
+      shortNumber: true
+    },
+    chartOptions: {
+      seriesStyle: {
+        barWidth: 5
+      }
+    },
+    palette: {
+      colors: [
+        '#5B8FF9',
+        '#5AD8A6',
+        '#5D7092',
+        '#F6BD16',
+        '#E86452',
+        '#6DC8EC',
+        '#945FB9',
+        '#FF9845',
+        '#1E9493',
+        '#FF99C3'
+      ]
+    }
   } as ChartMeasure)
 
   dataSettings = computed<DataSettings>(() => {
@@ -165,9 +195,9 @@ export class ZngOcapSchemaComponent {
   #chartCommand = injectCopilotCommand({
     name: 'chart',
     description: 'New Chart',
-    examples: ['Total bookings by customer country'],
+    examples: ['Total bookings by customer country', ''],
     systemPrompt: () => {
-      let prompt = `New a chart by the cube info.`
+      let prompt = `New a chart by the cube info. 如果没有找到合适的度量可以先使用 MDX formula 创建一个新的 calculated measure`
       const entityType = this.entityType()
       if (entityType) {
         prompt += `The cube is:
@@ -196,7 +226,18 @@ ${makeCubePrompt(entityType)}
                   level: z.string().optional().describe('The level')
                 }),
                 measure: z.object({
-                  measure: z.string().describe('The measure')
+                  measure: z.string().describe('The measure'),
+                  chartOptions: z
+                    .object({
+                      seriesStyle: z
+                        .object({
+                          barWidth: z.number().describe('Bar width')
+                        })
+                        .optional()
+                        .describe('ECharts series options')
+                    })
+                    .optional()
+                    .describe('Chart options for ECharts')
                 })
               })
             )
@@ -223,7 +264,122 @@ ${makeCubePrompt(entityType)}
             order: OrderDirection.DESC
           })
         }
+      }),
+      injectMakeCopilotActionable({
+        name: 'new_calculated_measure',
+        description: 'New a calculated measure using MDX formula',
+        argumentAnnotations: [
+          {
+            name: 'name',
+            type: 'string',
+            description: 'The name of this calculated measure',
+            required: true
+          },
+          {
+            name: 'caption',
+            type: 'string',
+            description: 'The caption of this calculated measure ',
+            required: true
+          },
+          {
+            name: 'formula',
+            type: 'string',
+            description: 'MDX formula for of the calculated measure',
+            required: true
+          }
+        ],
+        implementation: async (name: string, caption: string, formula: string) => {
+          this.#logger.debug(`Copilot new calculated measure '${name}' '${caption}' with formula '${formula}'`)
+          this.#dsCoreService.updateProperty(ZngS4DSCoreService.S4FlightBookCube, {
+            name,
+            caption,
+            formula
+          } as CalculatedProperty)
+          return {
+            id: nanoid(),
+            role: 'function',
+            content: `The new calculated measure '${name}' '${caption}' with formula '${formula}'`
+          }
+        }
+      }),
+      injectMakeCopilotActionable({
+        name: 'change_color',
+        description: 'Change series color in chart',
+        argumentAnnotations: [
+          {
+            name: 'colors',
+            type: 'array',
+            items: {
+              type: 'string'
+            },
+            description: 'The series color array',
+            required: true
+          }
+        ],
+        implementation: async (colors: string[]) => {
+          this.measure.update((state) => ({
+            ...state,
+            palette: {
+              colors
+            }
+          }))
+        }
       })
+    ]
+  })
+
+  #calculatedMeasureCommand = injectCopilotCommand({
+    name: 'calc',
+    description: 'New Calculated Measure',
+    examples: ['客户数量'],
+    systemPrompt: () => {
+      let prompt = `New calculated measure using MDX formula, ref to the cube info.`
+      const entityType = this.entityType()
+      if (entityType) {
+        prompt += `The cube is:
+\`\`\`
+${makeCubePrompt(entityType)}
+\`\`\`
+`
+      }
+      return prompt
+    },
+    actions: [
+      injectMakeCopilotActionable({
+        name: 'new_calculated_measure',
+        description: 'New a calculated measure using MDX formula',
+        argumentAnnotations: [
+          {
+            name: 'name',
+            type: 'string',
+            description: 'The name of this calculated measure',
+            required: true
+          },
+          {
+            name: 'caption',
+            type: 'string',
+            description: 'The caption of this calculated measure ',
+            required: true
+          },
+          {
+            name: 'formula',
+            type: 'string',
+            description: 'MDX formula for of the calculated measure',
+            required: true
+          }
+        ],
+        implementation: async (name: string, caption: string, formula: string) => {
+          this.#logger.debug(`Copilot new calculated measure '${name}' '${caption}' with formula '${formula}'`)
+          this.#dsCoreService.updateProperty(ZngS4DSCoreService.S4FlightBookCube, {
+            name,
+            caption,
+            role: AggregationRole.measure,
+            calculationType: CalculationType.Calculated,
+            formula
+          } as CalculatedProperty)
+          return `创建计算度量成功`
+        }
+      }),
     ]
   })
 
@@ -239,10 +395,11 @@ ${makeCubePrompt(entityType)}
     this.#dsCoreService.updateCatalog(value)
   }
 
-  drop(event: CdkDragDrop<any[]>) {
+  drop(event: CdkDragDrop<unknown[]>) {
     const property = event.item.data
-    switch (property.role) {
-      case AggregationRole.dimension:
+    this.#logger.debug('The drop property is', property)
+    switch (property.type) {
+      case EntitySchemaType.Dimension:
         this.dimension.update((state) => ({
           ...state,
           dimension: property.name,
@@ -251,7 +408,7 @@ ${makeCubePrompt(entityType)}
           zeroSuppression: true
         }))
         break
-      case AggregationRole.hierarchy:
+      case EntitySchemaType.Hierarchy:
         this.dimension.update((state) => ({
           ...state,
           dimension: property.dimension,
@@ -260,7 +417,7 @@ ${makeCubePrompt(entityType)}
           zeroSuppression: true
         }))
         break
-      case AggregationRole.level:
+      case EntitySchemaType.Level:
         this.dimension.update((state) => ({
           ...state,
           dimension: property.dimension,
@@ -269,7 +426,7 @@ ${makeCubePrompt(entityType)}
           zeroSuppression: true
         }))
         break
-      case AggregationRole.measure:
+      case EntitySchemaType.IMeasure:
         this.measure.update(
           (state) =>
             ({
@@ -279,6 +436,25 @@ ${makeCubePrompt(entityType)}
               order: OrderDirection.DESC
             } as ChartMeasure)
         )
+        break
+      case EntitySchemaType.Member:
+        this.slicers.update((state) => [
+          ...state,
+          {
+            dimension: {
+              dimension: property.raw.dimension,
+              hierarchy: property.raw.hierarchy,
+              level: property.raw.level
+            },
+            members: [
+              {
+                value: property.raw.memberKey,
+                key: property.raw.memberKey,
+                caption: property.raw.memberCaption
+              }
+            ]
+          }
+        ])
         break
     }
   }

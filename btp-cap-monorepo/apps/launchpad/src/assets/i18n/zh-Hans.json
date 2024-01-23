@@ -82,7 +82,10 @@
             "Check Costing Variant": "检查成本变体",
             "Base Form": "基础表单",
             "Step Form": "分步表单",
-            "Advanced Form": "高级表单"
+            "Advanced Form": "高级表单",
+            "Flight Booking Dashboard": "航班预订仪表板",
+            "AI Copilot": "AI 副驾驶",
+            "Copilot Base": "副驾驶基础表单"
         },
         "BI": {
             "Catalog": "目录",

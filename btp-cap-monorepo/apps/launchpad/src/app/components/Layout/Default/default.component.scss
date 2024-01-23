@@ -121,3 +121,7 @@
 .zng-logo-title {
   @apply whitespace-nowrap font-extrabold overflow-hidden text-ellipsis text-xl;
 }
+
+.zng-layout__header-placeholder {
+  background-color: var(--ngm-copilot-bg-color, #fff);
+}

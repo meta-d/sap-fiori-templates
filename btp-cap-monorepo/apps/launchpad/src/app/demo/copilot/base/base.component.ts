@@ -18,7 +18,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NGXLogger } from 'ngx-logger'
 import { z } from 'zod'
 
-
 @Component({
   selector: 'zng-copilot-base',
   templateUrl: './base.component.html',
@@ -58,11 +57,10 @@ export class CopilotBaseComponent implements OnInit {
 
   #fillFormCommand = injectCopilotCommand({
     name: 'form',
-    description: 'Fill the form',
-    examples: ['Fill the form, how to fill...'],
+    description: 'Descripe how to fill the form',
     actions: [
       injectMakeCopilotActionable({
-        name: 'fill-form',
+        name: 'fill_form',
         description: 'Fill the form',
         argumentAnnotations: [
           {
@@ -75,7 +73,13 @@ export class CopilotBaseComponent implements OnInit {
                 title: z.string().describe('Title of the form'),
                 desc: z.string().describe('我的阶段性工作目标'),
                 standard: z.string().describe('我的满意度衡量标准'),
-                weights: z.number().describe('此调查的权重')
+                weights: z.number().describe('此调查的权重'),
+                isPublic: z.enum(['1', '2', '3']).default('1').describe('是否公开: 1 公开, 2 部分公开, 3 不公开'),
+                targetAudiences: z.array(z.enum([
+                  '同事甲',
+                  '同事乙',
+                  '同事丙'
+                ])).describe(`'是否公开'为 '2' 的情况下的调查对象`),
               })
             )
           }
@@ -86,6 +90,8 @@ export class CopilotBaseComponent implements OnInit {
             ...form,
             weights: [form.weights]
           })
+
+          return `填写完成！`
         }
       })
     ]
@@ -106,7 +112,8 @@ export class CopilotBaseComponent implements OnInit {
       client: [null],
       invitedCommenter: [null],
       weights: [null],
-      isPublic: [null]
+      isPublic: [null],
+      targetAudiences: [null]
     })
   }
 

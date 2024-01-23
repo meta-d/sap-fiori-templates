@@ -4,7 +4,7 @@
   </button>
 }
 
-<div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize($event)">
+<div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize()">
   <ul #mEl id="menuNav" nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
     <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
 

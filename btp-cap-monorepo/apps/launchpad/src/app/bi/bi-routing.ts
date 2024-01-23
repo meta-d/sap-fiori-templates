@@ -4,6 +4,7 @@ import { FlightBookingComponent } from './flight-booking/flight-booking.componen
 import { ZngOcapSchemaComponent } from './schema/schema.component'
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'schema', pathMatch: 'full', data: { hidden: true } },
   {
     path: 'schema',
     title: 'OCAP Schema',

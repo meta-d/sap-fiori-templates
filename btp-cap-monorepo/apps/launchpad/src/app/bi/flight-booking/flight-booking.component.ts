@@ -39,6 +39,7 @@ export class FlightBookingComponent {
   DisplayDensity = DisplayDensity
   OrderDirection = OrderDirection
 
+  s4ModelName = ZngS4DSCoreService.S4ModelName
   /**
    * Change to your sqlViewName of cds
    */

@@ -1,7 +1,7 @@
 import { MapPipe, TableFiledPipe } from '@/app/core';
 import { NgIf, NgFor, NgClass, NgTemplateOutlet } from '@angular/common';
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzResizeEvent, NzResizableModule } from 'ng-zorro-antd/resizable';
@@ -61,7 +61,7 @@ export interface SortFile {
   standalone: true,
   imports: [NzTableModule, NgIf, NgFor, NzResizableModule, NgClass, NgTemplateOutlet, MapPipe, TableFiledPipe]
 })
-export class AntTableComponent implements OnInit, OnChanges {
+export class AntTableComponent implements OnChanges {
   _dataList!: NzSafeAny[];
   _tableConfig!: AntTableConfig;
   _scrollConfig: { x: string; y: string } | {} = {};
@@ -227,8 +227,6 @@ export class AntTableComponent implements OnInit, OnChanges {
     this.allChecked = allChecked;
     this.indeterminate = !allChecked && !allUnChecked;
   }
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['checkedCashArrayFromComment']) {

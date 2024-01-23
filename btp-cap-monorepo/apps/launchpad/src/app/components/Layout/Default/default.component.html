@@ -38,7 +38,11 @@
       [class.dark]="menuTheme() === ThemeType.dark"
     >
       <ng-container *ngTemplateOutlet="logo;" ></ng-container>
-      <zng-top-nav-bar #topNavBar class="flex-1" [nzTheme]="menuTheme()" resizeObserver [resizeDebounceTime]="100" (sizeChange)="topNavBar.onResize($event)"></zng-top-nav-bar>
+      <zng-top-nav-bar #topNavBar class="flex-1" [nzTheme]="menuTheme()"
+        resizeObserver
+        [resizeDebounceTime]="100"
+        (sizeChange)="topNavBar.onResize()">
+      </zng-top-nav-bar>
       <ng-container *ngTemplateOutlet="globalActions;"></ng-container>
     </nz-header>
   }
@@ -96,7 +100,7 @@
             <router-outlet></router-outlet>
           </nz-content>
 
-          <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular App ©2024 By <a href="https://mtda.cloud/sap/">Metad Team</a></nz-footer>
+          <nz-footer class="w-full text-center"> SAP BTP 🛠 Angular Fiori App ©2024 By <a href="https://mtda.cloud/sap/">Metad Team</a></nz-footer>
         </nz-layout>
       </nz-content>
     </nz-layout>
@@ -106,10 +110,10 @@
         [class.zng-layout__copilot-opened]="openCopilotChat()">
 
         <div class="zng-layout__copilot-content relative flex flex-col">
-          <zng-drawer-trigger class="absolute -left-8 top-1/2 -translate-y-1/2 z-40" [(opened)]="copilotOpened" side="right"></zng-drawer-trigger>
+          <zng-drawer-trigger class="absolute -left-6 top-1/2 -translate-y-1/2 z-40" [(opened)]="copilotOpened" side="right"></zng-drawer-trigger>
 
-          @if (fixedLayoutHeader()) {
-            <div class="w-full h-[64px]"></div>
+          @if (fixedLayoutHeader() || menuMode() === MenuMode.top || menuMode() === MenuMode.mix) {
+            <div class="zng-layout__header-placeholder w-full h-[64px]"></div>
           }
           @if (fixedTab()) {
             <div class="zng-tab-menu__fixed-placeholder w-full"></div>
@@ -121,6 +125,7 @@
       </div>
     }
   </nz-content>
+
 </nz-layout>
 
 <ng-template #logo>

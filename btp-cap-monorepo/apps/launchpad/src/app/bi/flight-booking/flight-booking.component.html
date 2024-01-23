@@ -3,7 +3,7 @@
         <ngm-smart-filter displayDensity="compact"
             formControlName="country"
             [dataSettings]="{
-                dataSource: 'S4CDS',
+                dataSource: s4ModelName,
                 entitySet: cube,
             }"
             [dimension]="{
@@ -16,7 +16,7 @@
         <ngm-smart-filter displayDensity="compact"
             formControlName="travelAgency"
             [dataSettings]="{
-                dataSource: 'S4CDS',
+                dataSource: s4ModelName,
                 entitySet: cube,
             }"
             [dimension]="{
@@ -42,7 +42,7 @@
 
         <ngm-analytical-card nz-col nzSpan="16" class="h-full" displayDensity="compact"
             [dataSettings]="{
-                dataSource: 'S4CDS',
+                dataSource: s4ModelName,
                 entitySet: cube,
                 chartAnnotation: {
                     chartType: {
@@ -52,7 +52,10 @@
                         {
                             dimension: 'Measures',
                             measure: '2CHSJ3HNIKQB9EKBGBJ3EBUY53Z',
-                            order: OrderDirection.DESC
+                            order: OrderDirection.DESC,
+                            palette: {
+                                name: 'RdBu'
+                            }
                         }
                     ],
                     dimensions: [

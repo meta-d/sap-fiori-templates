@@ -1,26 +1,33 @@
-import { AntTableComponent, AntTableConfig, CardTableWrapComponent, SortFile } from '@/app/components';
-import { SearchCommonVO } from '@/app/core';
-import { NgIf } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { NzWaveModule } from 'ng-zorro-antd/core/wave';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { AntTableComponent, AntTableConfig, CardTableWrapComponent, SortFile } from '@/app/components'
+import { SearchCommonVO } from '@/app/core'
+import { NgIf } from '@angular/common'
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  inject
+} from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { Router } from '@angular/router'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzCardModule } from 'ng-zorro-antd/card'
+import { NzSafeAny } from 'ng-zorro-antd/core/types'
+import { NzWaveModule } from 'ng-zorro-antd/core/wave'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzInputModule } from 'ng-zorro-antd/input'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { NzModalService } from 'ng-zorro-antd/modal'
+import { NzTableQueryParams } from 'ng-zorro-antd/table'
 
 interface SearchParam {
-  ruleName: number;
-  desc: string;
+  ruleName: number
+  desc: string
 }
 
 @Component({
@@ -44,12 +51,17 @@ interface SearchParam {
   ]
 })
 export class SearchTableComponent implements OnInit {
-  searchParam: Partial<SearchParam> = {};
-  @ViewChild('highLightTpl', { static: true }) highLightTpl!: TemplateRef<NzSafeAny>;
-  @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>;
-  isCollapse = true;
-  tableConfig!: AntTableConfig;
-  
+  readonly #modalSrv = inject(NzModalService)
+  public message = inject(NzMessageService)
+  readonly #router = inject(Router)
+  readonly #cdr = inject(ChangeDetectorRef)
+
+  searchParam: Partial<SearchParam> = {}
+  @ViewChild('highLightTpl', { static: true }) highLightTpl!: TemplateRef<NzSafeAny>
+  @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>
+  isCollapse = true
+  tableConfig!: AntTableConfig
+
   checkedCashArray: NzSafeAny[] = [
     {
       id: '1',
@@ -69,41 +81,39 @@ export class SearchTableComponent implements OnInit {
       addStyle: '加样式',
       obj: { a: { b: '点出来的值1' } }
     }
-  ]; // 需修改为对应业务的数据类型
-  dataList: NzSafeAny[] = []; // 需修改为对应业务的数据类型
-
-  constructor(private fb: FormBuilder, private modalSrv: NzModalService, public message: NzMessageService, private router: Router, private cdr: ChangeDetectorRef) {}
+  ] // 需修改为对应业务的数据类型
+  dataList: NzSafeAny[] = [] // 需修改为对应业务的数据类型
 
   // 最左侧复选框选中触发
   selectedChecked(e: any): void {
-    this.checkedCashArray = [...e];
+    this.checkedCashArray = [...e]
   }
 
   // 刷新页面
   reloadTable(): void {
-    this.message.info('已经刷新了');
-    this.getDataList();
+    this.message.info('已经刷新了')
+    this.getDataList()
   }
 
   // 触发表格变更检测
   tableChangeDectction(): void {
     // 改变引用触发变更检测。
-    this.dataList = [...this.dataList];
-    this.cdr.detectChanges();
+    this.dataList = [...this.dataList]
+    this.#cdr.detectChanges()
   }
 
   tableLoading(isLoading: boolean): void {
-    this.tableConfig.loading = isLoading;
-    this.tableChangeDectction();
+    this.tableConfig.loading = isLoading
+    this.tableChangeDectction()
   }
 
   getDataList(e?: NzTableQueryParams): void {
-    this.tableConfig.loading = true;
+    this.tableConfig.loading = true
     const params: SearchCommonVO<NzSafeAny> = {
       pageSize: this.tableConfig.pageSize!,
       pageNum: e?.pageIndex! || this.tableConfig.pageIndex!
-    };
-    this.dataList = [];
+    }
+    this.dataList = []
     setTimeout(() => {
       this.dataList = [
         {
@@ -160,12 +170,12 @@ export class SearchTableComponent implements OnInit {
           addStyle: '加样式',
           obj: { a: { b: '点出来的值1' } }
         }
-      ];
-      this.tableConfig.total = 13;
-      this.tableConfig.pageIndex = 1;
-      this.checkedCashArray = [...this.checkedCashArray];
-      this.tableLoading(false);
-    });
+      ]
+      this.tableConfig.total = 13
+      this.tableConfig.pageIndex = 1
+      this.checkedCashArray = [...this.checkedCashArray]
+      this.tableLoading(false)
+    })
 
     /*-----实际业务请求http接口如下------*/
     // this.tableConfig.loading = true;
@@ -188,19 +198,19 @@ export class SearchTableComponent implements OnInit {
 
   /*重置*/
   resetForm(): void {
-    this.searchParam = {};
-    this.getDataList();
+    this.searchParam = {}
+    this.getDataList()
   }
 
   /*展开*/
   toggleCollapse(): void {
-    this.isCollapse = !this.isCollapse;
+    this.isCollapse = !this.isCollapse
   }
 
   /*查看*/
   check(name: string): void {
     // skipLocationChange导航时不要把新状态记入历史时设置为true
-    this.router.navigate(['page/list/search-table/search-table-detail', name, 123]);
+    this.#router.navigate(['page/list/search-table/search-table-detail', name, 123])
   }
 
   add(): void {
@@ -234,11 +244,11 @@ export class SearchTableComponent implements OnInit {
   // }
 
   del(id: number): void {
-    this.modalSrv.confirm({
+    this.#modalSrv.confirm({
       nzTitle: '确定要删除吗？',
       nzContent: '删除后不可恢复',
       nzOnOk: () => {
-        this.tableLoading(true);
+        this.tableLoading(true)
         /*注释的是模拟接口调用*/
         // this.dataService.delFireSys([id]).subscribe(() => {
         //   if (this.dataList.length === 1) {
@@ -249,29 +259,29 @@ export class SearchTableComponent implements OnInit {
         // }, error => this.tableLoading(false));
 
         setTimeout(() => {
-          this.message.info(`id数组(支持分页保存):${JSON.stringify(id)}`);
-          this.getDataList();
+          this.message.info(`id数组(支持分页保存):${JSON.stringify(id)}`)
+          this.getDataList()
           this.checkedCashArray.splice(
-            this.checkedCashArray.findIndex(item => item.id === id),
+            this.checkedCashArray.findIndex((item) => item.id === id),
             1
-          );
-          this.tableLoading(false);
-        }, 3000);
+          )
+          this.tableLoading(false)
+        }, 3000)
       }
-    });
+    })
   }
 
   allDel(): void {
     if (this.checkedCashArray.length > 0) {
-      this.modalSrv.confirm({
+      this.#modalSrv.confirm({
         nzTitle: '确定要删除吗？',
         nzContent: '删除后不可恢复',
         nzOnOk: () => {
-          const tempArrays: number[] = [];
-          this.checkedCashArray.forEach(item => {
-            tempArrays.push(item.id);
-          });
-          this.tableLoading(true);
+          const tempArrays: number[] = []
+          this.checkedCashArray.forEach((item) => {
+            tempArrays.push(item.id)
+          })
+          this.tableLoading(true)
           // 注释的是模拟接口的调用
           // this.dataService.delFireSys(tempArrays).subscribe(() => {
           //   if (this.dataList.length === 1) {
@@ -281,26 +291,26 @@ export class SearchTableComponent implements OnInit {
           //   this.checkedCashArray = [];
           // }, error => this.tableLoading(false));
           setTimeout(() => {
-            this.message.info(`id数组(支持分页保存):${JSON.stringify(tempArrays)}`);
-            this.getDataList();
-            this.checkedCashArray = [];
-            this.tableLoading(false);
-          }, 1000);
+            this.message.info(`id数组(支持分页保存):${JSON.stringify(tempArrays)}`)
+            this.getDataList()
+            this.checkedCashArray = []
+            this.tableLoading(false)
+          }, 1000)
         }
-      });
+      })
     } else {
-      this.message.error('请勾选数据');
-      return;
+      this.message.error('请勾选数据')
+      return
     }
   }
 
   changeSort(e: SortFile): void {
-    this.message.info(`排序字段：${e.fileName},排序为:${e.sortDir}`);
+    this.message.info(`排序字段：${e.fileName},排序为:${e.sortDir}`)
   }
 
   // 修改一页几条
   changePageSize(e: number): void {
-    this.tableConfig.pageSize = e;
+    this.tableConfig.pageSize = e
   }
 
   private initTable(): void {
@@ -359,10 +369,10 @@ export class SearchTableComponent implements OnInit {
       loading: false,
       pageSize: 10,
       pageIndex: 1
-    };
+    }
   }
 
   ngOnInit(): void {
-    this.initTable();
+    this.initTable()
   }
 }

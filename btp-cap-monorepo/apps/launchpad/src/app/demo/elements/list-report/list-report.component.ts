@@ -1,14 +1,14 @@
 import { FilterField, PageFilterBarComponent, TableColumn } from '@/app/components'
 import { ZngAntdModule } from '@/app/core/shared.module'
+import { omitSystemProperty } from '@/app/utils'
 import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Filter } from '@metad/cap-odata'
-import { CategoryType, ProductType, helpProductCategory, queryProducts } from '../OData.svc'
+import * as ExcelJS from 'exceljs'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzResizeEvent } from 'ng-zorro-antd/resizable'
-import * as ExcelJS from 'exceljs'
-import { omitSystemProperty } from '@/app/utils'
+import { ProductType, helpSuppliers, queryProducts } from '../OData.svc'
 
 export type _ProductType = ProductType & {
   __key__: string
@@ -42,11 +42,18 @@ export class ListReportComponent {
   indeterminate = false
   selection = new Set<string>()
 
-  filterFields: FilterField<CategoryType>[] = [
+  filterFields: FilterField<any>[] = [
+    // {
+    //   name: 'Name',
+    //   label: 'Name',
+    //   valueHelp: helpProductCategory,
+    //   valueKey: 'ID',
+    //   labelKey: 'Name'
+    // },
     {
-      name: 'Name',
-      label: 'Name',
-      valueHelp: helpProductCategory,
+      name: 'Supplier/ID',
+      label: 'Supplier',
+      valueHelp: helpSuppliers,
       valueKey: 'ID',
       labelKey: 'Name'
     }
@@ -93,7 +100,10 @@ export class ListReportComponent {
   async go() {
     this.loading.set(true)
     try {
-      const items = await queryProducts()
+      const items = await queryProducts({
+        $expand: ['ProductDetail', 'Categories', 'Supplier'],
+        $filter: this.filters
+      })
       this.items.set(
         items.map((item) => ({
           ...item,
@@ -154,21 +164,26 @@ export class ListReportComponent {
   async export() {
     this.saving.set(true)
     // Create a new Excel workbook and worksheet
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
+    const workbook = new ExcelJS.Workbook()
+    const worksheet = workbook.addWorksheet('Sheet 1')
 
     // Define the columns in the worksheet based on the structure of your data
     worksheet.columns = this.tableColumns().map((col) => ({
-      header: col.label, key: col.name, width: 20
+      header: col.label,
+      key: col.name,
+      width: 20
     }))
 
     // Add data to the worksheet
-    this.items().filter((item) => this.selection.has(item.__key__)).map(omitSystemProperty).forEach((item) => {
-      worksheet.addRow(item);
-    });
+    this.items()
+      .filter((item) => this.selection.has(item.__key__))
+      .map(omitSystemProperty)
+      .forEach((item) => {
+        worksheet.addRow(item)
+      })
 
     // Save the workbook to a blob
-    const blob = await workbook.xlsx.writeBuffer();
+    const blob = await workbook.xlsx.writeBuffer()
 
     const fileName = 'product-list-report'
     this.saveAsFile(blob, fileName)
@@ -180,21 +195,23 @@ export class ListReportComponent {
 
   saveAsFile(blob: ExcelJS.Buffer, fileName: string) {
     // Create a Blob URL
-    const blobUrl = URL.createObjectURL(new Blob([blob], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+    const blobUrl = URL.createObjectURL(
+      new Blob([blob], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    )
 
     // Create a download link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = blobUrl;
-    downloadLink.download = fileName + '.xlsx';
+    const downloadLink = document.createElement('a')
+    downloadLink.href = blobUrl
+    downloadLink.download = fileName + '.xlsx'
 
     // Append the link to the document
-    document.body.appendChild(downloadLink);
+    document.body.appendChild(downloadLink)
 
     // Trigger the download
-    downloadLink.click();
+    downloadLink.click()
 
     // Clean up: remove the link and revoke the Blob URL
-    document.body.removeChild(downloadLink);
-    URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(downloadLink)
+    URL.revokeObjectURL(blobUrl)
   }
 }
