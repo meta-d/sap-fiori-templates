@@ -4,12 +4,15 @@
   :host ::ng-deep {
     .ant-tabs-tab.ant-tabs-tab-active {
       background: @layout-body-background;
-      border-bottom-color: transparent;
     }
   }
 });
 
 :host ::ng-deep {
+  .ant-tabs-tab.ant-tabs-tab-active {
+    border-bottom-color: transparent;
+  }
+
   .ant-tabs-tab {
     transition: background-color 0s !important;
   }

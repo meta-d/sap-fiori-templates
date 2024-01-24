@@ -1,7 +1,6 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { NgIf, NgTemplateOutlet, NgFor, NgStyle } from '@angular/common';
 import { AfterContentInit, booleanAttribute, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-
 import { AntTreeTableComponentToken } from '../TreeTable/tree-table.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -16,7 +15,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ScreenLessHiddenDirective } from '@/app/core';
-import { AntTableComponentToken, TableHeader } from '../AntTable/ant-table.component';
+import { AntTableComponentToken, TableHeader } from '../AntTable/';
 
 interface TableSizeItem {
   sizeName: string;

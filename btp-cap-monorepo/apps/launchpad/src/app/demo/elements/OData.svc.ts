@@ -33,6 +33,12 @@ export async function helpSuppliers(options?: ODataQueryOptions) {
   return result
 }
 
+export async function helpProductDetails(options?: ODataQueryOptions) {
+  const { query } = useDemoODataStore()
+  const result = await query<ProductDetailType>('ProductDetails', options)
+  return result
+}
+
 export type ProductType = {
   ID: string
   Name: string

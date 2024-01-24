@@ -15,7 +15,7 @@ import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/fo
 import { TranslateModule } from '@ngx-translate/core'
 import { cloneDeep } from 'lodash-es'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
-import { NzDividerComponent } from 'ng-zorro-antd/divider'
+import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { TableColumn } from '../types'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
@@ -38,7 +38,7 @@ interface TableSizeItem {
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    NzDividerComponent,
+    NzDividerModule,
     NzCheckboxModule,
     NzIconModule,
     NzDropDownModule,

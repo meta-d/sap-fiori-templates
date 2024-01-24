@@ -1,7 +1,6 @@
 import { NgIf, NgFor, NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
-
-import { AntTableConfig, SortFile, TableHeader } from '../AntTable/ant-table.component';
+import { AntTableConfig, SortFile, TableHeader } from '../AntTable/';
 import { TreeNodeInterface, fnGetFlattenTreeDataByMap, fnTreeDataToMap } from '@/app/utils/treeTableTools';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzResizeEvent, NzResizableModule } from 'ng-zorro-antd/resizable';
