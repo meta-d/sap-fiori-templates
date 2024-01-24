@@ -105,6 +105,13 @@
                 "Density_small": "紧凑",
                 "FixedToLeft": "固定到左侧",
                 "FixedToRight": "固定到右侧"
+            },
+            "MenuTab": {
+                "Refresh": "刷新",
+                "Close": "关闭",
+                "CloseOthers": "关闭其他",
+                "CloseRight": "关闭右侧",
+                "CloseLeft": "关闭左侧"
             }
         },
         "Demo": {

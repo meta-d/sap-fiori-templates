@@ -6,20 +6,32 @@
   [nzBodyStyle]="{ padding: '5px', paddingBottom: 0 }" [nzBordered]="false">
   <nz-tabset [nzHideAdd]="true" [nzSelectedIndex]="currentIndex" [nzTabPosition]="'top'"
     [nzType]="'editable-card'" (nzClose)="clickCloseIcon($event)">
-    <nz-tab *ngFor="let tab of tabsSourceData$ | async; let i = index; trackBy: trackByTab" nzClosable [nzTitle]="tab.title"
-      (nzClick)="goPage(tab)"
-      (nzContextmenu)="contextMenu($event, menu)"
-    >
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item [nzDisabled]="router.url !== tab.path" (click)="refresh()">刷新</li>
-          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeTab(tab, $event, i)">关闭标签</li>
-          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeOtherTab(tab, $event, i)">关闭其他标签</li>
-          <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === i" (click)="closeRithTab(tab, $event, i)">关闭右侧标签</li>
-          <li nz-menu-item [nzDisabled]="i === 0" (click)="closeLeftTab(tab, $event, i)">关闭左侧标签</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-tab>
+    @for (tab of tabsSourceData$ | async; track tab.title; let i = $index) {
+      <nz-tab nzClosable [nzTitle]="'ZNG.Pages.'+tab.title | translate: {Default: tab.title}"
+        (nzClick)="goPage(tab)"
+        (nzContextmenu)="contextMenu($event, menu)"
+      >
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item [nzDisabled]="router.url !== tab.path" (click)="refresh()">
+              {{ 'ZNG.Components.MenuTab.Refresh' | translate: {Default: 'Refresh'} }}
+            </li>
+            <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeTab(tab, $event, i)">
+              {{ 'ZNG.Components.MenuTab.Close' | translate: {Default: 'Close'} }}
+            </li>
+            <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === 0" (click)="closeOtherTab(tab, $event, i)">
+              {{ 'ZNG.Components.MenuTab.CloseOthers' | translate: {Default: 'Close Others'} }}
+            </li>
+            <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === i" (click)="closeRithTab(tab, $event, i)">
+              {{ 'ZNG.Components.MenuTab.CloseRight' | translate: {Default: 'Close to the Right'} }}
+            </li>
+            <li nz-menu-item [nzDisabled]="i === 0" (click)="closeLeftTab(tab, $event, i)">
+              {{ 'ZNG.Components.MenuTab.CloseLeft' | translate: {Default: 'Close to the Left'} }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-tab>
+    }
   </nz-tabset>
 </nz-card>
 

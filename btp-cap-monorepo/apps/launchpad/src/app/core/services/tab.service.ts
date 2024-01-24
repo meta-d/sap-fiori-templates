@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router, UrlSegment } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -20,11 +20,12 @@ export interface TabModel {
   providedIn: 'root'
 })
 export class TabService {
+  private router = inject(Router)
+  private activatedRoute = inject(ActivatedRoute)
+  
   private tabArray$ = new BehaviorSubject<TabModel[]>([]);
   private tabArray: TabModel[] = [];
   private currSelectedIndexTab = 0;
-
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   getTabArray$(): Observable<TabModel[]> {
     return this.tabArray$.asObservable();
