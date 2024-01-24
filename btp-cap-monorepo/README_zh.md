@@ -160,8 +160,8 @@ default: {
 
 对于 BTP 平台，您可以禁用以下命令：
 
-- `yarn b:btp` 为BTP平台构建。
-- `yarn d:btp` 部署到BTP平台，您可能需要使用 cf cli 登录。
+- `yarn b:btp` 构建 BTP 平台的部署文件。
+- `yarn d:btp` 部署到 BTP 平台，需使用 cf cli 提前登录。
 
 ### 部署到 S4HANA
 

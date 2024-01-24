@@ -161,7 +161,7 @@ Ready to deploy, you can ref to [How to deploy?](../docs/Deploy.md).
 For BTP platform, you can disable 
 
 - `yarn b:btp` Build for BTP platform.
-- `yarn d:btp` Deploy to BTP platform, you might be login using cf cli.
+- `yarn d:btp` Deploy to BTP platform, you might be login using cf cli firstly.
 
 ### Deploy to S4HANA
 

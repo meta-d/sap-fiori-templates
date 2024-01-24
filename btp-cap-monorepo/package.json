@@ -12,7 +12,7 @@
     "ar": "yarn bapp && yarn --cwd caps/app-store approuter",
     "sb": "yarn nx run launchpad:storybook",
     "b:btp:app": "nx build launchpad -- --base-href /blp/ && rm -rf ./caps/app-store/app/blp/ && mv ./dist/apps/launchpad/browser/ ./caps/app-store/app/blp/",
-    "b:btp": "yarn b:app && yarn --cwd caps/app-store build",
+    "b:btp": "yarn b:btp:app && yarn --cwd caps/app-store build",
     "d:btp": "yarn --cwd caps/app-store deploy",
     "b:s4:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
     "archive": "cd dist/apps/launchpad/browser && npx bestzip ../../../../archive.zip * .Ui5RepositoryBinaryFiles",
