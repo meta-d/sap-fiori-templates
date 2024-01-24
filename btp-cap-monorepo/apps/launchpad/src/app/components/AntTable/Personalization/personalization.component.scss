@@ -1,0 +1,17 @@
+:host {
+  min-width: var(--zng-table-personalization-min-width, 300px);
+  max-height: var(--zng-table-personalization-max-height, 80vh);
+  @apply max-w-xl overflow-y-auto flex flex-col;
+}
+
+.zng-icon-button.anticon {
+  @apply cursor-pointer opacity-20;
+  &.zng-icon-active {
+    color: var(--ant-primary-color-active);
+    opacity: 1;
+  }
+}
+
+.ant-divider.ant-divider-horizontal {
+  @apply my-4;
+}

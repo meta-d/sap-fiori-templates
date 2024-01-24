@@ -1,0 +1,73 @@
+<div class="flex justify-between items-center">
+  <div>
+    <span>
+      <!-- <label nz-checkbox [(nzChecked)]="showCheckbox"
+        (nzCheckedChange)="changeTableCheckBoxShow($event)">
+      {{'ZNG.Components.TablePersonalization.RowSelection' | translate: {Default: 'Row Selection'} }}
+      </label> -->
+      <label nz-checkbox [nzIndeterminate]="allTableFieldIndeterminate"
+        [(nzChecked)]="allTableFieldChecked"
+        (nzCheckedChange)="changeAllTableTableConfigShow($event)">
+      {{'ZNG.Components.TablePersonalization.ShowColumns' | translate: {Default: 'Show Columns'} }}
+      </label>
+    </span>
+    <button nz-button nzType="text" (click)="reset()">
+      {{'ZNG.Components.TablePersonalization.Reset' | translate: {Default: 'Reset'} }}
+    </button>
+  </div>
+
+  <div>
+    <ng-container *zngScreenLessHidden="'393'">
+      <i nz-dropdown nz-icon nzTheme="outline" nzType="column-height" class="cursor-pointer"
+        nz-tooltip 
+        [nzTooltipTitle]="'ZNG.Components.TablePersonalization.Density' | translate: {Default: 'Density'}"
+        nzTrigger="hover"
+        [nzDropdownMenu]="tableSizeMenu">
+      </i>
+    </ng-container>
+  </div>
+</div>
+
+<nz-dropdown-menu #tableSizeMenu>
+  <ul nz-menu>
+    @for (item of tableSizeOptions; track item.value) {
+      <li nz-menu-item [nzSelected]="item.value === tableSize" (click)="tableSizeMenuClick(item)">
+        <span>{{ 'ZNG.Components.TablePersonalization.Density_' + item.value | translate: {Default: item.value} }}</span>
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>
+
+<nz-divider></nz-divider>
+
+<div class="flex-1 overflow-auto">
+  <ul class="w-full" cdkDropList (cdkDropListDropped)="dropTableConfig($event)">
+    @for (item of tableColumns(); track item.name) {
+      <li class="flex justify-between items-center p-2 hover:bg-neutral-500/10 rounded-lg" cdkDrag>
+        <div class="flex gap-1 items-center">
+          <i class="m-r-8 hand-model-move" cdkDragHandle nz-icon nzTheme="outline" nzType="drag"></i>
+          <label nz-checkbox [(nzChecked)]="item.show" (nzCheckedChange)="changeSignalCheck($event, item)">{{ item.label }}</label>
+        </div>
+        <div>
+          <i class="zng-icon-button" [class.zng-icon-active]="item.freeze === 'left' || item.freeze === true"
+            nz-icon
+            nz-tooltip
+            nzTheme="outline"
+            [nzTooltipTitle]="'ZNG.Components.TablePersonalization.FixedToLeft' | translate: {Default: 'Fixed to left'}"
+            nzType="vertical-right"
+            (click)="fixedTableHead('left', item)"
+          ></i>
+          <nz-divider nzType="vertical"></nz-divider>
+          <i class="zng-icon-button" [class.zng-icon-active]="item.freeze === 'right'"
+            nz-icon
+            nz-tooltip
+            nzTheme="outline"
+            [nzTooltipTitle]="'ZNG.Components.TablePersonalization.FixedToRight' | translate: {Default: 'Fixed to right'}"
+            nzType="vertical-left"
+            (click)="fixedTableHead('right', item)"
+          ></i>
+        </div>
+      </li>
+    }
+  </ul>
+</div>

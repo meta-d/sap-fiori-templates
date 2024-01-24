@@ -74,6 +74,9 @@ export class PageFilterBarComponent implements ControlValueAccessor {
   get valid() {
     return this.formGroup.valid
   }
+  get invalid() {
+    return this.formGroup.invalid
+  }
 
   _onChange?: (value: any) => void
   _onTouched?: (value: any) => void

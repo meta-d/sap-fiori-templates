@@ -1,24 +1,51 @@
 <nz-page-header nzBackIcon [nzGhost]="false">
   <nz-page-header-title>
-    Products List
+    Products
   </nz-page-header-title>
   <nz-page-header-subtitle></nz-page-header-subtitle>
   <nz-page-header-extra>
     <nz-space>
-      <button *nzSpaceItem nz-button [disabled]="saving() || loading() || dirty()" (click)="go()">查询</button>
-      <button *nzSpaceItem nz-button nzType="primary" [disabled]="!selection.size || saving() || loading()" (click)="export()">下载</button>
+      <button *nzSpaceItem nz-button nzType="primary" [disabled]="filterBar.invalid || saving() || loading() || dirty()" (click)="go()">
+      {{ 'ZNG.Demo.Elements.ListReport.Query' | translate: {Default: 'Query'} }}
+      </button>
     </nz-space>
   </nz-page-header-extra>
   <nz-page-header-content>
-    <zng-page-filter-bar class="w-full" [(ngModel)]="filterValues" [fields]="filterFields" (filtersChanging)="onFiltersChanging($event)">
+    <zng-page-filter-bar #filterBar class="w-full" [(ngModel)]="filterValues" [fields]="filterFields" (filtersChanging)="onFiltersChanging($event)">
     </zng-page-filter-bar>
   </nz-page-header-content>
 </nz-page-header>
 
 
 <div class="zng-page-body-ghost-wrapper">
+
+  <div class="flex justify-between items-center p-2">
+    <div>
+      Products List
+    </div>
+    <div class="flex justify-between items-center">
+      <a nz-button nzType="text" nz-popover
+        nz-tooltip
+        [nzTooltipTitle]=" 'ZNG.Demo.Elements.ListReport.ColumnsSettings' | translate: {Default: 'Columns Settings'} "
+        nzPopoverPlacement="bottomRight"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="personalizationTemplate"
+        >
+        <i nz-icon 
+          nzTheme="outline"
+          nzType="setting"
+        ></i>
+      </a>
+  
+      <button nz-button nzType="text" [disabled]="saving() || loading() || !items().length"
+        nz-tooltip [nzTooltipTitle]="'ZNG.Demo.Elements.ListReport.Export' | translate: {Default: 'Export'}"
+        (click)="export()">
+        <span nz-icon nzType="download" nzTheme="outline"></span>
+      </button>
+    </div>
+  </div>
   <nz-table #expandTable class="h-full w-full" [nzFrontPagination]="false" [nzLoading]="loading() || saving()" nzBordered nzOuterBordered
-    [nzData]="items()" nzSize="small" [nzScroll]="{ x: '1100px', y: '500px' }"
+    [nzData]="items()" [nzSize]="tableSize" [nzScroll]="{ x: '1100px', y: '500px' }"
     nzShowPagination
     nzShowSizeChanger>
     <thead>
@@ -30,7 +57,7 @@
           (nzCheckedChange)="onAllChecked($event)"
         ></th>
         @for (column of tableColumns(); track column.name) {
-          <th [nzWidth]="column.width ?? defaultColumnWidth" [nzLeft]="column.freeze ?? false" [nzAlign]="column.align!"
+          <th [nzWidth]="column.width ?? defaultColumnWidth" [nzLeft]="column.freeze === 'left' || column.freeze === true" [nzRight]="column.freeze === 'right'" [nzAlign]="column.align!"
             nz-resizable
             nzBounds="window"
             nzPreview
@@ -43,24 +70,22 @@
           </th>
         }
 
-        <th nzWidth="50px" nzRight>操作</th>
+        <th nzWidth="50px" nzRight>Actions</th>
       </tr>
     </thead>
     <tbody>
       @for (row of items(); track row.__key__) {
         <tr [class.zng__dirty]="row.__dirty__">
-          <td
+          <td nzLeft
             [nzChecked]="selection.has(row.__key__)"
             [nzLabel]="row.__name__ ?? ''"
             (nzCheckedChange)="onItemChecked(row.__key__, $event)"
           ></td>
           @for (column of tableColumns(); track column.name) {
-            <td [nzLeft]="column.freeze ?? false">
+            <td [nzLeft]="column.freeze === 'left' || column.freeze === true" [nzRight]="column.freeze === 'right'">
               @switch (column.name) {
                 @default {
-                  <td [nzLeft]="column.freeze ?? false">
-                    {{ row[column.name] }}
-                  </td>
+                  <span>{{ row[column.name] }}</span>
                 }
               }
             </td>
@@ -72,3 +97,9 @@
     </tbody>
   </nz-table>
 </div>
+
+<ng-template #personalizationTemplate>
+  <zng-table-personalization [columns]="tableColumns()" (columnsChange)="onColumnsChange($event)"
+    [(tableSize)]="tableSize"
+  ></zng-table-personalization>
+</ng-template>

@@ -93,6 +93,28 @@
             "Entity": "实体",
             "Chart": "图形",
             "Code": "代码"
+        },
+        "Components": {
+            "TablePersonalization": {
+                "Reset": "重置",
+                "ShowColumns": "显示列",
+                "RowSelection": "选择行",
+                "Density": "密度",
+                "Density_default": "默认",
+                "Density_middle": "中等",
+                "Density_small": "紧凑",
+                "FixedToLeft": "固定到左侧",
+                "FixedToRight": "固定到右侧"
+            }
+        },
+        "Demo": {
+            "Elements": {
+                "ListReport": {
+                    "Query": "查询",
+                    "Export": "导出",
+                    "ColumnsSettings": "列设置"
+                }
+            }
         }
     }
 }

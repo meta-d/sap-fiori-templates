@@ -1,4 +1,4 @@
-import { FilterField, PageFilterBarComponent, TableColumn } from '@/app/components'
+import { FilterField, PageFilterBarComponent, TableColumn, ZngTablePersonalizationComponent } from '@/app/components'
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { omitSystemProperty } from '@/app/utils'
 import { CommonModule } from '@angular/common'
@@ -9,6 +9,8 @@ import * as ExcelJS from 'exceljs'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzResizeEvent } from 'ng-zorro-antd/resizable'
 import { ProductType, helpSuppliers, queryProducts } from '../OData.svc'
+import { NzTableSize } from 'ng-zorro-antd/table'
+import { TranslateModule } from '@ngx-translate/core'
 
 export type _ProductType = ProductType & {
   __key__: string
@@ -25,7 +27,7 @@ export type _ProductType = ProductType & {
   styleUrls: ['./list-report.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ZngAntdModule, PageFilterBarComponent]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, ZngAntdModule, PageFilterBarComponent, ZngTablePersonalizationComponent]
 })
 export class ListReportComponent {
   #message = inject(NzMessageService)
@@ -53,12 +55,14 @@ export class ListReportComponent {
     {
       name: 'Supplier/ID',
       label: 'Supplier',
+      required: true,
       valueHelp: helpSuppliers,
       valueKey: 'ID',
       labelKey: 'Name'
     }
   ]
 
+  tableSize: NzTableSize = 'small'
   defaultColumnWidth = '100px'
   tableColumns = signal<TableColumn<_ProductType>[]>([
     {
@@ -95,6 +99,10 @@ export class ListReportComponent {
 
   onFiltersChanging(filters: Filter[]) {
     this.filters = filters
+  }
+
+  onColumnsChange(event: TableColumn<any>[]) {
+    this.tableColumns.set(event)
   }
 
   async go() {
