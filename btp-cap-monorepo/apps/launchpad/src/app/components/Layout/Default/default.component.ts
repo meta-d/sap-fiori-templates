@@ -120,31 +120,27 @@ export class LayoutDefaultComponent {
         }
         return route
       }),
-      filter((route) => {
-        return route.outlet === 'primary'
-      }),
-      mergeMap((route) => {
-        return route.data
-      }),
-      takeUntilDestroyed(this.destroyRef)
+      filter((route) => route.outlet === 'primary'),
+      mergeMap((route) => route.data),
+      takeUntilDestroyed()
     )
     .subscribe((routeData) => {
       // 详情页是否是打开新tab页签形式
       const isNewTabDetailPage = routeData['newTab'] === true
 
-      let route = this.activatedRoute
-      while (route.firstChild) {
-        route = route.firstChild
+      let lastRoute = this.activatedRoute
+      while (lastRoute.firstChild) {
+        lastRoute = lastRoute.firstChild
       }
 
       let title = 'Metad Team'
-      if (typeof route.routeConfig?.title === 'string') {
-        title = this.titleStrategy.pagesTranslate()?.[route.routeConfig?.title] || route.routeConfig?.title
+      if (typeof lastRoute.routeConfig?.title === 'string') {
+        title = this.titleStrategy.pagesTranslate()?.[lastRoute.routeConfig?.title] || lastRoute.routeConfig?.title
       }
 
       this.tabService.addTab(
         {
-          snapshotArray: [route.snapshot],
+          snapshotArray: [lastRoute.snapshot],
           title,
           path: this.routerPath
         },

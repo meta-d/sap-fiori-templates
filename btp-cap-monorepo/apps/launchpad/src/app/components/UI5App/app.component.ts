@@ -44,11 +44,11 @@ import { EMPTY, distinctUntilChanged, filter, map, startWith } from 'rxjs'
   ]
 })
 export class UI5AppComponent implements AfterViewInit, OnDestroy {
-  private flpService = inject(FioriLaunchpadService)
-  #themeService = inject(ThemeService)
-  private route = inject(ActivatedRoute)
-  private title = inject(Title)
-  private logger = inject(NGXLogger)
+  readonly #flpService = inject(FioriLaunchpadService)
+  readonly #themeService = inject(ThemeService)
+  readonly #route = inject(ActivatedRoute)
+  readonly #title = inject(Title)
+  readonly #logger = inject(NGXLogger)
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input({ alias: 'sap-ui-tech-hint' }) sapUiTechHint = null
@@ -59,14 +59,14 @@ export class UI5AppComponent implements AfterViewInit, OnDestroy {
    * Get semantic object id from param ':id' or current path
    */
   public semanticObject = toSignal(
-    this.route.paramMap.pipe(
-      map((params) => params.get('id') || this.route.snapshot.url[0]?.path as string),
+    this.#route.paramMap.pipe(
+      map((params) => params.get('id') || this.#route.snapshot.url[0]?.path as string),
       distinctUntilChanged(),
     )
   )
 
   public groupId = toSignal(
-    this.route.parent?.paramMap.pipe(
+    this.#route.parent?.paramMap.pipe(
       map((params) => params.get('group') as string),
       distinctUntilChanged()
     ) ?? EMPTY
@@ -76,7 +76,7 @@ export class UI5AppComponent implements AfterViewInit, OnDestroy {
     const soUrl = this.semanticObject()
     if (soUrl) {
       const group = this.groupId()
-      return this.flpService.getChip(soUrl, group)
+      return this.#flpService.getChip(soUrl, group)
     }
 
     return null
@@ -88,8 +88,8 @@ export class UI5AppComponent implements AfterViewInit, OnDestroy {
 
   readonly #semanticTargetUrl = computed(() => {
     if (this.semanticObject()) {
-      const fragment = this.route.snapshot.fragment || this.chip()?.navigationTargetUrl || this.semanticObject()
-      const sapUserContext = this.flpService.getUserContext()
+      const fragment = this.#route.snapshot.fragment || this.chip()?.navigationTargetUrl || this.semanticObject()
+      const sapUserContext = this.#flpService.getUserContext()
       return fragment
         ? `/sap/bc/ui2/flp${sapUserContext ? '?' + sapUserContext : ''}#${fragment}`
         : null
@@ -142,7 +142,8 @@ export class UI5AppComponent implements AfterViewInit, OnDestroy {
     }, { allowSignalWrites: true })
 
     effect(() => {
-      this.title.setTitle(this.chip()?.title ?? this.title.getTitle())
+      const title = this.chip()?.title ?? this.#title.getTitle()
+      this.#title.setTitle(title)
     })
   }
 

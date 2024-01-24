@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router'
 import { Ui5LaunchpadComponent } from './launchpad/launchpad.component'
-import { Ui5Component } from './ui5.component'
 import { UI5AppComponent } from '@/app/components'
 
 export const routes: Routes = [
@@ -12,7 +11,6 @@ export const routes: Routes = [
       key: 'ui5-group/',
       newTab: true
     },
-    component: Ui5Component,
     children: [
       {
         path: ':id',
