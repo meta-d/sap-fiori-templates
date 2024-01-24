@@ -11,11 +11,16 @@ This document lists various technical documents involved in this project, includ
 - [Router](./btp/Router.md)
 - [UAA](./btp/UAA.md)
 
-## S4 & Fiori
+## S4H & Fiori
 
+- [Deploy](./Deploy.md)
 - [Fiori Legacy Apps](./s4/Legacy.md)
 - [Notification](./s4/Notification.md)
-- [Deploy](./Deploy.md)
+- [Authorization](./s4/Authorization.md)
+
+## Copilot
+
+- [Setup](./copilot/Setup.md)
 
 ## Embedded Analytics
 

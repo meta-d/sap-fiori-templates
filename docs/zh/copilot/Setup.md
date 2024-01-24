@@ -1,6 +1,6 @@
 # AI 副驾驶
 
-[**English**](../Copilot.md) | **中文**
+[**English**](../../copilot/Setup.md) | **中文**
 
 ## 如何安装
 
@@ -39,7 +39,7 @@ imports: [ NgmCopilotChatComponent ]
 Copilot 框架提供了一些默认的命令，但是也可以自定义命令。自定义命令需用到两个函数：
 
 - `injectCopilotCommand` 注入自定义命令
-- `injectMakeCopilotActionable` 注入自定义命令的函数实现
+- `injectMakeCopilotActionable` 注入自定义命令的可调用函数
 
 ### injectCopilotCommand
 
@@ -56,16 +56,40 @@ Copilot 框架提供了一些默认的命令，但是也可以自定义命令。
 |------|------|------|
 | `name` | 'fill_form' | 操作函数的唯一标识，用于 AI 来识别调用此函数 |
 | `description` | 'Fill the form' | 描述此函数的作用 |
-| `argumentAnnotations` | `[]` | 描述此函数的作用 |
+| `argumentAnnotations` | `[]` | 函数的输入参数定义 |
+| `implementation` | `async function` | 函数的实现逻辑，不返回值或返回字符串将结束命令会话，返回 Message 则会继续命令会话 |
 
 argumentAnnotations:
 
 | 属性 | 例子 | 描述 |
 |------|------|------|
-| `name` | 'fill_form' | 操作函数的唯一标识，用于 AI 来识别调用此函数 |
+| `name` | 'fill_form' | 函数输入参数的名称 |
+| `type` | 'string' | 参数类型 |
+| `description` | 'Fill the form' | 参数描述 |
+| `required` | `true` | 是否必填 |
+| `properties` | `[]` | 函数输入参数的属性定义 |
+
+对于 `properties` 属性可以直接定义，也可以使用 [zod](https://zod.dev/) 库来定义，例如：
+
+```typescript
+import { z, ZodType, ZodTypeDef } from 'zod'
+import zodToJsonSchema from 'zod-to-json-schema'
+
+{
+    properties: (<{ properties: any }>zodToJsonSchema(z.object({
+                title: z.string().describe('表单标题'),
+                desc: z.string().describe('我的阶段性工作目标'),
+                standard: z.string().describe('我的满意度衡量标准'),
+              }))).properties
+}
+```
 
 ## Demo
 
 Copilot 框架提供了一个 Demo 项目，可以参考它的实现：
 
 https://stackblitz.com/~/github.com/tiven-w/metad-copilot-demo
+
+也可以参考本项目中的演示代码：
+
+[AI Copilot Form](../../../btp-cap-monorepo/apps/launchpad/src/app/demo/copilot/base/base.component.ts)

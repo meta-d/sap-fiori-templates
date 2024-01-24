@@ -4,14 +4,14 @@
 
 菜单授权是指用户在登录系统后，根据用户的权限，显示不同的菜单项。
 
-在 S4 系统中菜单的授权检查可以通过 Authorization Object check 来实现。
+在 S4 系统中菜单的授权检查可以通过 ABAP [Authorization Object](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abapauthority-check.htm) 检查来实现。
 
 ## 为路由配置授权检查
 
 想要对路由菜单进行授权检查，需要在路由配置中添加 `authorization` 字段，该字段的值为一个授权对象配置包括授权对象名和参数。
 例如下面是通过 OData 服务的授权对象 `S_SERVICE` 对某个路由菜单进行限制访问的：
 
-```javascript
+```javascript routing.ts
 [
 {
     path: 'admin',
