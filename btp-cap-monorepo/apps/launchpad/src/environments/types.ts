@@ -8,7 +8,7 @@ export type IEnvironment = {
   /**
    * 此 Web 应用所适用的服务器平台
    */
-  platform: 'S4' | 'BTP' | 'LOCAL'
+  platform: 'S4H' | 'BTP' | 'LOCAL'
   /**
    * 启用兼容 S4 系统 Fiori Apps 功能
    */

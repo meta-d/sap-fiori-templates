@@ -36,8 +36,8 @@ This is a template for building SAP BTP and Fiori apps with [Angular](https://an
 - `yarn start:btp:sandbox` run btp app in sandbox environment.
 - `yarn ar` run approuter in url *http://localhost:5000/*.
 - `yarn sb` run storybook to preview components in url *http://localhost:4400/*.
-- `yarn start:s4:mock` Start launchpad app for S4 system environment. Open in *http://localhost:4200/*.
-- `yarn start:s4:live` Start launchpad app for live S4 system environment, Open in *http://localhost:4200/*.
+- `yarn start:s4h:mock` Start launchpad app for s4h system environment. Open in *http://localhost:4200/*.
+- `yarn start:s4h:live` Start launchpad app for live s4h system environment, Open in *http://localhost:4200/*.
 
 ## 🛫 Start the Project
 
@@ -53,9 +53,9 @@ If you first run this BTP project, run `yarn deploy:btp:local` to deploy db mode
 
 To start the development server run `yarn start` or run `nx serve launchpad` and `yarn --cwd caps/app-store w-sandbox` separately. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
-### Start S4 App
+### Start s4h App
 
-Run `yarn start:s4:live` or `yarn start:s4:mock` to start the application for S4 system.
+Run `yarn start:s4h:live` or `yarn start:s4h:mock` to start the application for s4h system.
 
 ### Environments
 
@@ -63,7 +63,7 @@ The application has two environments, `development` and `production`. The defaul
 
 The features in environment are:
 * **production** - enable production mode, disable debug log, and others.
-* **platform** - **S4** | **BTP** | **LOCAL**
+* **platform** - **S4H** | **BTP** | **LOCAL**
 * **enableFiori** - enable load all Fiori apps in SAP system as menus in this application.
 * **enableNotification** - enable notification service in S4HANA system.
 * **enableWaterMark** - enable water mark on page of the application.
@@ -87,8 +87,8 @@ You can execute the following npm scripts to preview the application:
 
 * **start** - starts the application (btp).
 * **start:btp** - starts the application for btp.
-* **start:s4:live** - starts the application for S4 system with live service.
-* **start:s4:mock** - starts the application for S4 system with mock data.
+* **start:s4h:live** - starts the application for s4h system with live service.
+* **start:s4h:mock** - starts the application for s4h system with mock data.
 
 ### 📡 Use Live Data
 
@@ -167,14 +167,14 @@ For BTP platform, you can disable
 
 * Base url
 
-The deployed application needs to be opened in a non-root path, so you need to configure the base url when building the app. Replace `your_project_name` with the name of the BSP application in command `yarn b:s4:app`.
+The deployed application needs to be opened in a non-root path, so you need to configure the base url when building the app. Replace `your_project_name` with the name of the BSP application in command `yarn b:s4h:app`.
 
 ```javascript
 {
-  "b:s4:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
+  "b:s4h:app": "nx build launchpad -- --base-href /sap/bc/ui5_ui5/sap/your_project_name/",
 }
 ```
 
 * Deploy
 
-Run `yarn d:s4` to build and deploy to s4 system, other details ref to [Deploying to ABAP](../docs/Deploy.md#deploying-to-abap).
+Run `yarn d:s4h` to build and deploy to s4h system, other details ref to [Deploying to ABAP](../docs/Deploy.md#deploying-to-abap).

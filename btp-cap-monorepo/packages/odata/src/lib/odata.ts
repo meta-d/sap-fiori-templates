@@ -2,27 +2,22 @@ import queryString from 'query-string'
 import { BehaviorSubject, map } from 'rxjs'
 import * as convert from 'xml-js'
 import { filterString } from './filter'
+import { KeysParameters, entityKeyValue, getEntityName, getErrorMessage, throwODataError } from './helpers'
 import {
   FilterOperator,
   Keys,
-  KeysParameters,
-  ODataError,
   ODataQueryOptions,
+  ODataStore,
   OrderEnum,
-  entityKeyValue,
-  getEntityName,
-  getErrorMessage
+  StoreStatus,
+  XCsrfTokenFetch,
+  XCsrfTokenName
 } from './types'
 import { isString } from './utils/isString'
 
-export enum StoreStatus {
-  init,
-  initializing,
-  loaded,
-  error,
-  complete
-}
-
+/**
+ * OData config type
+ */
 export interface ODataConfig {
   xCsrfToken: string | null
   environment: string
@@ -35,6 +30,11 @@ const _config$ = new BehaviorSubject<ODataConfig>({
   isMockData: false
 })
 
+/**
+ * Update odata global configuration
+ *
+ * @param value odata config
+ */
 export function updateODataConfig(value: Partial<ODataConfig>) {
   _config$.next({
     ..._config$.value,
@@ -42,19 +42,35 @@ export function updateODataConfig(value: Partial<ODataConfig>) {
   })
 }
 
+/**
+ * Is high version (3 or 4) of odata
+ *
+ * @param response Response of odata call
+ * @returns boolean
+ */
 export function isHighVersion(response: Response) {
-  return response.headers.get('Odata-Version')?.startsWith('4') || response.headers.get('Dataserviceversion')?.startsWith('3')
+  return (
+    response.headers.get('Odata-Version')?.startsWith('4') ||
+    response.headers.get('Dataserviceversion')?.startsWith('3')
+  )
 }
 
+/**
+ * Define store for an odata service.
+ *
+ * @param service
+ * @param options
+ * @returns
+ */
 export function defineODataStore(
   service: string,
   options: {
     base: string
     version?: string | null
   } = {
-    base: '/sap/opu/odata/sap',
+    base: '/sap/opu/odata/sap'
   }
-) {
+): ODataStore {
   const { base, version } = options
 
   const store = new BehaviorSubject<{ status: StoreStatus; Schema: any }>({
@@ -66,7 +82,11 @@ export function defineODataStore(
   const baseUrl = `${removeLastSlash(base)}/${service}${version && !_config$.value.isMockData ? `/${version}` : ''}`
 
   const metadata = async () => {
-    const response = await fetch(`${baseUrl}/$metadata`)
+    const response = await fetch(`${baseUrl}/$metadata`, {
+      headers: {
+        [XCsrfTokenName]: XCsrfTokenFetch
+      }
+    })
     const token = response.headers.get('X-Csrf-Token')
     if (token) {
       setXCsrfToken(token)
@@ -74,7 +94,7 @@ export function defineODataStore(
 
     if (response.ok) {
       const text = await response.text()
-      
+
       const _metadata: any = convert.xml2js(text, { compact: true, attributesKey: '@' })
 
       return _metadata['edmx:Edmx']['edmx:DataServices']['Schema']
@@ -84,7 +104,7 @@ export function defineODataStore(
       error: getErrorMessage(await response.text())
     }
   }
-  
+
   const init = () => {
     store.next({
       ...store.value,
@@ -99,8 +119,7 @@ export function defineODataStore(
             status: StoreStatus.loaded
           })
         })
-        .catch((err) => {
-          // console.error(err)
+        .catch((err: any) => {
           store.next({
             ...store.value,
             status: StoreStatus.error
@@ -109,7 +128,7 @@ export function defineODataStore(
     })
   }
 
-  const select = (selector: (state: any) => any) => {
+  const select = <T>(selector: (state: { status: StoreStatus; Schema: any }) => T) => {
     return store.pipe(map(selector))
   }
 
@@ -125,39 +144,14 @@ export function defineODataStore(
     })
   }
 
-  const read = async <T = any>(
-    entity: string,
-    keys: Keys,
-    options?: ODataQueryOptions
-  ): Promise<T> => {
+  const read = async <T = any>(entity: string, keys: Keys, options?: ODataQueryOptions): Promise<T> => {
     const queryObj = constructQuery(options)
     const qString = queryString.stringify(queryObj)
-
-    // const query = new URLSearchParams()
-    // if ($filter) {
-    //   query.append(
-    //     '$filter',
-    //     Object.keys($filter).reduce((acc, key) => {
-    //       if (acc) {
-    //         acc += ' and ' + key + ' eq ' + $filter[key]
-    //       } else {
-    //         acc = key + ' eq ' + $filter[key]
-    //       }
-    //       return acc
-    //     }, '')
-    //   )
-    // }
-
-    // if ($expand) {
-    //   query.append('$expand', isString($expand) ? $expand : $expand.join(','))
-    // }
 
     let url = `${baseUrl}/${entity}`
     if (keys) {
       url += KeysParameters(keys)
     }
-
-    // const queryString = query.toString()
 
     return fetch(`${url}${qString ? '?' + qString : ''}`, {
       method: 'get',
@@ -180,12 +174,12 @@ export function defineODataStore(
           return result.d
         }
       }
-      
+
       await throwODataError(response)
     })
   }
 
-  const save = async <T = any>(entitySet: string, body: any): Promise<T> => {
+  const save = async <T = any>(entitySet: string, body: T, options?: ODataQueryOptions): Promise<T> => {
     const url = `${baseUrl}/${entitySet}`
 
     const reqOptions = {
@@ -193,7 +187,8 @@ export function defineODataStore(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
+        'X-Csrf-Token': _config$.value.xCsrfToken ?? '',
+        ...(options?.headers ?? {})
       },
       body: JSON.stringify(body)
     }
@@ -206,12 +201,12 @@ export function defineODataStore(
           return result.d
         }
       }
-      
+
       await throwODataError(response)
     })
   }
 
-  const update = async <T = any>(entitySet: string, keys: Keys, body: any): Promise<T> => {
+  const update = async <T = any>(entitySet: string, keys: Keys, body: T, options?: ODataQueryOptions): Promise<T> => {
     let url = `${baseUrl}/${entitySet}`
     if (keys) {
       url += KeysParameters(keys)
@@ -221,7 +216,8 @@ export function defineODataStore(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
+        'X-Csrf-Token': _config$.value.xCsrfToken ?? '',
+        ...(options?.headers ?? {})
       },
       body: JSON.stringify(body)
     }
@@ -234,7 +230,7 @@ export function defineODataStore(
           return result.d
         }
       }
-      
+
       await throwODataError(response)
     })
   }
@@ -243,7 +239,6 @@ export function defineODataStore(
     const entitySet = getEntityName(entity)
     const queryObj = constructQuery(options)
     const qString = queryString.stringify(queryObj)
-    // const qString = queryObj.toString()
 
     const url = `${baseUrl}/${entitySet}`
     return fetch(`${url}${qString ? '?' + qString : ''}`, {
@@ -276,10 +271,11 @@ export function defineODataStore(
    *
    * @param name Function Import Name
    */
-  const functionImport = async (name: string) => {
-    const url = `${baseUrl}/${name}()`
+  const functionImport = async <T>(name: string, params?: Record<string, any>): Promise<T> => {
+    // @todo how to call functionImport with params?
+    const url = `${baseUrl}/${name}${params ? KeysParameters(params) : '()'}`
     const reqOptions = {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
@@ -294,7 +290,7 @@ export function defineODataStore(
     })
   }
 
-  const actionImport = async <T>(name: string, body?: any): Promise<T> => {
+  const actionImport = async <T>(name: string, data?: any): Promise<T> => {
     const url = `${baseUrl}/${name}`
     const reqOptions: RequestInit = {
       method: 'POST',
@@ -303,7 +299,7 @@ export function defineODataStore(
         Accept: 'application/json',
         'X-Csrf-Token': _config$.value.xCsrfToken ?? ''
       },
-      body: body ? JSON.stringify(body) : null
+      body: data ? JSON.stringify(data) : null
     }
     return fetch(url, reqOptions).then(async (response) => {
       if (response.ok) {
@@ -319,11 +315,11 @@ export function defineODataStore(
   }
 
   const count = async (entitySet: string, options?: ODataQueryOptions): Promise<number> => {
-    // const queryObj = constructQuery(options)
-    // const qString = queryString.stringify(queryObj)
+    const queryObj = constructQuery(options)
+    const qs = queryString.stringify(queryObj)
 
     const url = `${baseUrl}/${entitySet}/$count`
-    return fetch(`${url}${queryString ? '?' + queryString : ''}`, {
+    return fetch(`${url}${qs ? '?' + qs : ''}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
@@ -334,7 +330,29 @@ export function defineODataStore(
       if (response.ok) {
         return await response.json()
       }
-      
+
+      await throwODataError(response)
+    })
+  }
+
+  const remove = async (entitySet: string, keys: Keys, options?: ODataQueryOptions): Promise<void> => {
+    let url = `${baseUrl}/${entitySet}`
+    if (keys) {
+      url += KeysParameters(keys)
+    }
+
+    return fetch(url, {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...(options?.headers ?? {})
+      }
+    }).then(async (response) => {
+      if (response.ok) {
+        return
+      }
+
       await throwODataError(response)
     })
   }
@@ -349,9 +367,10 @@ export function defineODataStore(
     query,
     save,
     update,
+    count,
+    remove,
     functionImport,
     actionImport,
-    count,
     setXCsrfToken
   }
 }
@@ -363,8 +382,12 @@ export function defineODataStore(
  * @returns
  */
 export function constructQuery(options?: ODataQueryOptions) {
-  const { $filter, $expand, $orderby, $skip, $top } = options ?? {}
+  const { $select, $filter, $expand, $orderby, $skip, $top } = options ?? {}
   const query = {} as Record<string, string>
+
+  if ($select) {
+    query['$select'] = isString($select) ? $select : $select.join(',')
+  }
 
   // Filters to query string
   if ($filter) {
@@ -377,6 +400,8 @@ export function constructQuery(options?: ODataQueryOptions) {
           return _filterString
         }
       }, '')
+    } else if (isString($filter)) {
+      query['$filter'] = $filter
     } else {
       query['$filter'] = Object.keys($filter).reduce((acc, key) => {
         const filterString = `${key} ${FilterOperator.eq} ${entityKeyValue($filter[key])}`
@@ -394,7 +419,9 @@ export function constructQuery(options?: ODataQueryOptions) {
   }
 
   if ($orderby) {
-    query['$orderby'] = $orderby.map(({ name, order }) => `${name} ${order ?? OrderEnum.asc}`).join(',')
+    query['$orderby'] = isString($orderby)
+      ? $orderby
+      : $orderby.map(({ name, order }) => `${name} ${order ?? OrderEnum.asc}`).join(',')
   }
 
   if ($skip != null) {
@@ -412,27 +439,4 @@ function removeLastSlash(url: string) {
     return url.slice(0, -1)
   }
   return url
-}
-
-async function throwODataError(response: Response) {
-  throw {
-    code: response.status,
-    error: getODataErrorMessage(await response.text())
-  } as ODataError
-}
-
-/**
- * Get error message from any error object of odata
- * 
- * @param err 
- * @returns 
- */
-export function getODataErrorMessage(err: unknown): string {
-  if (isString(err) && /^\{"error":\{/.test(err)) {
-    const error = JSON.parse(err)
-
-    return error.error?.message?.value
-  }
-
-  return err as string
 }

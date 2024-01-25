@@ -4,6 +4,7 @@ This document lists various technical documents involved in this project, includ
 
 ## BTP
 
+- [🚀 Get Started](./btp/GetStarted.md)
 - [CAP](./btp/CAP.md)
 - [Cloud SDK](./btp/Cloud-SDK.md)
 - [Consume Remote Services](./btp/ConsumeRemoteServices.md)

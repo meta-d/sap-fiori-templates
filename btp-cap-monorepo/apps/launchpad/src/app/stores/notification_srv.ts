@@ -58,9 +58,9 @@ export const useNotificationStore = () => {
 export async function getBadgeNumber(): Promise<number> {
   const { functionImport } = notificationStore
 
-  const result = await functionImport('GetBadgeNumber')
+  const result = await functionImport<{value: number}>('GetBadgeNumber')
 
-  return result.value as number
+  return result.value
 }
 
 export async function resetBadgeNumber() {

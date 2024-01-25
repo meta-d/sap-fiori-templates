@@ -28,7 +28,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: yarn
         working-directory: ./btp-cap-monorepo
-      - run: yarn nx build odata
+      - run: yarn b:odata
         working-directory: ./btp-cap-monorepo
       - run: npm publish --access public --tag latest
         working-directory: ./btp-cap-monorepo/dist/packages/odata

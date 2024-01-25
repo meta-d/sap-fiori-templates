@@ -1,5 +1,10 @@
 import { StoreStatus, defineODataStore } from '@metad/cap-odata'
 
+type ODataUserType = {
+  ID: string
+  Name: string
+}
+
 const authStore = defineODataStore('auth', {
   base: '/api'
 })
@@ -14,5 +19,5 @@ export const useAuthStore = () => {
 
 export async function getCurrentUser() {
   const { functionImport } = useAuthStore()
-  return await functionImport('current')
+  return await functionImport<ODataUserType>('current')
 }

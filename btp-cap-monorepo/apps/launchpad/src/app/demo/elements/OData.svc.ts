@@ -1,4 +1,4 @@
-import { ODataQueryOptions, StoreStatus, defineODataStore } from '@metad/cap-odata'
+import { Keys, ODataQueryOptions, StoreStatus, defineODataStore } from '@metad/cap-odata'
 
 const demoODataStore = defineODataStore('OData.svc', {
   base: '/odata.org/V3/OData/'
@@ -21,6 +21,11 @@ export async function queryProducts(options?: ODataQueryOptions) {
   return result
 }
 
+export async function readProduct(keys: Keys, options?: ODataQueryOptions) {
+  const { read } = useDemoODataStore()
+  return await read<ProductType>('Products', {"ID": 8}, options)
+}
+
 export async function helpProductCategory(options?: ODataQueryOptions) {
   const { query } = useDemoODataStore()
   const result = await query<CategoryType>('Categories', options)
@@ -37,6 +42,11 @@ export async function helpProductDetails(options?: ODataQueryOptions) {
   const { query } = useDemoODataStore()
   const result = await query<ProductDetailType>('ProductDetails', options)
   return result
+}
+
+export async function cloneCatalog() {
+  const { functionImport } = useDemoODataStore()
+  return await functionImport('CloneCatalog', {sourceId: 1, targetId: 2, title: 'test'})
 }
 
 export type ProductType = {

@@ -1,6 +1,4 @@
-import { format, isDate } from 'date-fns'
-import { isPlainObject } from './utils'
-import { isString } from './utils/isString'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 export const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 export enum OrderEnum {
@@ -28,17 +26,19 @@ export type ODataError = {
 
 export interface ODataQueryOptions {
   headers?: Record<string, string>
-  $filter?:
+  $select?: string | string[]
+  $filter?: string
     | {
         [key: string]: ValueOfKey
       }
     | Filter[]
   $expand?: string | string[]
 
-  $orderby?: {
-    name: string
-    order?: OrderEnum | null
-  }[]
+  $orderby?: string
+    | {
+      name: string
+      order?: OrderEnum | null
+    }[]
 
   $skip?: number
   $top?: number
@@ -49,59 +49,6 @@ export const XCsrfTokenFetch = 'Fetch'
 
 export type ValueOfKey = number | string | boolean | null | Date
 export type Keys = ValueOfKey | Record<string, ValueOfKey>
-
-export function entityKeyValue(value: number | string | boolean | Date | null): string {
-  if (isString(value)) {
-    if (uuidRegex.test(value)) {
-      return `${value}`
-    }
-    return `'${encodeURIComponent(value)}'`
-  } else if (isDate(value)) {
-    return `datetime'${format(value as Date, "yyyy-MM-dd'T'HH:mm:ss")}'`
-  } else {
-    return `${value}`
-  }
-}
-
-export function KeysParameters(keys: Keys) {
-  if (isPlainObject(keys)) {
-    return `(${Object.keys(keys)
-      .map((key) => `${key}=${entityKeyValue((<Record<string, number | string | boolean | Date | null>>keys)[key])}`)
-      .join(',')})`
-  } else {
-    return `(${entityKeyValue(keys)})`
-  }
-}
-
-export function getEntityName(entity: string | { name: string }): string {
-  return typeof entity === 'string' ? entity : entity.name.split('.').pop()!
-}
-
-/**
- * 
- * @param entityType EntityType for the entity
- * @param item 
- * @returns 
- */
-export function mapEdmEntity<T extends Record<string, any>>(entityType: EntityType, item: Record<keyof T, any>) {
-  return Object.keys(item).reduce((acc, key: keyof T) => {
-    const property = entityType.Property.find((prop) => prop['@'].Name === key)
-    switch (property?.['@'].Type) {
-      case 'Edm.Time':
-        acc[key] = parseEdmTime(item[key]) as T[keyof T]
-        break
-      case 'Edm.DateTime':
-        acc[key] = parseEdmDateTime(item[key]) as T[keyof T]
-        break
-      case 'Edm.Decimal':
-        acc[key] = Number(item[key]) as T[keyof T]
-        break
-      default:
-        acc[key] = item[key]
-    }
-    return acc
-  }, {} as T)
-}
 
 export type Property = {
   '@': {
@@ -114,55 +61,138 @@ export type EntityType = {
 }
 
 /**
- * Convert EDM.Time in OData to humman format
- * 
- * Example:
- * 
- * ```typescript
-// Example usage
-const edmTimeValue = 'PT12H30M45S';
-const convertedString = parseEdmTime(edmTimeValue);
-console.log(convertedString); // Output: '12:30:45'
- * ```
- * @param edmTime is in the format 'PTxxHxxMxxS'
- * @returns 
+ * The status type of an odata store
  */
-export function parseEdmTime(edmTime: string) {
-  // Extract hours, minutes, and seconds
-  const hours = edmTime.slice(2, 4)
-  const minutes = edmTime.slice(5, 7)
-  const seconds = edmTime.slice(8, 10)
-
-  // Construct the string representation
-  const timeString = `${hours}:${minutes}:${seconds}`
-
-  return timeString
+export enum StoreStatus {
+  init,
+  initializing,
+  loaded,
+  error,
+  complete
 }
 
 /**
- * Parse Edm.DateTime value to Date
- *
- * @param value The format is "/Date(1689206400000)/"
- * @returns
+ * The store type of odata service
  */
-export function parseEdmDateTime(value: string) {
-  const mg = value.match(/\d+/)
-  if (mg) {
-    // 提取时间戳部分
-    const timestamp = parseInt(mg[0], 10)
-    // 使用 parse 函数将时间戳转换为 Date 对象
-    const dateObject = new Date(timestamp)
-    return dateObject
-  }
-  return null
-}
+export type ODataStore = {
+  /**
+   * The store of odata service
+   */
+  store: BehaviorSubject<{ status: StoreStatus; Schema: any }>
+  /**
+   * Initialize the store:
+   * - Fetch metadata file
+   * - Parse metadata as schema
+   */
+  init: () => void
+  /**
+   * Selector for odata store
+   *
+   * @param selector
+   * @returns
+   */
+  select: <T>(selector: (state: { status: StoreStatus; Schema: any }) => T) => Observable<T>
+  /**
+   * Selector for entity type
+   *
+   * @param entity
+   * @returns
+   */
+  selectEntityType: (entity: string) => Observable<EntityType>
 
-export function getErrorMessage(err: any) {
-  if (isString(err) && /^\{"error"\:\{/.test(err)) {
-    const error = JSON.parse(err)
+  /**
+   * Get the entity type
+   *
+   * @param entity
+   * @returns
+   */
+  entityType: (entity: string) => EntityType
 
-    return error.error?.message?.value
-  }
+  /**
+   * Read an entity using keys
+   * 
+   * @param entitySet 
+   * @param keys 
+   * @param options 
+   * @returns 
+   */
+  read: <T>(entitySet: string, keys: Keys, options?: ODataQueryOptions) => Promise<T>
 
-  return err
+  /**
+   * Create an entity.
+   * 
+   * Examples:
+   * ```ts
+   * const result = await create('EntitySet', {name: 'Metad', age: 18})
+   * ```
+   * 
+   * @param entitySet 
+   * @param data 
+   * @param options 
+   * @returns 
+   */
+  save: <T>(entitySet: string, data: T, options?: ODataQueryOptions) => Promise<T>
+
+  /**
+   * Query entities using ODataQueryOptions
+   * 
+   * @param entitySet 
+   * @param options 
+   * @returns 
+   */
+  query: <T>(entitySet: string | { name: string }, options?: ODataQueryOptions) => Promise<T[]>
+
+  /**
+   * Update an entity
+   * 
+   * @param entitySet 
+   * @param keys 
+   * @param data 
+   * @param options 
+   * @returns 
+   */
+  update: <T>(entitySet: string, keys: Keys, data: T, options?: ODataQueryOptions) => Promise<T>
+
+  /**
+   * Count entities using ODataQueryOptions
+   * 
+   * @param entitySet 
+   * @param options 
+   * @returns 
+   */
+  count: (entitySet: string, options?: ODataQueryOptions) => Promise<number>
+
+  /**
+   * Remove an entity using keys
+   * 
+   * @param entitySet 
+   * @param keys 
+   * @param options 
+   * @returns 
+   */
+  remove: (entitySet: string, keys: Keys, options?: ODataQueryOptions) => Promise<void>
+
+  /**
+   * Call a function import
+   * 
+   * @param functionName 
+   * @returns 
+   */
+  functionImport: <T>(functionName: string, params?: Record<string, unknown>) => Promise<T>
+
+  /**
+   * Call an action import with data
+   * 
+   * @param actionName 
+   * @param data 
+   * @returns 
+   */
+  actionImport: <T>(actionName: string, data?: unknown) => Promise<T>
+  /**
+   * Set the X-Csrf-Token into the store
+   * 
+   * @param token 
+   * @returns 
+   */
+  setXCsrfToken: (token: string) => void
 }

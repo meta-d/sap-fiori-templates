@@ -1,12 +1,21 @@
 {
   "name": "@metad/cap-odata",
   "version": "0.0.19",
+  "homepage": "https://mtda.cloud/en/sap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meta-d/sap-fiori-templates.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meta-d/sap-fiori-templates/issues"
+  },
   "dependencies": {},
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts",
   "peerDependencies": {
-    "rxjs": "~7.8.0",
+    "rxjs": "^7.8.0",
     "xml-js": "^1.6.11",
     "query-string": "^8.1.0",
     "date-fns": "^3.0.4"

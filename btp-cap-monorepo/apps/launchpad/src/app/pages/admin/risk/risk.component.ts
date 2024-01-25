@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { FormsModule } from '@angular/forms'
 import { EMPTY, catchError, from, map, tap } from 'rxjs'
 import { ZngAntdModule } from '../../../core/shared.module'
-import { queryRisks } from '../../../stores'
+import { queryRisks } from './risk'
 
 @Component({
   standalone: true,

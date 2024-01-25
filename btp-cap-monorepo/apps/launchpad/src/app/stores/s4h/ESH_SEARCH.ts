@@ -10,7 +10,7 @@ export const useESHSearchStore = () => {
   return eshStore
 }
 
-export type UserType = {
+export type ODataUserType = {
   Id: string
   Name: string
 }

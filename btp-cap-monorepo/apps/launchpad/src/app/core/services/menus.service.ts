@@ -63,7 +63,7 @@ export class MenusService {
 
   readonly flpMenus = this.flpService.routes
   readonly flpLoading = computed(() => {
-    return environment.platform === 'S4' && environment.enableFiori && !this.flpMenus()
+    return environment.platform === 'S4H' && environment.enableFiori && !this.flpMenus()
   })
   readonly menus = computed(() => {
     return [...this.tAppMenus(), ...(this.flpMenus() ?? [])]

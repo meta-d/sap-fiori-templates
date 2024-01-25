@@ -94,7 +94,7 @@ export class FioriLaunchpadService {
     })
 
   constructor() {
-    if (environment.platform === 'S4' && environment.enableFiori) {
+    if (environment.platform === 'S4H' && environment.enableFiori) {
       this.loadFLPMenus().then()
       this.loadCookie()
       const localPageSets = this.localStorage.getItem<PageSets[]>(SAPFioriPageSetsName)

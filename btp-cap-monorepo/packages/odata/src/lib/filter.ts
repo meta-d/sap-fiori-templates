@@ -1,4 +1,5 @@
-import { Filter, FilterOperator, entityKeyValue } from './types'
+import { entityKeyValue } from './helpers'
+import { Filter, FilterOperator } from './types'
 
 export function filterString(filter: Filter): string {
   const value = filter.value
