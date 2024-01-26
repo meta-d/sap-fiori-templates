@@ -1,3 +1,4 @@
+import { ScreenLessHiddenDirective } from '@/app/core'
 import { isNil } from '@/app/utils'
 import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop'
 import { NgFor, NgStyle } from '@angular/common'
@@ -7,8 +8,10 @@ import {
   EventEmitter,
   Input,
   Output,
+  booleanAttribute,
   effect,
   forwardRef,
+  input,
   signal
 } from '@angular/core'
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms'
@@ -16,15 +19,14 @@ import { TranslateModule } from '@ngx-translate/core'
 import { cloneDeep } from 'lodash-es'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
-import { NzIconModule } from 'ng-zorro-antd/icon'
-import { TableColumn } from '../types'
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzTableSize } from 'ng-zorro-antd/table'
-import { ScreenLessHiddenDirective } from '@/app/core'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
+import { TableColumn } from '../types'
 
 interface TableSizeItem {
-  value: NzTableSize;
+  value: NzTableSize
 }
 
 @Component({
@@ -61,27 +63,26 @@ export class ZngTablePersonalizationComponent<T> {
   /**
    * 是否展示复选框
    */
-  @Input() showCheckbox = false
-  @Input() tableSize: NzTableSize | null = 'default'
-  @Input() get columns() {
-    return this.tableColumns()
-  }
-  set columns(value: TableColumn<T>[] | null | undefined) {
-    this.tableColumns.set([...(value ?? [])].map((column) => ({ ...column, show: isNil(column.show) || column.show })))
-    if (!this.copyHeader && value?.length) {
-      this.copyHeader = cloneDeep(this.tableColumns())
+  readonly showCheckbox = input.required<boolean, string | boolean>({ transform: booleanAttribute })
+  readonly columns = input.required<TableColumn<T>[], TableColumn<T>[] | null | undefined>({
+    transform: (value) => {
+      this.tableColumns.set(
+        [...(value ?? [])].map((column) => ({ ...column, show: isNil(column.show) || column.show }))
+      )
+      if (!this.copyHeader && value?.length) {
+        this.copyHeader = cloneDeep(this.tableColumns())
+      }
+      return this.tableColumns()
     }
-  }
+  })
+
+  @Input() tableSize: NzTableSize | null = 'default'
 
   @Output() showCheckboxChange = new EventEmitter<boolean>()
   @Output() columnsChange = new EventEmitter<TableColumn<T>[]>()
   @Output() tableSizeChange = new EventEmitter<NzTableSize>()
 
-  tableSizeOptions: TableSizeItem[] = [
-    { value: 'default' },
-    { value: 'middle' },
-    { value: 'small' }
-  ]
+  tableSizeOptions: TableSizeItem[] = [{ value: 'default' }, { value: 'middle' }, { value: 'small' }]
 
   /**
    * 设置里面全选列的半选状态

@@ -99,7 +99,7 @@
 </div>
 
 <ng-template #personalizationTemplate>
-  <zng-table-personalization [columns]="tableColumns()" (columnsChange)="onColumnsChange($event)"
+  <zng-table-personalization showCheckbox [columns]="tableColumns()" (columnsChange)="onColumnsChange($event)"
     [(tableSize)]="tableSize"
   ></zng-table-personalization>
 </ng-template>

@@ -1,14 +1,14 @@
 <div class="flex justify-between items-center">
   <div>
     <span>
-      <!-- <label nz-checkbox [(nzChecked)]="showCheckbox"
+      <label nz-checkbox [nzChecked]="showCheckbox()"
         (nzCheckedChange)="changeTableCheckBoxShow($event)">
-      {{'ZNG.Components.TablePersonalization.RowSelection' | translate: {Default: 'Row Selection'} }}
-      </label> -->
+        {{'ZNG.Components.TablePersonalization.RowSelection' | translate: {Default: 'Row Selection'} }}
+      </label>
       <label nz-checkbox [nzIndeterminate]="allTableFieldIndeterminate"
         [(nzChecked)]="allTableFieldChecked"
         (nzCheckedChange)="changeAllTableTableConfigShow($event)">
-      {{'ZNG.Components.TablePersonalization.ShowColumns' | translate: {Default: 'Show Columns'} }}
+        {{'ZNG.Components.TablePersonalization.ShowColumns' | translate: {Default: 'Show Columns'} }}
       </label>
     </span>
     <button nz-button nzType="text" (click)="reset()">
