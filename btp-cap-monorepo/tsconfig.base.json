@@ -15,12 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "#cds-models/*": ["./caps/app-store/@cds-models/*/index.ts"],
       "@/*": ["./apps/launchpad/src/*"],
       "@metad/cap-contracts": ["packages/contracts/src/index.ts"],
-      "@metad/cap-odata": ["packages/odata/src/index.ts"],
-      "#cds-models/*": [
-        "./caps/app-store/@cds-models/*/index.ts"
-      ]
+      "@metad/cap-odata": ["packages/odata/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -16,7 +16,11 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/launchpad/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/launchpad/src/favicon.ico", "apps/launchpad/src/assets", "apps/launchpad/src/.Ui5RepositoryBinaryFiles"],
+        "assets": [
+          "apps/launchpad/src/favicon.ico",
+          "apps/launchpad/src/assets",
+          "apps/launchpad/src/.Ui5RepositoryBinaryFiles"
+        ],
         "styles": [
           "node_modules/ng-zorro-antd/resizable/style/entry.less",
           "node_modules/prismjs/themes/prism.css",
@@ -37,14 +41,9 @@
           "apps/launchpad/src/styles.less",
           "apps/launchpad/src/styles.scss"
         ],
-        "scripts": [
-          "node_modules/marked/marked.min.js",
-          "node_modules/clipboard/dist/clipboard.min.js"
-        ],
+        "scripts": ["node_modules/marked/marked.min.js", "node_modules/clipboard/dist/clipboard.min.js"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "apps/launchpad/src/styles/themes"
-          ]
+          "includePaths": ["apps/launchpad/src/styles/themes"]
         }
       },
       "configurations": {
@@ -115,10 +114,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/launchpad/**/*.ts", "apps/launchpad/**/*.html"]
-      }
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -156,10 +152,7 @@
           "apps/launchpad/src/styles.scss"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "node_modules",
-            "apps/launchpad/src/styles/themes"
-          ]
+          "includePaths": ["node_modules", "apps/launchpad/src/styles/themes"]
         }
       },
       "configurations": {

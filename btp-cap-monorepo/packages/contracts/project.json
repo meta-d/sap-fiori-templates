@@ -25,10 +25,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/contracts/**/*.ts", "packages/contracts/package.json"]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []
