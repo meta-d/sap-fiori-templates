@@ -76,12 +76,12 @@ export class S4AppStoreService implements IAppStore {
   }
 
   async savePersonalization() {
-    const { save } = useINTEROPStore()
+    const { create } = useINTEROPStore()
 
     const value = this.state$.value.personalization.value
 
     const containerCategory = 'P'
-    await save('PersContainers', {
+    await create('PersContainers', {
       id: PersContainerId,
       category: containerCategory,
       validity: 0,

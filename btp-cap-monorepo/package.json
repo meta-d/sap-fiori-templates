@@ -1,6 +1,6 @@
 {
   "name": "@metad/btp-cap-monorepo",
-  "version": "0.0.18",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "start": "yarn start:btp",
@@ -38,9 +38,9 @@
     "@antv/g2plot": "^2.4.31",
     "@antv/x6": "^2.16.1",
     "@antv/x6-plugin-dnd": "^2.1.1",
-    "@metad/copilot": "1.18.0-beta.3",
-    "@metad/ocap-angular": "1.18.0-beta.3",
-    "@metad/ocap-core": "1.18.0-beta.3",
+    "@metad/copilot": "1.18.0-beta.4",
+    "@metad/ocap-angular": "1.18.0-beta.4",
+    "@metad/ocap-core": "1.18.0-beta.4",
     "@metad/ocap-echarts": "1.17.0",
     "@metad/ocap-xmla": "1.17.0",
     "@metad/store": "1.17.0",

@@ -131,7 +131,7 @@ export type ODataStore = {
    * @param options 
    * @returns 
    */
-  save: <T>(entitySet: string, data: T, options?: ODataQueryOptions) => Promise<T>
+  create: <T>(entitySet: string, data: T, options?: ODataQueryOptions) => Promise<T>
 
   /**
    * Query entities using ODataQueryOptions

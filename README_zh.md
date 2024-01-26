@@ -20,11 +20,17 @@
 
 [**English**](./README.md) | **中文**
 
+## 💡 新功能
+
+BTP Fiori 模板项目现已加入 AI Copilot 功能，它可以帮助您使用 AI 处理日常事务。她可以回答您提问的问题，还可以通过自定义命令来实现自动化操作。
+您可以在 [AI Copilot](./docs/copilot/Setup.md) 页面了解更多使用信息。
+
 ## 🌟 这是什么？
 
 这是一个由第三方前端框架（Angular、Vue、React等）构建的 SAP BTP & Fiori 应用程序模板集合。它基于 [Nx](https://nx.dev) 和 [UI5 Tooling](https://sap.github.io/ui5-tooling/)。
 
 使用开源框架来创建 BTP & Fiori 应用有很多优势：
+* AI Copilot 功能，可以回答您提问的问题，还可以通过自定义命令来实现自动化操作。
 * 强大的生态系统和活跃的开发社区，提供了问题解决方案、示例代码和插件。
 * 丰富的组件库和模板。
 * 跨平台一致性，支持响应式设计，使应用程序能够适应不同的屏幕尺寸和设备。
@@ -70,6 +76,10 @@
 * [嵌入式分析](./docs/BI.md) 使用 [OCAP 框架](https://github.com/meta-d/ocap).
 
 ## 🌼 屏幕截图
+
+### 人工智能副驾驶
+
+<img src="./docs/images/copilot/copilot-chat-in-bi.png" alt="Copilot Screenshot" height="auto" width="100%" style="border-radius: 10px;">
 
 ### 侧边菜单模式
 

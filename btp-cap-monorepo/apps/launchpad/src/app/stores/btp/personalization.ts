@@ -14,8 +14,8 @@ export const usePersStore = () => {
 }
 
 export async function upsertPersonalization(value: Partial<PersContainer>) {
-  const { save, update } = persStore
-  return await (value.ID ? update('PersContainers', { ID: value.ID }, value) : save('PersContainers', value))
+  const { create, update } = persStore
+  return await (value.ID ? update('PersContainers', { ID: value.ID }, value) : create('PersContainers', value))
 }
 
 export async function readPersonalization(appId: string) {

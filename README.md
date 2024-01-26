@@ -20,12 +20,17 @@
 
 **English** | [**中文**](./README_zh.md)
 
+## 💡 What's New
+
+The BTP Fiori template project has now incorporated the AI Copilot feature, which can assist you in handling everyday tasks using AI. It can answer questions you ask and can also automate operations through custom commands. You can find more information on how to use it on the [AI Copilot](./docs/copilot/Setup.md) page.
+
 ## 🌟 What is this?
 
 This is a collection of SAP BTP & Fiori application templates built by third-party front-end frameworks (Angular, Vue, React, etc.). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
 There are several advantages to using open-source frameworks to create BTP & Fiori applications:
 
+* The AI Copilot feature can answer your questions and also enable automation through custom commands.
 * A robust ecosystem and active developer community that provide solutions, sample code, and plugins.
 * Rich component libraries and templates.
 * Cross-platform consistency, supporting responsive design to adapt to various screen sizes and devices.
@@ -71,6 +76,10 @@ We plan to provide project templates in multiple frameworks and multiple combina
 * [Embedded Analytics](./docs/BI.md) using [OCAP framework](https://github.com/meta-d/ocap).
 
 ## 🌼 Screenshots
+
+### AI Copilot
+
+<img src="./docs/images/copilot/copilot-chat-in-bi.png" alt="Copilot Screenshot" height="auto" width="100%" style="border-radius: 10px;">
 
 ### Side Menu Bar
 

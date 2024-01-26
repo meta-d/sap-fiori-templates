@@ -144,7 +144,9 @@ export class ZngOcapSchemaComponent {
   }
 
   dimension = signal<ChartDimension>({
-    ...this.customerCountry,
+    dimension: '[2CICALENDARYEAR]',
+    hierarchy: '[2CICALENDARYEAR]',
+    level: '[2CICALENDARYEAR].[LEVEL01]',
     zeroSuppression: true
   })
   measure = signal<ChartMeasure>({
@@ -156,7 +158,7 @@ export class ZngOcapSchemaComponent {
     },
     chartOptions: {
       seriesStyle: {
-        barWidth: 5
+        // barWidth: 5
       }
     },
     palette: {
@@ -227,11 +229,15 @@ ${makeCubePrompt(entityType)}
                 }),
                 measure: z.object({
                   measure: z.string().describe('The measure'),
+                  palette: z.object({
+                    name: z.enum(['BrBG', 'PRGn', 'PiYG', 'Spectral', 'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'PuOr']).describe('palette name of colors'),
+                    // colors: z.string().array().optional().describe('The colors of palette, min 5 colors')
+                  }).optional().describe('The palette of measure series'),
                   chartOptions: z
                     .object({
                       seriesStyle: z
                         .object({
-                          barWidth: z.number().describe('Bar width')
+                          barMaxWidth: z.number().optional().describe('Bar max width'),
                         })
                         .optional()
                         .describe('ECharts series options')
@@ -263,6 +269,8 @@ ${makeCubePrompt(entityType)}
             ...chart.measure,
             order: OrderDirection.DESC
           })
+
+          return `New chart success`
         }
       }),
       injectMakeCopilotActionable({
@@ -377,10 +385,28 @@ ${makeCubePrompt(entityType)}
             calculationType: CalculationType.Calculated,
             formula
           } as CalculatedProperty)
-          return `创建计算度量成功`
+          return `New calculated measure success`
         }
-      }),
+      })
     ]
+  })
+
+  #askCommand = injectCopilotCommand({
+    name: 'ask',
+    description: 'Ask a question',
+    systemPrompt: () => {
+      let prompt = `Answer the question ref to cube. `
+      const entityType = this.entityType()
+      if (entityType) {
+        prompt += `The cube is:
+\`\`\`
+${makeCubePrompt(entityType)}
+\`\`\`
+`
+      }
+      return prompt
+    },
+    actions: []
   })
 
   onResize({ col }: NzResizeEvent): void {

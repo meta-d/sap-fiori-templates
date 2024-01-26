@@ -179,7 +179,7 @@ export function defineODataStore(
     })
   }
 
-  const save = async <T = any>(entitySet: string, body: T, options?: ODataQueryOptions): Promise<T> => {
+  const create = async <T = any>(entitySet: string, body: T, options?: ODataQueryOptions): Promise<T> => {
     const url = `${baseUrl}/${entitySet}`
 
     const reqOptions = {
@@ -365,7 +365,7 @@ export function defineODataStore(
     entityType,
     read,
     query,
-    save,
+    create,
     update,
     count,
     remove,
