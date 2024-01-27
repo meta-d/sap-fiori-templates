@@ -3,6 +3,7 @@ import { environment } from '@/environments/environment'
 import { Injectable, computed, inject, signal } from '@angular/core'
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop'
 import { ODataError } from '@metad/cap-odata'
+import { TranslateService } from '@ngx-translate/core'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { CookieService } from 'ngx-cookie-service'
 import queryString from 'query-string'
@@ -22,10 +23,11 @@ export const SAPFioriPageSetsName = 'Fiori_Page_Sets'
   providedIn: 'root'
 })
 export class FioriLaunchpadService {
-  private localStorage = inject(LocalStorageService)
-  private cookieService = inject(CookieService)
-  private themeService = inject(ThemeService)
-  #message = inject(NzMessageService)
+  readonly #localStorage = inject(LocalStorageService)
+  readonly #cookieService = inject(CookieService)
+  readonly #themeService = inject(ThemeService)
+  readonly #message = inject(NzMessageService)
+  readonly #translate = inject(TranslateService)
 
   readonly state = signal<{
     pageSets: PageSets[] | null
@@ -82,28 +84,24 @@ export class FioriLaunchpadService {
     })
   })
 
-  readonly #translateSub = this.themeService
+  readonly #translateSub = this.#themeService
     .onLangChange()
     .pipe(takeUntilDestroyed())
     .subscribe((lang) => {
       // Update the sap language in the cookie `sap-usercontext`
-      const userContext = this.cookieService.get(SAPUserContextCookieName)
+      const userContext = this.#cookieService.get(SAPUserContextCookieName)
       const searchParams = new URL(`http://localhost?${userContext}`).searchParams
       searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
-      this.cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
+      this.#cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
+
+      // Update the page sets
+      this.loadFLPMenus({ refresh: false }).then()
     })
 
   constructor() {
     if (environment.platform === 'S4H' && environment.enableFiori) {
-      this.loadFLPMenus().then()
+      this.loadFLPMenus({ refresh: true }).then()
       this.loadCookie()
-      const localPageSets = this.localStorage.getItem<PageSets[]>(SAPFioriPageSetsName)
-      if (localPageSets) {
-        this.state.update((state) => ({
-          ...state,
-          pageSets: state.pageSets ?? localPageSets
-        }))
-      }
     }
   }
 
@@ -122,15 +120,46 @@ export class FioriLaunchpadService {
     }))
   }
 
-  async loadFLPMenus() {
-    const pageSets = simplifyPageSets(await readFLPH())
-    this.state.update((state) => ({
-      ...state,
-      pageSets
-    }))
-    this.localStorage.setItem(SAPFioriPageSetsName, pageSets)
+  /**
+   * Load Fiori launchpad menus by language then save to local storage
+   * 
+   * @param refresh Is refresh the menus from backend server
+   */
+  async loadFLPMenus({ refresh }: { refresh?: boolean } = {}) {
+    const currentLang = this.#translate.currentLang
+    let pageSets = this.#localStorage.getItem<PageSets[]>(SAPFioriPageSetsName + '_' + currentLang)
+    let nonLangPageSets: PageSets[] | null = null
+    if (!pageSets) {
+      nonLangPageSets = this.#localStorage.getItem<PageSets[]>(SAPFioriPageSetsName)
+    }
+
+    if (pageSets || nonLangPageSets) {
+      this.state.update((state) => ({
+        ...state,
+        pageSets: pageSets || nonLangPageSets
+      }))
+    }
+
+    if (refresh || !pageSets) {
+      pageSets = simplifyPageSets(await readFLPH())
+      if (pageSets) {
+        this.state.update((state) => ({
+          ...state,
+          pageSets
+        }))
+        // Language pages
+        this.#localStorage.setItem(SAPFioriPageSetsName + '_' + this.#translate.currentLang, pageSets)
+        // Default language pages
+        if (this.#translate.currentLang === this.#translate.defaultLang) {
+          this.#localStorage.setItem(SAPFioriPageSetsName, pageSets)
+        }
+      }
+    }
   }
 
+  /**
+   * Load Fiori themes
+   */
   async loadThemes() {
     if (!this.themes()) {
       try {
@@ -145,10 +174,12 @@ export class FioriLaunchpadService {
     }
   }
 
-  // getPage(id: string) {
-  //   return this.pageSets()?.Pages.results.find((item: any) => item.id === id)
-  // }
-
+  /**
+   * Subscribe to the chip group by group id
+   *
+   * @param id group id
+   * @returns
+   */
   selectGroupChips(id: string): Observable<Chip[] | undefined> {
     return this.state$.pipe(map((state) => state.pageSets?.find((item) => item.id === id)?.chips))
   }
@@ -185,7 +216,7 @@ export class FioriLaunchpadService {
     }
 
     searchParams.set('sap-theme', themeId)
-    this.cookieService.set(SAPUserContextCookieName, searchParams.toString())
+    this.#cookieService.set(SAPUserContextCookieName, searchParams.toString())
     this.state.update((state) => ({
       ...state,
       theme: themeId
@@ -193,7 +224,7 @@ export class FioriLaunchpadService {
   }
 
   getUserContext() {
-    return this.cookieService.get(SAPUserContextCookieName)
+    return this.#cookieService.get(SAPUserContextCookieName)
   }
 }
 
