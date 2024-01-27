@@ -41,7 +41,9 @@ const ngZorroConfig: NzConfig = {
 }
 
 function initializeApp(appStore: IAppStore) {
-  return () => Promise.all([appStore.currentUser(), appStore.refreshPersonalization()])
+  return () => {
+    Promise.all([appStore.currentUser(), appStore.refreshPersonalization()]).then()
+  }
 }
 
 const APPINIT_PROVIDES = [
