@@ -63,15 +63,17 @@ export const appRoutes: Routes = [
       },
       loadChildren: () => import('./demo/page/page-demo-routing').then((m) => m.default)
     },
-    {
-      path: 'element',
-      title: 'Elements',
-      data: {
-        icon: 'appstore-add',
-        key: 'demo-elements'
+    ...(environment.production ? [] : [
+      {
+        path: 'elements',
+        title: 'Elements',
+        data: {
+          icon: 'appstore-add',
+          key: 'demo-elements'
+        },
+        loadChildren: () => import('./demo/elements/routing').then((m) => m.default)
       },
-      loadChildren: () => import('./demo/elements/routing').then((m) => m.default)
-    },
+    ]),
     {
       path: 'copilot',
       title: 'AI Copilot',
