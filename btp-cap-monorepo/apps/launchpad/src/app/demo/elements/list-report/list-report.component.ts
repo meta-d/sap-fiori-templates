@@ -103,7 +103,7 @@ export class ListReportComponent {
     this.filters = filters
   }
 
-  onColumnsChange(event: TableColumn<any>[]) {
+  onColumnsChange(event: TableColumn<unknown>[]) {
     this.tableColumns.set(event)
   }
 
@@ -120,8 +120,6 @@ export class ListReportComponent {
           __key__: item.ID
         }))
       )
-
-      console.log(items)
     } catch (err: any) {
       console.log(err)
       this.#message.error(err.message)
