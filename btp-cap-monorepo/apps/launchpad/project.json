@@ -24,6 +24,7 @@
         "styles": [
           "node_modules/ng-zorro-antd/resizable/style/entry.less",
           "node_modules/prismjs/themes/prism.css",
+          "node_modules/prismjs/themes/prism-okaidia.min.css",
           "node_modules/driver.js/dist/driver.css",
           "node_modules/@metad/ocap-angular/index.css",
           {

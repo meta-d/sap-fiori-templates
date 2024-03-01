@@ -1,6 +1,6 @@
 import { environment as development } from './environment.development'
 
 export const environment = {
-    ...development,
-    mockData: true
-};
+  ...development,
+  mockData: true
+}

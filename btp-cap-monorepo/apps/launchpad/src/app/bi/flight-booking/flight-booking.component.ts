@@ -5,7 +5,7 @@ import { Component, effect, inject, signal } from '@angular/core'
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
-import { ControlsModule } from '@metad/ocap-angular/controls'
+import { NgmControlsModule } from '@metad/ocap-angular/controls'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
 import {
   ChartMeasure,
@@ -28,7 +28,7 @@ import { ZngS4DSCoreService } from '../services'
     FormsModule,
     ReactiveFormsModule,
     AnalyticalCardModule,
-    ControlsModule,
+    NgmControlsModule,
     DensityDirective,
     MatButtonModule,
     ZngAntdModule

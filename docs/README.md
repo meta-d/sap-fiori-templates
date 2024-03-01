@@ -15,9 +15,9 @@ This document lists various technical documents involved in this project, includ
 ## S4H & Fiori
 
 - [Deploy](./Deploy.md)
-- [Fiori Legacy Apps](./s4/Legacy.md)
-- [Notification](./s4/Notification.md)
-- [Authorization](./s4/Authorization.md)
+- [Fiori Legacy Apps](./s4h/Legacy.md)
+- [Notification](./s4h/Notification.md)
+- [Authorization](./s4h/Authorization.md)
 
 ## Copilot
 

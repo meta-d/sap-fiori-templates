@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { RouterModule, provideRouter } from '@angular/router'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
 import { AnalyticalGridModule } from '@metad/ocap-angular/analytical-grid'
-import { ControlsModule } from '@metad/ocap-angular/controls'
+import { NgmControlsModule } from '@metad/ocap-angular/controls'
 import {
   NgmAgentService,
   NgmDSCacheService,
@@ -95,7 +95,7 @@ function createTranslateLoader(http: HttpClient) {
     AnalyticalCardModule,
     AnalyticalGridModule,
     OcapCoreModule,
-    ControlsModule,
+    NgmControlsModule,
     RouterModule
   ],
   exports: [],

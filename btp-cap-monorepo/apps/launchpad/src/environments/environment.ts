@@ -11,6 +11,7 @@ export const environment: IEnvironment = {
   enableDemo: false,
   copilot: {
     enabled: false,
-    chatUrl: ''
+    chatUrl: '',
+    defaultModel: '',
   }
 }

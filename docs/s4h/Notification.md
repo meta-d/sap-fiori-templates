@@ -1,6 +1,6 @@
 # 📨 Notifications
 
-**English** | [**中文**](../zh/s4/Notification.md)
+**English** | [**中文**](../zh/s4h/Notification.md)
 
 > Notifications are the best way to make users aware of a situation that requires timely action or attention. This could be a situation that has just arisen or a task triggered by a workflow.
 

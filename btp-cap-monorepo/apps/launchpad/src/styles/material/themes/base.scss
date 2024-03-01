@@ -1,10 +1,20 @@
 html body {
-    --mat-autocomplete-background-color: var(--zng-card-background-color);
-    --mat-tree-container-background-color: transparent;
-    --mdc-dialog-container-elevation-shadow: theme('boxShadow.lg');
-    --mdc-dialog-container-shape: theme('borderRadius.lg');
+  --mat-autocomplete-background-color: var(--zng-card-background-color);
+  --mat-tree-container-background-color: transparent;
+  --mdc-dialog-container-elevation-shadow: theme('boxShadow.lg');
+  --mdc-dialog-container-shape: theme('borderRadius.lg');
 }
 
-.mat-mdc-menu-panel.mat-elevation-z8, .mat-mdc-menu-panel.mat-mdc-elevation-specific.mat-elevation-z8 {
-    @apply rounded-lg shadow-lg hover:shadow-xl;
+.mat-mdc-menu-panel.mat-elevation-z8,
+.mat-mdc-menu-panel.mat-mdc-elevation-specific.mat-elevation-z8 {
+  @apply rounded-lg shadow-lg hover:shadow-xl;
+}
+
+/* Style copilot code preview area background color to black */
+.ngm-copilot-chat {
+  markdown {
+    pre {
+      @apply bg-gray-950;
+    }
+  }
 }

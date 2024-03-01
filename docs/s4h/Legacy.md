@@ -1,28 +1,28 @@
 # Fiori Legacy Apps
 
-English | [**中文**](../zh/s4/Legacy.md)
+English | [**中文**](../zh/s4h/Legacy.md)
 
 This article introduces the method of automatically integrating legacy Fiori apps and the integration configuration of custom Fiori app routes in this project.
 
 ## Fiori Menus
 
-This project comes with built-in functionality to automatically integrate legacy Fiori Apps from the S4 system. This feature can be enabled or disabled through environment variable configuration.
+This project comes with built-in functionality to automatically integrate legacy Fiori Apps from the S4H system. This feature can be enabled or disabled through environment variable configuration.
 
 ```typescript
 export const environment: IEnvironment = {
     ...
-    platform: 'S4',
+    platform: 'S4H',
     enableFiori: true,
     enableNotification: true,
     ...
 };
 ```
 
-* `platform`: Set the platform type applicable to this project as `S4`.
+* `platform`: Set the platform type applicable to this project as `S4H`.
 * `enableFiori`: Enable or disable Fiori Apps integration; set to `true` to enable.
 * `enableNotification`: Enable or disable Fiori notification functionality; set to `true` to enable.
 
-When enabled, the project will automatically load Legacy Fiori Apps from the current S4 system into the menus. Each application group corresponds to a menu group, and each application corresponds to a submenu item. Clicking on a menu item will open the Fiori App on the page.
+When enabled, the project will automatically load Legacy Fiori Apps from the current S4H system into the menus. Each application group corresponds to a menu group, and each application corresponds to a submenu item. Clicking on a menu item will open the Fiori App on the page.
 
 ### Fiori App Routing
 

@@ -1,12 +1,12 @@
 @use 'sass:map';
+@use 'sass:color';
 @use '@angular/material' as mat;
 @use '@metad/ocap-angular/theming' as ocap;
 @import './themes/base';
 
 // Define a theme.
-$dark-primary: mat.define-palette(mat.$blue-grey-palette, 600);
-$dark-accent: mat.define-palette(mat.$amber-palette, A700, A400, A200);
-
+$primary: mat.define-palette(mat.$blue-palette, 500);
+$accent: mat.define-palette(mat.$amber-palette, A700, A400, A200);
 
 $light-secondary-text: rgba(white, 0.7);
 $light-disabled-text: rgba(white, 0.5);
@@ -15,11 +15,11 @@ $grey-palette: mat.$blue-grey-palette;
 
 $background: (
   status-bar: #151a30,
-  app-bar:    #263238,
-  background: #263238,
+  app-bar:    theme('colors.neutral.900'),
+  background: black,
   hover:      rgba(white, 0.1), // TODO(kara): check style with Material Design UX
-  card:       mat.get-color-from-palette($dark-primary, 900), //#192038, //#222b45,
-  dialog:     mat.get-color-from-palette($dark-primary, 800),
+  card:       rgb(22, 24, 28),
+  dialog:     rgb(22, 24, 28),
   disabled-button: rgba(white, 0.12),
   raised-button: map.get($grey-palette, 800),
   // focused-button: $light-focused,
@@ -28,7 +28,7 @@ $background: (
   disabled-button-toggle: black,
   unselected-chip: map.get($grey-palette, 700),
   disabled-list-option: black,
-  tooltip: map.get($grey-palette, 700),
+  tooltip: theme('colors.neutral.700'),
 );
 $foreground: (
   base:              white,
@@ -42,7 +42,7 @@ $foreground: (
   secondary-text:    $light-secondary-text,
   icon:              white,
   icons:             white,
-  text:              white,
+  text:              theme('colors.neutral.200'),
   slider-min:        white,
   slider-off:        rgba(white, 0.3),
   slider-off-active: rgba(white, 0.3),
@@ -50,8 +50,8 @@ $foreground: (
 $mat-theme: map.deep-merge(
     mat.define-dark-theme((
       color: (
-        primary: $dark-primary,
-        accent: $dark-accent,
+        primary: $primary,
+        accent: $accent,
       )
     )),
     (
@@ -64,6 +64,27 @@ $mat-theme: map.deep-merge(
 
 
 html.dark {
+  --ngm-color-primary: #{mat.get-color-from-palette($primary)};
+  --ngm-color-on-primary-container: #{darken(mat.get-color-from-palette($primary), 30%)};
+  --ngm-color-primary-container: #{lighten(mat.get-color-from-palette($primary), 30%)};
+  --ngm-color-primary-container-variant: #{color.change(mat.get-color-from-palette($primary), $alpha: 0.1)};
+  --ngm-color-secondary: #{mat.get-color-from-palette($accent)};
+  --ngm-color-secondary-container: #{lighten(mat.get-color-from-palette($accent), 30%)};
+  --ngm-color-outline: #{map.get($foreground, divider)};
+
+  --ngm-app-background-color: #1e1f20;
+  --ngm-color-main-container-background: #1e1f20;
+  --ngm-color-on-surface: #e3e3e3;
+  --ngm-color-on-surface-variant: #444746;
+  --ngm-divider-color-secondary: theme('colors.neutral.900');
+  --ngm-color-surface: black;
+  --ngm-color-surface-container-low: #62626210;
+  --ngm-color-surface-container: #16181c;
+  --ngm-color-surface-container-high: #24292f;
+  --ngm-color-surface-container-highest: #2f353c;
+  --ngm-color-outline-variant: theme('colors.neutral.800');
+  --ngm-copilot-bg-color: var(--ngm-color-surface-container);
+
   @include mat.all-component-themes($mat-theme);
 
   @include ocap.core-theme($mat-theme);

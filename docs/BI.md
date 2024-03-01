@@ -1,6 +1,6 @@
 # 📊 Embedded BI
 
-This section describes how to develop embedded data analysis applications in SAP S4 system using the ocap framework.
+This section describes how to develop embedded data analysis applications in SAP S4H system using the ocap framework.
 
 ## Why embedded analytics?
 

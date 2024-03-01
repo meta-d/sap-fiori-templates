@@ -89,6 +89,12 @@ export class ThemeService {
         document.documentElement.classList.add(theme)
       }
       this.removeUnusedTheme(this.reverseTheme(this.currentTheme()))
+
+      // for <meta name="theme-color" content="white" />
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]')
+      if (themeColorMeta) {
+        themeColorMeta.setAttribute('content', theme === 'dark' ? '#141414' : '#ffffff')
+      }
       return e
     })
   }

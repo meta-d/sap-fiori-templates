@@ -12,7 +12,7 @@ import {
   ItemDirective,
   ListComponent,
   SeparatorComponent
-} from '@ngneat/cmdk'
+} from '@ngxpert/cmdk'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { NzModalRef } from 'ng-zorro-antd/modal'
 

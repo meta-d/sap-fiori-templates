@@ -1,10 +1,10 @@
 # Authorization
 
-English | [**中文**](../zh/s4/Authorization.md)
+English | [**中文**](../zh/s4h/Authorization.md)
 
 Menu authorization refers to displaying different menu items based on the user's permissions after logging into the system.
 
-In the S4 system, menu authorization checks can be implemented through checks [Authorization Object](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abapauthority-check.htm) in ABAP.
+In the S4H system, menu authorization checks can be implemented through checks [Authorization Object](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abapauthority-check.htm) in ABAP.
 
 ## Authorization Configurations for Route
 
@@ -34,7 +34,7 @@ For example, the following is an example of restricting access to a specific rou
 
 ## Implementing Authorization Check Service
 
-Please create a new OData service in the S4 system and use the function `AUTHORITY_CHECK` or the keyword `AUTHORITY-CHECK OBJECT` to perform a check on each incoming Authorization Object. Return the results of the checks to the frontend.
+Please create a new OData service in the S4H system and use the function `AUTHORITY_CHECK` or the keyword `AUTHORITY-CHECK OBJECT` to perform a check on each incoming Authorization Object. Return the results of the checks to the frontend.
 
 Create a service and implement the `MenuAuthorization` interface to achieve the authorization check service. Provide this service to the `MENU_AUTH` dependency identifier. The code is as follows:
 

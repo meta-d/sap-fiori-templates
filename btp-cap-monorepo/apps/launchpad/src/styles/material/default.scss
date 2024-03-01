@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:color';
 @use '@angular/material' as mat;
 @use '@metad/ocap-angular/theming' as ocap;
 @import './themes/base';
@@ -26,3 +27,28 @@ $mat-theme: mat.define-light-theme((
 @include ocap.entity-theme($mat-theme);
 @include ocap.common-color($mat-theme);
 @include ocap.common-density($mat-theme);
+
+$config: mat.get-color-config($mat-theme);
+$foreground: map.get($config, foreground);
+:root {
+  --ngm-color-primary: #{mat.get-color-from-palette($primary)};
+  --ngm-color-on-primary-container: #{darken(mat.get-color-from-palette($primary), 30%)};
+  --ngm-color-primary-container: #{lighten(mat.get-color-from-palette($primary), 30%)};
+  --ngm-color-primary-container-variant: #{color.change(mat.get-color-from-palette($primary), $alpha: 0.1)};
+  --ngm-color-secondary: #{mat.get-color-from-palette($accent)};
+  --ngm-color-secondary-container: #{lighten(mat.get-color-from-palette($accent), 30%)};
+  --ngm-color-outline: #{map.get($foreground, divider)};
+
+  --ngm-app-background-color: white;
+  --ngm-color-main-container-background: white;
+  --ngm-color-on-surface: #1f1f1f;
+  --ngm-color-on-surface-variant: #444746;
+  --ngm-divider-color-secondary: theme('colors.neutral.100');
+  --ngm-color-surface: white;
+  --ngm-color-surface-container-low: theme('colors.neutral.50');
+  --ngm-color-surface-container: theme('colors.neutral.100');
+  --ngm-color-surface-container-high: #f2f2f2;
+  --ngm-color-surface-container-highest: #e5e5e5;
+  --ngm-color-outline-variant: theme('colors.neutral.100');
+  --ngm-copilot-bg-color: var(--ngm-color-surface-container);
+}

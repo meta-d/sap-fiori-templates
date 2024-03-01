@@ -1,28 +1,28 @@
 # Fiori 遗留应用
 
-[**English**](../../s4/Legacy.md) | **中文**
+[**English**](../../s4h/Legacy.md) | **中文**
 
-如何集成现有 S4 系统中的 Fiori 应用遗留版本，本文介绍此项目自动集成遗留 Fiori 应用的方法和自定义 Fiori 应用路由的集成配置。
+如何集成现有 S4H 系统中的 Fiori 应用遗留版本，本文介绍此项目自动集成遗留 Fiori 应用的方法和自定义 Fiori 应用路由的集成配置。
 
 ## Fiori 菜单
 
-本项目内置了自动集成 S4 系统遗留 Fiori 应用的功能，可以通过环境变量配置启用或禁用。
+本项目内置了自动集成 S4H 系统遗留 Fiori 应用的功能，可以通过环境变量配置启用或禁用。
 
 ```typescript
 export const environment: IEnvironment = {
     ...
-    platform: 'S4',
+    platform: 'S4H',
     enableFiori: true,
     enableNotification: true,
     ...
 };
 ```
 
-* `platform`：设置此项目所适用平台类型，设置为 `S4`。
+* `platform`：设置此项目所适用平台类型，设置为 `S4H`。
 * `enableFiori`：是否启用 Fiori 应用集成，设置为 `true`。
 * `enableNotification`：是否启用 Fiori 的通知功能，设置为 `true`。
 
-启用后项目将自动加载当前 S4 系统中的遗留 Fiori 应用到菜单中，每个应用组对应一个菜单组，每个应用对应一个子菜单项。点击某个菜单项将在页面中打开此 Fiori 应用。
+启用后项目将自动加载当前 S4H 系统中的遗留 Fiori 应用到菜单中，每个应用组对应一个菜单组，每个应用对应一个子菜单项。点击某个菜单项将在页面中打开此 Fiori 应用。
 
 ### Fiori App 路由
 
