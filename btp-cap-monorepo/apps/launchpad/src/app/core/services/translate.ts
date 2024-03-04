@@ -44,7 +44,8 @@ export function mapDateLocale(locale: string) {
 }
 
 export function mapBrowserLanguage(lang: string) {
-  switch (lang?.toLowerCase()) {
+  lang = lang?.toLowerCase()
+  switch (lang) {
     case 'zh-cn':
     case 'zh-hans':
     case 'zh':

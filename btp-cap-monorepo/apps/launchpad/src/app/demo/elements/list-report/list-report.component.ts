@@ -2,7 +2,7 @@ import { FilterField, PageFilterBarComponent, TableColumn, ZngTablePersonalizati
 import { ZngAntdModule } from '@/app/core/shared.module'
 import { omitSystemProperty } from '@/app/utils'
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Filter } from '@metad/cap-odata'
 import * as ExcelJS from 'exceljs'
@@ -64,9 +64,10 @@ export class ListReportComponent {
     }
   ]
 
-  tableSize: NzTableSize = 'small'
+  readonly tableSize = signal<NzTableSize>('small')
+
   defaultColumnWidth = '100px'
-  tableColumns = signal<TableColumn<_ProductType>[]>([
+  readonly tableColumns = signal<TableColumn<_ProductType>[]>([
     {
       name: 'ID',
       label: 'ID'
@@ -96,8 +97,9 @@ export class ListReportComponent {
       label: 'Price'
     }
   ])
+  readonly visibleColumns = computed(() => this.tableColumns().filter((column) => column.show !== false))
 
-  items = signal<_ProductType[]>([])
+  readonly items = signal<_ProductType[]>([])
 
   onFiltersChanging(filters: Filter[]) {
     this.filters = filters

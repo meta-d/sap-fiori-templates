@@ -45,7 +45,7 @@
     </div>
   </div>
   <nz-table #expandTable class="h-full w-full" [nzFrontPagination]="false" [nzLoading]="loading() || saving()" nzBordered nzOuterBordered
-    [nzData]="items()" [nzSize]="tableSize" [nzScroll]="{ x: '1100px', y: '500px' }"
+    [nzData]="items()" [nzSize]="tableSize()" [nzScroll]="{ x: '1100px', y: '500px' }"
     nzShowPagination
     nzShowSizeChanger>
     <thead>
@@ -56,7 +56,7 @@
           nzLabel="Select all"
           (nzCheckedChange)="onAllChecked($event)"
         ></th>
-        @for (column of tableColumns(); track column.name) {
+        @for (column of visibleColumns(); track column.name) {
           <th [nzWidth]="column.width ?? defaultColumnWidth" [nzLeft]="column.freeze === 'left' || column.freeze === true" [nzRight]="column.freeze === 'right'" [nzAlign]="column.align!"
             nz-resizable
             nzBounds="window"
@@ -81,7 +81,7 @@
             [nzLabel]="row.__name__ ?? ''"
             (nzCheckedChange)="onItemChecked(row.__key__, $event)"
           ></td>
-          @for (column of tableColumns(); track column.name) {
+          @for (column of visibleColumns(); track column.name) {
             <td [nzLeft]="column.freeze === 'left' || column.freeze === true" [nzRight]="column.freeze === 'right'">
               @switch (column.name) {
                 @default {

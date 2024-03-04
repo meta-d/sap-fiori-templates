@@ -31,7 +31,7 @@
 <nz-dropdown-menu #tableSizeMenu>
   <ul nz-menu>
     @for (item of tableSizeOptions; track item.value) {
-      <li nz-menu-item [nzSelected]="item.value === tableSize" (click)="tableSizeMenuClick(item)">
+      <li nz-menu-item [nzSelected]="item.value === tableSize()" (click)="tableSizeMenuClick(item)">
         <span>{{ 'ZNG.Components.TablePersonalization.Density_' + item.value | translate: {Default: item.value} }}</span>
       </li>
     }

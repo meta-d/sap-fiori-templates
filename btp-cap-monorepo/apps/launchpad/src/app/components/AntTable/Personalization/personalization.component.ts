@@ -6,12 +6,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
   booleanAttribute,
   effect,
   forwardRef,
   input,
+  model,
   signal
 } from '@angular/core'
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms'
@@ -76,11 +76,10 @@ export class ZngTablePersonalizationComponent<T> {
     }
   })
 
-  @Input() tableSize: NzTableSize | null = 'default'
+  readonly tableSize = model<NzTableSize | null>('default')
 
   @Output() showCheckboxChange = new EventEmitter<boolean>()
   @Output() columnsChange = new EventEmitter<TableColumn<T>[]>()
-  @Output() tableSizeChange = new EventEmitter<NzTableSize>()
 
   tableSizeOptions: TableSizeItem[] = [{ value: 'default' }, { value: 'middle' }, { value: 'small' }]
 
@@ -111,8 +110,7 @@ export class ZngTablePersonalizationComponent<T> {
 
   // 大中小表格密度
   tableSizeMenuClick(item: TableSizeItem): void {
-    this.tableSize = item.value
-    this.tableSizeChange.emit(this.tableSize!)
+    this.tableSize.set(item.value)
   }
 
   // 配置中tableCheckbox是否全选
