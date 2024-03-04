@@ -34,6 +34,7 @@
     "@angular/platform-browser": "17.2.2",
     "@angular/platform-browser-dynamic": "17.2.2",
     "@angular/router": "17.2.2",
+    "@angular/service-worker": "17.2.2",
     "@ant-design/icons-angular": "^17.0.0",
     "@antv/g2plot": "^2.4.31",
     "@antv/x6": "^2.16.1",
@@ -97,6 +98,7 @@
     "@angular/cli": "~17.2.1",
     "@angular/compiler-cli": "17.2.1",
     "@angular/language-service": "17.2.1",
+    "@angular/pwa": "^17.2.2",
     "@nx/angular": "17.2.8",
     "@nx/devkit": "17.2.8",
     "@nx/eslint": "17.2.8",
@@ -142,6 +144,7 @@
     "nx": "17.2.8",
     "postcss": "^8.4.5",
     "prettier": "^2.6.2",
+    "rimraf": "^5.0.5",
     "tailwindcss": "~3.3.5",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
@@ -160,4 +163,3 @@
     "includedScripts": []
   }
 }
-

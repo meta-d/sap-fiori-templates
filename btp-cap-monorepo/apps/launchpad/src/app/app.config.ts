@@ -2,7 +2,7 @@ import { environment } from '@/environments/environment'
 import { DOCUMENT, registerLocaleData } from '@angular/common'
 import { provideHttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core'
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core'
 import { provideAnimations } from '@angular/platform-browser/animations'
 import {
   RouteReuseStrategy,
@@ -11,6 +11,7 @@ import {
   withComponentInputBinding,
   withEnabledBlockingInitialNavigation
 } from '@angular/router'
+import { provideServiceWorker } from '@angular/service-worker'
 import { IconDefinition } from '@ant-design/icons-angular'
 import * as AllIcons from '@ant-design/icons-angular/icons'
 import { provideClientCopilot } from '@metad/ocap-angular/copilot'
@@ -82,7 +83,13 @@ export const appConfig: ApplicationConfig = {
       useExisting: ZngPageTitleStrategy
     },
     importProvidersFrom(NzDrawerModule, NzModalModule),
-    provideClientCopilot(async () => Promise.resolve(environment.copilot ?? { enabled: false, chatUrl: '', defaultModel: '' })),
-    provideMarkdown()
+    provideClientCopilot(async () =>
+      Promise.resolve(environment.copilot ?? { enabled: false, chatUrl: '', defaultModel: '' })
+    ),
+    provideMarkdown(),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ]
 }
