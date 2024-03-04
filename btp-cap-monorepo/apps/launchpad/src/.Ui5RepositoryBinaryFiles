@@ -3,3 +3,4 @@
 ^.*\.eot$
 ^.*\.woff2$
 ^.*\.ttf$
+^.*\.webmanifest$
