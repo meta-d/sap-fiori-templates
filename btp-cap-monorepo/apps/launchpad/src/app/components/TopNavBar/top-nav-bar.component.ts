@@ -27,7 +27,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
     NzSpinModule,
     NzToolTipModule,
     GlobalSettingsComponent,
-    ResizeObserverDirective
+    ResizeObserverDirective,
   ],
   selector: 'zng-top-nav-bar',
   templateUrl: './top-nav-bar.component.html',

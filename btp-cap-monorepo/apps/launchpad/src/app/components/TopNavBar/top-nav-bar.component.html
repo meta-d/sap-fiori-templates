@@ -4,26 +4,81 @@
   </button>
 }
 
+<!-- 使用 ng-container + ng-template 实现的递归菜单，nz-menu 不能正确识别父级的 service 至显示效果不正确，所以只能使用 hardcode 写法 -->
 <div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize()">
   <ul #mEl id="menuNav" nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
-    <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
-
-    <ng-template #menuTempl let-menus="menus">
-      @for (menu of menus; track menu.path) {
-        <li nz-menu-item *ngIf="isMix() || !menu.hasSubmenus" [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
-          <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-          <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">{{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}</span>
+    <!-- Level 1 -->
+    @for (menu of menus(); track menu.path) {
+      @if (isMix() || !menu.hasSubmenus) {
+        <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+          @if (menu.icon) {
+            <span nz-icon [nzType]="menu.icon"></span>
+          }
+          <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">
+            {{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}
+          </span>
         </li>
-  
-        <li nz-submenu *ngIf="!isMix() && menu.hasSubmenus" [nzTitle]="menu.title" [nzIcon]="menu.icon"
+      } @else {
+        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
           [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
-          (click)="loadMenus(menu)">
+          (mouseenter)="loadMenus(menu)"
+          >
           <ul>
-            <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
+            <!-- Level 2 -->
+            @for (menu of menu.submenus; track menu.path) {
+              @if (!menu.hasSubmenus) {
+                <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+                  @if (menu.icon) {
+                    <span nz-icon [nzType]="menu.icon"></span>
+                  }
+                  <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">
+                    {{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}
+                  </span>
+                </li>
+              } @else {
+                <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
+                  [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+                  (mouseenter)="loadMenus(menu)">
+                  <ul>
+                    <!-- Level 3 -->
+                    @for (menu of menu.submenus; track menu.path) {
+                      @if (!menu.hasSubmenus) {
+                        <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+                          @if (menu.icon) {
+                            <span nz-icon [nzType]="menu.icon"></span>
+                          }
+                          <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">
+                            {{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}
+                          </span>
+                        </li>
+                      } @else {
+                        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
+                          [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+                          (mouseenter)="loadMenus(menu)">
+                          <ul>
+                            <!-- Level 4 -->
+                            @for (menu of menu.submenus; track menu.path) {
+                              <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+                                @if (menu.icon) {
+                                  <span nz-icon [nzType]="menu.icon"></span>
+                                }
+                                <span [title]="'ZNG.Pages.'+menu.title | translate: {Default: menu.title}">
+                                  {{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}
+                                </span>
+                              </li>
+                            }
+                          </ul>
+                        </li>
+                      }
+                    }
+                  </ul>
+                </li>
+              }
+            }
           </ul>
         </li>
       }
-    </ng-template>
+    }
   </ul>
 </div>
 
@@ -32,31 +87,31 @@
 }
 
 @if(hasMoreMenus()) {
-<button nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
-  <span nz-icon nzType="double-right" nzTheme="outline"></span>
-</button>
+  <button nz-button [disabled]="alignRight" nzType="text" class="zng-top-nav-bar__scroll-button" (click)="scrollRight()">
+    <span nz-icon nzType="double-right" nzTheme="outline"></span>
+  </button>
 
-<a nz-dropdown class="zng-top-nav-bar__more-button" nzTrigger="click" [nzDropdownMenu]="menu1" nzPlacement="bottomRight" [nzOverlayStyle]="{maxHeight: '90vh', 'overflow-y': 'auto'}"
-  nzOverlayClassName="rounded-md shadow-md z-10">
-  <span nz-icon nzType="more" nzTheme="outline"></span>
-</a>
+  <a nz-dropdown class="zng-top-nav-bar__more-button" nzTrigger="click" [nzDropdownMenu]="dropdownMenu" nzPlacement="bottomRight" [nzOverlayStyle]="{maxHeight: '90vh', 'overflow-y': 'auto'}"
+    nzOverlayClassName="rounded-md shadow-md z-10">
+    <span nz-icon nzType="more" nzTheme="outline"></span>
+  </a>
 }
 
-<nz-dropdown-menu #menu1="nzDropdownMenu">
+<nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
     <!-- Level 1 -->
     @for (menu of menus(); track menu.path) {
       @if (menu.hasSubmenus) {
         <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
           [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
-          (click)="loadMenus(menu)">
+          (mouseenter)="loadMenus(menu)">
           <ul>
             <!-- Level 2 -->
             @for (menu2 of menu.submenus; track menu2.path) {
               @if (menu2.hasSubmenus) {
                 <li nz-submenu [nzTitle]="menu2.title" [nzIcon]="menu2.icon ?? null"
                   [routerLink]="menu2.path" nzMatchRouter routerLinkActive="active-link"
-                  (click)="loadMenus(menu2)">
+                  (mouseenter)="loadMenus(menu2)">
                   <ul>
                     <!-- Level 3 -->
                     @for (menu3 of menu2.submenus; track menu3.path) {
@@ -83,25 +138,5 @@
         </li>
       }
     }
-<!-- 
-    <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menus()}"></ng-container>
-    <ng-template #menuTempl let-menus="menus">
-      @for (menu of menus; track menu.path) {
-        @if (!menu.hasSubmenus) {
-          <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
-            <span *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></span>
-            {{ menu.title }}
-          </li>
-        } @else {
-          <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon"
-            [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
-            (click)="loadMenus(menu)">
-            <ul>
-              <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
-            </ul>
-          </li>
-        }
-      }
-    </ng-template> -->
   </ul>
 </nz-dropdown-menu>

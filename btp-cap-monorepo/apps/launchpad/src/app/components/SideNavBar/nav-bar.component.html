@@ -12,7 +12,7 @@
       </li>
     } @else {
       <li nz-submenu [nzOpen]="isOpen(menu.path)" [nzTitle]="isCollapsed ? menu.title?.[0] : menu.title" [nzIcon]="menu.icon ?? null" nzMatchRouter routerLinkActive="active-link"
-        (click)="loadMenus(menu)">
+        (mouseenter)="loadMenus(menu)">
         <!-- for highlight the active parent menu -->
         <div [routerLink]="menu.path"></div>
         <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
@@ -35,7 +35,7 @@
           </li>
         } @else {
           <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzMatchRouter routerLinkActive="active-link"
-            (click)="loadMenus(menu)">
+            (mouseenter)="loadMenus(menu)">
             <!-- for highlight the active parent menu -->
             <div [routerLink]="menu.path"></div>
             <ng-container *ngTemplateOutlet="menuTempl; context: {menus: menu.submenus}"></ng-container>
