@@ -39,8 +39,9 @@ export class ScreenLessHiddenDirective {
   }
 
   private show(matched: boolean): void {
+    this.viewContainerRef.clear()
     matched
       ? this.viewContainerRef.createEmbeddedView(this.templateRef)
-      : this.viewContainerRef.clear()
+      : null
   }
 }

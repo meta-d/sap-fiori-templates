@@ -10,7 +10,7 @@ You can enable Fiori notification refer to this blog [Fiori Launchpad – Notifi
 
 Users access notifications by clicking the bell icon in the shell bar at the top right of the screen.
 
-![Notifications](./images/notifications.png)
+![Notifications](../images/notifications.png)
 
 In the notifications popover, the user can order notifications in various ways, take action, and navigate to the source of a specific notification.
 

@@ -10,7 +10,7 @@
 
 用户通过点击屏幕右上角的 shell 栏中的铃铛图标来访问通知。
 
-![Notifications](../images/notifications.png)
+![Notifications](../../images/notifications.png)
 
 在通知弹出窗口中，用户可以以各种方式对通知进行排序，执行操作，并导航到特定通知的源。
 

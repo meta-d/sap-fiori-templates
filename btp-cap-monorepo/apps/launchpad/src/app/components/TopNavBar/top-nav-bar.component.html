@@ -5,7 +5,7 @@
 }
 
 <!-- 使用 ng-container + ng-template 实现的递归菜单，nz-menu 不能正确识别父级的 service 至显示效果不正确，所以只能使用 hardcode 写法 -->
-<div #menusContainer class="flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize()">
+<div #menusContainer class="zng-menus-container flex items-center overflow-x-auto scroll-smooth" resizeObserver (sizeChange)="onResize()">
   <ul #mEl id="menuNav" nz-menu nzMode="horizontal" [nzTheme]="nzTheme" class="inline-flex">
     <!-- Level 1 -->
     @for (menu of menus(); track menu.path) {

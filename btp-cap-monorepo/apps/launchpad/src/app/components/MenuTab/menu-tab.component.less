@@ -1,13 +1,3 @@
-@import 'mixin';
-
-.themeMixin({
-  :host ::ng-deep {
-    .ant-tabs-tab.ant-tabs-tab-active {
-      background: @layout-body-background;
-    }
-  }
-});
-
 :host ::ng-deep {
   .ant-tabs-tab.ant-tabs-tab-active {
     border-bottom-color: transparent;
@@ -25,8 +15,26 @@
   .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab {
     @apply rounded-tl-md rounded-tr-md border-b-0;
 
+    .ant-tabs-tab-remove {
+      @apply hover:text-red-500;
+    }
+
+    &.ant-tabs-tab-active {
+      background-color: var(--zng-layout-body-background);
+    }
+
     &:not(.ant-tabs-tab-active) {
       @apply border-transparent bg-transparent;
+      
+      .ant-tabs-tab-remove {
+        @apply opacity-0 transition-opacity duration-200;
+      }
+
+      &:hover {
+        .ant-tabs-tab-remove {
+          @apply opacity-100;
+        }
+      }
     }
   }
 }

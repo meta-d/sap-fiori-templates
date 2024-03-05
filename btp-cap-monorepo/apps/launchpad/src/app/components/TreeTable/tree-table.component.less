@@ -38,14 +38,11 @@
   }
 }
 
-@import "mixin";
-.themeMixin({
-  :host {
-    .sort-caret-sel-asc {
-      border-bottom-color: @primary-color!important;
-    }
-    .sort-caret-sel-desc {
-      border-top-color: @primary-color!important;
-    }
+:host {
+  .sort-caret-sel-asc {
+    border-bottom-color: var(--zng-color-primary);
   }
-});
+  .sort-caret-sel-desc {
+    border-top-color: var(--zng-color-primary);
+  }
+}
