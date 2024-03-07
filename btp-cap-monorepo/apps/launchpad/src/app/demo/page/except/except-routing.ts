@@ -22,13 +22,13 @@ export default [
   },
   {
     path: 'network-error',
-    title: '网络错误',
+    title: 'Network Error',
     data: { key: 'network-error' },
     loadComponent: () => import('./network-error/network-error.component').then((m) => m.NetworkErrorComponent)
   },
   {
     path: 'no-data',
-    title: '无数据',
+    title: 'No Data',
     data: { key: 'no-data' },
     loadComponent: () => import('./no-data/no-data.component').then((m) => m.NoDataComponent)
   }

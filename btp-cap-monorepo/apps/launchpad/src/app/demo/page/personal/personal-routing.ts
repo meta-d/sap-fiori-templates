@@ -4,13 +4,13 @@ export default [
   { path: '', redirectTo: 'personal-center', pathMatch: 'full', data: { hidden: true } },
   {
     path: 'personal-center',
-    title: '个人中心',
+    title: 'Personal Center',
     data: { key: 'personal-center' },
     loadComponent: () => import('./personal-center/personal-center.component').then((m) => m.PersonalCenterComponent)
   },
   {
     path: 'personal-setting',
-    title: '个人设置',
+    title: 'Personal Settings',
     data: { key: 'personal-setting' },
     loadComponent: () => import('./personal-setting/personal-setting.component').then((m) => m.PersonalSettingComponent)
   }

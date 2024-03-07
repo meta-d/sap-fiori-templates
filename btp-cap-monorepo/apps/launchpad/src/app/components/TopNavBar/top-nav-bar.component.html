@@ -19,8 +19,8 @@
           </span>
         </li>
       } @else {
-        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
-          [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+        <li nz-submenu [nzTitle]=" 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} " [nzIcon]="menu.icon ?? null"
+          [routerLink]="menu.path" nzMatchRouter routerLinkActive="ant-menu-submenu-selected"
           (mouseenter)="loadMenus(menu)"
           >
           <ul>
@@ -36,8 +36,8 @@
                   </span>
                 </li>
               } @else {
-                <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
-                  [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+                <li nz-submenu [nzTitle]=" 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} " [nzIcon]="menu.icon ?? null"
+                  [routerLink]="menu.path" nzMatchRouter routerLinkActive="ant-menu-submenu-selected"
                   (mouseenter)="loadMenus(menu)">
                   <ul>
                     <!-- Level 3 -->
@@ -52,8 +52,8 @@
                           </span>
                         </li>
                       } @else {
-                        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon ?? null"
-                          [routerLink]="menu.path" nzMatchRouter routerLinkActive="active-link"
+                        <li nz-submenu [nzTitle]=" 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} " [nzIcon]="menu.icon ?? null"
+                          [routerLink]="menu.path" nzMatchRouter routerLinkActive="ant-menu-submenu-selected"
                           (mouseenter)="loadMenus(menu)">
                           <ul>
                             <!-- Level 4 -->
@@ -115,10 +115,28 @@
                   <ul>
                     <!-- Level 3 -->
                     @for (menu3 of menu2.submenus; track menu3.path) {
-                      <li nz-menu-item [routerLink]="menu3.path" [queryParams]="menu3.queryParams" [fragment]="menu3.fragment" nzMatchRouter>
-                        <span *ngIf="menu3.icon" nz-icon [nzType]="menu3.icon"></span>
-                        <span>{{ 'ZNG.Pages.'+menu3.title | translate: {Default: menu3.title} }}</span>
-                      </li>
+                      @if (menu3.hasSubmenus) {
+                        <li nz-submenu [nzTitle]=" 'ZNG.Pages.'+menu3.title | translate: {Default: menu3.title} " [nzIcon]="menu3.icon ?? null"
+                          [routerLink]="menu3.path" nzMatchRouter routerLinkActive="active-link"
+                          (mouseenter)="loadMenus(menu3)">
+                          <ul>
+                            <!-- Level 4 -->
+                            @for (menu of menu3.submenus; track menu.path) {
+                              <li nz-menu-item [routerLink]="menu.path" [queryParams]="menu.queryParams" [fragment]="menu.fragment" nzMatchRouter>
+                                @if (menu.icon) {
+                                  <span nz-icon [nzType]="menu.icon"></span>
+                                }
+                                <span>{{ 'ZNG.Pages.'+menu.title | translate: {Default: menu.title} }}</span>
+                              </li>
+                            }
+                          </ul>
+                        </li>
+                      } @else {
+                        <li nz-menu-item [routerLink]="menu3.path" [queryParams]="menu3.queryParams" [fragment]="menu3.fragment" nzMatchRouter>
+                          <span *ngIf="menu3.icon" nz-icon [nzType]="menu3.icon"></span>
+                          <span>{{ 'ZNG.Pages.'+menu3.title | translate: {Default: menu3.title} }}</span>
+                        </li>
+                      }
                     }
                   </ul>
                 </li>

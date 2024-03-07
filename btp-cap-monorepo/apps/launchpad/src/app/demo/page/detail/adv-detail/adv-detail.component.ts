@@ -90,40 +90,40 @@ export class AdvDetailComponent implements OnInit {
   returnDataList: ReturnObj[] = [
     {
       num: '1234561',
-      name: '矿泉水 550ml',
-      code: '演示作用域',
+      name: 'Mineral Water 550ml',
+      code: 'Demo Scope',
       unitPrice: 1233333,
       number: '1',
       price: '2.00'
     },
     {
       num: '1234561',
-      name: '矿泉水 550ml',
-      code: '演示作用域',
+      name: 'Mineral Water 550ml',
+      code: 'Demo Scope',
       unitPrice: 1233333,
       number: '1',
       price: '2.00'
     },
     {
       num: '1234561',
-      name: '矿泉水 550ml',
-      code: '演示作用域',
+      name: 'Mineral Water 550ml',
+      code: 'Demo Scope',
       unitPrice: 1233333,
       number: '1',
       price: '2.00'
     },
     {
       num: '1234561',
-      name: '矿泉水 550ml',
-      code: '演示作用域',
+      name: 'Mineral Water 550ml',
+      code: 'Demo Scope',
       unitPrice: 1233333,
       number: '1',
       price: '2.00'
     },
     {
       num: '1234561',
-      name: '矿泉水 550ml',
-      code: '演示作用域',
+      name: 'Mineral Water 550ml',
+      code: 'Demo Scope',
       unitPrice: 1233333,
       number: '1',
       price: '2.00'
@@ -142,29 +142,29 @@ export class AdvDetailComponent implements OnInit {
       showCheckbox: false,
       headers: [
         {
-          title: '操作类型',
+          title: 'Operation Type',
           field: 'num',
           width: 50
         },
         {
-          title: '操作人',
+          title: 'Operator',
           width: 60,
           field: 'name'
         },
         {
-          title: '执行结果',
+          title: 'Execution Result',
           width: 50,
           field: 'code',
           tdTemplate: this.highLightTpl
         },
         {
-          title: '操作时间',
+          title: 'Operation Time',
           width: 50,
           field: 'unitPrice',
           pipe: 'date:yyyy-MM-dd HH:mm'
         },
         {
-          title: '备注',
+          title: 'Remarks',
           width: 50,
           field: 'number'
         }

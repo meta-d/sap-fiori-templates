@@ -51,11 +51,11 @@
     <nz-layout class="overflow-auto">
       @if (menuMode() === MenuMode.side) {
         @if (fixedLayoutHeader()) {
-        <div class="w-full h-[64px]"></div>
+          <div class="w-full h-[64px]"></div>
         }
         <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
           @if (fixedLayoutHeader()) {
-          <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
+            <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
           }
           <button nz-button nzType="text" class="m-4" (click)="toggleSideMenu()">
             <span class=""

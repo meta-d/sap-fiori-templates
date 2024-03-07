@@ -18,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { ApplicationComponent } from './application/application.component'
 import { ArticleComponent } from './article/article.component'
 import { ProjectsComponent } from './projects/projects.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 interface TabInterface {
   label: string
@@ -31,6 +32,7 @@ interface TabInterface {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    TranslateModule,
     NzGridModule,
     NzCardModule,
     NzAvatarModule,
@@ -50,14 +52,14 @@ interface TabInterface {
   ]
 })
 export class PersonalCenterComponent implements OnInit {
-  tagArray: string[] = ['很有想法的', '专注设计', '大长腿', '川妹子', '海纳百川']
+  tagArray: string[] = ['Creative', 'Focused on design', 'Tall', 'Girl from Sichuan', 'Inclusive']
   inputVisible = false
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef
   inputValue = ''
   tabData: TabInterface[] = [
-    { label: '文章(8)', component: new DynamicComponent(ArticleComponent, {}) },
-    { label: '应用(8)', component: new DynamicComponent(ApplicationComponent, {}) },
-    { label: '项目(8)', component: new DynamicComponent(ProjectsComponent, {}) }
+    { label: 'Articles(8)', component: new DynamicComponent(ArticleComponent, {}) },
+    { label: 'Applications(8)', component: new DynamicComponent(ApplicationComponent, {}) },
+    { label: 'Projects(8)', component: new DynamicComponent(ProjectsComponent, {}) }
   ]
 
   @ViewChild(AdDirective, { static: true }) adHost!: AdDirective

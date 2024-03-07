@@ -3,13 +3,13 @@ export default [
   { path: '', redirectTo: 'base-detail', pathMatch: 'full', data: { hidden: true } },
   {
     path: 'base-detail',
-    title: '基础详情页',
+    title: 'Base Detail Page',
     data: { key: 'base-detail' },
     loadComponent: () => import('./base-detail/base-detail.component').then((m) => m.BaseDetailComponent)
   },
   {
     path: 'adv-detail',
-    title: '高级详情页',
+    title: 'Advanced Detail Page',
     data: { key: 'adv-detail' },
     loadComponent: () => import('./adv-detail/adv-detail.component').then((m) => m.AdvDetailComponent)
   }

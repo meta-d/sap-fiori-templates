@@ -13,7 +13,7 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTabsModule } from '@angular/material/tabs'
 import { AnalyticalCardModule } from '@metad/ocap-angular/analytical-card'
-import { NgmSearchComponent } from '@metad/ocap-angular/common'
+import { NgmDisplayBehaviourComponent, NgmSearchComponent } from '@metad/ocap-angular/common'
 import { injectCopilotCommand, injectMakeCopilotActionable } from '@metad/ocap-angular/copilot'
 import { DensityDirective, DisplayDensity } from '@metad/ocap-angular/core'
 import { EntityCapacity, EntitySchemaType, NgmEntitySchemaComponent } from '@metad/ocap-angular/entity'
@@ -36,6 +36,7 @@ import { NGXLogger } from 'ngx-logger'
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs'
 import { z } from 'zod'
 import { ZngOcapTranslateService, ZngS4DSCoreService } from '../services'
+import { ThemeService } from '@/app/core'
 
 @Component({
   standalone: true,
@@ -57,6 +58,7 @@ import { ZngOcapTranslateService, ZngS4DSCoreService } from '../services'
     MatIconModule,
     ScrollingModule,
     NgmEntitySchemaComponent,
+    NgmDisplayBehaviourComponent,
     DensityDirective,
     NgmSearchComponent,
     AnalyticalCardModule
@@ -72,6 +74,7 @@ export class ZngOcapSchemaComponent {
 
   readonly #dsCoreService = inject(ZngS4DSCoreService)
   readonly #logger = inject(NGXLogger)
+  readonly #theme = inject(ThemeService)
 
   dataSourceName = ZngS4DSCoreService.S4ModelName
   /**
@@ -113,7 +116,8 @@ export class ZngOcapSchemaComponent {
         this.searchControl.valueChanges.pipe(
           startWith(''),
           map((text) => text?.toLowerCase()),
-          map((text) => (text ? cubes.filter((cube) => cube.caption?.toLowerCase().includes(text)) : cubes))
+          map((text) => (text ? cubes.filter((cube) => cube.caption?.toLowerCase().includes(text)) : cubes)),
+          map((cubes) => cubes?.map((cube) => ({key: cube.name, caption: cube.caption})))
         )
       )
     )
@@ -127,6 +131,10 @@ export class ZngOcapSchemaComponent {
       filter(isEntityType)
     )
   )
+
+  readonly chartSettings = computed(() => ({
+    theme: this.#theme.currentTheme()
+  }))
 
   col = 8
   id = -1

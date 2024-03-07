@@ -4,13 +4,13 @@ export default [
   { path: '', redirectTo: 'role-manage', pathMatch: 'full', data: { hidden: true } },
   {
     path: 'success',
-    title: '成功页',
+    title: 'Success Page',
     data: { key: 'success' },
     loadComponent: () => import('./success/success.component').then((m) => m.SuccessComponent)
   },
   {
     path: 'fail',
-    title: '失败页',
+    title: 'Failure Page',
     data: { key: 'fail' },
     loadComponent: () => import('./fail/fail.component').then((m) => m.FailComponent)
   }

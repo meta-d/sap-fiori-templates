@@ -4,7 +4,9 @@
         "Common": {
             "Fullscreen": "全屏",
             "ExitFullscreen": "退出全屏",
-            "Cancel": "取消"
+            "Cancel": "取消",
+            "Tag": "标签",
+            "Team": "团队"
         },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",
@@ -85,7 +87,47 @@
             "Advanced Form": "高级表单",
             "Flight Booking Dashboard": "航班预订仪表板",
             "AI Copilot": "AI 副驾驶",
-            "Copilot Base": "副驾驶基础表单"
+            "Copilot Base": "副驾驶基础表单",
+            "Analysis": "分析",
+            "Monitor": "监控",
+            "Workbench": "工作台",
+            "Drawer": "抽屉",
+            "Drag Modal": "移动窗口",
+            "Message": "消息",
+            "Rich Text": "富文本",
+            "File Upload": "文件上传",
+            "Context Menu": "右键菜单",
+            "Session Timeout": "会话超时",
+            "Click OutSide": "点击外部",
+            "Color Selector": "颜色选择器",
+            "Image Preview": "图片预览",
+            "Full Screen": "全屏",
+            "Clipboard": "剪贴板",
+            "Setup Wizard": "安装向导",
+            "File Download": "文件下载",
+            "QR Code": "二维码",
+            "Watermark": "水印",
+            "Scrollbar": "滚动条",
+            "Tabs": "标签页",
+            "Personal Center": "个人中心",
+            "Personal Settings": "个人设置",
+            "Tab Actions": "标签页操作",
+            "Tab Detail": "标签页详情",
+            "Keep Scroll Page": "保持滚动页面",
+            "Play Scroll": "玩转滚动条",
+            "Metad Document": "Metad 文档",
+            "Search Table": "搜索表格",
+            "Standard Table": "标准表格",
+            "Tree List": "树形列表",
+            "Card Table": "卡片表格",
+            "Search List": "搜索列表",
+            "Base Detail Page": "基础详情页",
+            "Advanced Detail Page": "高级详情页",
+            "Network Error": "网络错误",
+            "No Data": "无数据",
+            "Success Page": "成功页",
+            "Failure Page": "失败页",
+            "Flow Chat": "流程图"
         },
         "BI": {
             "Catalog": "目录",
@@ -120,6 +162,15 @@
                     "Query": "查询",
                     "Export": "导出",
                     "ColumnsSettings": "列设置"
+                }
+            },
+            "Page": {
+                "Personal": {
+                    "天行健，君子以自强不息": "\"天行健，君子以自强不息。\" - 《周易》",
+                    "Home": "江苏省南京市",
+                    "AIExpert": "人工智能专家",
+                    "Department": "某某某事业群－某某平台部－某某技术部",
+                    "Team": "团队"
                 }
             }
         }

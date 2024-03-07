@@ -34,6 +34,8 @@
 
       <h3 class="px-4 m-0 flex justify-between items-center text-sm text-neutral-500">
         <span>{{'ZNG.BI.Cubes' | translate: {Default: 'Cubes'} }}</span>
+
+        <ngm-search class="flex-1 mx-1" [formControl]="searchControl"></ngm-search>
         <button mat-icon-button (click)="toggleCubesList()">
           @if (showCubesList()) {
             <mat-icon>expand_less</mat-icon>
@@ -44,14 +46,16 @@
       </h3>
 
       @if (showCubesList()) {
-      <ngm-search class="m-2" [formControl]="searchControl"></ngm-search>
-      <cdk-virtual-scroll-viewport class="pac-model__tables-viewport h-[200px]"
-        itemSize="30" minBufferPx="360" maxBufferPx="1000"
-      >
-        <mat-selection-list [multiple]="false" [(ngModel)]="cube">
-          <mat-list-option *cdkVirtualFor="let item of cubes()" class="hover:bg-neutral-100/50 rounded-md" [value]="item.name">{{ item.caption }}</mat-list-option>
-        </mat-selection-list>
-      </cdk-virtual-scroll-viewport>
+        <cdk-virtual-scroll-viewport class="pac-model__tables-viewport h-[200px]"
+          itemSize="30" minBufferPx="360" maxBufferPx="1000"
+        >
+          <mat-selection-list class="w-full" [multiple]="false" [(ngModel)]="cube">
+            <mat-list-option *cdkVirtualFor="let item of cubes()" class="rounded-md hover:bg-black/5 dark:hover:bg-white/10"
+              [value]="item.name">
+              <ngm-display-behaviour class="w-full" [option]="item"/>
+            </mat-list-option>
+          </mat-selection-list>
+        </cdk-virtual-scroll-viewport>
       }
 
       <h3 class="py-2 px-4 m-0 mt-4 text-sm text-neutral-500">{{'ZNG.BI.Entity' | translate: {Default: 'Entity'} }} ({{cube[0]}})</h3>
@@ -80,6 +84,7 @@
         <mat-tab [label]=" 'ZNG.BI.Chart' | translate: {Default: 'Chart'} ">
           <ngm-analytical-card class="h-full"
             [dataSettings]="dataSettings()"
+            [chartSettings]="chartSettings()"
             [slicers]="slicers()"
           >
           </ngm-analytical-card>

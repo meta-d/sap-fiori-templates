@@ -1,42 +1,42 @@
 <nz-page-header nzBackIcon [nzGhost]="false">
-  <nz-page-header-title>单号：234231029431</nz-page-header-title>
-  <nz-page-header-subtitle>高级详情页</nz-page-header-subtitle>
+  <nz-page-header-title>Order Number: 234231029431</nz-page-header-title>
+  <nz-page-header-subtitle>Advanced Details Page</nz-page-header-subtitle>
   <nz-page-header-extra>
     <nz-space class="flex gap-4">
       <nz-radio-group>
-        <label nz-radio-button>操作一</label>
-        <label nz-radio-button>操作二</label>
+        <label nz-radio-button>Operation 1</label>
+        <label nz-radio-button>Operation 2</label>
         <label nz-dropdown nz-radio-button [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'">
           <i nz-icon nzTheme="outline" nzType="ellipsis"></i>
         </label>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu nzSelectable>
-            <li nz-menu-item>选项一</li>
-            <li nz-menu-item>选项二</li>
-            <li nz-menu-item>选项三</li>
+            <li nz-menu-item>Option 1</li>
+            <li nz-menu-item>Option 2</li>
+            <li nz-menu-item>Option 3</li>
           </ul>
         </nz-dropdown-menu>
       </nz-radio-group>
 
-      <button nz-button nzType="primary">主操作</button>
+      <button nz-button nzType="primary">Primary Operation</button>
     </nz-space>
   </nz-page-header-extra>
   <nz-page-header-content>
     <div nz-row>
       <div nz-col [nzLg]="18" [nzMd]="16" [nzSm]="24" [nzXl]="18" [nzXs]="24" [nzXXl]="20">
         <nz-descriptions nzSize="small" [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }">
-          <nz-descriptions-item nzTitle="创建人">曲丽丽</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="订购产品">XX 服务</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="创建时间">2017-07-07</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="关联单据"><a class="operate-text">12421</a></nz-descriptions-item>
-          <nz-descriptions-item nzTitle="生效日期">2017-07-07 ~ 2017-08-08</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="备注">请于两个工作日内确认</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Creator">Lucy Qu</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Ordered Product">XX Service</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Creation Time">2017-07-07</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Related Documents"><a class="operate-text">12421</a></nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Effective Date">2017-07-07 ~ 2017-08-08</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Remarks">Please confirm within two working days</nz-descriptions-item>
         </nz-descriptions>
       </div>
       <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="24" [nzXl]="6" [nzXs]="24" [nzXXl]="4">
         <div class="left-start-center">
-          <nz-statistic class="m-r-25" nzTitle="状态" nzValue="待审批"></nz-statistic>
-          <nz-statistic nzPrefix="¥" nzTitle="订单金额" [nzValue]="568.08"></nz-statistic>
+          <nz-statistic class="m-r-25" nzTitle="Status" nzValue="Pending Approval"></nz-statistic>
+          <nz-statistic nzPrefix="¥" nzTitle="Order Amount" [nzValue]="568.08"></nz-statistic>
         </div>
       </div>
     </div>
@@ -44,34 +44,34 @@
 
   <nz-page-header-footer>
     <nz-tabset [(nzSelectedIndex)]="currentSelTab">
-      <nz-tab nzTitle="详情" (nzClick)="to(tabEnum.Detail)"></nz-tab>
-      <nz-tab nzTitle="规则" (nzClick)="to(tabEnum.Rule)"></nz-tab>
+      <nz-tab nzTitle="Details" (nzClick)="to(tabEnum.Detail)"></nz-tab>
+      <nz-tab nzTitle="Rules" (nzClick)="to(tabEnum.Rule)"></nz-tab>
     </nz-tabset>
   </nz-page-header-footer>
 </nz-page-header>
 
-<div class="normal-table-wrap">
-  <nz-card [nzTitle]="'流程进度'">
+<div class="normal-table-wrap flex flex-col gap-4">
+  <nz-card [nzTitle]="'Workflow Progress'">
     <nz-steps [nzCurrent]="1" [nzDirection]="stepDirection" [nzProgressDot]="progressTemplate">
-      <nz-step nzTitle="创建项目" [nzDescription]="createTpl"></nz-step>
-      <nz-step nzTitle="部门初审" [nzDescription]="trialTpl"></nz-step>
-      <nz-step nzTitle="财务复核"></nz-step>
-      <nz-step nzTitle="完成"></nz-step>
+      <nz-step nzTitle="Create Project" [nzDescription]="createTpl"></nz-step>
+      <nz-step nzTitle="Department Initial Review" [nzDescription]="trialTpl"></nz-step>
+      <nz-step nzTitle="Financial Review"></nz-step>
+      <nz-step nzTitle="Complete"></nz-step>
     </nz-steps>
     <ng-template #createTpl>
       <div>
-        <span class="m-r-8">曲丽丽</span>
+        <span class="m-r-8">Lucy Qu</span>
         <i nz-icon nzTheme="outline" nzType="dingding"></i>
       </div>
       <div>2016-12-12 12:32</div>
     </ng-template>
     <ng-template #trialTpl>
       <div>
-        <span class="m-r-8">周毛毛</span>
+        <span class="m-r-8">Molly Zhou</span>
         <i nz-icon nzTheme="outline" nzType="dingding" style="color: rgb(0, 160, 233)"></i>
       </div>
       <div>
-        <a class="operate-text">催一下</a>
+        <a class="operate-text">Remind</a>
       </div>
     </ng-template>
     <ng-template #progressTemplate let-dot let-index="index" let-status="status">
@@ -82,63 +82,63 @@
     <ng-template #trialPopTpl>
       <div style="width: 160px">
         <div class="flex">
-          <div class="flex-1">吴加号</div>
-          <nz-badge nzStatus="default" nzText="未响应"></nz-badge>
+          <div class="flex-1">Jack Wu</div>
+          <nz-badge nzStatus="default" nzText="No Response"></nz-badge>
         </div>
-        <div class="mt5">耗时：2小时25分钟</div>
+        <div class="mt5">Time Consumed: 2 hours 25 minutes</div>
       </div>
     </ng-template>
   </nz-card>
 
-  <nz-card class="m-t-20" [nzTitle]="'用户信息'">
+  <nz-card class="mt-8" [nzTitle]="'User Information'">
     <nz-descriptions>
-      <nz-descriptions-item nzTitle="用户姓名">付小小</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="会员卡号">32943898021309809423</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="身份证">3321944288191034921</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="联系方式">18112345678</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="联系地址" [nzSpan]="2">曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="User Name">Fu Xiao Xiao</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Membership Card Number">32943898021309809423</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="ID Card">3321944288191034921</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Contact">18112345678</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Contact Address" [nzSpan]="2">Lucy Qu 18100000000 Intersection of Huanggushan Road and Gongzhu Road, Xihu District, Hangzhou City, Zhejiang Province</nz-descriptions-item>
     </nz-descriptions>
-    <nz-descriptions class="m-t-20" nzTitle="信息组">
-      <nz-descriptions-item nzTitle="某某数据">725</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="该数据更新时间">2017-08-08</nz-descriptions-item>
+    <nz-descriptions class="mt-8" nzTitle="Information Group">
+      <nz-descriptions-item nzTitle="Some Data">725</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Last Update Time of This Data">2017-08-08</nz-descriptions-item>
       <nz-descriptions-item [nzTitle]="dataTitleTpl">725</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="该数据更新时间">2017-08-08</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Last Update Time of This Data">2017-08-08</nz-descriptions-item>
     </nz-descriptions>
     <ng-template #dataTitleTpl>
-      某某数据
-      <i class="title-icon" nz-icon nz-tooltip nzTheme="outline" nzTooltipTitle="数据说明" nzType="info-circle"></i>
+      Some Data
+      <i class="title-icon" nz-icon nz-tooltip nzTheme="outline" nzTooltipTitle="Data Explanation" nzType="info-circle"></i>
     </ng-template>
-    <h3 class="m-t-20">信息组</h3>
-    <nz-card class="m-t-20" nzTitle="多层级信息组" nzType="inner">
-      <nz-descriptions nzTitle="组名称">
-        <nz-descriptions-item nzTitle="负责人">林东东</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="角色码">1234567</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="所属部门">XX公司 - YY部</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="过期时间">2017-08-08</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="描述" [nzSpan]="2">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</nz-descriptions-item>
+    <h3 class="mt-8">Information Group</h3>
+    <nz-card class="mt-8" nzTitle="Multi-level Information Group" nzType="inner">
+      <nz-descriptions nzTitle="Group Name">
+        <nz-descriptions-item nzTitle="Responsible Person">Lin Dongdong</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Role Code">1234567</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Department">XX Company - YY Department</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Expiration Date">2017-08-08</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Description" [nzSpan]="2">This description is very long...</nz-descriptions-item>
       </nz-descriptions>
       <nz-divider></nz-divider>
-      <nz-descriptions nzTitle="组名称" [nzColumn]="1">
-        <nz-descriptions-item nzTitle="学名">Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..</nz-descriptions-item>
+      <nz-descriptions nzTitle="Group Name" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Scientific Name">Citrullus lanatus (Thunb.) Matsum. et Nakai - annual herbaceous creeping vine; stems and branches are stout, with obvious edges. Tendrils are relatively thick...</nz-descriptions-item>
       </nz-descriptions>
       <nz-divider></nz-divider>
-      <nz-descriptions nzTitle="组名称">
-        <nz-descriptions-item nzTitle="负责人">付小小</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="角色码">1234568</nz-descriptions-item>
+      <nz-descriptions nzTitle="Group Name">
+        <nz-descriptions-item nzTitle="Responsible Person">Tiven Wang</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Role Code">1234568</nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
   </nz-card>
 
-  <nz-card class="m-t-20" [nzTitle]="'用户近半年来电记录'">
+  <nz-card class="mt-8" [nzTitle]="'Call Records in the Past Six Months'">
     <nz-empty></nz-empty>
   </nz-card>
 
-  <nz-card class="m-t-20">
+  <nz-card class="mt-8">
     <nz-card-tab>
       <nz-tabset nzSize="large">
-        <nz-tab nzTitle="操作日志一"></nz-tab>
-        <nz-tab nzTitle="操作日志二"></nz-tab>
-        <nz-tab nzTitle="操作日志三"></nz-tab>
+        <nz-tab nzTitle="Operation Log One"></nz-tab>
+        <nz-tab nzTitle="Operation Log Two"></nz-tab>
+        <nz-tab nzTitle="Operation Log Three"></nz-tab>
       </nz-tabset>
     </nz-card-tab>
     <zng-ant-table [tableConfig]="returnTableConfig" [tableData]="returnDataList"></zng-ant-table>
@@ -146,6 +146,6 @@
 </div>
 
 <ng-template #highLightTpl let-code="code">
-  <nz-badge nzStatus="processing" nzText="成功"></nz-badge>
-  并且{{ code }}
+  <nz-badge nzStatus="processing" nzText="Success"></nz-badge>
+  and {{ code }}
 </ng-template>
