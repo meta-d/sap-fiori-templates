@@ -2,5 +2,12 @@
   "/sap/opu/": {
     "target": "http://127.0.0.1:3000",
     "changeOrigin": true
+  },
+  "/odata.org/": {
+    "target": "https://services.odata.org",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/odata.org/": "/"
+    }
   }
 }
