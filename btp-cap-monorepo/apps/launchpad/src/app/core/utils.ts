@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, UrlSegment } from '@angular/router'
 import { silentEvent } from 'ng-zorro-antd/core/util'
 
 // 获取路由复用缓存的key，为key+param的形式：login{name:xxx}
@@ -12,7 +12,7 @@ export const getDeepReuseStrategyKeyFn = function (route: ActivatedRouteSnapshot
 
 // 获取key，为key+param的形式：login{name:xxx}
 export const fnGetReuseStrategyKeyFn = function getKey(route: ActivatedRouteSnapshot): string {
-  const configKey = route.data['key']
+  const configKey = route.routeConfig?.data?.['key'] || getFullPath(route)
   if (!configKey) {
     return ''
   }
@@ -38,7 +38,20 @@ export const fnGetPathWithoutParam = function getPathWithoutParam(path: string):
 }
 
 export const fnStopMouseEvent = function stopMouseEvent(e: MouseEvent): void {
-  silentEvent(e);
+  silentEvent(e)
   // e.stopPropagation();
   // e.preventDefault();
+}
+
+export function getFullPath(route: ActivatedRouteSnapshot): string {
+  // Get URL segments
+  const urlSegments: UrlSegment[] = route.pathFromRoot.reduce(
+    (segments: UrlSegment[], route: ActivatedRouteSnapshot) => segments.concat(route.url),
+    []
+  )
+
+  // Join segments to form full path URL
+  const fullPath = urlSegments.map((segment) => segment.toString()).join('/')
+
+  return fullPath
 }

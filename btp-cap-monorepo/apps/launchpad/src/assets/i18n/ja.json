@@ -3,7 +3,11 @@
         "AppName": "Business Launchpad",
         "Common": {
             "Fullscreen": "フルスクリーン",
-            "ExitFullscreen": "フルスクリーンを終了"
+            "ExitFullscreen": "フルスクリーンを終了",
+            "Cancel": "キャンセル",
+            "Tag": "タグ",
+            "Team": "チーム",
+            "Query": "クエリ"
         },
         "GlobalHeader": {
             "LanguageChanged": "言語が変更されました！",
@@ -18,42 +22,165 @@
         "GlobalSettings": {
             "Title": "グローバル設定",
             "Theme": "テーマ",
-            "MenuTheme": "メニューのスタイル",
-            "FioriTheme": "Fiori テーマ",
+            "MenuTheme": "メニューテーマ",
+            "FioriTheme": "Fioriテーマ",
             "PrimaryColor": "主要色",
             "NavigationMode": "ナビゲーションモード",
-            "FixedLayoutSider": "固定サイドバー",
-            "FixedLayoutHeader": "固定ヘッダー",
-            "Pin": "ピン留め",
+            "FixedLayoutSider": "固定レイアウトサイダー",
+            "FixedLayoutHeader": "固定レイアウトヘッダー",
+            "ShowTabMenu": "タブメニューを表示",
+            "FixedTabMenu": "固定タブメニュー",
+            "WebGUIMode": "WebGUIモード",
+            "WebGUIMode_Self": "このページ",
+            "WebGUIMode_Blank": "新しいページ",
+            "WebGUIMode_Popup": "ポップアップ",
+            "Pin": "ピン",
             "Close": "閉じる",
             "Themes": {
                 "Light": "ライト",
                 "Dark": "ダーク"
             },
             "NavigationModes": {
-                "side": "サイドメニュー レイアウト",
-                "top": "トップメニュー レイアウト",
-                "mix": "ミックスメニュー レイアウト"
+                "side": "サイドメニューレイアウト",
+                "top": "トップメニューレイアウト",
+                "mix": "ミックスメニューレイアウト"
             }
         },
         "HomeNotice": {
-            "ByDate": "日付別",
+            "ByDate": "日付順",
             "ByType": "タイプ別",
-            "ByPriority": "優先度別",
-            "LoadingMore": "もっと読み込む",
+            "ByPriority": "優先順位別",
+            "LoadingMore": "さらに読み込む",
             "CloseAll": "すべて閉じる"
         },
         "UI5": {
-            "FioriAppNotFound": "申し訳ありませんが、この Fiori アプリが見つかりませんでした！"
+            "FioriAppNotFound": "申し訳ありませんが、このFioriアプリケーションが見つかりません！",
+            "OpenWebGUIApp": "WebGUIアプリケーションを開く",
+            "Goto": "移動",
+            "Close": "閉じる"
         },
         "Pages": {
             "Home": "ホーム",
             "Dashboard": "ダッシュボード",
             "Admin": "管理",
             "Settings": "設定",
-            "Fiori App": "Fiori アプリ",
+            "Fiori App": "Fioriアプリ",
             "User Info": "ユーザー情報",
-            "Launchpad": "ランチパッド"
+            "Launchpad": "ランチパッド",
+            "Feature": "機能",
+            "Pages": "ページ",
+            "Forms": "フォーム",
+            "List": "リスト",
+            "Detail": "詳細",
+            "Personal": "個人",
+            "Except": "例外",
+            "Result": "結果",
+            "Visual": "ビジュアル",
+            "Task": "タスク",
+            "Fiori Application": "Fioriアプリケーション",
+            "SAP Application": "SAPアプリケーション",
+            "Risks": "リスク管理",
+            "List Report": "リストレポート",
+            "Elements": "要素コンポーネント",
+            "Check Costing Variant": "コスト変異の確認",
+            "Base Form": "ベースフォーム",
+            "Step Form": "ステップフォーム",
+            "Advanced Form": "高度なフォーム",
+            "Flight Booking Dashboard": "フライト予約ダッシュボード",
+            "AI Copilot": "AIコパイロット",
+            "Copilot Base": "コパイロットベースフォーム",
+            "Analysis": "分析",
+            "Monitor": "モニター",
+            "Workbench": "ワークベンチ",
+            "Drawer": "引き出し",
+            "Drag Modal": "ドラッグモーダル",
+            "Message": "メッセージ",
+            "Rich Text": "リッチテキスト",
+            "File Upload": "ファイルアップロード",
+            "Context Menu": "コンテキストメニュー",
+            "Session Timeout": "セッションタイムアウト",
+            "Click OutSide": "外側をクリック",
+            "Color Selector": "カラーセレクター",
+            "Image Preview": "画像プレビュー",
+            "Full Screen": "フルスクリーン",
+            "Clipboard": "クリップボード",
+            "Setup Wizard": "セットアップウィザード",
+            "File Download": "ファイルダウンロード",
+            "QR Code": "QRコード",
+            "Watermark": "ウォーターマーク",
+            "Scrollbar": "スクロールバー",
+            "Tabs": "タブ",
+            "Personal Center": "個人センター",
+            "Personal Settings": "個人設定",
+            "Tab Actions": "タブアクション",
+            "Tab Detail": "タブの詳細",
+            "Keep Scroll Page": "スクロールページを保持",
+            "Play Scroll": "スクロール再生",
+            "Metad Document": "メタドキュメント",
+            "Search Table": "テーブル検索",
+            "Standard Table": "標準テーブル",
+            "Tree List": "ツリーリスト",
+            "Card Table": "カードテーブル",
+            "Search List": "リスト検索",
+           
+
+ "Base Detail Page": "基本詳細ページ",
+            "Advanced Detail Page": "高度な詳細ページ",
+            "Network Error": "ネットワークエラー",
+            "No Data": "データなし",
+            "Success Page": "成功ページ",
+            "Failure Page": "失敗ページ",
+            "Flow Chat": "フローチャット"
+        },
+        "BI": {
+            "Catalog": "カタログ",
+            "Cubes": "キューブ",
+            "Entity": "エンティティ",
+            "Chart": "チャート",
+            "Code": "コード"
+        },
+        "Components": {
+            "TablePersonalization": {
+                "Reset": "リセット",
+                "ShowColumns": "列の表示",
+                "RowSelection": "行の選択",
+                "Density": "密度",
+                "Density_default": "デフォルト",
+                "Density_middle": "ミドル",
+                "Density_small": "コンパクト",
+                "FixedToLeft": "左に固定",
+                "FixedToRight": "右に固定"
+            },
+            "MenuTab": {
+                "Refresh": "リフレッシュ",
+                "Close": "閉じる",
+                "CloseOthers": "他を閉じる",
+                "CloseRight": "右を閉じる",
+                "CloseLeft": "左を閉じる"
+            }
+        },
+        "Demo": {
+            "Elements": {
+                "ListReport": {
+                    "Query": "クエリ",
+                    "Export": "エクスポート",
+                    "ColumnsSettings": "列の設定"
+                }
+            },
+            "Page": {
+                "Personal": {
+                    "天行健，君子以自強不息": "\"天行健，君子以自強不息。\" - 《周易》",
+                    "Home": "江蘇省南京市",
+                    "AIExpert": "人工知能専門家",
+                    "Department": "某某某事業群－某某プラットフォーム部－某某技術部",
+                    "Team": "チーム"
+                }
+            }
+        },
+        "Admin": {
+            "Products": {
+                "Query": "クエリ"
+            }
         }
     }
 }

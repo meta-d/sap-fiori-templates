@@ -6,7 +6,8 @@
             "ExitFullscreen": "退出全屏",
             "Cancel": "取消",
             "Tag": "标签",
-            "Team": "团队"
+            "Team": "团队",
+            "Query": "查询"
         },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",
@@ -172,6 +173,11 @@
                     "Department": "某某某事业群－某某平台部－某某技术部",
                     "Team": "团队"
                 }
+            }
+        },
+        "Admin": {
+            "Products": {
+                "Query": "查询"
             }
         }
     }

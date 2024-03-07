@@ -1,9 +1,13 @@
 {
     "ZNG": {
-        "AppName": "Fiori 應用",
+        "AppName": "商業啟動平臺",
         "Common": {
             "Fullscreen": "全屏",
-            "ExitFullscreen": "退出全屏"
+            "ExitFullscreen": "退出全屏",
+            "Cancel": "取消",
+            "Tag": "標簽",
+            "Team": "團隊",
+            "Query": "查詢"
         },
         "GlobalHeader": {
             "LanguageChanged": "語言已切換！",
@@ -24,6 +28,12 @@
             "NavigationMode": "導航模式",
             "FixedLayoutSider": "固定側邊欄",
             "FixedLayoutHeader": "固定頂部欄",
+            "ShowTabMenu": "顯示頁簽菜單",
+            "FixedTabMenu": "固定頁簽菜單",
+            "WebGUIMode": "WebGUI 模式",
+            "WebGUIMode_Self": "本頁面",
+            "WebGUIMode_Blank": "新頁面",
+            "WebGUIMode_Popup": "彈出窗",
             "Pin": "固定",
             "Close": "關閉",
             "Themes": {
@@ -44,7 +54,10 @@
             "CloseAll": "關閉所有"
         },
         "UI5": {
-            "FioriAppNotFound": "抱歉，未找到此 Fiori 應用程序！"
+            "FioriAppNotFound": "抱歉，未找到此 Fiori 應用程序！",
+            "OpenWebGUIApp": "打開 WebGUI 應用程序",
+            "Goto": "轉到",
+            "Close": "關閉"
         },
         "Pages": {
             "Home": "首頁",
@@ -53,7 +66,119 @@
             "Settings": "設置",
             "Fiori App": "Fiori 應用",
             "User Info": "用戶信息",
-            "Launchpad": "啟動頁"
+            "Launchpad": "啟動頁",
+            "Feature": "功能",
+            "Pages": "頁面",
+            "Forms": "表單",
+            "List": "列表",
+            "Detail": "詳情",
+            "Personal": "個人",
+            "Except": "異常",
+            "Result": "結果",
+            "Visual": "圖形化",
+            "Task": "任務",
+            "Fiori Application": "Fiori 應用",
+            "SAP Application": "SAP 應用",
+            "Risks": "風險管理",
+            "List Report": "清單報告",
+            "Elements": "元素組件",
+            "Check Costing Variant": "檢查成本變體",
+            "Base Form": "基礎表單",
+            "Step Form": "分步表單",
+            "Advanced Form": "高級表單",
+            "Flight Booking Dashboard": "航班預訂儀表板",
+            "AI Copilot": "AI 副駕駛",
+            "Copilot Base": "副駕駛基礎表單",
+            "Analysis": "分析",
+            "Monitor": "監控",
+            "Workbench": "工作臺",
+            "Drawer": "抽屜",
+            "Drag Modal": "移動窗口",
+            "Message": "消息",
+            "Rich Text": "富文本",
+            "File Upload": "文件上傳",
+            "Context Menu": "右鍵菜單",
+            "Session Timeout": "會話超時",
+            "Click OutSide": "點擊外部",
+            "Color Selector": "顏色選擇器",
+            "Image Preview": "圖片預覽",
+            "Full Screen": "全屏",
+            "Clipboard": "剪貼板",
+            "Setup Wizard": "安裝向導",
+            "File Download": "文件下載",
+            "QR Code": "二維碼",
+            "Watermark": "水印",
+            "Scrollbar": "滾動條",
+            "Tabs": "標簽頁",
+            "Personal Center": "個人中心",
+            "Personal Settings": "個人設置",
+            "Tab Actions": "標簽頁操作",
+            "Tab Detail": "標簽頁詳情",
+            "Keep Scroll Page": "保持滾動頁面",
+            "Play Scroll": "玩轉滾動條",
+            "Metad Document": "Metad 文檔",
+            "Search Table": "搜索表格",
+            "Standard Table": "標準表格",
+            "Tree List": "樹形列表",
+            "Card Table": "卡片表格",
+            "Search List": "搜索列表",
+            "Base Detail Page": "基礎詳情頁",
+            "Advanced Detail Page": "高級詳情頁",
+            "Network Error": "網絡錯誤",
+            "No Data": "無數據",
+            "Success Page": "成功頁",
+            "Failure Page": "失敗頁",
+            "Flow Chat": "流程圖"
+        },
+        "BI": {
+            "Catalog": "目錄",
+            "Cubes": "立方體",
+            "Entity": "實體",
+            "Chart": "圖形",
+            "Code": "代碼"
+        },
+        "Components": {
+            "TablePersonalization": {
+                "Reset": "重置",
+                "ShowColumns": "顯示列",
+                "RowSelection": "選擇行",
+                "Density": "密度",
+                "Density_default": "默認",
+                "Density_middle": "中等",
+                "Density_small": "緊湊",
+                "FixedToLeft": "固定到左側",
+                "FixedToRight": "固定到右側"
+            },
+            "MenuTab": {
+                "Refresh": "刷新",
+                "Close": "關閉",
+                "CloseOthers": "關閉其他",
+                "CloseRight": "關閉右側",
+                "CloseLeft": "關閉左側"
+            }
+        },
+        "Demo": {
+            "Elements": {
+                "ListReport": {
+                    "Query": "查詢",
+                    "Export": "導出",
+                    "ColumnsSettings": "列設置"
+                }
+            },
+            "Page": {
+                "Personal": {
+                    "天行健，君子以自强不息": "\"天行健，君子以自強不息。\" - 《周易》",
+                    "Home": "江蘇省南京市",
+                    "AIExpert": "人工智能專家",
+                    "Department": "某某某事業群－某某平臺部－某某技術部",
+                    "Team": "團隊"
+                }
+            }
+        },
+        "Admin": {
+            "Products": {
+                "Query": "查詢"
+            }
         }
     }
 }

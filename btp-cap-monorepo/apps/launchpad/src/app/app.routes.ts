@@ -22,6 +22,7 @@ export const appRoutes: Routes = [
   {
     path: 'admin',
     title: 'Admin',
+    loadChildren: () => import('./pages/admin/routing'),
     data: {
       icon: 'setting',
       key: 'admin',
@@ -32,8 +33,7 @@ export const appRoutes: Routes = [
       //     SRV_TYPE: 'HT'
       //   }
       // }
-    },
-    loadChildren: () => import('./pages/admin/admin-routing').then((m) => m.default)
+    }
   },
   ...(environment.enableDemo ? [
     {
