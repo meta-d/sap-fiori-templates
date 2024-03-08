@@ -5,7 +5,9 @@ import { NzConfigService } from 'ng-zorro-antd/core/config'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { map } from 'rxjs/operators'
 import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
-import { ThemeType } from '../types'
+import { LanguageEnum, ThemeType } from '../types'
+import { NzI18nService } from 'ng-zorro-antd/i18n'
+import { mapLanguageNzLocale } from './translate'
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,7 @@ export class ThemeService {
   readonly #nzConfigService = inject(NzConfigService)
   readonly #translate = inject(TranslateService)
   readonly #message = inject(NzMessageService)
+  readonly #i18nService = inject(NzI18nService)
 
   readonly personalization = this.#appStore.personalization
 
@@ -119,13 +122,15 @@ export class ThemeService {
     return toObservable(this.personalization)
   }
 
-  useLanguage(lang: string): void {
-    this.#translate.use(lang).subscribe()
-    this.#message.info(
-      this.#translate.instant('ZNG.GlobalHeader.LanguageChanged', {
-        Default: 'Language changed!'
-      })
-    )
+  useLanguage(lang: LanguageEnum): void {
+    this.#translate.use(lang).subscribe(() => {
+      this.#message.info(
+        this.#translate.instant('ZNG.GlobalHeader.LanguageChanged', {
+          Default: 'Language changed!'
+        })
+      )
+    })
+    this.#i18nService.setLocale(mapLanguageNzLocale(lang))
   }
 
   onLangChange() {

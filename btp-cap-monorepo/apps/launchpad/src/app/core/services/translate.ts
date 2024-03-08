@@ -1,11 +1,13 @@
+import { registerLocaleData } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import en from '@angular/common/locales/en'
 import zh from '@angular/common/locales/zh'
 import { MissingTranslationHandler, MissingTranslationHandlerParams } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-import { Observable, map } from 'rxjs'
-import { registerLocaleData } from '@angular/common'
 import { enUS, zhCN, zhHK } from 'date-fns/locale'
+import { en_US, ja_JP, zh_CN, zh_TW } from 'ng-zorro-antd/i18n'
+import { Observable, map } from 'rxjs'
+import { LanguageEnum } from '../types'
 
 registerLocaleData(zh)
 registerLocaleData(en)
@@ -14,7 +16,7 @@ class CustomTranslateHttpLoader extends TranslateHttpLoader {
   override getTranslation(lang: string): Observable<Record<string, any>> {
     return super.getTranslation(lang).pipe(
       map((t) => ({
-        ...t,
+        ...t
       }))
     )
   }
@@ -49,14 +51,14 @@ export function mapBrowserLanguage(lang: string) {
     case 'zh-cn':
     case 'zh-hans':
     case 'zh':
-      return 'zh-Hans'
+      return LanguageEnum.SimplifiedChinese
     case 'zh-hant':
     case 'zh-tw':
-    case "zh-hk":
-    case "zf":
-      return 'zh-Hant'
+    case 'zh-hk':
+    case 'zf':
+      return LanguageEnum.TraditionalChinese
     default:
-      return lang
+      return lang as LanguageEnum
   }
 }
 
@@ -68,5 +70,19 @@ export function toSAPLanguage(lang: string) {
       return 'ZF'
     default:
       return lang
+  }
+}
+
+export function mapLanguageNzLocale(lang: LanguageEnum) {
+  switch (lang) {
+    case LanguageEnum.SimplifiedChinese:
+    case LanguageEnum.Chinese:
+      return zh_CN
+    case LanguageEnum.TraditionalChinese:
+      return zh_TW
+    case LanguageEnum.Japanese:
+      return ja_JP
+    default:
+      return en_US
   }
 }

@@ -4,6 +4,7 @@ import { NgFor, NgIf } from '@angular/common'
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { injectCopilotCommand, injectMakeCopilotActionable } from '@metad/ocap-angular/copilot'
+import { TranslateService } from '@ngx-translate/core'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzSafeAny } from 'ng-zorro-antd/core/types'
@@ -42,8 +43,9 @@ import { z } from 'zod'
   ]
 })
 export class CopilotBaseComponent implements OnInit {
-  #logger = inject(NGXLogger)
-  #fb = inject(FormBuilder)
+  readonly #logger = inject(NGXLogger)
+  readonly #fb = inject(FormBuilder)
+  readonly #translate = inject(TranslateService)
 
   @ViewChild('dragTpl', { static: true }) dragTpl!: TemplateRef<NzSafeAny>
 
@@ -91,7 +93,7 @@ export class CopilotBaseComponent implements OnInit {
             weights: [form.weights]
           })
 
-          return `填写完成！`
+          return this.#translate.instant('ZNG.Common.FillDone', {Default: 'Fill done!'})
         }
       })
     ]

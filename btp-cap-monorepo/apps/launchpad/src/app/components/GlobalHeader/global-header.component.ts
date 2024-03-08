@@ -1,5 +1,6 @@
 import {
   AuthenticationService,
+  LanguageEnum,
   NotificationService,
   SAPUserContextCookieName,
   ScreenLessHiddenDirective,
@@ -51,10 +52,10 @@ export class GlobalHeaderComponent {
   @ViewChild(NzPopoverDirective) notification!: NzPopoverDirective
 
   languages = [
-    { value: 'zh-Hans', label: '简体中文' },
-    { value: 'zh-Hant', label: '繁体中文' },
-    { value: 'en', label: 'English' },
-    { value: 'ja', label: '日本語' }
+    { value: LanguageEnum.SimplifiedChinese, label: '简体中文' },
+    { value: LanguageEnum.TraditionalChinese, label: '繁体中文' },
+    { value: LanguageEnum.English, label: 'English' },
+    { value: LanguageEnum.Japanese, label: '日本語' }
   ]
 
   get currentLang() {
@@ -72,7 +73,7 @@ export class GlobalHeaderComponent {
     }
   }
 
-  useLanguage(lang: string): void {
+  useLanguage(lang: LanguageEnum): void {
     this.themeService.useLanguage(lang)
   }
 

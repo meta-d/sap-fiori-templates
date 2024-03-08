@@ -13,6 +13,14 @@ export enum ThemeType {
   light = 'light'
 }
 
+export enum LanguageEnum {
+  Chinese = 'zh-CN',
+  SimplifiedChinese = 'zh-Hans',
+  TraditionalChinese = 'zh-Hant',
+  English = 'en',
+  Japanese = 'ja'
+}
+
 export const Ui5Path = 'ui5'
 
 export interface AppGroup {

@@ -7,7 +7,8 @@
             "Cancel": "取消",
             "Tag": "标签",
             "Team": "团队",
-            "Query": "查询"
+            "Query": "查询",
+            "FillDone": "填写完成！"
         },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",

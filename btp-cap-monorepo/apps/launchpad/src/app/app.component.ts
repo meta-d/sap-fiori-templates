@@ -27,7 +27,7 @@ export class AppComponent {
     // Use the language from the user context cookie if it exists, otherwise use the browser language
     const userContext = this.cookieService.get(SAPUserContextCookieName)
     const language = new URL(`http://localhost?${userContext}`).searchParams.get(SAPUserContextLanguage) || navigator.language
-    this.translate.use(mapBrowserLanguage(language))
+    this.themeService.useLanguage(mapBrowserLanguage(language))
   }
   
 }
