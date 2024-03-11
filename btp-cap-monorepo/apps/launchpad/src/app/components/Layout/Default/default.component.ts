@@ -14,7 +14,7 @@ import { GlobalHeaderComponent } from '../../GlobalHeader/global-header.componen
 import { MenuTabComponent } from '../../MenuTab/menu-tab.component'
 import { NavigationProgressBarComponent } from '../../NavigationProgressBar/'
 import { SideNavBarComponent } from '../../SideNavBar/nav-bar.component'
-import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'
+import { SubSideNavBarComponent } from '../../SubSideNavBar/nav-bar.component'  
 import { TopNavBarComponent } from '../../TopNavBar/top-nav-bar.component'
 import { DrawerTriggerComponent } from '../../Drawer'
 
@@ -49,7 +49,7 @@ import { DrawerTriggerComponent } from '../../Drawer'
 export class LayoutDefaultComponent {
   @HostBinding('class.zng-layout__fixed-sider')
   get _fixedLayoutSider() {
-    return this.fixedLayoutSider()
+    return this.fixedLayoutSider() && !this.isHandsetPortrait()
   }
   @HostBinding('class.zng-layout__collapsed')
   get _layoutCollapsed() {
@@ -87,6 +87,12 @@ export class LayoutDefaultComponent {
   }
   readonly menuMode = this.themeService.menuMode
 
+  readonly #navigationEnd$ = this.router.events.pipe(filter((event) => event instanceof NavigationEnd))
+  /**
+  |--------------------------------------------------------------------------
+  | Signals
+  |--------------------------------------------------------------------------
+  */
   readonly fixedLayoutSider = this.themeService.fixedLayoutSider
   readonly fixedLayoutHeader = this.themeService.fixedLayoutHeader
   readonly isShowTab = this.themeService.isShowTab
@@ -103,9 +109,14 @@ export class LayoutDefaultComponent {
 
   readonly isCollapsed = this.themeService.isCollapsed
 
-  readonly #navigationEnd$ = this.router.events.pipe(filter((event) => event instanceof NavigationEnd))
-
   routerPath = ''
+
+  readonly isHandsetPortrait = this.themeService.isHandsetPortrait
+  /**
+  |--------------------------------------------------------------------------
+  | Subscriptions
+  |--------------------------------------------------------------------------
+  */
   #navigationEndSub = this.#navigationEnd$.subscribe(() => {
     // @ts-expect-error Object is possibly 'null'
     this.routerPath = this.activatedRoute.snapshot['_routerState'].url
@@ -151,6 +162,11 @@ export class LayoutDefaultComponent {
       this.setMixModeLeftMenu()
     })
 
+  /**
+  |--------------------------------------------------------------------------
+  | Methods
+  |--------------------------------------------------------------------------
+  */
   toggleSideMenu() {
     this.isCollapsed.update((state) => !state)
   }

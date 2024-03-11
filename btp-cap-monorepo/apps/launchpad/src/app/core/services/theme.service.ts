@@ -1,12 +1,14 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import { DOCUMENT } from '@angular/common'
 import { Injectable, computed, effect, inject, signal } from '@angular/core'
-import { toObservable } from '@angular/core/rxjs-interop'
+import { toObservable, toSignal } from '@angular/core/rxjs-interop'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { NzConfigService } from 'ng-zorro-antd/core/config'
+import { NzI18nService } from 'ng-zorro-antd/i18n'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { map } from 'rxjs/operators'
 import { APP_STORE_TOKEN, IAppStore, PersonalizationType } from '../../stores'
 import { LanguageEnum, ThemeType } from '../types'
-import { NzI18nService } from 'ng-zorro-antd/i18n'
 import { mapLanguageNzLocale } from './translate'
 
 @Injectable({
@@ -18,6 +20,8 @@ export class ThemeService {
   readonly #translate = inject(TranslateService)
   readonly #message = inject(NzMessageService)
   readonly #i18nService = inject(NzI18nService)
+  readonly breakpointObserver = inject(BreakpointObserver)
+  readonly #document = inject(DOCUMENT)
 
   readonly personalization = this.#appStore.personalization
 
@@ -34,6 +38,15 @@ export class ThemeService {
   readonly webGuiMode = computed(() => this.personalization().webGuiMode)
 
   readonly isCollapsed = signal(false)
+
+  /**
+   * Responsive Web Design: Is Handset Portrait
+   */
+  readonly isHandsetPortrait = toSignal(
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.Tablet, Breakpoints.Web])
+      .pipe(map((result) => result.matches && result.breakpoints[Breakpoints.HandsetPortrait]))
+  )
 
   // Translator
   get currentLang() {
@@ -131,6 +144,7 @@ export class ThemeService {
       )
     })
     this.#i18nService.setLocale(mapLanguageNzLocale(lang))
+    this.#document.documentElement.lang = lang
   }
 
   onLangChange() {

@@ -8,7 +8,8 @@
             "Tag": "标签",
             "Team": "团队",
             "Query": "查询",
-            "FillDone": "填写完成！"
+            "FillDone": "填写完成！",
+            "DeviceType": "设备类型"
         },
         "GlobalHeader": {
             "LanguageChanged": "语言已切换！",
@@ -129,7 +130,8 @@
             "No Data": "无数据",
             "Success Page": "成功页",
             "Failure Page": "失败页",
-            "Flow Chat": "流程图"
+            "Flow Chat": "流程图",
+            "Responsive Web Design": "响应式网页设计"
         },
         "BI": {
             "Catalog": "目录",

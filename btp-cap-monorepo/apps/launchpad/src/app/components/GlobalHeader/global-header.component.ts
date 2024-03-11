@@ -66,6 +66,7 @@ export class GlobalHeaderComponent {
   readonly enableNotification = environment.enableNotification
 
   readonly badgeNumber = this.notificationService.badgeNumber
+  readonly isHandsetPortrait = this.themeService.isHandsetPortrait
 
   constructor() {
     if (this.enableNotification) {

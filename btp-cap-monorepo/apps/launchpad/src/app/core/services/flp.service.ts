@@ -94,12 +94,13 @@ export class FioriLaunchpadService {
       searchParams.set(SAPUserContextLanguage, toSAPLanguage(lang))
       this.#cookieService.set(SAPUserContextCookieName, searchParams.toString(), undefined, '/')
 
-      // Update the page sets
+      // Update the page sets, not refresh if menus exists
       this.loadFLPMenus({ refresh: false }).then()
     })
 
   constructor() {
     if (environment.platform === 'S4H' && environment.enableFiori) {
+      // Refresh fiori menus when reload page
       this.loadFLPMenus({ refresh: true }).then()
       this.loadCookie()
     }
@@ -148,9 +149,9 @@ export class FioriLaunchpadService {
           pageSets
         }))
         // Language pages
-        this.#localStorage.setItem(SAPFioriPageSetsName + '_' + this.#translate.currentLang, pageSets)
+        this.#localStorage.setItem(SAPFioriPageSetsName + '_' + currentLang, pageSets)
         // Default language pages
-        if (this.#translate.currentLang === this.#translate.defaultLang) {
+        if (currentLang === this.#translate.defaultLang) {
           this.#localStorage.setItem(SAPFioriPageSetsName, pageSets)
         }
       }

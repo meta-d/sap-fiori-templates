@@ -3,23 +3,23 @@
 <nz-layout class="zng-layout">
   @if (menuMode() === MenuMode.side) {
     <!-- fixed sider placeholder -->
-    <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
+    <div class="zng-layout__fixed-header-placeholder h-full duration-200 transition-all"></div>
     <!-- fixed sider -->
     <nz-sider class="zng-layout__sider flex flex-col"
       [class.zng-layout__menu-dark]="menuTheme() === ThemeType.dark"
       [nzTheme]="currentTheme === 'light' ? menuTheme() : 'dark'"
       nzCollapsible
-      [nzCollapsed]="isCollapsed()"
+      [nzCollapsed]="isCollapsed() || isHandsetPortrait()"
       [nzTrigger]="null"
-      [nzCollapsedWidth]="isCollapsed() ? fixedLayoutSider() ? 60 : 0 : 200">
+      [nzCollapsedWidth]="isCollapsed() ? (fixedLayoutSider() && !isHandsetPortrait()) ? 60 : 0 : 200">
       <div class="h-full flex flex-col">
         <ng-container *ngTemplateOutlet="logo;" ></ng-container>
         <zng-side-nav-bar class="flex-1" [nzTheme]="menuTheme()" [isCollapsed]="isCollapsed()"/>
     
         <nz-divider></nz-divider>
+        
         <button class="mx-auto" nz-button nzType="text" (click)="toggleSideMenu()">
-          <span nz-icon *ngIf="isCollapsed()" nzType="menu-unfold" nzTheme="outline"></span>
-          <span nz-icon *ngIf="!isCollapsed()" nzType="menu-fold" nzTheme="outline"></span>
+          <span nz-icon [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'" nzTheme="outline"></span>
         </button>
   
         <div class="p-4 text-center">
@@ -55,7 +55,7 @@
         }
         <nz-header class="zng-layout__header flex justify-start items-center" [class.zng-fixed]="fixedLayoutHeader()">
           @if (fixedLayoutHeader()) {
-            <div class="h-full duration-200 transition-all" [class.w-[200px]]="!isCollapsed()" [class.w-[60px]]="isCollapsed() && fixedLayoutSider()"></div>
+            <div class="zng-layout__fixed-header-placeholder h-full duration-200 transition-all"></div>
           }
           <button nz-button nzType="text" class="m-4" (click)="toggleSideMenu()">
             <span class=""
@@ -64,7 +64,9 @@
             ></span>
           </button>
 
-          <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+          @if (!isHandsetPortrait()) {
+            <ng-container *ngTemplateOutlet="breadcrumb;"></ng-container>
+          }
 
           <span class="flex-1"></span>
     
@@ -113,7 +115,7 @@
           <zng-drawer-trigger class="absolute -left-6 top-1/2 -translate-y-1/2 z-40" [(opened)]="copilotOpened" side="right"></zng-drawer-trigger>
 
           @if (fixedLayoutHeader() || menuMode() === MenuMode.top || menuMode() === MenuMode.mix) {
-            <div class="zng-layout__header-placeholder w-full h-[64px]"></div>
+            <div class="zng-layout__copilot-header-placeholder w-full h-[64px]"></div>
           }
           @if (fixedTab()) {
             <div class="zng-tab-menu__fixed-placeholder w-full"></div>

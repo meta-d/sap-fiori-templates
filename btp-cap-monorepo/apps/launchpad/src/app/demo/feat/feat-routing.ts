@@ -109,6 +109,11 @@ export default [
     data: { key: 'water-mark' },
     loadComponent: () => import('./water-mark/water-mark.component').then((m) => m.WaterMarkComponent)
   },
+  {
+    path: 'responsive',
+    title: 'Responsive Web Design',
+    loadComponent: () => import('./responsive/responsive.component').then((m) => m.ResponsiveComponent)
+  },
   { // Config SAP Fiori App as a route
     path: 'CostingVariant-check',
     title: 'Check Costing Variant',

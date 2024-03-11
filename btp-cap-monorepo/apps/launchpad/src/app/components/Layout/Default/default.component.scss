@@ -44,6 +44,10 @@
   @apply fixed top-0 left-0 h-full z-20;
 }
 
+.zng-layout__fixed-header-placeholder {
+  width: var(--zng-left-sider-width);
+}
+
 .logo {
   width: 20px;
   height: 31px;
@@ -119,6 +123,6 @@
   @apply whitespace-nowrap font-extrabold overflow-hidden text-ellipsis text-xl;
 }
 
-.zng-layout__header-placeholder {
+.zng-layout__copilot-header-placeholder {
   background-color: var(--ngm-copilot-bg-color, #fff);
 }
