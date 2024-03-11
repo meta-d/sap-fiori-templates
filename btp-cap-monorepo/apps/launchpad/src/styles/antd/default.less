@@ -1,4 +1,23 @@
 @import "node_modules/ng-zorro-antd/ng-zorro-antd.variable.less";
-// @import (multiple) 'node_modules/ng-zorro-antd/src/style/themes/default';
-// @import 'node_modules/ng-zorro-antd/ng-zorro-antd';
-@import "../themes/default";
+@import './themes/base';
+@import './modal/search';
+
+@layout-sider-background: @white;
+@layout-trigger-background: @white;
+
+:root {
+    --zng-header-bg-color: white;
+    --zng-header-color: theme('colors.gray.500');
+    --zng-header-color-hover: theme('colors.gray.700');
+    --zng-card-background-color: theme('colors.neutral.100');
+    --zng-layout-body-background: @layout-body-background;
+    --zng-color-primary: @primary-color;
+
+    --ngm-copilot-bg-color: theme('colors.white');
+}
+
+.zng-layout__menu-dark {
+    --zng-header-bg-color: #001529;
+    --zng-header-color: theme('colors.gray.500');
+    --zng-header-color-hover: theme('colors.gray.300');
+}
