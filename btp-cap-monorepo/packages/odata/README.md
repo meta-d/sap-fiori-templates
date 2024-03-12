@@ -12,7 +12,7 @@ npm i @metad/cap-odata
 or yarn:
     
 ```bash
-yarn add @metad/cap-odata`
+yarn add @metad/cap-odata
 ```
 
 ## Usage

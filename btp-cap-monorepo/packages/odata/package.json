@@ -1,11 +1,18 @@
 {
   "name": "@metad/cap-odata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://mtda.cloud/en/sap",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meta-d/sap-fiori-templates.git"
   },
+  "keywords": [
+    "SAP",
+    "Fiori",
+    "CAP",
+    "OData"
+  ],
+  "author": "Metad Team <service@mtda.cloud> (https://mtda.cloud/en/sap/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/meta-d/sap-fiori-templates/issues"
