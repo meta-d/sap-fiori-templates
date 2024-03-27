@@ -22,11 +22,15 @@
 
 ## 💡 What's New
 
-The BTP Fiori template project has now incorporated the AI Copilot feature, which can assist you in handling everyday tasks using AI. It can answer questions you ask and can also automate operations through custom commands. You can find more information on how to use it on the [AI Copilot](./docs/copilot/Setup.md) page.
+The NGen (BTP CAP Fiori) project has now released version 0.2.0, with the following updates:
+- Fixed several issues and improved stability.
+- Updated dependency on AI Copilot to version 2.0. For details, please refer to [AI Copilot](https://github.com/meta-d/sap-fiori-templates/wiki/Copilot.Setup).
+- Upgraded to Angular 17.3, adding support for signal patterns such as input, model, and ViewChild.
+- Enhanced documentation in the [wiki](https://github.com/meta-d/sap-fiori-templates/wiki).
 
 ## 🌟 What is this?
 
-This is a collection of SAP BTP & Fiori application templates built by third-party front-end frameworks (Angular, Vue, React, etc.). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
+This **NGen** is a collection of SAP BTP & Fiori application templates built by third-party front-end frameworks (Angular, Vue, React, etc.). It is based on [Nx](https://nx.dev) and [UI5 Tooling](https://sap.github.io/ui5-tooling/).
 
 There are several advantages to using open-source frameworks to create BTP & Fiori applications:
 

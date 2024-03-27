@@ -103,7 +103,7 @@ export class WorkbenchComponent implements AfterViewInit {
         seriesField: 'user',
         meta: {
           score: {
-            alias: '分数',
+            alias: 'Score',
             min: 0,
             max: 80
           }

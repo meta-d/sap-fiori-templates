@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
     paths:
-      - "btp-cap-monorepo/**"
+      - "btp-cap-monorepo/packages/odata**"
   workflow_run:
     workflows: ["Build"]
     types: [requested]

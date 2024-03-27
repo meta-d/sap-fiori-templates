@@ -105,7 +105,7 @@ export class ListReportComponent {
     this.filters = filters
   }
 
-  onColumnsChange(event: TableColumn<unknown>[]) {
+  onColumnsChange(event: TableColumn<_ProductType>[]) {
     this.tableColumns.set(event)
   }
 

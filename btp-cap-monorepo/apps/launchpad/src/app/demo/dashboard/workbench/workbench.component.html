@@ -1,8 +1,8 @@
 <nz-page-header [nzGhost]="false"
   class="site-page-header"
   nzBackIcon
-  nzTitle="工作台"
-  nzSubtitle="日常工作"
+  nzTitle="Dashboard"
+  nzSubtitle="Daily Work"
 >
   <nz-page-header-content>
     <div class="mini-screen" nz-row>
@@ -12,21 +12,21 @@
             <img alt="" src="assets/images/default-user.jpg" />
           </div>
           <div nz-col nzFlex="1">
-            <h4 class="left-start-center m-0" nz-typography style="height: 50%">早安，<a href="https://mtda.cloud/sap/">元数信息</a>，祝你开心每一天！</h4>
-            <div class="left-start-center" nz-typography nzType="secondary" style="height: 50%">ERP 专家 |元数信息－SAP BTP & Fiori 技术栈</div>
+            <h4 class="left-start-center m-0" nz-typography style="height: 50%">Good morning, <a href="https://mtda.cloud/sap/">Metad Information</a>, wish you a happy day!</h4>
+            <div class="left-start-center" nz-typography nzType="secondary" style="height: 50%">ERP Expert | Meta Information - SAP BTP & Fiori Stack</div>
           </div>
         </div>
       </div>
       <div nz-col nzFlex="280px">
         <nz-row>
           <nz-col [nzSpan]="8">
-            <nz-statistic [nzTitle]="'项目数'" [nzValue]="(56 | number)!"></nz-statistic>
+            <nz-statistic [nzTitle]="'Projects'" [nzValue]="(56 | number)!"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="8">
-            <nz-statistic [nzTitle]="'团队内排名'" [nzValue]="'8/24'"></nz-statistic>
+            <nz-statistic [nzTitle]="'Team Ranking'" [nzValue]="'8/24'"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="8">
-            <nz-statistic [nzTitle]="'项目访问'" [nzValue]="(2223 | number)!"></nz-statistic>
+            <nz-statistic [nzTitle]="'Project Visits'" [nzValue]="(2223 | number)!"></nz-statistic>
           </nz-col>
         </nz-row>
       </div>
@@ -39,32 +39,32 @@
     <div nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXl]="16" [nzXs]="24" [nzXXl]="16">
       <div nz-row [nzGutter]="[32, 32]">
         <div nz-col nzSpan="24">
-          <nz-card nzTitle="进行中的项目" [nzExtra]="extraTemplate">
+          <nz-card nzTitle="Ongoing Projects" [nzExtra]="extraTemplate">
             <div nz-row>
               <div *ngFor="let i of 6 | numberLoop" nz-card-grid nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
-                <nz-card-meta nzDescription="现代化 Fiori 界面已应用至生产环境" [nzTitle]="cardTitleTpl"></nz-card-meta>
+                <nz-card-meta nzDescription="Modern Fiori interface has been applied to production environment" [nzTitle]="cardTitleTpl"></nz-card-meta>
                 <div class="card-foot">
-                  <span nz-typography nzType="secondary">小华</span>
-                  <span nz-typography nzType="secondary">4 年前</span>
+                  <span nz-typography nzType="secondary">Xiao Hua</span>
+                  <span nz-typography nzType="secondary">4 years ago</span>
                 </div>
               </div>
             </div>
           </nz-card>
         </div>
         <div nz-col nzSpan="24">
-          <nz-card nzTitle="动态">
+          <nz-card nzTitle="Activity">
             <nz-list>
               <nz-list-item *ngFor="let item of 6 | numberLoop" style="padding: 16px 24px">
                 <nz-list-item-meta>
                   <nz-list-item-meta-avatar [nzSrc]="'assets/imgs/default_face.png'"></nz-list-item-meta-avatar>
                   <nz-list-item-meta-title>
                     <a>
-                      工厂生产计划
-                      <span class="operate-text">项目</span>
-                      <span class="operate-text">已成功上线！</span>
+                      Factory Production Plan
+                      <span class="operate-text">Project</span>
+                      <span class="operate-text">successfully launched!</span>
                     </a>
                   </nz-list-item-meta-title>
-                  <nz-list-item-meta-description>19 天前</nz-list-item-meta-description>
+                  <nz-list-item-meta-description>19 days ago</nz-list-item-meta-description>
                 </nz-list-item-meta>
               </nz-list-item>
             </nz-list>
@@ -75,27 +75,27 @@
     <div nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
       <div nz-row [nzGutter]="[32, 32]">
         <div nz-col nzSpan="24">
-          <nz-card nzTitle="快速开始/便捷导航">
+          <nz-card nzTitle="Quick Start/Easy Navigation">
             <div nz-row [nzGutter]="[16, 16]">
               <div *ngFor="let item of 6 | numberLoop" nz-col nzSpan="6">
-                <a (click)="msg.success('点击了')">操作一</a>
+                <a (click)="msg.success('Clicked')">Action 1</a>
               </div>
               <div nz-col nzSpan="6">
                 <button nz-button nzGhost nzType="primary" [nzSize]="'small'">
                   <i nz-icon nzType="plus"></i>
-                  <span>添加</span>
+                  <span>Add</span>
                 </button>
               </div>
             </div>
           </nz-card>
         </div>
         <div nz-col nzSpan="24">
-          <nz-card nzTitle="xx指数">
+          <nz-card nzTitle="XX Index">
             <div id="randar"></div>
           </nz-card>
         </div>
         <div nz-col nzSpan="24">
-          <nz-card nzTitle="团队">
+          <nz-card nzTitle="Team">
             <div nz-row>
               @for (team of teams(); track team) {
                 <div nz-col nzSpan="12">
@@ -114,7 +114,7 @@
 </div>
 
 <ng-template #extraTemplate>
-  <a class="operate-text">全部项目</a>
+  <a class="operate-text">All Projects</a>
 </ng-template>
 
 <ng-template #cardTitleTpl>

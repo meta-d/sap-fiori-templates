@@ -93,5 +93,6 @@ export const appRoutes: Routes = [
       key: 'bi-platform'
     },
     loadChildren: () => import('./bi/bi.module').then((m) => m.BIModule)
-  }] : [])
+  }] : []),
+  { path: '**', redirectTo: '/dashboard/workbench' }
 ]
